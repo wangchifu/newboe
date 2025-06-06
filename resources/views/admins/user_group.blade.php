@@ -45,6 +45,9 @@
                 <li class="nav-item">
                     <a class="nav-link {{ $active3 }}" href="{{ route('admins.user_group','3') }}">系統管理者</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admins.user_check') }}">重複身分證帳號</a>
+                </li>
             </ul>
             @include('admins.form')
             {{ $users->links('layouts.simple-pagination') }}            

@@ -126,9 +126,9 @@ class HomeController extends Controller
             $school_id = !isset($schools_id[$obj['code']]) ? 0 : $schools_id[$obj['code']];
 
             //是否已有此帳號
-            $user = User::where('username', $username[0])
-                ->where('login_type', 'gsuite')
-                ->first();
+            $user = User::where('edu_key', $obj['edu_key'])     
+                ->where('code', $obj['code'])           
+                ->first();    
 
             if (empty($user)) {
                 //查有無曾用openid登入者

@@ -105,6 +105,7 @@ Route::group(['middleware' => 'admin'],function(){
 
     //帳號管理
     Route::get('admin/user_index' , [AdminsController::class,'user_index'])->name('admins.user_index');
+    Route::get('admin/user_check' , [AdminsController::class,'user_check'])->name('admins.user_check');
     Route::get('admin/{group_id}/user_group' , [AdminsController::class,'user_group'])->name('admins.user_group');
     Route::match(['post','get'],'admin/user_search',[AdminsController::class,'user_search'])->name('admins.user_search');
     Route::get('admin/user', [AdminsController::class,'user'])->name('admins.user');
