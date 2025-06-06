@@ -10,13 +10,18 @@
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="{{ asset('images/sun.png') }}" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="{{ env('APP_URL') }}/bootstrap-5.3.3-dist/css/bootstrap.min.css" rel="stylesheet" />
+        <link href=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css " rel="stylesheet">
+        <link href=" https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css " rel="stylesheet">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
-        <link href="{{ env('APP_URL') }}/fontawesome-free-6.7.2-web/css/all.css" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/css/fontawesome.min.css" rel="stylesheet" />
+        <link href=" https://cdn.jsdelivr.net/npm/venobox@2.1.8/dist/venobox.min.css " rel="stylesheet">
         <link href="{{ env('APP_URL') }}/css/my.css" rel="stylesheet" />
         @yield('my_css_file')
-        <script src="{{ env('APP_URL') }}/js/jquery-3.7.1.js"></script>        
-        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>                
+        <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js "></script>
+        <script src=" https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.7.2/js/all.min.js "></script>
+        <script src=" https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js "></script>        
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>        
+        <script src=" https://cdn.jsdelivr.net/npm/venobox@2.1.8/dist/venobox.min.js "></script>                   
         @yield('my_js_file')
     </head>
     <body>
@@ -33,7 +38,7 @@
         </div>
         <!-- Footer-->        
         <!-- Bootstrap core JS-->
-        <script src="{{ env('APP_URL') }}/bootstrap-5.3.3-dist/js/bootstrap.bundle.js"></script>
+        <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js "></script>
         <!-- Core theme JS-->
         <script src="{{ env('APP_URL') }}/js/my.js"></script>
         @include('layouts.sweet_alert')

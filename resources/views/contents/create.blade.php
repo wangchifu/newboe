@@ -7,7 +7,7 @@
 @endsection
 
 @section('my_js_file')
-<script src="{{ asset('tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
+<script src=" https://cdn.jsdelivr.net/npm/tinymce@7.9.1/tinymce.min.js "></script>
 @endsection
 
 @section('header')

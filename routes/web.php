@@ -1,8 +1,8 @@
 <?php
 //如果關閉網站
-//if($_SERVER['REQUEST_URI'] != "/close"){
-//    close_system();
-//};
+if($_SERVER['REQUEST_URI'] != "/close"){
+    close_system();
+};
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;

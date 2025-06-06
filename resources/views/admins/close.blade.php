@@ -45,15 +45,9 @@ if($close==1){
             @endauth
 
             @if($close==0)                                
-                <p>
-                    本站正常運作中。
-                </p>
-                <img src="{{ asset('images/run.png') }}" class="img-thumbnail">  
+                <img src="{{ asset('images/run.png') }}" class="img-thumbnail d-block mx-auto">  
             @elseif($close==1)                                
-                <p>
-                本站因應某些無法立即解決的問題，先關閉系統，請您稍後再試。
-                </p>
-                <img src="{{ asset('images/close.png') }}" class="img-thumbnail">  
+                <img src="{{ asset('images/close.png') }}" class="img-thumbnail d-block mx-auto">  
             @endif                    
         </div>
     </div>           
