@@ -415,4 +415,14 @@ class HomeController extends Controller
         $user->update($att);
         return redirect()->route('index');
     }
+
+    public function qanda(){
+        return view('qanda');
+    }
+
+    public function about(){
+        return view('about');
+    }
+
+
 }

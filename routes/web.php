@@ -34,6 +34,10 @@ Route::get('contents/{content}/show', [ContentController::class,'show'])->where(
 Route::get('photo_albums/guest', [PhotoAlbumController::class,'guest'])->name('photo_albums.guest');
 Route::get('photo_albums/{photo_album}/guest_show', [PhotoAlbumController::class,'guest_show'])->name('photo_albums.guest_show');
 
+
+Route::get('qanda', [HomeController::class,'qanda'])->name('qanda');
+Route::get('about', [HomeController::class,'about'])->name('about');
+
 //停用系統
 Route::get('close', [AdminsController::class,'close'])->name('close');
 
@@ -132,6 +136,12 @@ Route::group(['middleware' => 'admin'],function(){
     Route::delete('admin/other/{other}', [AdminsController::class,'other_destroy'])->name('admins.other_destroy');
     Route::get('admin/other/{other}/edit', [AdminsController::class,'other_edit'])->name('admins.other_edit');
     Route::patch('admin/other/{other}', [AdminsController::class,'other_update'])->name('admins.other_update');
+
+    //系統公告
+    Route::get('admin/sys_post', [AdminsController::class,'sys_post'])->name('admins.sys_post_index');
+
+    //清理資料
+    Route::get('admin/clean', [AdminsController::class,'clean'])->name('admins.clean_index');
 
     //log
     Route::get('logs',[AdminsController::class,'logs'])->name('logs');

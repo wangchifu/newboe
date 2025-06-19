@@ -120,14 +120,13 @@
                             <ul class="dropdown-menu dropdown-menu-end">
                                 <li><a class="dropdown-item" href="{{ route('admins.user_index') }}">帳號管理</a></li>                            
                                 <li><a class="dropdown-item" href="{{ route('admins.introduction_index') }}">教育處介紹管理</a></li>                        
-                                <li><a class="dropdown-item" href="{{ route('admins.other_index') }}">其他連結</a></li>
+                                <li><a class="dropdown-item" href="{{ route('admins.other_index') }}">其他連結</a></li>                                
                                 <!--
                                 <li><a class="dropdown-item" href="">特殊處理</a></li>
                                 -->
-                                <li><a class="dropdown-item" href="{{ route('logs') }}">log 記錄</a></li>
-                                <!--
-                                <li><a class="dropdown-item" href="">系統公告</a></li>
-                                -->
+                                <li><a class="dropdown-item" href="{{ route('logs') }}">log 記錄</a></li>                                
+                                <li><a class="dropdown-item" href="{{ route('admins.sys_post_index') }}">系統公告</a></li>                                
+                                <li><a class="dropdown-item" href="{{ route('admins.clean_index') }}">清理資料</a></li>
                                 <li><a class="dropdown-item" href="{{ route('close') }}">關閉系統</a></li> 
                             </ul>
                             </li>                                                       
@@ -137,6 +136,14 @@
                             <li><a class="dropdown-item" href="#!" onclick="sw_confirm1('確定結束模擬？','{{ route('sims.impersonate_leave') }}')">結束模擬</a></li>
                             <li class="dropdown-divider"></li>
                         @endImpersonating
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item dropdown-toggle" href="#">系統說明</a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="{{ route('qanda') }}">常見問題</a></li>                            
+                                    <li><a class="dropdown-item" href="{{ route('about') }}">關於系統</a></li>                        
+                                </ul>
+                            </li>                                                       
+                            <li class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="{{ route('logout') }}">登出系統</a></li>
                         </ul>
                     </li>                    
