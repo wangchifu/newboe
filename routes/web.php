@@ -138,10 +138,12 @@ Route::group(['middleware' => 'admin'],function(){
     Route::patch('admin/other/{other}', [AdminsController::class,'other_update'])->name('admins.other_update');
 
     //系統公告
-    Route::get('admin/sys_post', [AdminsController::class,'sys_post'])->name('admins.sys_post_index');
+    Route::get('admin/sys_post', [AdminsController::class,'sys_post_index'])->name('admins.sys_post_index');
 
     //清理資料
-    Route::get('admin/clean', [AdminsController::class,'clean'])->name('admins.clean_index');
+    Route::get('admin/clean_index', [AdminsController::class,'clean_index'])->name('admins.clean_index');
+    Route::post('admin/clean_do_post', [AdminsController::class,'clean_do_post'])->name('admins.clean_do_post');
+    Route::post('admin/clean_do_report', [AdminsController::class,'clean_do_report'])->name('admins.clean_do_report');
 
     //log
     Route::get('logs',[AdminsController::class,'logs'])->name('logs');

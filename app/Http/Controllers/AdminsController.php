@@ -8,6 +8,10 @@ use App\Models\UserPower;
 use App\Models\Introduction;
 use App\Models\Other;
 use App\Models\Log;
+use App\Models\Post;
+use App\Models\PostSchool;
+use App\Models\Report;
+use App\Models\ReportSchool;
 use Illuminate\Support\Facades\Auth;
 
 class AdminsController extends Controller
@@ -578,6 +582,106 @@ class AdminsController extends Controller
         return view('admins.logs', $data);
     }
 
+    public function clean_index()
+    {        
+        $data = [
+            
+        ];
+        return view('admins.clean_index',$data);
+    }
+
+    function clean_do_post(Request $request){                
+        $posts = Post::where('id','<',$request->input('post_id'))->get();                
+        foreach($posts as $post){            
+            $folder = storage_path('app/public/post_files/' . $post->id);
+            if (is_dir($folder)) {
+                del_folder($folder);
+            }
+            $folder = storage_path('app/public/post_photos/' . $post->id);
+            if (is_dir($folder)) {
+                del_folder($folder);
+            }            
+            $post->delete();
+        }                
+        $limit = 1000;
+        do {
+            $records = PostSchool::where('post_id', '<', $request->input('post_id'))
+                ->limit($limit)
+                ->get();
+
+            $count = $records->count();
+
+            if ($count > 0) {
+                $ids = $records->pluck('id')->toArray();
+                PostSchool::whereIn('id', $ids)->delete();
+                usleep(100000); // 等 0.1 秒避免系統過載
+            }
+            
+        } while ($count > 0);
+
+        return back()->withErrors(['errors' => ['刪除成功！']]);
+    }
+
+    function clean_do_report(Request $request){
+        $reports = Report::where('id','<',$request->input('report_id'))->get();
+        foreach($reports as $report){
+            $folder = storage_path('app/public/report_files/' . $report->id);
+            if (is_dir($folder)) {
+                del_folder($folder);
+            }            
+            $report->delete();
+        }        
+        $limit = 1000;
+        do {
+            $records = ReportSchool::where('report_id', '<', $request->input('report_id'))
+                ->limit($limit)
+                ->get();
+
+            $count = $records->count();
+
+            if ($count > 0) {
+                $ids = $records->pluck('id')->toArray();
+                ReportSchool::whereIn('id', $ids)->delete();
+                usleep(100000); // 等 0.1 秒避免系統過載
+            }
+            
+        } while ($count > 0);
+
+        do {
+            $records = Question::where('report_id', '<', $request->input('report_id'))
+                ->limit($limit)
+                ->get();
+
+            $count = $records->count();
+
+            if ($count > 0) {
+                $ids = $records->pluck('id')->toArray();
+                Question::whereIn('id', $ids)->delete();
+                usleep(100000); // 等 0.1 秒避免系統過載
+            }
+            
+        } while ($count > 0);
+
+        do {
+            $records = Answer::where('report_id', '<', $request->input('report_id'))
+                ->limit($limit)
+                ->get();
+
+            $count = $records->count();
+
+            if ($count > 0) {
+                $ids = $records->pluck('id')->toArray();
+                Answer::whereIn('id', $ids)->delete();
+                usleep(100000); // 等 0.1 秒避免系統過載
+            }
+            
+        } while ($count > 0);
+
+        
+        
+
+        return back()->withErrors(['errors' => ['刪除成功！']]);
+    }
 
 
     public function close()
