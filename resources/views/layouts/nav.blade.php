@@ -136,14 +136,17 @@
                             <li><a class="dropdown-item" href="#!" onclick="sw_confirm1('確定結束模擬？','{{ route('sims.impersonate_leave') }}')">結束模擬</a></li>
                             <li class="dropdown-divider"></li>
                         @endImpersonating
+                        @auth
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item dropdown-toggle" href="#">系統說明</a>
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="{{ route('qanda') }}">常見問題</a></li>                            
+                                    <li><a class="dropdown-item" href="{{ route('wrench.index') }}">提出問題</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('qanda') }}">常見問題</a></li>                           
                                     <li><a class="dropdown-item" href="{{ route('about') }}">關於系統</a></li>                        
                                 </ul>
                             </li>                                                       
                             <li class="dropdown-divider"></li>
+                        @endauth
                             <li><a class="dropdown-item" href="{{ route('logout') }}">登出系統</a></li>
                         </ul>
                     </li>                    

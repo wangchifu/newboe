@@ -1,8 +1,8 @@
 <?php
 //如果關閉網站
-if($_SERVER['REQUEST_URI'] != "/close"){
-    close_system();
-};
+//if($_SERVER['REQUEST_URI'] != "/close"){
+//    close_system();
+//};
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -13,6 +13,7 @@ use App\Http\Controllers\PhotoAlbumController;
 use App\Http\Controllers\AdminsController;
 use App\Http\Controllers\MySectionController;
 use App\Http\Controllers\IntroductionController;
+use App\Http\Controllers\WrenchController;
 
 
 Route::get('/', [HomeController::class,'index'])->name('index');
@@ -35,30 +36,21 @@ Route::get('photo_albums/guest', [PhotoAlbumController::class,'guest'])->name('p
 Route::get('photo_albums/{photo_album}/guest_show', [PhotoAlbumController::class,'guest_show'])->name('photo_albums.guest_show');
 
 
-Route::get('qanda', [HomeController::class,'qanda'])->name('qanda');
-Route::get('about', [HomeController::class,'about'])->name('about');
-
 //停用系統
 Route::get('close', [AdminsController::class,'close'])->name('close');
 
 //已註冊使用者可進入
 Route::group(['middleware' => 'auth'],function(){
+    Route::get('qanda', [HomeController::class,'qanda'])->name('qanda');
+    Route::get('about', [HomeController::class,'about'])->name('about');
     //結束模擬
-        Route::get('sims/impersonate_leave', [AdminsController::class,'impersonate_leave'])->name('sims.impersonate_leave');
-    
-        //下載資料填報附檔
-        //Route::get('edu_report/{id}/{filename}/download', [EduReportController::class,'download'])->name('edu_report.download');
-    
-        //報錯
-        //Route::get('wrench/index', [WrenchController::class,'index'])->name('wrench.index');
-        //Route::post('wrench/store', [WrenchController::class,'store'])->name('wrench.store');
-        //Route::get('wrench/download/{wrench_id}/{filename}', [WrenchController::class,'download'])->name('wrench.download');
-    
-        //常見問題集
-        //Route::get('questions/index', [HomeController::class,'questions'])->name('questions.index');
-        //Route::get('questions/about', [HomeController::class,'about'])->name('questions.about');
-    
-        //Route::get('user_reads/{no_read_sp}', [HomeController::class,'user_reads'])->name('user_reads');
+    Route::get('sims/impersonate_leave', [AdminsController::class,'impersonate_leave'])->name('sims.impersonate_leave');
+    //報錯
+    Route::get('wrench/index', [WrenchController::class,'index'])->name('wrench.index');
+    Route::post('wrench/store', [WrenchController::class,'store'])->name('wrench.store');
+    Route::get('wrench/download/{wrench_id}/{filename}', [WrenchController::class,'download'])->name('wrench.download');        
+
+            
 });
 
 //系統管理者、科室管理者
@@ -147,6 +139,11 @@ Route::group(['middleware' => 'admin'],function(){
 
     //log
     Route::get('logs',[AdminsController::class,'logs'])->name('logs');
+
+    //管理員回覆
+    Route::post('wrench/reply', [WrenchController::class,'reply'])->name('wrench.reply');
+    Route::get('wrench/set_show/{wrench}', [WrenchController::class,'set_show'])->name('wrench.set_show');
+    Route::get('wrench/destroy/{wrench}', [WrenchController::class,'destroy'])->name('wrench.destroy');
     
     //關閉系統
     Route::get('close_system',[AdminsController::class,'close_system'])->name('close_system');

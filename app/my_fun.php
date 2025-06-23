@@ -299,3 +299,40 @@ function close_system(){
     }
 
 }
+
+//顯示某目錄下的檔案
+if (!function_exists('get_files')) {
+    function get_files($folder)
+    {
+        $files = [];
+        $i = 0;
+        if (is_dir($folder)) {
+            if ($handle = opendir($folder)) {
+                while (false !== ($name = readdir($handle))) {
+                    if ($name != "." && $name != "..") {
+                        //去除掉..跟.
+                        $files[$i] = $name;
+                        $i++;
+                    }
+                }
+                closedir($handle);
+            }
+        }
+        $files = array_values(array_sort($files, function ($value) {
+            return $value;
+        }));
+        return $files;
+    }
+}
+
+if (!function_exists('array_sort')) {
+    function array_sort(array $array, callable $callback = null)
+    {
+        if ($callback) {
+            uasort($array, $callback);
+        } else {
+            asort($array);
+        }
+        return $array;
+    }
+}
