@@ -6,12 +6,17 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Wrench;
 use Purifier;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+use Illuminate\Support\Facades\Mail;
 
 class WrenchController extends Controller
 {
     public function index()
     {
         $wrenches = Wrench::orderBy('id', 'DESC')->paginate('10');
+                
         $data = [
             'wrenches' => $wrenches,
         ];
@@ -46,13 +51,18 @@ class WrenchController extends Controller
         }
 
 
-        //$att2['email'] = $att['email'];
-        // $user = User::where('id',$att['user_id'])->first();
-        // $user->update($att2);
+        $att2['email'] = $att['email'];
+        $user = User::where('id',$att['user_id'])->first();
+        $user->update($att2);
 
         $subject = env('APP_NAME') . '平台有人回報系統錯誤與建議';
         $body = $request->input('content');
-        //send_mail(env('ADMIN_MAIL'), $subject, $body);
+                
+        Mail::raw($body, function ($message) use ($subject){
+            $message->to(env('ADMIN_MAIL'))
+                    ->subject($subject);
+        });        
+
         return redirect()->route('wrench.index');
     }
 
@@ -72,7 +82,11 @@ class WrenchController extends Controller
             $body .= "\r\n系統管理員回覆：\r\n";
             $body .= $request->input('reply');
             $body .= "\r\n-----這是系統信件，請勿回信-----";
-            //send_mail($wrench->user->email, $subject, $body);
+                                
+            Mail::raw($body, function ($message) use ($subject){
+                $message->to(env('ADMIN_MAIL'))
+                        ->subject($subject);
+            });            
         }
 
         return redirect()->route('wrench.index');
