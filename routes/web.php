@@ -14,6 +14,7 @@ use App\Http\Controllers\AdminsController;
 use App\Http\Controllers\MySectionController;
 use App\Http\Controllers\IntroductionController;
 use App\Http\Controllers\WrenchController;
+use App\Http\Controllers\MarqueeController;
 
 
 Route::get('/', [HomeController::class,'index'])->name('index');
@@ -53,6 +54,13 @@ Route::group(['middleware' => 'auth'],function(){
             
 });
 
+//教育處科員可用
+Route::group(['middleware' => 'edu'],function(){
+    //跑馬燈
+    Route::get('marquees' , [MarqueeController::class,'index'])->name('marquees.index');    
+    Route::post('marquees' , [MarqueeController::class,'store'])->name('marquees.store');    
+    Route::get('marquees/{marquee}/destroy' , [MarqueeController::class,'destroy'])->name('marquees.destroy');    
+});
 //系統管理者、科室管理者
 Route::group(['middleware' => 'all_admin'],function(){
     //更改密碼
@@ -130,7 +138,9 @@ Route::group(['middleware' => 'admin'],function(){
     Route::patch('admin/other/{other}', [AdminsController::class,'other_update'])->name('admins.other_update');
 
     //系統公告
-    Route::get('admin/sys_post', [AdminsController::class,'sys_post_index'])->name('admins.sys_post_index');
+    Route::get('admin/sys_post', [AdminsController::class,'sys_post_index'])->name('admins.sys_post_index');    
+    Route::post('admin/sys_post_store',[AdminsController::class,'sys_post_store'])->name('admins.sys_post_store');    
+    Route::get('admin/ys_post_destroy/{system_post}',[AdminsController::class,'sys_post_destroy'])->name('admins.sys_post_destroy');    
 
     //清理資料
     Route::get('admin/clean_index', [AdminsController::class,'clean_index'])->name('admins.clean_index');

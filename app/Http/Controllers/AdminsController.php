@@ -12,6 +12,7 @@ use App\Models\Post;
 use App\Models\PostSchool;
 use App\Models\Report;
 use App\Models\ReportSchool;
+use App\Models\SystemPost;
 use Illuminate\Support\Facades\Auth;
 
 class AdminsController extends Controller
@@ -715,6 +716,25 @@ class AdminsController extends Controller
         fwrite($fp, $do);  
         fclose($fp);
         return back();
+    }
+
+    public function sys_post_index(){
+        $system_posts = SystemPost::orderBy('id','DESC')->simplePaginate('15');
+        $data = [
+            'system_posts'=>$system_posts,
+        ];
+        return view('admins.sys_post_index',$data);
+    }
+    
+    public function sys_post_store(Request $request){
+        $att = $request->all();
+        SystemPost::create($att);
+        return redirect()->back();
+    }
+
+    public function sys_post_destroy(SystemPost $system_post){
+        $system_post->delete();
+        return redirect()->back();
     }
 
 }

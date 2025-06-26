@@ -11,15 +11,21 @@ use App\Models\UserPower;
 use App\Models\LoginError;
 use App\Models\TitleImage;
 use App\Models\Other;
+use App\Models\Marquee;
 
 class HomeController extends Controller
 {
     public function index(){        
         $title_images = TitleImage::where('disable', null)->get();       
         $others = Other::orderBy('order_by')->get();
+        $marquees = Marquee::where('start_date', '<=', date('Ymd'))
+            ->where('stop_date', '>', date('Ymd'))
+            ->orderBy('id','DESC')
+            ->get();
         $data = [
             'title_images'=>$title_images,            
             'others'=>$others,
+            'marquees'=>$marquees,
         ];
         return view('index',$data);
     }

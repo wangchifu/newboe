@@ -60,7 +60,11 @@
             <a href="https://www.youtube.com/channel/UCRMgRmPHuLDrdYSlACT0iVQ" target="_blank"><i class="fa-brands fa-youtube text-danger"></i></a>
             <a href="#!" target="_blank"><i class="fa-solid fa-square-rss" style="color:orange"></i></a>
             <div class="marquee">
-                <span>歡迎來到我的網站！這是一個 HTML + CSS 的跑馬燈示例。</span>
+                <span>
+                    @foreach($marquees as $marquee)
+                        ★ {{ $marquee->title }}
+                    @endforeach
+                </span>
             </div>
         </div>
         @if($title_images->count() > 0)
