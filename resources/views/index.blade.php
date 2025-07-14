@@ -4,49 +4,10 @@
 
 @section('my_css')
 <style>
-    .header-marquee {
-        position: relative;
-        width: 100%;
-        overflow: hidden;
-    }
-
     .social-marquee {
         display: flex;
         align-items: center;
         gap: 15px;
-    }
-
-    .social-links {
-        position: relative;
-        z-index: 2;
-        display: flex;
-        gap: 5px;
-    }
-
-    .marquee {
-        position: relative;
-        width: 100%; /* 跑馬燈的寬度，根據需要調整 */
-        height: 30px; /* 可根據文字高度調整 */
-        overflow: hidden;
-        white-space: nowrap;
-    }
-
-    .marquee span {
-        position: absolute;
-        left: 100%;
-        color: red;
-        background: transparent;
-        font-size: 20px;
-        animation: marquee-scroll 30s linear infinite;
-    }
-
-    @keyframes marquee-scroll {
-        from {
-            left: 100%;
-        }
-        to {
-            left: -100%;
-        }
     }
 </style>
 @endsection
@@ -54,19 +15,38 @@
 @section('header')
 <header class="py-5 bg-light border-bottom mb-4">    
     <div class="container" style="margin-top: -50px;margin-bottom:-25px;">
-        <div class="social-marquee" style="font-size:25px;">
-            <a href="https://education.chcg.gov.tw/00home/index02.aspx" target="_blank"><i class="fa-solid fa-globe text-dark"></i></a>
-            <a href="https://www.facebook.com/boe.chc.edu/" target="_blank"><i class="fa-brands fa-square-facebook text-primary"></i></a>
-            <a href="https://www.youtube.com/channel/UCRMgRmPHuLDrdYSlACT0iVQ" target="_blank"><i class="fa-brands fa-youtube text-danger"></i></a>
-            <a href="#!" target="_blank"><i class="fa-solid fa-square-rss" style="color:orange"></i></a>
-            <div class="marquee">
-                <span>
-                    @foreach($marquees as $marquee)
-                        ★ {{ $marquee->title }}
-                    @endforeach
-                </span>
+        <div class="d-flex align-items-center my-2" style="height: 40px;overflow: hidden;">
+
+            <!-- 左邊社群 icon -->
+            <div class="social-marquee me-3" style="font-size: 30px;">
+                <a href="https://education.chcg.gov.tw/00home/index02.aspx" target="_blank">
+                    <i class="fa-solid fa-globe text-dark"></i>
+                </a>
+                <a href="https://www.facebook.com/boe.chc.edu/" target="_blank">
+                    <i class="fa-brands fa-square-facebook text-primary"></i>
+                </a>
+                <a href="https://www.youtube.com/channel/UCRMgRmPHuLDrdYSlACT0iVQ" target="_blank">
+                    <i class="fa-brands fa-youtube text-danger"></i>
+                </a>
+                <a href="#!" target="_blank">
+                    <i class="fa-solid fa-square-rss" style="color: orange;"></i>
+                </a>
             </div>
-        </div>
+
+            <!-- 右邊公告跑馬燈 -->
+            <div style="flex: 1; height: 100%;">
+                <marquee behavior="scroll" direction="up" scrollamount="1" style="height: 100%;background-color: #fffbe6;">
+                    @if(!empty(count($marquees)))
+                        @foreach($marquees as $marquee)
+                            <p class="mb-0" style="font-size: 20px; line-height: 40px; color: #6f4e37;">★ {{ $marquee->title }}</p>
+                        @endforeach
+                    @else
+                        <p class="mb-0" style="font-size: 20px; line-height: 40px; color: #6f4e37;">★ 歡迎光臨 彰化縣教育處新雲端~~~~~~~</p>
+                    @endif
+                </marquee>
+            </div>
+
+        </div>        
         @if($title_images->count() > 0)
             <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                 <div class="carousel-indicators">
