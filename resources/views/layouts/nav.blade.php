@@ -89,8 +89,24 @@
                                 <ul class="dropdown-menu dropdown-menu-end">
                                     <li><a class="dropdown-item" href="">公告系統</a></li>   
                                     <li><a class="dropdown-item" href="">填報系統</a></li>   
-                                    <li><a class="dropdown-item" href="">檔案上傳</a></li>    
-                                    <li><a class="dropdown-item" href="{{ route('marquees.index') }}">跑馬燈系統</a></li>
+                                    @if(!empty(auth()->user()->section_id))
+                                        <?php
+                                        $num = [
+                                            'A' => 1,
+                                            'B' => 2,
+                                            'C' => 3,
+                                            'D' => 4,
+                                            'E' => 5,
+                                            'F' => 6,
+                                            'G' => 7,
+                                            'H' => 8,
+                                            'I' => 9,
+                                            'J' => 7019,
+                                        ];
+                                        ?>
+                                        <li><a class="dropdown-item" href="{{ route('uploads.index','&'.$num[auth()->user()->section_id]) }}">檔案上傳</a></li>    
+                                        <li><a class="dropdown-item" href="{{ route('marquees.index') }}">跑馬燈系統</a></li>
+                                    @endif
                                 </ul>          
                             </li>                                                               
                             <li class="dropdown-divider"></li>

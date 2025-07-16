@@ -336,3 +336,8 @@ if (!function_exists('array_sort')) {
         return $array;
     }
 }
+
+function filesizekb($file) {
+    if (!file_exists($file)) return 0;
+    return round(filesize($file) / 1024, 2); // 取小數兩位
+}

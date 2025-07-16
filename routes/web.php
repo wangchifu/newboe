@@ -15,6 +15,7 @@ use App\Http\Controllers\MySectionController;
 use App\Http\Controllers\IntroductionController;
 use App\Http\Controllers\WrenchController;
 use App\Http\Controllers\MarqueeController;
+use App\Http\Controllers\UploadController;
 
 
 Route::get('/', [HomeController::class,'index'])->name('index');
@@ -36,6 +37,9 @@ Route::get('contents/{content}/show', [ContentController::class,'show'])->where(
 Route::get('photo_albums/guest', [PhotoAlbumController::class,'guest'])->name('photo_albums.guest');
 Route::get('photo_albums/{photo_album}/guest_show', [PhotoAlbumController::class,'guest_show'])->name('photo_albums.guest_show');
 
+//檔案下載
+Route::get('upload/show_download/{path?}', [UploadController::class,'show_download'])->name('uploads.show_download');
+Route::get('upload/download/{path}', [UploadController::class,'download'])->name('uploads.download');
 
 //停用系統
 Route::get('close', [AdminsController::class,'close'])->name('close');
@@ -60,6 +64,19 @@ Route::group(['middleware' => 'edu'],function(){
     Route::get('marquees' , [MarqueeController::class,'index'])->name('marquees.index');    
     Route::post('marquees' , [MarqueeController::class,'store'])->name('marquees.store');    
     Route::get('marquees/{marquee}/destroy' , [MarqueeController::class,'destroy'])->name('marquees.destroy');    
+
+    //掛載檔案
+    Route::get('upload/index/{path?}', [UploadController::class,'upload'])->name('uploads.index');    
+    Route::post('upload/create_folder' , [UploadController::class,'create_folder'])->name('uploads.create_folder');
+    Route::post('upload/upload_file' , [UploadController::class,'upload_file'])->name('uploads.upload_file');
+    Route::get('upload/delete/{path}' , [UploadController::class,'delete'])->name('uploads.delete');
+    Route::post('upload/create_url' , [UploadController::class,'create_url'])->name('uploads.create_url');
+    //修改名稱
+    Route::get('upload/{upload}/{path}/edit', [UploadController::class,'edit'])->name('uploads.edit');
+    Route::post('upload/store_name', [UploadController::class,'store_name'])->name('uploads.store_name');    
+    //公開文件        
+    
+
 });
 //系統管理者、科室管理者
 Route::group(['middleware' => 'all_admin'],function(){
@@ -173,6 +190,8 @@ Route::group(['middleware' => 'section_admin'],function(){
     Route::get('introduction/section_page/{section_page}', [IntroductionController::class,'section_page'])->name('introductions.section_page');
     Route::get('introduction/section_page_del/{section_page}', [IntroductionController::class,'section_page_del'])->name('introductions.section_page_del');
     Route::post('introduction/section_page_update/{section_page}', [IntroductionController::class,'section_page_update'])->name('introductions.section_page_update');
+
+
 
     //成員管理
     Route::get('my_section/admin', [MySectionController::class,'admin'])->name('my_section.admin');
