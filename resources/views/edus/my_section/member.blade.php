@@ -1,0 +1,58 @@
+@extends('layouts.app_clean')
+
+@section('title','新增成員')
+
+@section('header')
+<header class="py-5 bg-light border-bottom mb-4">
+
+</header>
+@endsection
+
+@section('content')
+<div class="col-lg-12 mx-auto">    
+    <div class="card mb-4">
+        <div class="card-header">
+            <img class="card-img-top img-responsive" src="{{ asset('images/small/member_add.png') }}">
+        </div>
+        <div class="card-body">                    
+            <h5>
+                {{ $sections[auth()->user()->section_id] }}
+            </h5>
+            <p>
+                方式一：從教育處所有帳號選擇
+            <form action="{{ route('my_section.member_update') }}" method="POST" id="type1" onsubmit="return false">
+                    @csrf                        
+                <div class="form-group">
+                    <select name="user_id" class="form-control">
+                        <option value="" disabled selected>選擇使用者</option>
+                        @foreach($select_users as $key => $value)
+                            <option value="{{ $key }}" {{ old('user_id') == $key ? 'selected' : '' }}>{{ $value }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-sm" onclick="sw_confirm2('確定？','type1')">方式一送出
+                    </button>
+                </div>
+                <input type="hidden" name="section_id" value="{{ auth()->user()->section_id }}">
+            </form>
+            </p>
+            <p>
+                方式二：輸入本站任一帳號(可加入帳號掛學校的調府教師，例如要加入foo@chc.edu.tw，請輸入foo)
+            @include('layouts.errors')
+            <form action="{{ route('my_section.member_update2') }}" method="POST" id="type2" onsubmit="return false">
+                @csrf
+                <div class="form-group">
+                    <input type="text" name="username" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success btn-sm" onclick="sw_confirm2('確定？','type2')">方式二送出
+                    </button>
+                </div>
+                <input type="hidden" name="section_id" value="{{ auth()->user()->section_id }}">
+            </form>
+            </p>                       
+        </div>
+    </div>
+</div>
+@endsection

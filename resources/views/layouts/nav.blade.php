@@ -44,7 +44,8 @@
                             <i class="fas fa-user"></i>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                            <li><a class="dropdown-item" href="#!" onclick="sw_alert('Hi~你好~')">{{ auth()->user()->school }}{{ auth()->user()->name }}</a></li>                            
+                            <?php $show_unit = (empty(auth()->user()->school))?"沒有單位":auth()->user()->school; ?>
+                            <li><a class="dropdown-item" href="#!" onclick="sw_alert('Hi~ {{ $show_unit }} {{ auth()->user()->title }}\n{{ auth()->user()->name }} 你好~')">{{ $show_unit }} {{ auth()->user()->name }}</a></li>                            
                         @if(auth()->user()->group_id=="8" or auth()->user()->group_id=="9")
                             <li><a class="dropdown-item" href="{{ route('edit_password') }}">更改密碼</a></li>                            
                         @endif
@@ -83,7 +84,10 @@
                             </li>                            
                             <li class="dropdown-divider"></li>                                                        
                         @endif
-                        @if((auth()->user()->group_id == 2 or !empty(auth()->user()->section_id)) and auth()->user()->group_id !=8)                             
+                        @if(auth()->user()->group_id == 2 and empty(auth()->user()->section_id))
+                            <li><a class="dropdown-item" href="{{ route('apply_section') }}">申請科室</a></li>
+                        @endif
+                        @if((auth()->user()->group_id == 2 and !empty(auth()->user()->section_id)) and auth()->user()->group_id !=8)                             
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item dropdown-toggle" href="#">科室功能</a> 
                                 <ul class="dropdown-menu dropdown-menu-end">

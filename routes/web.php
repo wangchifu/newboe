@@ -74,8 +74,11 @@ Route::group(['middleware' => 'edu'],function(){
     //修改名稱
     Route::get('upload/{upload}/{path}/edit', [UploadController::class,'edit'])->name('uploads.edit');
     Route::post('upload/store_name', [UploadController::class,'store_name'])->name('uploads.store_name');    
-    //公開文件        
     
+    //申請科室
+    Route::get('apply_section', [MySectionController::class,'apply_section'])->name('apply_section');
+    Route::patch('apply_section/{user}', [MySectionController::class,'section_update'])->name('apply_section.update');
+    Route::get('apply_section/{user}/delete', [MySectionController::class,'section_delete'])->name('apply_section.delete');
 
 });
 //系統管理者、科室管理者
@@ -192,19 +195,15 @@ Route::group(['middleware' => 'section_admin'],function(){
     Route::post('introduction/section_page_update/{section_page}', [IntroductionController::class,'section_page_update'])->name('introductions.section_page_update');
 
 
-
     //成員管理
     Route::get('my_section/admin', [MySectionController::class,'admin'])->name('my_section.admin');
     Route::get('my_section/{user}/agree', [MySectionController::class,'agree'])->name('my_section.agree');
     Route::get('my_section/{user}/disagree', [MySectionController::class,'disagree'])->name('my_section.disagree');
-
     Route::get('my_section/{user}/remove', [MySectionController::class,'remove'])->name('my_section.remove');
-
     Route::get('my_section/power', [MySectionController::class,'power'])->name('my_section.power');
     Route::post('my_section/power_update1', [MySectionController::class,'power_update1'])->name('my_section.power_update1');
     Route::post('my_section/power_update2', [MySectionController::class,'power_update2'])->name('my_section.power_update2');
     Route::get('my_section/{id}/power_remove', [MySectionController::class,'power_remove'])->name('my_section.power_remove');
-
     Route::get('my_section/member', [MySectionController::class,'member'])->name('my_section.member');
     Route::post('my_section/update', [MySectionController::class,'member_update'])->name('my_section.member_update');
     Route::post('my_section/update2', [MySectionController::class,'member_update2'])->name('my_section.member_update2');
