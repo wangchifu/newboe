@@ -30,6 +30,11 @@ class HomeController extends Controller
         return view('index',$data);
     }
 
+    public function logins()
+    {
+        return view('auth.logins');
+    }
+
     public function glogin(){        
         return view('auth.glogin');
     }
@@ -395,7 +400,7 @@ class HomeController extends Controller
     public function edit_password()
     {
         return view('auth.edit_password');
-    }
+    }    
 
     public function update_password(Request $request)
     {
@@ -419,6 +424,23 @@ class HomeController extends Controller
         $att['password'] = bcrypt($request->input('password1'));
         $user = User::where('id', $att['id'])->first();
         $user->update($att);
+        return redirect()->route('index');
+    }
+
+    public function edit_title()
+    {
+        $title_array = explode(',',auth()->user()->kind);
+        $data = [
+            'title_array'=>$title_array,
+        ];
+        return view('auth.edit_title',$data);
+    }
+
+    public function update_title(Request $request)
+    {
+        $att['title'] = $request->input('title');
+        auth()->user()->update($att);
+
         return redirect()->route('index');
     }
 

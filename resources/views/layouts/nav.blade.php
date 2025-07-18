@@ -36,7 +36,7 @@
                 </li>
                 -->
                 @guest
-                    <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ route('glogin') }}">登入</a></li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ route('logins') }}">登入</a></li>
                 @endguest
                 @auth
                     <li class="nav-item dropdown">
@@ -45,10 +45,11 @@
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <?php $show_unit = (empty(auth()->user()->school))?"沒有單位":auth()->user()->school; ?>
-                            <li><a class="dropdown-item" href="#!" onclick="sw_alert('Hi~ {{ $show_unit }} {{ auth()->user()->title }}\n{{ auth()->user()->name }} 你好~')">{{ $show_unit }} {{ auth()->user()->name }}</a></li>                            
+                            <li><a class="dropdown-item" href="#!" onclick="sw_alert('Hi~ {{ $show_unit }} {{ auth()->user()->title }}\n{{ auth()->user()->name }} 你好~')">{{ $show_unit }} {{ auth()->user()->title }}<br>{{ auth()->user()->name }}</a></li>                            
                         @if(auth()->user()->group_id=="8" or auth()->user()->group_id=="9")
                             <li><a class="dropdown-item" href="{{ route('edit_password') }}">更改密碼</a></li>                            
                         @endif
+                        <li><a class="dropdown-item" href="{{ route('edit_title') }}">更改職稱</a></li>                            
                         <li class="dropdown-divider"></li>
                         @if(auth()->user()->group_id==1)
                             @if(check_a_user(auth()->user()->code,auth()->user()->id))

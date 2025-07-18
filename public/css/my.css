@@ -19,7 +19,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 9999; /* 設定高層級，確保不會被覆蓋 */**
+    z-index: 9999; /* 設定高層級，確保不會被覆蓋 */
 }
 
 /* 按鈕滑鼠懸停效果 */
@@ -76,4 +76,23 @@
     max-height: 500px; /* 最大高度 500px */
     height: 50vh; /* 高度為視窗的 50%，手機會自適應 */
     object-fit: cover; /* 確保圖片填滿不變形 */
+}
+
+.image-button {
+	border: 2px solid #ccc;       /* 邊框 */
+	border-radius: 10px;          /* 圓角 */
+	padding: 4px;                 /* 內距讓圖片不貼邊 */
+	transition: 0.3s ease-in-out; /* 平滑過渡效果 */
+	display: inline-block;
+}
+
+.image-button:hover {
+	border-color: #007bff;        /* hover 邊框顏色 */
+	box-shadow: 0 0 10px rgba(0,123,255,0.4); /* hover 陰影 */
+	transform: scale(1.03);       /* 微微放大 */
+}
+
+.image-button img {
+	border-radius: 10px; /* 圖片本身也圓角 */
+	display: block;
 }

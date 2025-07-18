@@ -16,19 +16,25 @@ use App\Http\Controllers\IntroductionController;
 use App\Http\Controllers\WrenchController;
 use App\Http\Controllers\MarqueeController;
 use App\Http\Controllers\UploadController;
+use App\Http\Controllers\OpenIDController;
 
 
 Route::get('/', [HomeController::class,'index'])->name('index');
 Route::get('index', [HomeController::class,'index'])->name('index');
-Route::get('glogin', [HomeController::class,'glogin'])->name('glogin');
+//Route::get('glogin', [HomeController::class,'glogin'])->name('glogin');
+//Route::post('gauth', [HomeController::class,'gauth'])->name('gauth');
+Route::get('logins', [HomeController::class,'logins'])->name('logins');
 Route::get('mlogin', [HomeController::class,'mlogin'])->name('mlogin');
-Route::post('gauth', [HomeController::class,'gauth'])->name('gauth');
 Route::post('mauth', [HomeController::class,'mauth'])->name('mauth');
 Route::get('logout', [HomeController::class,'logout'])->name('logout');
 
 
 //認證圖片
 Route::get('pic', [HomeController::class,'pic'])->name('pic');
+
+//openid登入
+Route::get('sso', [OpenIDController::class,'sso'])->name('sso');
+Route::get('auth/callback', [OpenIDController::class,'callback'])->name('callback');
 
 //內容頁面
 Route::get('contents/{content}/show', [ContentController::class,'show'])->where('content', '[0-9]+')->name('contents.show');
@@ -55,6 +61,8 @@ Route::group(['middleware' => 'auth'],function(){
     Route::post('wrench/store', [WrenchController::class,'store'])->name('wrench.store');
     Route::get('wrench/download/{wrench_id}/{filename}', [WrenchController::class,'download'])->name('wrench.download');        
 
+    Route::get('edit_title',[HomeController::class,'edit_title'])->name('edit_title');
+    Route::patch('update_title',[HomeController::class,'update_title'])->name('update_title');
             
 });
 
