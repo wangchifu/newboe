@@ -341,3 +341,46 @@ function filesizekb($file) {
     if (!file_exists($file)) return 0;
     return round(filesize($file) / 1024, 2); // 取小數兩位
 }
+
+//字串截短
+function smart_truncate_clean($string, $length) {
+    $encoding = 'UTF-8';
+
+    // 1. 去除 HTML 標籤
+    $cleanString = strip_tags($string);
+
+    $cleanString = str_replace('&nbsp;','',$cleanString);
+
+    // 2. 判斷長度是否已足夠
+    if (mb_strlen($cleanString, $encoding) <= $length) {
+        return $cleanString;
+    }
+
+    // 3. 截字並加上 ...
+    return mb_substr($cleanString, 0, $length, $encoding) . '...';
+}
+
+//自訂 array_get
+if (!function_exists('array_get')) {
+    function array_get($array, $key, $default = null)
+    {
+        if (!is_array($array)) {
+            return $default;
+        }
+
+        if ($key === null) {
+            return $array;
+        }
+
+        $keys = explode('.', $key);
+        foreach ($keys as $segment) {
+            if (!is_array($array) || !array_key_exists($segment, $array)) {
+                return $default;
+            }
+            $array = $array[$segment];
+        }
+
+        return $array;
+    }
+}
+

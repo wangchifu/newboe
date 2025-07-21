@@ -91,87 +91,89 @@
 
 @section('content')
 <div class="col-lg-8">
-    <h1>最新公告</h1>
+    <h1>最新公告
+    @if(!empty($_GET['page']))
+        <span class="text-primary">第 {{ $_GET['page'] }} 頁</span>
+    @endif
+    </h1>
     <!-- Featured blog post-->
-    <div class="card mb-4">
-        <a href="#!"><img class="card-img-top" src="https://dummyimage.com/850x350/dee2e6/6c757d.jpg" alt="..." /></a>
-        <div class="card-body">
-            <div class="small text-muted">January 1, 2023</div>
-            <h2 class="card-title">Featured Post Title</h2>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam. Dicta expedita corporis animi vero voluptate voluptatibus possimus, veniam magni quis!</p>
-            <a class="btn btn-primary" href="#!">Read more →</a>
-        </div>
-    </div>
-    <!-- Nested row for non-featured blog posts-->
     <div class="row">
-        <div class="col-lg-6">
-            <!-- Blog post-->
-            <div class="card mb-4">
-                <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                <div class="card-body">
-                    <div class="small text-muted">January 1, 2023</div>
-                    <h2 class="card-title h4">Post Title</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                    <a class="btn btn-primary" href="#!">Read more →</a>
+        <?php $n = 1; ?>
+        @foreach($posts as $post)
+            <?php
+                $images[$n] = get_files(storage_path('app/public/post_photos/' . $post->id));
+            ?>
+            @if($n<4)
+                <div class="col-lg-12">
+                    <div class="card mb-4">
+                        <div class="position-relative">
+                            <!-- 左上標籤 -->
+                            <?php $page = (empty($_GET['page']))?0:$_GET['page']-1; ?>
+                            <div class="position-absolute top-0 start-0 bg-info text-white px-2 py-1 fw-bold" style="font-size: 0.9rem; border-bottom-right-radius: 5px;">
+                                {{ $page*13+$n }}
+                            </div>
+                            <!-- 圖片本體 -->
+                            @if(!empty($images3[0]))
+                                <img class="card-img-top object-fit-cover" src="{{ asset('storage/post_photos/'.$id3[0].'/'.$images3[0][0]) }}" style="width: 100%; height: 200px;">
+                            @else
+                                <img class="card-img-top object-fit-cover" src="{{ asset('images/image.jpg') }}" style="width: 100%; height: 100px;">
+                            @endif                            
+                        </div>
+                        <div class="card-body">
+                            <div class="small text-muted">{{ substr($post->passed_at,0,10) }} / <span class="badge bg-secondary">{{ $category_array[$post->category_id] }}</span> / {{ $post->views }}</div>
+                            <a href="{{ route('posts.show',$post->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;"><h2 class="card-title fw-bold">{{ $post->title }}</h2></a>
+                            <p class="card-text" style="color: #000080;">{{ smart_truncate_clean($post->content,200) }}</p>
+                            <a class="btn btn-primary venobox" href="{{ route('posts.show',$post->id) }}" data-vbtype="iframe">閱讀更多 →</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <!-- Blog post-->
-            <div class="card mb-4">
-                <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                <div class="card-body">
-                    <div class="small text-muted">January 1, 2023</div>
-                    <h2 class="card-title h4">Post Title</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                    <a class="btn btn-primary" href="#!">Read more →</a>
+            @else
+                <div class="col-lg-6">
+                    <div class="card mb-4">
+                        <div class="position-relative">
+                            <!-- 左上標籤 -->
+                            <?php $page = (empty($_GET['page']))?0:$_GET['page']-1; ?>
+                            <div class="position-absolute top-0 start-0 bg-info text-white px-2 py-1 fw-bold" style="font-size: 0.9rem; border-bottom-right-radius: 5px;">
+                                {{ $page*13+$n }}
+                            </div>
+                            <!-- 圖片本體 -->
+                            @if(!empty($images3[0]))
+                                <img class="card-img-top object-fit-cover" src="{{ asset('storage/post_photos/'.$id3[0].'/'.$images3[0][0]) }}" style="width: 100%; height: 200px;">
+                            @else
+                                <img class="card-img-top object-fit-cover" src="{{ asset('images/image.jpg') }}" style="width: 100%; height: 100px;">
+                            @endif                            
+                        </div>                        
+                        <div class="card-body">
+                            <div class="small text-muted">{{ substr($post->passed_at,0,10) }} / <span class="badge bg-secondary">{{ $category_array[$post->category_id] }}</span> / {{ $post->views }}</div>
+                            <a href="{{ route('posts.show',$post->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;"><h2 class="card-title h4 fw-bold">{{ $post->title }}</h2></a>
+                            <p class="card-text" style="color: #000080;">{{ smart_truncate_clean($post->content,200) }}</p>
+                            <a class="btn btn-primary venobox" href="{{ route('posts.show',$post->id) }}" data-vbtype="iframe">閱讀更多 →</a>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <!-- Blog post-->
-            <div class="card mb-4">
-                <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                <div class="card-body">
-                    <div class="small text-muted">January 1, 2023</div>
-                    <h2 class="card-title h4">Post Title</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla.</p>
-                    <a class="btn btn-primary" href="#!">Read more →</a>
-                </div>
-            </div>
-            <!-- Blog post-->
-            <div class="card mb-4">
-                <a href="#!"><img class="card-img-top" src="https://dummyimage.com/700x350/dee2e6/6c757d.jpg" alt="..." /></a>
-                <div class="card-body">
-                    <div class="small text-muted">January 1, 2023</div>
-                    <h2 class="card-title h4">Post Title</h2>
-                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis aliquid atque, nulla? Quos cum ex quis soluta, a laboriosam.</p>
-                    <a class="btn btn-primary" href="#!">Read more →</a>
-                </div>
-            </div>
-        </div>
+            @endif
+            <?php $n++; ?>
+        @endforeach
     </div>
+    <!-- Nested row for non-featured blog posts-->    
     <!-- Pagination-->
-    <nav aria-label="Pagination">
-        <hr class="my-0" />
-        <ul class="pagination justify-content-center my-4">
-            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">Newer</a></li>
-            <li class="page-item active" aria-current="page"><a class="page-link" href="#!">1</a></li>
-            <li class="page-item"><a class="page-link" href="#!">2</a></li>
-            <li class="page-item"><a class="page-link" href="#!">3</a></li>
-            <li class="page-item disabled"><a class="page-link" href="#!">...</a></li>
-            <li class="page-item"><a class="page-link" href="#!">15</a></li>
-            <li class="page-item"><a class="page-link" href="#!">Older</a></li>
-        </ul>
-    </nav>
+    {{ $posts->links('layouts.pagination') }}
 </div>
 <!-- Side widgets-->
 <div class="col-lg-4">
     <!-- Search widget-->
     <div class="card mb-4">
-        <div class="card-header">搜尋公告</div>
+        <div class="card-header">搜尋本站</div>
         <div class="card-body">
             <div class="input-group">
-                <input class="form-control" type="text" placeholder="關鍵字" aria-label="Enter search term..." aria-describedby="button-search" />
-                <button class="btn btn-primary" id="button-search" type="button">Go!</button>
+                <form action="{{ route('search') }}" class="search-form" method="get" target="_blank">
+                    @csrf
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="want" placeholder="請輸入2字元以上的關鍵字" aria-label="want_word" aria-describedby="button-addon2">
+                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">搜尋</button>
+                    </div>
+                </form>
+                @include('layouts.errors')
             </div>
         </div>
     </div>
@@ -195,19 +197,26 @@
             </div>
         </div>
     </div>
+    <div class="card mb-4">
+        <div class="card-header">相關連結</div>
+        <div class="card-body">
+            <ul>
+                <li><a href="https://www.edu.tw" target="_blank">教育部</a></li>
+                <li><a href="https://www.chcg.gov.tw/" target="_blank">彰化縣政府</a></li>
+                <li><a href="https://education.chcg.gov.tw/00home/index02.aspx" target="_blank">彰化縣政府教育處</a></li>
+                <li><a href="https://newboe.chc.edu.tw/introduction/organization/show/I" target="_blank">彰化縣教育網路中心</a></li>                                        
+            </ul>
+        </div>
+    </div>
     <!-- Side widget-->
     <div class="card mb-4">
         <div class="card-header">教育行政單位連結</div>
         <div class="card-body">
             <ul>
                 <li><a href="https://www.edu.tw" target="_blank">教育部</a></li>
-                <li>彰化縣政府</li>
-                <li>彰化縣政府教育處</li>
-                <li>彰化縣教育網路中心</li>
-                <li>彰化學校資料平台</li>
-                <li>彰化 GSuite 平台</li>
-                <li>全國教保資訊網</li>
-                <li>彰化縣政府</li>
+                <li><a href="https://www.chcg.gov.tw/" target="_blank">彰化縣政府</a></li>
+                <li><a href="https://education.chcg.gov.tw/00home/index02.aspx" target="_blank">彰化縣政府教育處</a></li>
+                <li><a href="https://newboe.chc.edu.tw/introduction/organization/show/I" target="_blank">彰化縣教育網路中心</a></li>                                        
             </ul>
         </div>
     </div>
@@ -226,10 +235,28 @@
     <div class="card mb-4">
         <div class="card-header">聯絡資訊</div>
         <div class="card-body">
-            <i class="fa-solid fa-location-dot text-danger"></i> 彰化市中山路二段416號<br>
-            <i class="fa-solid fa-phone text-warning"></i> 教育處：04-7222151 <br>
-            <i class="fa-solid fa-phone-volume text-success"></i> 教育網路中心：04-7237182 
+            <p class="fw-bold">教育處</p>
+            <i class="fa-solid fa-location-dot text-danger"></i> 500 彰化市中山路二段416號<br>
+            <i class="fa-solid fa-phone text-warning"></i> 電話：04-7222151
+            <hr>
+            <p class="fw-bold">教育網路中心</p>
+            <i class="fa-solid fa-location-dot text-danger"></i> 彰化市中正路二段530號彰安國中實踐樓4F<br>
+            <i class="fa-solid fa-phone-volume text-success"></i> 電話：04-7237182 
         </div>
     </div>
 </div>
+<script>
+    var vb = new VenoBox({
+        selector: '.venobox',
+        numeration: true,
+        infinigall: true,
+        //share: ['facebook', 'twitter', 'linkedin', 'pinterest', 'download'],
+        spinner: 'rotating-plane'
+    });
+
+    $(document).on('click', '.vbox-close', function() {
+        vb.close();
+    });
+
+</script>
 @endsection

@@ -12,6 +12,7 @@ use App\Models\LoginError;
 use App\Models\TitleImage;
 use App\Models\Other;
 use App\Models\Marquee;
+use App\Models\Post;
 
 class HomeController extends Controller
 {
@@ -22,10 +23,24 @@ class HomeController extends Controller
             ->where('stop_date', '>', date('Ymd'))
             ->orderBy('id','DESC')
             ->get();
+
+        $posts = Post::where('situation', '3')
+            ->where(function ($q) {
+                $q->whereIn('category_id', [1,2,3,4])
+                ->orWhere(function ($q2) {
+                    $q2->where('category_id', 5)
+                        ->where('another', 1);
+                });
+            })
+            ->orderBy('passed_at', 'DESC')
+            ->paginate(13); 
+        $category_array = config('boe.categories');
         $data = [
             'title_images'=>$title_images,            
             'others'=>$others,
             'marquees'=>$marquees,
+            'posts'=>$posts,
+            'category_array'=>$category_array,
         ];
         return view('index',$data);
     }
@@ -395,6 +410,15 @@ class HomeController extends Controller
         Auth::logout();
         Session::flush();
         return redirect()->route('index');
+    }
+
+    public function search(Request $request)
+    {        
+        $want = $request->input('want');
+        if(mb_strlen(trim($want), 'UTF-8') < 2){
+            //return back()->withErrors(['errors' => ['關鍵字要二字元以上']]);
+        }
+        return redirect('https://www.google.com/search?q=' . $want . '+site%3Anewboe.chc.edu.tw');
     }
 
     public function edit_password()

@@ -25,7 +25,7 @@
                     <tr>
                         <td><strong>
                                 審核者：
-                                {{ $a_admin->user->name }}({{ $a_admin->user->username }})
+                                {{ $a_admin->user->name }} ( {{ $a_admin->user->username }} )
                             </strong></td>
                         <td>
                             @if($a_admin->user->id != auth()->user()->id)
@@ -49,7 +49,7 @@
                 @foreach($users1 as $user)
                     <tr>
                         <td>
-                            {{ $user->name }}({{ $user->username }})
+                            {{ $user->name }} ( {{ $user->username }} )
                         </td>
                         <td>
                             @if($user->group_id != 8 and $user->id != auth()->user()->id)
@@ -72,7 +72,7 @@
                 @foreach($users2 as $user)
                     <tr>
                         <td>
-                            {{ $user->name }}({{ $user->username }})
+                            {{ $user->name }} ( {{ $user->username }} )
                         </td>
                         <td>
                             <a href="#!" class="btn btn-success btn-sm" onclick="sw_confirm1('確定同意？','{{ route('my_section.agree',$user->id) }}')">同意</a>

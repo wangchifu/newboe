@@ -53,7 +53,11 @@
                     <figure class="figure">
                         <img src="{{ asset('images/about/03-3.png') }}" class="figure-img img-fluid rounded" alt="..." width="300px">
                         <figcaption class="figure-caption">教育處新雲端-介面3代</figcaption>
-                    </figure>              
+                    </figure>  
+                    <figure class="figure">
+                        <img src="{{ asset('images/about/03-4.png') }}" class="figure-img img-fluid rounded" alt="..." width="300px">
+                        <figcaption class="figure-caption">教育處新雲端-介面4代</figcaption>
+                    </figure>            
                 </li>
             </ul>
         </div>

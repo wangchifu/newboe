@@ -23,7 +23,7 @@
             <form action="{{ route('my_section.member_update') }}" method="POST" id="type1" onsubmit="return false">
                     @csrf                        
                 <div class="form-group">
-                    <select name="user_id" class="form-control">
+                    <select name="user_id" class="form-control search_selet">
                         <option value="" disabled selected>選擇使用者</option>
                         @foreach($select_users as $key => $value)
                             <option value="{{ $key }}" {{ old('user_id') == $key ? 'selected' : '' }}>{{ $value }}</option>
@@ -55,4 +55,9 @@
         </div>
     </div>
 </div>
+<script>
+    $( ".search_selet" ).chosen({
+        search_contains: true,
+    });
+</script>
 @endsection

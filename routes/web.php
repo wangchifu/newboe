@@ -17,6 +17,7 @@ use App\Http\Controllers\WrenchController;
 use App\Http\Controllers\MarqueeController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\OpenIDController;
+use App\Http\Controllers\PostsController;
 
 
 Route::get('/', [HomeController::class,'index'])->name('index');
@@ -49,6 +50,12 @@ Route::get('upload/download/{path}', [UploadController::class,'download'])->name
 
 //停用系統
 Route::get('close', [AdminsController::class,'close'])->name('close');
+
+Route::get('search', [HomeController::class,'search'])->name('search');
+
+//秀出指定的公告
+Route::get('posts/{post}/{ps_id?}', [PostsController::class,'show'])->name('posts.show');
+Route::get('posts_print/{post}', [PostsController::class,'print'])->name('posts.print');
 
 //已註冊使用者可進入
 Route::group(['middleware' => 'auth'],function(){
@@ -87,6 +94,58 @@ Route::group(['middleware' => 'edu'],function(){
     Route::get('apply_section', [MySectionController::class,'apply_section'])->name('apply_section');
     Route::patch('apply_section/{user}', [MySectionController::class,'section_update'])->name('apply_section.update');
     Route::get('apply_section/{user}/delete', [MySectionController::class,'section_delete'])->name('apply_section.delete');
+
+//出現新增公告的表單
+    Route::get('posts/create', [PostsController::class,'create'])->name('posts.create');
+//實際post儲存公告資料
+    Route::post('posts/store', [PostsController::class,'store'])->name('posts.store');
+//出現要修改的指定公告
+    Route::get('posts/{post}/edit', [PostsController::class,'edit'])->name('posts.edit');
+//送出要修改的指定公告內容
+    Route::patch('posts/{post}/update', [PostsController::class,'update'])->name('posts.update');
+//刪除指定的公告
+    Route::delete('posts/{post}/delete', [PostsController::class,'destroy'])->name('posts.destroy');
+//作廢指定的公告
+    Route::patch('posts/{post}/obsolete', [PostsController::class,'obsolete'])->name('posts.obsolete');
+//再次送審
+    Route::patch('posts/{post}/resend', [PostsController::class,'resend'])->name('posts.resend');
+//催收公告
+    Route::patch('posts/{post}/signedquickly', [PostsController::class,'signedquickly'])->name('posts.signedquickly');
+
+
+//審核中
+    Route::get('posts/reviewing', [PostsController::class,'reviewing'])->name('posts.reviewing');
+//已讀未審
+    Route::get('posts/reading', [PostsController::class,'reading'])->name('posts.reading');
+//顯示通過的公告
+    Route::get('posts/passing', [PostsController::class,'passing'])->name('posts.passing');
+//顯示本科室內的全數公告
+    Route::get('posts/section_all', [PostsController::class,'section_all'])->name('posts.section_all');
+    Route::post('posts/do_search_in_section', [PostsController::class,'do_search_in_section'])->name('posts.do_search_in_section');
+    Route::get('posts/{want}/all_search_in_section', [PostsController::class,'all_search_in_section'])->name('posts.all_search_in_section');
+    Route::get('posts/all', [PostsController::class,'all'])->name('posts.all');
+    Route::post('posts/do_search', [PostsController::class,'do_search'])->name('posts.do_search');
+    Route::get('posts/{want}/all_search', [PostsController::class,'all_search'])->name('posts.all_search');
+    Route::post('posts/select_category', [PostsController::class,'select_category'])->name('posts.select_category');
+    Route::get('posts/{category}/all_category', [PostsController::class,'all_category'])->name('posts.all_category');
+    Route::post('posts/select_situation', [PostsController::class,'select_situation'])->name('posts.select_situation');
+    Route::get('posts/{situation}/all_situation', [PostsController::class,'all_situation'])->name('posts.all_situation');
+    Route::get('posts/{user_id}/all_user_id', [PostsController::class,'all_user_id'])->name('posts.all_user_id');
+//秀行程中的公告
+    Route::get('posts/show_doing_post/{post}', [PostsController::class,'show_doing_post'])->name('posts.show_doing_post');
+    Route::get('posts/show_doing_post_print/{post}', [PostsController::class,'show_doing_post_print'])->name('posts.show_doing_post_print');
+
+//顯示退回的公告
+    Route::get('posts/backing', [PostsController::class,'backing'])->name('posts.backing');
+
+    //刪除指定公告的附件
+    Route::get('posts/{id}/{filename}/del_att', [PostsController::class,'del_att'])->name('posts.del_att');
+//刪除指定公告的圖片
+    Route::get('posts/{id}/{filename}/del_img', [PostsController::class,'del_img'])->name('posts.del_img');
+
+    //複製公告
+    Route::get('posts/{post}/copy', [PostsController::class,'copy'])->name('posts.copy');    
+
 
 });
 //系統管理者、科室管理者
@@ -202,7 +261,6 @@ Route::group(['middleware' => 'section_admin'],function(){
     Route::get('introduction/section_page_del/{section_page}', [IntroductionController::class,'section_page_del'])->name('introductions.section_page_del');
     Route::post('introduction/section_page_update/{section_page}', [IntroductionController::class,'section_page_update'])->name('introductions.section_page_update');
 
-
     //成員管理
     Route::get('my_section/admin', [MySectionController::class,'admin'])->name('my_section.admin');
     Route::get('my_section/{user}/agree', [MySectionController::class,'agree'])->name('my_section.agree');
@@ -216,8 +274,24 @@ Route::group(['middleware' => 'section_admin'],function(){
     Route::post('my_section/update', [MySectionController::class,'member_update'])->name('my_section.member_update');
     Route::post('my_section/update2', [MySectionController::class,'member_update2'])->name('my_section.member_update2');
 
-    
-
     //刪除跑馬燈
     Route::get('marquees/{marquee}/delete' , [MarqueeController::class,'delete'])->name('marquees.delete');
+});
+
+//教育處科室內的人，且是一級管理A身分才可進入
+//教育處科室長官可用
+Route::group(['middleware' => 'edu_admin'],function(){
+    //公告審查
+    Route::get('posts/review', [PostsController::class,'review'])->name('posts.review');
+    //退回指定的公告內容
+    Route::patch('posts/{post}/return', [PostsController::class,'return'])->name('posts.return');
+    //核准指定的公告內容
+    Route::get('posts/{post}/approve', [PostsController::class,'approve'])->name('posts.approve');
+    //將核准的公告寫到Post_schools資料表
+    Route::post('posts/{post}/addPostSchools', [PostsController::class,'addPostSchools'])->name('posts.addPostSchools');
+
+    //修改的指定公告
+    Route::get('posts/{id}/eduadminedit', [PostsController::class,'eduadminedit'])->name('posts.eduadminedit');
+    //實際儲存修改好的公告資料
+    Route::patch('posts/{id}/eduadminupdate', [PostsController::class,'eduadminupdate'])->name('posts.eduadminupdate');
 });
