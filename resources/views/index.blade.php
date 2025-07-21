@@ -102,6 +102,11 @@
         @foreach($posts as $post)
             <?php
                 $images[$n] = get_files(storage_path('app/public/post_photos/' . $post->id));
+                $bg_color[1] = "bg-success";
+                $bg_color[2] = "bg-info";
+                $bg_color[3] = "bg-secondary";
+                $bg_color[4] = "bg-dark";
+                $bg_color[5] = "bg-warning";
             ?>
             @if($n<4)
                 <div class="col-lg-12">
@@ -120,7 +125,7 @@
                             @endif                            
                         </div>
                         <div class="card-body">
-                            <div class="small text-muted">{{ substr($post->passed_at,0,10) }} / <span class="badge bg-secondary">{{ $category_array[$post->category_id] }}</span> / {{ $post->views }}</div>
+                            <div class="small text-muted">{{ substr($post->passed_at,0,10) }} / <span class="badge {{ $bg_color[$post->category_id] }}">{{ $category_array[$post->category_id] }}</span> / {{ $post->views }}</div>
                             <a href="{{ route('posts.show',$post->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;"><h2 class="card-title fw-bold">{{ $post->title }}</h2></a>
                             <p class="card-text" style="color: #000080;">{{ smart_truncate_clean($post->content,200) }}</p>
                             <a class="btn btn-primary venobox" href="{{ route('posts.show',$post->id) }}" data-vbtype="iframe">閱讀更多 →</a>
@@ -144,7 +149,7 @@
                             @endif                            
                         </div>                        
                         <div class="card-body">
-                            <div class="small text-muted">{{ substr($post->passed_at,0,10) }} / <span class="badge bg-secondary">{{ $category_array[$post->category_id] }}</span> / {{ $post->views }}</div>
+                            <div class="small text-muted">{{ substr($post->passed_at,0,10) }} / <span class="badge {{ $bg_color[$post->category_id] }}">{{ $category_array[$post->category_id] }}</span> / {{ $post->views }}</div>
                             <a href="{{ route('posts.show',$post->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;"><h2 class="card-title h4 fw-bold">{{ $post->title }}</h2></a>
                             <p class="card-text" style="color: #000080;">{{ smart_truncate_clean($post->content,200) }}</p>
                             <a class="btn btn-primary venobox" href="{{ route('posts.show',$post->id) }}" data-vbtype="iframe">閱讀更多 →</a>
@@ -169,7 +174,7 @@
                 <form action="{{ route('search') }}" class="search-form" method="get" target="_blank">
                     @csrf
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="want" placeholder="請輸入2字元以上的關鍵字" aria-label="want_word" aria-describedby="button-addon2">
+                        <input type="text" class="form-control" name="want" placeholder="請輸入關鍵字" aria-label="want_word" aria-describedby="button-addon2">
                         <button class="btn btn-outline-primary" type="submit" id="button-addon2">搜尋</button>
                     </div>
                 </form>
@@ -184,14 +189,16 @@
             <div class="row">
                 <div class="col-sm-6">
                     <ul class="list-unstyled mb-0">
-                        <li><a href="#!">一般公告</a></li>
-                        <li><a href="#!">競賽訊息</a></li>                        
+                        <li><a href="{{ route('bulletin.show',[0]) }}" class="btn btn-primary btn-sm my-1">全部公告</a></li>
+                        <li><a href="{{ route('bulletin.show',[1]) }}" class="btn btn-success btn-sm my-1">一般公告</a></li>
+                        <li><a href="{{ route('bulletin.show',[2]) }}" class="btn btn-info btn-sm my-1">競賽訊息</a></li>                        
                     </ul>
                 </div>
                 <div class="col-sm-6">
                     <ul class="list-unstyled mb-0">
-                        <li><a href="#!">活動成果</a></li>
-                        <li><a href="#!">新聞快訊</a></li>                        
+                        <li><a href="{{ route('bulletin.show',[3]) }}" class="btn btn-secondary btn-sm my-1">活動成果</a></li>
+                        <li><a href="{{ route('bulletin.show',[4]) }}" class="btn btn-dark btn-sm my-1">新聞快訊</a></li>                        
+                        <li><a href="{{ route('bulletin.show',[5]) }}" class="btn btn-warning btn-sm my-1">公開的行政公告</a></li> 
                     </ul>
                 </div>
             </div>

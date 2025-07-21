@@ -34,7 +34,14 @@
                             </tr>
                             <tr>
                                 <th scope="row" class="text-center post-th" width="20%">單位 / 發佈人</th>
-                                <td style="color: #000000">{{ array_get($sections,$post->section_id) }} / {{ $post->user->name }}@if(!empty($post->user->telephone)) <i class="fas fa-phone"></i> {{ $post->user->telephone }}@endif</td>
+                                <td style="color: #000000">{{ array_get($sections,$post->section_id) }} / 
+                                    @auth
+                                        {{ $post->user->name }}
+                                    @endauth
+                                    @guest
+                                        {{ $post->user->title }}
+                                    @endguest
+                                    @if(!empty($post->user->telephone)) <i class="fas fa-phone"></i> {{ $post->user->telephone }}@endif</td>
                             </tr>
                             <tr>
                                 <th scope="row" class="text-center post-th" width="20%">時間 / 點閱</th>
@@ -140,7 +147,13 @@
             </div>
             <div class="card-footer text-center">
                 <div>
-                    {{ array_get($categories,$post->category_id) }}　{{ array_get($sections,$post->section_id) }}　{{ $post->user->name }}
+                    {{ array_get($categories,$post->category_id) }}　{{ array_get($sections,$post->section_id) }}　
+                    @auth
+                        {{ $post->user->name }}
+                    @endauth
+                    @guest
+                        {{ $post->user->title }}                    
+                    @endguest
                         　發佈時間：{{ substr($post->passed_at,0,16)  }}
                 </div>
                 <div class="py-3 text-right">

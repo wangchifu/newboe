@@ -53,6 +53,11 @@ Route::get('close', [AdminsController::class,'close'])->name('close');
 
 Route::get('search', [HomeController::class,'search'])->name('search');
 
+//秀出公告類別的公告
+Route::get('bulletin/{category}', [HomeController::class,'bulletin'])->name('bulletin.show');
+Route::post('bulletin_search', [HomeController::class,'bulletin_search'])->name('bulletin_search');
+Route::get('bulletin_search_result/{category_id}/{want}/result', [HomeController::class,'bulletin_search_result'])->name('bulletin_search_result');
+
 //秀出指定的公告
 Route::get('posts/{post}/{ps_id?}', [PostsController::class,'show'])->name('posts.show');
 Route::get('posts_print/{post}', [PostsController::class,'print'])->name('posts.print');

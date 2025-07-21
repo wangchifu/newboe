@@ -476,6 +476,127 @@ class HomeController extends Controller
         return view('about');
     }
 
+    public function bulletin($category)
+    {
+        $category_id = $category;
+
+        if ($category == 0) {
+            $posts = Post::where('situation', '3')
+            ->where(function ($q) {
+                $q->whereIn('category_id', [1,2,3,4])
+                ->orWhere(function ($q2) {
+                    $q2->where('category_id', 5)
+                        ->where('another', 1);
+                });
+            })
+            ->orderBy('passed_at', 'DESC')
+            ->paginate(30);             
+        }elseif($category == 5){
+            $posts = Post::where('category_id', $category)
+                ->where('situation', '3')
+                ->where('another', '1')                
+                ->orderBy('passed_at', 'DESC')
+                ->paginate('30');
+        }else{
+            $posts = Post::where('category_id', $category)
+                ->where('situation', '3')
+                ->orderBy('passed_at', 'DESC')
+                ->paginate('30');
+        }
+
+        $categories = config('boe.categories');
+        $categories[0] = "全部公告";
+        $category = $categories[$category];
+
+
+        $data = [
+            'posts' => $posts,
+            'category' => $category,
+            'category_id' => $category_id,
+        ];
+        return view('bulletin', $data);
+    }
+
+    public function bulletin_search(Request $request)
+    {
+        if ($request->input('check') != session('search')) {
+            return back()->withErrors(['error' => ['驗證碼不對！']]);
+        }
+        
+
+        $category_id = $request->input('category_id');
+        //$want = $request->input('want');
+        $want = strip_tags($request->input('want'));
+        $want = str_replace("<","",$want);
+        $want = str_replace(">","",$want);
+        if (mb_strlen($want) < 2) {
+            return back()->withErrors(['error' => ['關鍵字必須二字元以上！']]);
+        }
+        return redirect()->route('bulletin_search_result', ['category_id' => $category_id, 'want' => $want]);
+    }
+
+    public function bulletin_search_result($category_id, $want)
+    {
+        if ($category_id == 0) {
+            $posts = Post::where('situation', '3')
+                ->where(function ($q) {
+                    $q->whereIn('category_id', [1,2,3,4])
+                    ->orWhere(function ($q2) {
+                    $q2->where('category_id', 5)
+                        ->where('another', 1);
+                });
+            })
+            ->where(function ($q3) use ($want) {
+                $q3->where('title', 'like', '%' . $want . '%')
+                    ->orWhere('content', 'like', '%' . $want . '%')
+                    ->orWhereHas('user', function ($query) use ($want) {
+                $query->where('name', 'like', '%' . $want . '%');
+                });
+            })
+            ->orderBy('passed_at', 'DESC')
+            ->paginate(30);             
+        }elseif($category_id == 5){
+            $posts = Post::where('category_id', $category_id)
+                ->where('situation', '3')
+                ->where('another', '1')
+                ->where(function ($q) use ($want) {
+                    $q->where('title', 'like', '%' . $want . '%')
+                        ->orWhere('content', 'like', '%' . $want . '%')
+                        ->orWhereHas('user', function ($query) use ($want) {
+                            $query->where('name', 'like', '%' . $want . '%');
+                        });
+                })
+                ->orderBy('passed_at', 'DESC')
+                ->paginate('30');
+        }else{
+            $posts = Post::where('category_id', $category_id)
+                ->where('situation', '3')
+                ->where(function ($q) use ($want) {
+                    $q->where('title', 'like', '%' . $want . '%')
+                        ->orWhere('content', 'like', '%' . $want . '%')
+                        ->orWhereHas('user', function ($query) use ($want) {
+                            $query->where('name', 'like', '%' . $want . '%');
+                        });
+                })
+                ->orderBy('passed_at', 'DESC')
+                ->paginate('30');
+        }
+
+        
+
+        $categories = config('boe.categories');
+        $categories[0] = "全部公告";
+        $category = $categories[$category_id];        
+
+        $data = [
+            'posts' => $posts,
+            'category' => $category,
+            'category_id' => $category_id,
+            'want' => $want,
+        ];
+        return view('bulletin_search', $data);
+    }    
+
     
 
 
