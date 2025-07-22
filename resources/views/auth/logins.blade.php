@@ -30,7 +30,7 @@
                     </a>              
                 </div>
                 <div class="text-end">
-                    <a href="{{ route('mlogin') }}"><i class="fas fa-cog"></i> 使用本機帳號</a>
+                    <a href="{{ route('mlogin') }}" style="color: inherit; text-decoration: none;"><i class="fas fa-cog"></i> 使用本機帳號</a>
                 </div>                                                                      
             </div>                                               
         </div>

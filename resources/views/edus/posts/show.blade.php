@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="col-lg-12 mx-auto">    
-    <div class="card shadow-sm mt-3">
+    <div class="card shadow-sm my-3">
         <div class="card-head">
             <img class="card-img-top img-responsive" src="{{ asset('images/posts'.$post->category_id.'.png') }}"
                         alt="{{ array_get($categories,$post->category_id) }}"

@@ -49,7 +49,7 @@
         <!-- Footer-->
         @include('layouts.footer')
         <!-- Bootstrap core JS-->
-        <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js "></script>
+        <script src=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js "></script>        
         <!-- Core theme JS-->
         <script src="{{ env('APP_URL') }}/js/my.js"></script>
         @include('layouts.sweet_alert')

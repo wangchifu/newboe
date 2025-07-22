@@ -18,6 +18,7 @@ use App\Http\Controllers\MarqueeController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\OpenIDController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\SchoolController;
 
 
 Route::get('/', [HomeController::class,'index'])->name('index');
@@ -47,6 +48,17 @@ Route::get('photo_albums/{photo_album}/guest_show', [PhotoAlbumController::class
 //檔案下載
 Route::get('upload/show_download/{path?}', [UploadController::class,'show_download'])->name('uploads.show_download');
 Route::get('upload/download/{path}', [UploadController::class,'download'])->name('uploads.download');
+
+//各科室介紹
+Route::get('introduction/{type}/show/{section_id}', [IntroductionController::class,'show'])->name('introductions.show');
+Route::get('introduction/{type}/show2/{section_id}', [IntroductionController::class,'show2'])->name('introductions.show2');
+Route::get('introduction/{section_id}/section_page_show/{section_page}', [IntroductionController::class,'section_page_show'])->name('introductions.section_page_show');
+
+//學校介紹
+Route::get('school/school_map', [SchoolController::class,'school_map'])->name('introductions.school_map');
+Route::get('school/school_list', [SchoolController::class,'school_list'])->name('introductions.school_list');
+Route::get('school/{code_no}/school_show', [SchoolController::class,'school_show'])->name('introductions.school_show');
+
 
 //停用系統
 Route::get('close', [AdminsController::class,'close'])->name('close');

@@ -175,7 +175,7 @@
                     @csrf
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="want" placeholder="請輸入關鍵字" aria-label="want_word" aria-describedby="button-addon2">
-                        <button class="btn btn-outline-primary" type="submit" id="button-addon2">搜尋</button>
+                        <button class="btn btn-primary" type="submit" id="button-addon2">搜尋</button>
                     </div>
                 </form>
                 @include('layouts.errors')
@@ -184,35 +184,89 @@
     </div>
     <!-- Categories widget-->
     <div class="card mb-4">
-        <div class="card-header">分類公告</div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-sm-6">
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="{{ route('bulletin.show',[0]) }}" class="btn btn-primary btn-sm my-1">全部公告</a></li>
-                        <li><a href="{{ route('bulletin.show',[1]) }}" class="btn btn-success btn-sm my-1">一般公告</a></li>
-                        <li><a href="{{ route('bulletin.show',[2]) }}" class="btn btn-info btn-sm my-1">競賽訊息</a></li>                        
-                    </ul>
-                </div>
-                <div class="col-sm-6">
-                    <ul class="list-unstyled mb-0">
-                        <li><a href="{{ route('bulletin.show',[3]) }}" class="btn btn-secondary btn-sm my-1">活動成果</a></li>
-                        <li><a href="{{ route('bulletin.show',[4]) }}" class="btn btn-dark btn-sm my-1">新聞快訊</a></li>                        
-                        <li><a href="{{ route('bulletin.show',[5]) }}" class="btn btn-warning btn-sm my-1">公開的行政公告</a></li> 
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="card mb-4">
         <div class="card-header">相關連結</div>
         <div class="card-body">
-            <ul>
-                <li><a href="https://www.edu.tw" target="_blank">教育部</a></li>
-                <li><a href="https://www.chcg.gov.tw/" target="_blank">彰化縣政府</a></li>
-                <li><a href="https://education.chcg.gov.tw/00home/index02.aspx" target="_blank">彰化縣政府教育處</a></li>
-                <li><a href="https://newboe.chc.edu.tw/introduction/organization/show/I" target="_blank">彰化縣教育網路中心</a></li>                                        
-            </ul>
+            <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                    教學類
+                </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <ul>
+                        <li><a href="https://ccswc.chc.edu.tw/" target="_blank">彰化縣社區大學聯合服務網</a></li>
+                        <li><a href="https://www.ptskids.tw/" target="_blank">公視兒少教育資源網</a></li>
+                        <li><a href="https://www.mdnkids.com/" target="_blank">國語日報</a></li>
+                        <li><a href="https://www.openclass.chc.edu.tw" target="_blank">彰化縣教師公開授課系統</a></li>                                        
+                        <li><a href="https://www.curriculum.chc.edu.tw" target="_blank">課程計畫平台</a></li>                                        
+                        <li><a href="https://volunteer.chc.edu.tw/boe/" target="_blank">彰化縣甄選介聘天地</a></li>                                        
+                        <li><a href="https://sites.google.com/chc.edu.tw/k12" target="_blank">彰化縣十二年國民基本教育資訊網</a></li>
+                        <li><a href="https://read.chc.edu.tw/" target="_blank">讀步彰化</a></li>                                        
+                        <li><a href="https://www.science.chc.edu.tw" target="_blank">彰化縣中小學科學展覽會競賽平台</a></li>                                        
+                        <li><a href="https://www.expedu.chc.edu.tw" target="_blank">彰化縣非學校型態實驗教育</a></li>                                        
+                    </ul>                    
+                </div>
+                </div>
+            </div>            
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                    藝文類
+                </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <ul>
+                        <li><a href="https://www.emuseum.com.tw/" target="_blank">桃園網路美術館</a></li>
+                        <li><a href="https://www.nmmba.gov.tw/" target="_blank">國立海洋生物博物館</a></li>
+                        <li><a href="https://www.ntsec.gov.tw/" target="_blank">國立臺灣科學教育館</a></li>
+                        <li><a href="https://kids.moa.gov.tw/" target="_blank">農業兒童館</a></li>                                        
+                        <li><a href="https://www.chimeimuseum.org/" target="_blank">奇美博物館</a></li>                                                                  
+                    </ul>                    
+                </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    資訊類
+                </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <ul>
+                        <li><a href="https://eliteracy.edu.tw/" target="_blank">中小學數位素養教育資源網</a></li>
+                        <li><a href="https://eip.chc.edu.tw/" target="_blank">彰化縣師生帳號單一系統</a></li>                        
+                        <li><a href="https://qry.chcg.gov.tw/" target="_blank">案件透明化</a></li>                                                                
+                    </ul>                    
+                </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                    防疫專區
+                </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    <ul>
+                        <li><a href="https://sites.google.com/chc.edu.tw/health/%E9%A6%96%E9%A0%81" target="_blank">新冠肺炎防疫專區</a></li>
+                        <li><a href="https://sites.google.com/chc.edu.tw/chcgelearning/%E9%A6%96%E9%A0%81" target="_blank">幼兒親子共學專區</a></li>                        
+                        <li><a href="https://sites.google.com/chc.edu.tw/golearn/%E9%A6%96%E9%A0%81" target="_blank">自主學習專區</a></li>                                                                
+                    </ul>                    
+                </div>
+                </div>
+            </div>
+            </div>      
+            <ul class="mt-3">
+                <li><a href="https://volunteer.chc.edu.tw/duty/duty.php" target="_blank">彰化縣教育志工人力資源整合中心資訊網</a></li>
+                <li><a href="https://168motc2021.yam.com/" target="_blank">交通安全入口網</a></li>
+                <li><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSkFvtRf0JFTTvOcEdP105sAcJCfvDXr31BXTAiCeI0ojuiZfm4eSZfuI0OEdUlLou9lTYNAJrsTalg/pubhtml?gid=1503246253&single=true" target="_blank">彰化縣政府教育基金會資訊網</a></li>
+                <li><a href="https://near.archives.gov.tw/home" target="_blank">機關檔案目錄查詢網</a></li>                                        
+            </ul>                 
         </div>
     </div>
     <!-- Side widget-->

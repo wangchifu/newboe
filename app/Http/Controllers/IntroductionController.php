@@ -160,4 +160,71 @@ class IntroductionController extends Controller
 
         return redirect()->route('introductions.section_page',$section_page->id);
     }
+
+    public function show($type,$section_id)
+    {
+        $sections = config('boe.sections');
+        $section_name = $sections[$section_id];
+
+        $introduction = Introduction::where('section_id',$section_id)
+            ->first();
+        if(empty($introduction)){
+            $content = "";
+        }else{
+            $content = $introduction->$type;
+        }
+
+        $section_pages = SectionPage::where('section_id',$section_id)->orderBy('order_by')->get();
+
+        $data = [
+            'type'=>$type,
+            'section_id'=>$section_id,
+            'content'=>$content,
+            'section_name'=>$section_name,
+            'section_pages'=>$section_pages,
+        ];
+        return view('introductions.show',$data);
+
+    }
+
+    public function section_page_show($section_id,SectionPage $section_page)
+    {
+        $sections = config('boe.sections');
+        $section_name = $sections[$section_id];
+        $section_pages = SectionPage::where('section_id',$section_id)->orderBy('order_by')->get();
+        $data = [
+            'section_id'=>$section_id,
+            'section_page'=>$section_page,
+            'section_name'=>$section_name,
+            'section_pages'=>$section_pages,
+        ];
+        return view('introductions.section_page_show',$data);
+    }
+
+    public function show2($type,$section_id)
+    {
+        $sections = [
+            '1'=>'處長',
+            '2'=>'副處長',
+            '3'=>'專員',
+        ];
+        $section_name = $sections[$section_id];
+
+        $introduction = Introduction::where('section_id',$section_id)
+            ->first();
+        if(empty($introduction)){
+            $content = "";
+        }else{
+            $content = $introduction->$type;
+        }
+
+        $data = [
+            'type'=>$type,
+            'section_id'=>$section_id,
+            'content'=>$content,
+            'section_name'=>$section_name,
+        ];
+        return view('introductions.show2',$data);
+
+    }    
 }
