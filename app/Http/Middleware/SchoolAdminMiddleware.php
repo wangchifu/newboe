@@ -25,7 +25,7 @@ class SchoolAdminMiddleware
                 return redirect('/');
             }
         }else{
-            return redirect('glogin');
+            return redirect()->route('index');
         }
 
     }

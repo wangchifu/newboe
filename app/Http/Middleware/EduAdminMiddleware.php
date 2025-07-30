@@ -6,6 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
+use App\Models\UserPower;
 
 
 class EduAdminMiddleware
@@ -28,7 +29,7 @@ class EduAdminMiddleware
                 return redirect('/');
             }
         }else{
-            return redirect('glogin');
+            return redirect()->route('index');
         }
 
     }

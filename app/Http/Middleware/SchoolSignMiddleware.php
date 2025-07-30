@@ -25,7 +25,7 @@ class SchoolSignMiddleware
                 return redirect('/');
             }
         }else{
-            return redirect()->route('glogin');
+            return redirect()->route('index');
         }
 
     }

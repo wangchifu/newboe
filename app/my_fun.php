@@ -384,3 +384,62 @@ if (!function_exists('array_get')) {
     }
 }
 
+//自動判斷url是否有http，否則自動補齊
+if (!function_exists('transfer_url_http')) {
+    function transfer_url_http($url)
+    {
+        if (!($url)) {
+            return null;
+        } else {
+            if (substr($url, 0, 8) == 'https://') {
+                return $url;
+            } elseif (substr($url, 0, 7) == 'http://') {
+                return $url;
+            } else {
+                return 'http://' . $url;
+            }
+        }
+    }
+}
+
+// 多個儲存值(陣列形式)轉換成 1,2,3,8,9,22 ... 的字串
+if (!function_exists('checkbox_str_num')) {
+    function checkbox_str_num($value_array, $split = ', ')
+    {
+
+        $out = '';
+        $set_idx = 0;
+        foreach ($value_array as $value) {
+            $mask = 1;
+            for ($i = 1; $i <= 63; $i++) {
+                if (($value & $mask) > 0) {
+                    if ($out != '')
+                        $out .= $split;
+                    $out .= $i + $set_idx * 63;
+                }
+                $mask <<= 1;
+            }
+            $set_idx++;
+        }
+        return $out;
+    }
+}
+
+// 勾選的資料用 bit 的概念儲存成 5 個值
+if (!function_exists('checkbox_val')) {
+    function checkbox_val($value_array)
+    {
+        $item_value = array(0, 0, 0, 0, 0);
+        foreach ($value_array as $value) {
+            if ($value > 0) {
+                $set_idx = floor(($value - 1) / 63);
+                if ($set_idx > 0)
+                    $value %= 63;
+                if ($value == 0)
+                    $value = 63;
+                $item_value[$set_idx] += pow(2, $value - 1);
+            }
+        }
+        return $item_value;
+    }
+}

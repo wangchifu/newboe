@@ -28,7 +28,7 @@ class SectionAdminMiddleware
                 return redirect('/');
             }
         }else{
-            return redirect()->route('glogin');
+            return redirect()->route('index');
         }
 
     }

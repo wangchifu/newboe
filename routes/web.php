@@ -18,6 +18,7 @@ use App\Http\Controllers\MarqueeController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\OpenIDController;
 use App\Http\Controllers\PostsController;
+use App\Http\Controllers\EduReportController;
 use App\Http\Controllers\SchoolController;
 
 
@@ -71,8 +72,20 @@ Route::post('bulletin_search', [HomeController::class,'bulletin_search'])->name(
 Route::get('bulletin_search_result/{category_id}/{want}/result', [HomeController::class,'bulletin_search_result'])->name('bulletin_search_result');
 
 //秀出指定的公告
-Route::get('posts/{post}/{ps_id?}', [PostsController::class,'show'])->name('posts.show');
+Route::get('posts_show/{post}/{ps_id?}', [PostsController::class,'show'])->name('posts.show');
 Route::get('posts_print/{post}', [PostsController::class,'print'])->name('posts.print');
+
+//顯示最新公告列表，暫時沒用到先註解掉
+//Route::get('posts', [PostsController::class,'index'])->name('posts.index');
+
+//下載檔案
+Route::get('download/{filename}/{id}', [PostsController::class,'download'])->name('posts.download');
+
+//顯示上傳的圖片
+Route::get('img/{file_path}', [PostsController::class,'getImg'])->name('posts.img');
+//下載圖片
+Route::get('downloadimage/{filename}/{id}/', [PostsController::class,'downloadimage'])->name('posts.downloadimage');
+
 
 //已註冊使用者可進入
 Route::group(['middleware' => 'auth'],function(){
@@ -161,7 +174,47 @@ Route::group(['middleware' => 'edu'],function(){
     Route::get('posts/{id}/{filename}/del_img', [PostsController::class,'del_img'])->name('posts.del_img');
 
     //複製公告
-    Route::get('posts/{post}/copy', [PostsController::class,'copy'])->name('posts.copy');    
+    Route::get('posts/{post}/copy', [PostsController::class,'copy'])->name('posts.copy');  
+    
+    
+            //資料填報
+        Route::get('edu_report', [EduReportController::class,'index'])->name('edu_report.index');
+        Route::get('edu_report/create', [EduReportController::class,'create'])->name('edu_report.create');
+        //Route::post('edu_report/add_one', [EduReportController::class,'add_one'])->name('edu_report.add_one');
+        //Route::post('edu_report/add_one_school', [EduReportController::class,'add_one_school'])->name('edu_report.add_one_school');
+        Route::post('edu_report/store', [EduReportController::class,'store'])->name('edu_report.store');
+        Route::get('edu_report/{report}/edit', [EduReportController::class,'edit'])->name('edu_report.edit');
+        Route::get('edu_report/{id}/{filename}/delete_file', [EduReportController::class,'delete_file'])->name('edu_report.delete_file');
+        Route::get('edu_report/{report}/show', [EduReportController::class,'show'])->name('edu_report.show');
+        Route::get('edu_report/{report}/date_late', [EduReportController::class,'date_late'])->name('edu_report.date_late');
+        Route::patch('edu_report/{report}/save_date_late', [EduReportController::class,'save_date_late'])->name('edu_report.save_date_late');
+        Route::get('edu_report/{report}/result', [EduReportController::class,'result'])->name('edu_report.result');
+        Route::get('edu_report/{report}/result2', [EduReportController::class,'result2'])->name('edu_report.result2');
+        Route::patch('edu_report/{report}/update', [EduReportController::class,'update'])->name('edu_report.update');
+        //增加附件
+        //Route::post('edu_report/add_file', [EduReportController::class,'add_file'])->name('edu_report.add_file');
+        //刪除附件
+        Route::get('edu_report/{id}/{file}/del_file', [EduReportController::class,'del_file'])->name('edu_report.del_file');
+        Route::delete('edu_report/{report}/destroy', [EduReportController::class,'destroy'])->name('edu_report.destroy');
+        //Route::get('edu_report/{question}/question_destroy', [EduReportController::class,'question_destroy'])->name('edu_report.question_destroy');
+        //Route::get('edu_report/{report}/{school_id}/school_destroy', [EduReportController::class,'school_destroy'])->name('edu_report.school_destroy');
+        Route::get('edu_report/passing', [EduReportController::class,'passing'])->name('edu_report.passing');
+        //再次送審
+        Route::patch('edu_report/{report}/resend', [EduReportController::class,'resend'])->name('edu_report.resend');
+    
+        //下載excel
+        Route::get('edu_report/{report}/export', [EduReportController::class,'export'])->name('edu_report.export');
+    
+        //作廢
+        Route::get('edu_report/{report}/obsolete', [EduReportController::class,'obsolete'])->name('edu_report.obsolete');
+        Route::get('edu_report/{report}/copy', [EduReportController::class,'copy'])->name('edu_report.copy');
+    
+        //催促公告
+        Route::post('edu_report/post', [EduReportController::class,'post'])->name('edu_report.post');
+    
+        //退回學校的填報
+        Route::get('edu_report/{report_school}/set_back', [EduReportController::class,'set_back'])->name('edu_report.set_back');
+        Route::get('edu_report/{report_school}/set_null', [EduReportController::class,'set_null'])->name('edu_report.set_null');
 
 
 });
@@ -311,4 +364,14 @@ Route::group(['middleware' => 'edu_admin'],function(){
     Route::get('posts/{id}/eduadminedit', [PostsController::class,'eduadminedit'])->name('posts.eduadminedit');
     //實際儲存修改好的公告資料
     Route::patch('posts/{id}/eduadminupdate', [PostsController::class,'eduadminupdate'])->name('posts.eduadminupdate');
+
+        //資料填報審查
+    Route::get('reports/review', [EduReportController::class,'review'])->name('reports.review');
+    //退回指定的公告內容
+    Route::patch('reports/{report}/return', [EduReportController::class,'return'])->name('reports.return');
+    //核准指定的公告內容
+    Route::patch('reports/{report}/approve', [EduReportController::class,'approve'])->name('reports.approve');
+
+    //審核者可看
+    Route::get('reports/section_all', [EduReportController::class,'section_all'])->name('reports.section_all');
 });

@@ -46,7 +46,7 @@
     tinymce.init({
         selector: 'textarea#mytextarea',
         language: 'zh_TW', // 設置語言為繁體中文
-        language_url: '/tinymce/langs/zh_TW.js', // 指定語言檔案路徑
+        language_url: '{{ asset('js/zh_TW.js') }}', // 加這行
         plugins: 'fullscreen code table,image link lists image paste', // 啟用表格功能
         toolbar: 'fullscreen code undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | table image link unlink openlink | bullist numlist outdent indent | removeformat',                
         //paste_data_images: true,//拖過去上傳

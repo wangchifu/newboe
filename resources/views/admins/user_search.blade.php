@@ -18,9 +18,9 @@
         </ol>
     </nav>
     <div class="card mb-4">
-        <div class="card-header">搜尋「{{ $want }}」使用者列表</div>
-        <div class="card-body">
-            @include('admins.search_nav')
+        <div class="card-header d-flex justify-content-center">@include('admins.search_nav')</div>
+        <div class="card-body">            
+            搜尋「{{ $want }}」使用者列表<br>
             @include('admins.form')            
             {{ $users->appends(['want' => $want])->links('layouts.simple-pagination') }}         
         </div>

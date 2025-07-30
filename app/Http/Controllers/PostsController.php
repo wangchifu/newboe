@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use App\Models\post_schools_view;
 use App\Models\PostSchool;
@@ -21,59 +20,9 @@ use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 
 class PostsController extends Controller
 {
-    //暫時沒用到先註解掉
-    /*    public function index()
-        {
-
-            $post1 = Post::where('category_id','1')
-                ->where('situation','3')
-                ->orderBy('id','DESC')
-                ->paginate('5');
-            $post2 = Post::where('category_id','2')
-                ->where('situation','3')
-                ->orderBy('id','DESC')
-                ->paginate('5');
-            $post3 = Post::where('category_id','3')
-                ->where('situation','3')
-                ->orderBy('id','DESC')
-                ->paginate('5');
-            $post4 = Post::where('category_id','4')
-                ->where('situation','3')
-                ->orderBy('id','DESC')
-                ->paginate('5');
-            $post5 = DB::select('select * from post_schools_view where code=?',[auth()->user()->code]);
-            $user_power = DB::table('user_powers')->where
-            ([
-                ['user_id', '=', auth()->user()->id],
-                ['power_type', '=', 'B'],
-            ])
-                ->first();
-            $categories = config('boe.categories');
-            $sections = config('boe.sections');
-            $user_name = config('boe.user_name');
-            $countpost1 = DB::select('select * from posts where category_id=? and situation=?',['1','3']);
-            //dd(count($countpost1));
-            $data = [
-                'post1'=>$post1,
-                'post2'=>$post2,
-                'post3'=>$post3,
-                'post4'=>$post4,
-                'post5'=>$post5,
-                'user_name' =>$user_name,
-                'sections'=>$sections,
-                'categories'=>$categories,
-                'user_power'=>$user_power,
-                'countpost1'=>$countpost1,
-            ];
-            return view('posts.index',$data);
-
-        }*/
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index(){
+        echo "123";
+    }
     public function create()
     {
         //取 /config/boe.php下的categories
@@ -84,7 +33,7 @@ class PostsController extends Controller
             'sections' => $sections,
             'select_school' => '',
         ];
-        return view('posts.create', $data);
+        return view('edus.posts.create', $data);
     }
 
     /**
@@ -93,7 +42,7 @@ class PostsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PostRequest $request)
+    public function store(Request $request)
     {        
         $att['user_id'] = auth()->user()->id;
         $att['category_id'] = $request->input('category_id');
@@ -102,7 +51,7 @@ class PostsController extends Controller
         $att['content'] = $request->input('content');
         $att['type'] = $request->input('type');
         $att['another'] = $request->input('another');
-        $att['url'] = transfer_url_http($request->input('url'));
+        $att['url'] = transfer_url_http($request->input('url'));        
         if($request->input('form_action')=="送出審核不再修改"){
             $att['situation'] = "1";
         }elseif($request->input('form_action')=="暫存"){
@@ -376,7 +325,7 @@ class PostsController extends Controller
             'select_school' => $select_school,
         ];
 
-        return view('posts.edit', $data);
+        return view('edus.posts.edit', $data);
     }
 
     /**
@@ -386,7 +335,7 @@ class PostsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(PostRequest $request, Post $post)
+    public function update(Request $request, Post $post)
     {
         if($post->situation==3 or $post->situation==4){
             header("refresh:5;url=".route('posts.passing'));
@@ -405,7 +354,7 @@ class PostsController extends Controller
         $att['content'] = $request->input('content');
         $att['type'] = $request->input('type');
         $att['another'] = $request->input('another');
-        $att['url'] = transfer_url_http($request->input('url'));
+        $att['url'] = transfer_url_http($request->input('url'));        
         //$att['situation'] = "3";
         if($request->input('form_action')=="送出審核不再修改"){
             $att['situation'] = "1";
@@ -430,10 +379,12 @@ class PostsController extends Controller
             $att['school_set_3'] = 0;
             $att['school_set_4'] = 0;            
         }   
-
+        //dd($att);
         $post->update($att);
         //dd($post);
-
+        //公務電話
+        $user_att['telephone'] = $request->input('telephone');
+        $post->user->update($user_att);
         //if($att['category_id'] != "5") {
         //$post->update($att);
 
@@ -558,7 +509,7 @@ class PostsController extends Controller
     }
 
     public function reviewing()
-    {
+    {        
         $posts = Post::where('user_id', auth()->user()->id)
             //->where('section_id', auth()->user()->section_id)
             ->whereNotIn('situation', [3, 4])
@@ -584,7 +535,7 @@ class PostsController extends Controller
             'uri_name' => $uri_name,
             'sections' => $sections,
         ];
-        return view('posts.reviewing', $data);
+        return view('edus.posts.reviewing', $data);
     }
 
     public function reading()
@@ -627,7 +578,7 @@ class PostsController extends Controller
                     ->orWhere('situation', '4');
             })
             ->orderBy('id', 'DESC')
-            ->simplePaginate(15);
+            ->paginate(15);
 
         $categories = config('boe.categories');
         $situation = config('boe.situation');
@@ -648,14 +599,14 @@ class PostsController extends Controller
             'uri_name' => $uri_name,
             'sections' => $sections,
         ];
-        return view('posts.passing', $data);
+        return view('edus.posts.passing', $data);
     }
 
     public function section_all()
     {
         $posts = Post::where('section_id', auth()->user()->section_id)
             ->orderBy('id', 'DESC')
-            ->simplePaginate(30);
+            ->paginate(15);
 
         $categories = config('boe.categories');
         $situation = config('boe.situation');
@@ -679,7 +630,7 @@ class PostsController extends Controller
             'want' => '',
         ];
 
-        return view('posts.section_all', $data);
+        return view('edus.posts.section_all', $data);
     }
 
     public function all()
@@ -692,7 +643,7 @@ class PostsController extends Controller
             return back();
         }
         $posts = Post::orderBy('id', 'DESC')
-            ->simplePaginate(30);
+            ->paginate(15);
 
         $categories = config('boe.categories');
         $situation = config('boe.situation');
@@ -716,7 +667,7 @@ class PostsController extends Controller
             'want' => '',
         ];
 
-        return view('posts.all', $data);
+        return view('edus.posts.all', $data);
     }
 
     public function do_search(Request $request)
@@ -740,7 +691,7 @@ class PostsController extends Controller
                 });
         })
             ->orderBy('id', 'DESC')
-            ->simplePaginate(15);
+            ->paginate(15);
 
         $categories = config('boe.categories');
         $situation = config('boe.situation');
@@ -764,7 +715,7 @@ class PostsController extends Controller
             'want' => $want,
         ];
 
-        return view('posts.all', $data);
+        return view('edus.posts.all', $data);
     }
 
     public function all_search_in_section($want)
@@ -778,7 +729,7 @@ class PostsController extends Controller
                 });
         })->where('section_id', auth()->user()->section_id)
             ->orderBy('id', 'DESC')
-            ->simplePaginate(30);
+            ->paginate(15);
 
         $categories = config('boe.categories');
         $situation = config('boe.situation');
@@ -802,7 +753,7 @@ class PostsController extends Controller
             'want' => $want,
         ];
 
-        return view('posts.section_all', $data);
+        return view('edus.posts.section_all', $data);
     }
 
     public function select_category(Request $request)
@@ -954,7 +905,7 @@ class PostsController extends Controller
             'power_section_id' => $user_power->section_id,
         ];
 
-        return view('posts.review', $data);
+        return view('edus.posts.review', $data);
     }
 
     //秀出跑行程中的公告
@@ -1029,9 +980,10 @@ class PostsController extends Controller
             'signedSchools' => $signedSchools,
             'quick_signed' => $quick_signed,
         ];
-        return view('posts.show_doing_post', $data);
+        return view('edus.posts.show_doing_post', $data);
     }
 
+    //2025.07.29以下停用
     public function show_doing_post_print(Post $post)
     {
         //非同科室的不得看
@@ -1094,8 +1046,9 @@ class PostsController extends Controller
             'signedSchools' => $signedSchools,
             'quick_signed' => $quick_signed,
         ];
-        return view('posts.show_doing_post_print', $data);
+        return view('edus.posts.show_doing_post_print', $data);
     }
+    //以上停用
 
     //學校端顯示簽收公告
     public function showSigned()
@@ -1574,7 +1527,7 @@ class PostsController extends Controller
             'select_school' => $select_school,
         ];
 
-        return view('posts.eduadminedit', $data);
+        return view('edus.posts.eduadminedit', $data);
     }
 
     /**
@@ -1585,7 +1538,7 @@ class PostsController extends Controller
      * @return \Illuminate\Http\Response
      */
     //管理者更新公告
-    public function eduadminupdate(PostRequest $request, $id)
+    public function eduadminupdate(Request $request, $id)
     {
 
         $post = Post::where('id', $id)->first();
@@ -1708,7 +1661,7 @@ class PostsController extends Controller
             'select_school' => $select_school,
         ];
 
-        return view('posts.copy', $data);
+        return view('edus.posts.copy', $data);
     }
 
     public function people_other()

@@ -92,7 +92,7 @@
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item dropdown-toggle" href="#">科室功能</a> 
                                 <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="">公告系統</a></li>   
+                                    <li><a class="dropdown-item" href="{{ route('posts.reviewing') }}">公告系統</a></li>   
                                     <li><a class="dropdown-item" href="">填報系統</a></li>   
                                     @if(!empty(auth()->user()->section_id))
                                         <?php
