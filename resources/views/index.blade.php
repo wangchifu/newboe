@@ -106,7 +106,7 @@
                 $bg_color[2] = "bg-info";
                 $bg_color[3] = "bg-secondary";
                 $bg_color[4] = "bg-dark";
-                $bg_color[5] = "bg-warning";
+                $bg_color[5] = "bg-warning";                
             ?>
             @if($n<4)
                 <div class="col-lg-12">
@@ -118,8 +118,8 @@
                                 {{ $page*13+$n }}
                             </div>
                             <!-- 圖片本體 -->
-                            @if(!empty($images3[0]))
-                                <img class="card-img-top object-fit-cover" src="{{ asset('storage/post_photos/'.$id3[0].'/'.$images3[0][0]) }}" style="width: 100%; height: 200px;">
+                            @if(!empty($images[$n]))
+                                <img class="card-img-top object-fit-cover" src="{{ asset('storage/post_photos/'.$post->id.'/'.$images[$n][0]) }}" style="width: 100%; height: 200px;">
                             @else
                                 <img class="card-img-top object-fit-cover" src="{{ asset('images/image.jpg') }}" style="width: 100%; height: 100px;">
                             @endif                            
@@ -142,8 +142,8 @@
                                 {{ $page*13+$n }}
                             </div>
                             <!-- 圖片本體 -->
-                            @if(!empty($images3[0]))
-                                <img class="card-img-top object-fit-cover" src="{{ asset('storage/post_photos/'.$id3[0].'/'.$images3[0][0]) }}" style="width: 100%; height: 200px;">
+                            @if(!empty($images[$n]))
+                                <img class="card-img-top object-fit-cover" src="{{ asset('storage/post_photos/'.$post->id.'/'.$images[$n][0]) }}" style="width: 100%; height: 200px;">
                             @else
                                 <img class="card-img-top object-fit-cover" src="{{ asset('images/image.jpg') }}" style="width: 100%; height: 100px;">
                             @endif                            

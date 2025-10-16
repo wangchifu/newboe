@@ -43,8 +43,16 @@
                 <li><a class="dropdown-item" href="{{ route('posts.passing') }}">公告通過區 ({{ $c_p1 }})</a></li>
                 <li><a class="dropdown-item" href="{{ route('edu_report.passing') }}">填報通過區 ({{ $c_p2 }})</a></li>                  
                 </ul>
-            </div>            
-            <a href="{{ route('posts.section_all') }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-list"></i> [{{ $sections[auth()->user()->section_id] }}] 全數公告</a>
+            </div>       
+            <div class="dropdown">
+                <button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-list"></i> [{{ $sections[auth()->user()->section_id] }}] 公告與填報
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton4">
+                <li><a class="dropdown-item" href="{{ route('posts.section_all') }}">全數公告</a></li>
+                <li><a class="dropdown-item" href="{{ route('reports.section_all') }}">全數填報</a></li>                  
+                </ul>
+            </div>                 
             @if( (auth()->user()->title =="處長" or auth()->user()->title == "副處長" or auth()->user()->title =="科長" or auth()->user()->title == "督學") and auth()->user()->code=="079999")
                 <a href="{{ route('posts.all') }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-list"></i> [教育處] 全數公告</a>
             @endif
@@ -76,7 +84,6 @@
             ->orwhere('situation', '=', '2')
             ->count();
         ?>
-        　　<a href="{{ route('posts.review') }}" class="btn btn-primary btn-sm">[{{ $sections[$user_power->section_id] }}] <i class="fas fa-user-cog"></i> 審核區 ({{ $c_p+$c_r }})</a>
-        <a href="{{ route('reports.section_all') }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-list"></i> [{{ $sections[auth()->user()->section_id] }}] 全數填報</a>
+        　　<a href="{{ route('posts.review') }}" class="btn btn-primary btn-sm">[{{ $sections[$user_power->section_id] }}] <i class="fas fa-user-cog"></i> 審核區 ({{ $c_p+$c_r }})</a>        
     @endif
 @endif

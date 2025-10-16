@@ -14,7 +14,7 @@
 
 @section('content')
 <div class="col-lg-12 mx-auto">
-    <h1>[{{ $sections[auth()->user()->section_id] }}] <span class="badge bg-success"><i class="fas fa-plus"></i> 新增公告</span></h1>
+    <h1>[{{ $sections[auth()->user()->section_id] }}]：<span class="badge bg-success"><i class="fas fa-plus"></i> 新增公告</span></h1>
         @include('edus.posts.nav')
         <form action="{{ route('posts.store') }}" method="POST" id="create_form" enctype="multipart/form-data" onsubmit="return false">
             @csrf

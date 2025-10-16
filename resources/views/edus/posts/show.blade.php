@@ -165,4 +165,17 @@
         </div>
     </div>
 </div>
+<script>
+    var vb = new VenoBox({
+        selector: '.venobox',
+        numeration: true,
+        infinigall: true,
+        //share: ['facebook', 'twitter', 'linkedin', 'pinterest', 'download'],
+        spinner: 'rotating-plane'
+    });
+
+    $(document).on('click', '.vbox-close', function() {
+        vb.close();
+    });
+</script>
 @endsection
