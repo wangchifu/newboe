@@ -443,3 +443,11 @@ if (!function_exists('checkbox_val')) {
         return $item_value;
     }
 }
+
+function userid2name($user_id)
+{
+    $name = \App\Models\User::where('id', $user_id)
+        ->first();
+    $name = $name['name'];
+    return $name;
+}

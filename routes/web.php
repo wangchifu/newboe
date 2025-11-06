@@ -268,7 +268,7 @@ Route::group(['middleware' => 'admin'],function(){
     Route::get('admin/user_index' , [AdminsController::class,'user_index'])->name('admins.user_index');
     Route::get('admin/user_check' , [AdminsController::class,'user_check'])->name('admins.user_check');
     Route::get('admin/{group_id}/user_group' , [AdminsController::class,'user_group'])->name('admins.user_group');
-    Route::match(['post','get'],'admin/user_search',[AdminsController::class,'user_search'])->name('admins.user_search');
+    Route::match(['post','get'],'admin/user_search/{want?}',[AdminsController::class,'user_search'])->name('admins.user_search');
     Route::get('admin/user', [AdminsController::class,'user'])->name('admins.user');
     Route::get('admin/user/{user}/edit', [AdminsController::class,'user_edit'])->name('admins.user_edit');
     Route::post('admin/user/{user}/update', [AdminsController::class,'user_update'])->name('admins.user_update');
@@ -374,4 +374,60 @@ Route::group(['middleware' => 'edu_admin'],function(){
 
     //審核者可看
     Route::get('reports/section_all', [EduReportController::class,'section_all'])->name('reports.section_all');
+});
+
+//學校一級簽收B才可進入
+//學校簽收填報者可用
+Route::group(['middleware' => 'school_sign'], function () {
+    //顯示簽收公告
+    Route::get('posts/showSigned', [PostsController::class,'showSigned'])->name('posts.showSigned');
+    Route::get('posts/show_not_Signed', [PostsController::class,'show_not_Signed'])->name('posts.show_not_Signed');
+    Route::get('posts/show_quick_Signed', [PostsController::class,'show_quick_Signed'])->name('posts.show_quick_Signed');
+    Route::get('posts/show_person_Signed', [PostsController::class,'show_person_Signed'])->name('posts.show_person_Signed');
+    //列印簽收公告
+    Route::get('posts/{post}/showSigned_print', [PostsController::class,'showSigned_print'])->name('posts.showSigned_print');
+    Route::get('posts/{post}/showSigned_print2', [PostsController::class,'showSigned_print2'])->name('posts.showSigned_print2');
+    Route::get('posts/{post}/showSigned_print3', [PostsController::class,'showSigned_print3'])->name('posts.showSigned_print3');
+
+    //簽收公告路由
+    Route::patch('posts/{ps_id}/signed', [PostsController::class,'signed'])->name('posts.signed');
+    Route::patch('posts/{ps_id}/signed_at_show', [PostsController::class,'signed_at_show'])->name('posts.signed_at_show');
+    Route::post('posts/signed_more', [PostsController::class,'signed_more'])->name('posts.signed_more');
+    Route::patch('posts/{ps_id}/signed2', [PostsController::class,'signed2'])->name('posts.signed2');
+    Route::patch('posts/{ps_id}/signed3', [PostsController::class,'signed3'])->name('posts.signed3');
+
+    //搜尋公告編號主旨、內文、公告人
+    Route::match(['post', 'get'], 'posts/search', [PostsController::class,'search'])->name('posts.search');
+    Route::get('posts/search_by_section/{section_id}', [PostsController::class,'search_by_section'])->name('posts.search_by_section');
+
+    //資料填報
+    Route::get('school_report', [SchoolReportController::class,'index'])->name('school_report.index');
+    Route::get('school_report_not', [SchoolReportController::class,'not_index'])->name('school_report_not.index');
+    Route::get('show_person_Signed', [SchoolReportController::class,'show_person_Signed'])->name('school_report.show_person_Signed');
+    //搜尋填報編號主旨、內文、公告人
+    Route::match(['post', 'get'], 'school_report/search', [SchoolReportController::class,'search'])->name('school_report.search');
+    Route::get('school_report/{report_school}/create', [SchoolReportController::class,'create'])->name('school_report.create');
+    //20230815取消這功能
+    Route::get('school_report/{report_school}/no_report', [SchoolReportController::class,'no_report'])->name('school_report.no_report');
+    Route::post('school_report/store', [SchoolReportController::class,'store'])->name('school_report.store');
+    Route::get('school_report/{report_school}/show', [SchoolReportController::class,'show'])->name('school_report.show');
+    Route::get('school_report/{report_school}/edit', [SchoolReportController::class,'edit'])->name('school_report.edit');
+    Route::patch('school_report/update', [SchoolReportController::class,'update'])->name('school_report.update');
+    Route::post('school_report/save_temp', [SchoolReportController::class,'save_temp'])->name('school_report.save_temp');
+    Route::post('school_report/pull_temp/{report_id}', [SchoolReportController::class,'pull_temp'])->name('school_report.pull_temp');
+
+    //列印資料填報
+    Route::get('school_report/{report_school}/print', [SchoolReportController::class,'print'])->name('school_report.print');
+});
+
+//其他類學校的單位
+Route::group(['middleware' => 'school_sign_other'], function () {
+    //顯示簽收公告
+    Route::get('posts/showSigned_other', [PostsController::class,'showSigned_other'])->name('posts.showSigned_other');
+    //簽收公告路由
+    Route::patch('posts/{ps_id}/signed_other', [PostsController::class,'signed_other'])->name('posts.signed_other');
+    //其他單位人員管理
+    Route::get('posts/people_other', [PostsController::class,'people_other'])->name('posts.people_other');
+    Route::post('posts/people_add', [PostsController::class,'people_add'])->name('posts.people_add');
+    Route::get('posts/{user}/people_remove', [PostsController::class,'people_remove'])->name('posts.people_remove');
 });

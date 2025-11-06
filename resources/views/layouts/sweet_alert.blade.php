@@ -35,6 +35,26 @@
             });
         }
 
+        function sw_confirm3(message,fun) {
+            Swal.fire({
+                title: "操作確認",
+                text: message,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText:"確定",
+                cancelButtonText:"取消",
+            }).then(function(result) {
+               if (result.value) {
+                if (typeof fun === 'function') {
+                    fun(); // 呼叫傳進來的 function                    
+                }                
+               }
+               else {
+                  return false;
+               }
+            });
+        }
+
         function check_required(id) {
             let form = document.getElementById(id);
             let isValid = true;

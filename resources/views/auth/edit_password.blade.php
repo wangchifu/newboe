@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','修改密碼')
+@section('title','變更密碼')
 
 @section('header')
 <header class="py-5 bg-light border-bottom mb-4">

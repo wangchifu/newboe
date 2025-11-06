@@ -1062,7 +1062,7 @@ class PostsController extends Controller
         //$page = $post5->currentPage();
         $post_schools = PostSchool::where('code', 'like', "%" . auth()->user()->code . "%")
         ->orderBy('created_at', 'DESC')
-        ->simplePaginate('20');         
+        ->paginate('20');         
 
         $posts5_quickly = DB::table('post_schools_view')->where([
             ['code', 'like', "%" . auth()->user()->code . "%"],
@@ -1088,9 +1088,9 @@ class PostsController extends Controller
             'user_power' => $user_power,
             'posts5_quickly' => $posts5_quickly,
             'schools' => $schools, 
-//            'page' => $page,
+            //'page' => $page,
         ];
-        return view('schools.show_signed', $data);
+        return view('schools.posts.show_signed', $data);
     }
 
     //學校端顯示簽收公告
@@ -1249,7 +1249,7 @@ class PostsController extends Controller
             'posts' => $posts,
             'sections' => $sections,
         ];
-        return view('schools.print', $data);
+        return view('schools.posts.print', $data);
     }
 
     public function showSigned_print2(Post $post)

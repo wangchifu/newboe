@@ -237,7 +237,9 @@
 <br><button  type='button' class='btn btn-warning btn-sm my-1' onclick='set_township(525);'>525 竹塘鄉全選</button>
       <label for='sel_school_221'><input type='checkbox' id='sel_school_221' name='sel_school[]' value='221' @if(is_array(old('sel_school')) && in_array(221, old('sel_school'))) checked @endif class='ts_525 ts_2 z_2_8 ts_16 ts_32 ts_64'>竹塘國小(含附幼)</label>
       <label for='sel_school_222'><input type='checkbox' id='sel_school_222' name='sel_school[]' value='222' @if(is_array(old('sel_school')) && in_array(222, old('sel_school'))) checked @endif class='ts_525 ts_2 z_2_8 ts_32 ts_64'>田頭國小</label>
+      <!--
       <label for='sel_school_223'><input type='checkbox' id='sel_school_223' name='sel_school[]' value='223' @if(is_array(old('sel_school')) && in_array(223, old('sel_school'))) checked @endif class='ts_525 ts_2 z_2_8 ts_32 ts_64'>民靖國小</label>
+      -->
       <label for='sel_school_224'><input type='checkbox' id='sel_school_224' name='sel_school[]' value='224' @if(is_array(old('sel_school')) && in_array(224, old('sel_school'))) checked @endif class='ts_525 ts_2 z_2_8 ts_32 ts_64'>長安國小</label>
       <label for='sel_school_225'><input type='checkbox' id='sel_school_225' name='sel_school[]' value='225' @if(is_array(old('sel_school')) && in_array(225, old('sel_school'))) checked @endif class='ts_525 ts_2 z_2_8 ts_32 ts_64'>土庫國小</label>
 <br><button  type='button' class='btn btn-warning btn-sm my-1' onclick='set_township(526);'>526 二林鎮全選</button>
@@ -256,7 +258,7 @@
       <label for='sel_school_214'><input type='checkbox' id='sel_school_214' name='sel_school[]' value='214' @if(is_array(old('sel_school')) && in_array(214, old('sel_school'))) checked @endif class='ts_527 ts_2 z_2_8 ts_16 ts_32 ts_64'>大城國小(含附幼)</label>
       <label for='sel_school_216'><input type='checkbox' id='sel_school_216' name='sel_school[]' value='216' @if(is_array(old('sel_school')) && in_array(216, old('sel_school'))) checked @endif class='ts_527 ts_2 z_2_8 ts_16 ts_32 ts_64'>西港國小(含附幼)</label>
       <label for='sel_school_217'><input type='checkbox' id='sel_school_217' name='sel_school[]' value='217' @if(is_array(old('sel_school')) && in_array(217, old('sel_school'))) checked @endif class='ts_527 ts_2 z_2_8 ts_32 ts_64'>美豐國小</label>
-<!--
+    <!--
       <label for='sel_school_218'><input type='checkbox' id='sel_school_218' name='sel_school[]' value='218' @if(is_array(old('sel_school')) && in_array(218, old('sel_school'))) checked @endif class='ts_527 ts_2 z_2_8 ts_32 ts_64'>頂庄國小</label>
 
       <label for='sel_school_219'><input type='checkbox' id='sel_school_219' name='sel_school[]' value='219' @if(is_array(old('sel_school')) && in_array(219, old('sel_school'))) checked @endif class='ts_527 ts_2 z_2_8 ts_32 ts_64'>潭墘國小</label>

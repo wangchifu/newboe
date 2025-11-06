@@ -132,10 +132,10 @@ class AdminsController extends Controller
         return view('admins.user_group',$data);
     }
     
-    public function user_search(Request $request)
+    public function user_search(Request $request,$want=null)
     {
-        $want = $request->input('want');
-
+        $want = (empty($want))?$request->input('want'):$want;
+        session(['want'=>$want]);
         $sections = config('boe.sections');
         $groups = config('boe.groups');
 
@@ -309,7 +309,8 @@ class AdminsController extends Controller
                 }
 
                 // 可選：刷新父頁面，這樣可以讓父頁面顯示最新的內容
-                window.parent.location.reload();
+                //window.parent.location.reload();
+                window.parent.location.href = '/admin/user_search/".session('want')."';
             }
         };
         </script>";

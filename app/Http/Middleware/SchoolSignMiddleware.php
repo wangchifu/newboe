@@ -20,7 +20,7 @@ class SchoolSignMiddleware
             $user_power = check_b_user(auth()->user()->code,auth()->user()->id);
 
             if (Auth::guard($guard)->check() && Auth::user()->group_id==1 && $user_power) {
-		return $next($request);
+		        return $next($request);
             }else{
                 return redirect('/');
             }
