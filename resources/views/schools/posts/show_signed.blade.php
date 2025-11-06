@@ -58,7 +58,7 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
                 </li>
             </ul>
             <div class="table-responsive">
-                <table class="table rwd-table" style="word-break: break-all;">
+                <table class="table rwd-table table-hover" style="word-break: break-all;">
                     <thead thead-light>
                     <tr>
                         <th nowrap>

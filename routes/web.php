@@ -20,6 +20,7 @@ use App\Http\Controllers\OpenIDController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\EduReportController;
 use App\Http\Controllers\SchoolController;
+use App\Http\Controllers\SchoolReportController;
 
 
 Route::get('/', [HomeController::class,'index'])->name('index');

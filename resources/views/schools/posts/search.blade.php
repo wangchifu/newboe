@@ -17,7 +17,7 @@
         <div class="card-body">  
             @include('schools.posts.search_nav',['section_id'=>'all'])
             <div class="table-responsive">
-                <table class="table rwd-table" style="word-break: break-all;">            
+                <table class="table rwd-table table-hover" style="word-break: break-all;">            
                     <thead thead-light>
                     <tr>
                         <th nowrap>
