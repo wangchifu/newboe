@@ -67,7 +67,7 @@ class SchoolController extends Controller
         }else{
             $user_powers = UserPower::where('section_id',auth()->user()->code)
                 ->get();
-        }
+        }        
 
         foreach($user_powers as $user_power){
             if($user_power->user->code != auth()->user()->code){
@@ -108,7 +108,7 @@ class SchoolController extends Controller
                 $user_not_data[$user_power->user->id]['school'] = $user_power->user->school;
                 $user_not_data[$user_power->user->id]['title'] = $user_power->user->title;
             }
-        }
+        }        
 
         $data = [
             'users'=>$users,
@@ -157,7 +157,7 @@ class SchoolController extends Controller
     {
         UserPower::where('id',$id)
             ->delete();
-        return redirect()->route('school_acc.list');
+        return redirect()->back();
     }
 
     public function edit(User $user)
@@ -259,7 +259,22 @@ class SchoolController extends Controller
                 ->delete();
         }
 
-        echo "<body onload='opener.location.reload();window.close();'>";
+        echo "
+        <script>
+        // 確保頁面加載完成後執行
+        window.onload = function() {
+            // 檢查父頁面是否存在且可以訪問 jQuery
+            if (window.parent && window.parent.$) {
+                // 關閉 venobox 視窗
+                if (typeof window.parent.$.venobox !== 'undefined') {
+                    window.parent.$.venobox.close();  // 關閉 venobox 視窗
+                }
+
+                // 可選：刷新父頁面，這樣可以讓父頁面顯示最新的內容
+                window.parent.location.reload();                
+            }
+        };
+        </script>";
     }
 
     public function destroy(User $user)
@@ -270,7 +285,7 @@ class SchoolController extends Controller
 
         UserPower::where('user_id',$user->id)->delete();
 
-        return redirect()->route('school_acc.index');
+        return redirect()->back();
     }
 
     public function reback(User $user)
@@ -279,7 +294,7 @@ class SchoolController extends Controller
         $att['disabled_at'] = null;
         $user->update($att);
 
-        return redirect()->route('school_acc.index');
+        return redirect()->back();
     }
 
     public function school_map()

@@ -376,6 +376,33 @@ Route::group(['middleware' => 'edu_admin'],function(){
     Route::get('reports/section_all', [EduReportController::class,'section_all'])->name('reports.section_all');
 });
 
+//學校一級管理A才可進入
+//學校管理可用
+Route::group(['middleware' => 'school_admin'],function(){
+    //列出學校帳號
+    Route::get('school_acc', [SchoolController::class,'index'])->name('school_acc.index');
+    //列出所有管理學校的權限名單
+    Route::get('school_acc/list', [SchoolController::class,'list'])->name('school_acc.list');
+    Route::get('school_acc/{id}/power_remove', [SchoolController::class,'power_remove'])->name('school_acc.power_remove');
+    //修改帳號
+    Route::get('school_acc/{user}/edit', [SchoolController::class,'edit'])->name('school_acc.edit');
+    Route::post('school_acc/{user}/update', [SchoolController::class,'update'])->name('school_acc.update');
+    Route::get('school_acc/{user}/destroy', [SchoolController::class,'destroy'])->name('school_acc.destroy');
+    Route::get('school_acc/{user}/reback', [SchoolController::class,'reback'])->name('school_acc.reback');
+
+    Route::patch('school_report/{report_school}/back', [SchoolReportController::class,'back'])->name('school_report.back');
+    Route::patch('school_report/{report_school}/delay', [SchoolReportController::class,'delay'])->name('school_report.delay');
+    Route::patch('school_report/{report_school}/cancel', [SchoolReportController::class,'cancel'])->name('school_report.cancel');
+    Route::patch('school_report/{report_school}/passing', [SchoolReportController::class,'passing'])->name('school_report.passing');
+
+    Route::post('school_acc/other', [SchoolController::class,'other'])->name('school_acc.other');
+    Route::post('school_acc/store_other', [SchoolController::class,'store_other'])->name('school_acc.store_other');
+
+    //學校簡介
+    Route::get('school_introduction', [SchoolController::class,'school_introduction'])->name('school_introduction.index');
+    Route::post('school_introduction_store', [SchoolController::class,'school_introduction_store'])->name('school_introduction.store');
+});
+
 //學校一級簽收B才可進入
 //學校簽收填報者可用
 Route::group(['middleware' => 'school_sign'], function () {

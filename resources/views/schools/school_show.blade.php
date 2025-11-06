@@ -35,12 +35,7 @@
                                         @if(!empty($introduction1))
                                                 {!! $introduction1 !!}												
                                         @endif
-                                    </div>
-                                    <div class="col-12" style="margin: 10px;">
-                                        @if(!empty($introduction2))
-                                        {!! $introduction2 !!}												
-                                        @endif
-                                    </div>
+                                    </div>                                    
                                 </div>
                             </div>						
                         </div>
@@ -57,6 +52,11 @@
                                         @else
                                             <img src="{{ asset('images/working2.png') }}">
                                         @endif		
+                                    </div>
+                                    <div class="col-12" style="margin: 10px;">
+                                        @if(!empty($introduction2))
+                                        {!! $introduction2 !!}												
+                                        @endif
                                     </div>
                                     <div class="col-12" style="margin: 10px;">
                                         <table>

@@ -53,12 +53,18 @@
                         <li class="dropdown-divider"></li>
                         @if(auth()->user()->group_id==1)
                             @if(check_a_user(auth()->user()->code,auth()->user()->id))
-                            <li><a class="dropdown-item" href="{{ route('school_acc.index') }}">學校帳號管理</a></li>
-                            <li><a class="dropdown-item" href="{{ route('school_introduction.index') }}">學校簡介</a></li>
+                            <li class="dropdown-submenu">
+                                <a class="dropdown-item dropdown-toggle" href="#">學校管理</a> 
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="{{ route('school_acc.index') }}">學校帳號</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('school_introduction.index') }}">學校簡介</a></li>                                    
+                                </ul>          
+                            </li>                            
+                            <li class="dropdown-divider"></li>                                                        
                             @endif
                             @if(check_b_user(auth()->user()->code,auth()->user()->id))
-                            <li><a class="dropdown-item" href="{{ route('posts.showSigned') }}">公告簽收</a></li>
-                            <li><a class="dropdown-item" href="{{ route('school_report.index') }}">資料填報</a></li>
+                            <li><a class="dropdown-item" href="{{ route('posts.showSigned') }}"><i class="fa-solid fa-signs-post"></i> 公告簽收</a></li>
+                            <li><a class="dropdown-item" href="{{ route('school_report.index') }}"><i class="fa-solid fa-list"></i> 資料填報</a></li>
                             <li class="dropdown-divider"></li>
                             @endif
                         @endif
@@ -91,9 +97,7 @@
                         @if((auth()->user()->group_id == 2 and !empty(auth()->user()->section_id)) and auth()->user()->group_id !=8)                             
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item dropdown-toggle" href="#">科室功能</a> 
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="{{ route('posts.reviewing') }}">公告系統</a></li>   
-                                    <li><a class="dropdown-item" href="">填報系統</a></li>   
+                                <ul class="dropdown-menu dropdown-menu-end">                                       
                                     @if(!empty(auth()->user()->section_id))
                                         <?php
                                         $num = [
@@ -113,7 +117,9 @@
                                         <li><a class="dropdown-item" href="{{ route('marquees.index') }}">跑馬燈系統</a></li>
                                     @endif
                                 </ul>          
-                            </li>                                                               
+                            </li>                    
+                            <li><a class="dropdown-item" href="{{ route('posts.reviewing') }}"><i class="fa-solid fa-signs-post"></i>  公告系統</a></li>   
+                                    <li><a class="dropdown-item" href=""><i class="fa-solid fa-list"></i> 填報系統</a></li>                                           
                             <li class="dropdown-divider"></li>
                         @endif
                         @if(auth()->user()->group_id=="8" or auth()->user()->group_id=="9" or auth()->user()->admin=="1" or (!empty(auth()->user()->section_id) and !empty(session('user_power'))))
