@@ -45,13 +45,13 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
             @include('schools.posts.search_nav',['section_id'=>'all'])
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('posts.showSigned') }}">全部</a>
+                    <a class="nav-link" href="{{ route('posts.showSigned') }}">全部</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('posts.show_not_Signed') }}">未簽收({{ $posts_not }})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('posts.show_quick_Signed') }}">最速件({{ $posts_quick }})</a>
+                    <a class="nav-link active" href="{{ route('posts.show_quick_Signed') }}">最速件({{ $posts_quick }})</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('posts.show_person_Signed') }}">個人已簽收</a>
@@ -85,59 +85,59 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
                         <th colspan="6" class="text-right" style="text-align: right;"><button onclick="sw_confirm3('您確定打勾的都要簽收嗎?', more_post)">打勾者批次簽收</button></th>
                     </tr>
                     <tbody>
-                        @foreach($post_schools as $post_school)
+                        @foreach($post5 as $post)
                         <tr>
                             <td nowrap>
-                                <span data-toggle="tooltip" data-placement="top" title="給 {{ $schools[$post_school->code] }}">{{ $post_school->post->post_no }}</span>
+                                <span data-toggle="tooltip" data-placement="top" title="給 {{ $schools[$post->code] }}">{{ $post->post_no }}</span>
                             </td>
 
                             <td>
-                                @if($post_school->post->another ===1)
+                                @if($post->another ===1)
                                     <span class="text-success">
                                         <i class="fas fa-eye"></i>
                                     </span>
                                 @endif
-                                @if($post_school->post->type ===1)
+                                @if($post->type ===1)
                                     <span class="text-danger">
                                         [最速件]
                                     </span>
                                 @endif
-                                @if( $post_school->post->situation ===4 )
-                                    <span style="color:red">[公告作廢]</span> <strike class="text-primary"><a href="{{ route('posts.show',[$post_school->post_id,$post_school->id]) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;">{{ $post_school->post->title }}</a></strike>
+                                @if( $post->situation ===4 )
+                                    <span style="color:red">[公告作廢]</span> <strike class="text-primary"><a href="{{ route('posts.show',[$post->id,$post->ps_id]) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;">{{ $post->title }}</a></strike>
                                 @else
-                                    <a href="{{ route('posts.show',[$post_school->post_id,$post_school->id]) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;">
+                                    <a href="{{ route('posts.show',[$post->id,$post->ps_id]) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;">
                                         <span style="color:#000088">
-                                            {{ $post_school->post->title }}
+                                            {{ $post->title }}
                                         </span>
                                     </a>
                                 @endif
                             </td>
                             <td nowrap>
-                                {{ array_get($sections,$post_school->post->section_id) }}<br>{{ $post_school->post->user->name }}
+                                {{ array_get($sections,$post->section_id) }}<br>{{ $post->name }}
                             </td>
                             <td nowrap>
                                 <small>
-                                    {{ substr($post_school->post->passed_at,0,10) }}<br>{{ substr($post_school->post->passed_at,11,5) }}
+                                    {{ substr($post->passed_at,0,10) }}<br>{{ substr($post->passed_at,11,5) }}
                                 </small>
                             </td>
                             <td nowrap>
-                            @if($post_school->signed_at==null and $post_school->post->situation != 4)
-                            <form action="{{ route('posts.signed', ['ps_id' => $post_school->id]) }}" method="POST" id="sign_check_form{{ $post_school->post_id }}">
+                            @if($post->signed_at==null)
+                            <form action="{{ route('posts.signed', ['ps_id' => $post->ps_id]) }}" method="POST" id="sign_check_form{{ $post->id }}">
                                 @method('PATCH')
                                 @csrf                                       
                                 <input type="hidden" value="{{ $user_power -> power_type }}" id="h_user_power">
-                                <button class="btn btn-success btn-sm" type="button"  onclick="sw_confirm2('您確定要簽收 編號 {{ $post_school->post->post_no }}？','sign_check_form{{ $post_school->post_id }}');">
+                                <button class="btn btn-success btn-sm" type="button"  onclick="sw_confirm2('您確定要簽收 編號 {{ $post->post_no }}？','sign_check_form{{ $post->id }}');">
                                     簽收
                                 </button>
-                                <input type="checkbox" name="more_post[{{ $post_school->id }}]" class="more_post" id="m{{ $post_school->id }}"> <label class="small" for="m{{ $post_school->id }}">打勾</label>
+                                <input type="checkbox" name="more_post[{{ $post->ps_id }}]" class="more_post" id="m{{ $post->ps_id }}"> <label class="small" for="m{{ $post->ps_id }}">打勾</label>
                             </form>
                             @endif
-                            @if($post_school->signed_at != null)
-                                {{ userid2name($post_school->signed_user_id) }}
+                            @if($post->signed_at != null)
+                                {{ userid2name($post->signed_user_id) }}
                             @endif
                             </td>
                             <td data-th="列印">
-                                <a href="{{ route('posts.showSigned_print',$post_school->post_id) }}" class="btn btn-outline-secondary btn-sm" target="_blank"><i class="fas fa-print"></i> <i class="fas fa-sort-amount-up"></i></a>
+                                <a href="{{ route('posts.showSigned_print3',$post->id) }}" class="btn btn-outline-secondary btn-sm" target="_blank"><i class="fas fa-print"></i> <i class="fas fa-sort-amount-up"></i></a>
                             </td>
                         </tr>
                     @endforeach                   
@@ -153,7 +153,7 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
             </form>
             <div class="card-footer d-flex flex-row justify-content-center pt-4">
                 <div class="text-center">
-                    {{ $post_schools->links('layouts.simple-pagination') }}                    
+                    {{ $post5->links('layouts.simple-pagination') }}                    
                 </div>
             </div>                            
         </div>
@@ -182,7 +182,7 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
 </div>
 
 @if($posts_not>0)
-    <script>                
+    <script>          
         $(document).ready(function () {
             var yetVisited = localStorage['visited'];
 
@@ -194,6 +194,7 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
                 }
             }
         });
+                  
         function more_post(){
             var $boxes = $('.more_post');   
             var posts_id = [];             
@@ -206,7 +207,7 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
             });   
             $('#more_post_value').val(posts_id);
             $('#more_post_form').submit();        
-        }        
+        }
     </script>
 @endif
 @endsection

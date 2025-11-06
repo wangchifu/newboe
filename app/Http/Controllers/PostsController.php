@@ -1130,7 +1130,7 @@ class PostsController extends Controller
             'schools' => $schools,
             'page' => $page,
         ];
-        return view('schools.show_not_signed', $data);
+        return view('schools.posts.show_not_signed', $data);
     }
 
     //學校端顯示簽收公告
@@ -1170,7 +1170,7 @@ class PostsController extends Controller
             'schools' => $schools,
             'page' => $page,
         ];
-        return view('schools.show_quick_signed', $data);
+        return view('schools.posts.show_quick_signed', $data);
     }
 
 
@@ -1206,7 +1206,7 @@ class PostsController extends Controller
             'posts5_quickly' => $posts5_quickly,
             'schools' => $schools,
         ];
-        return view('schools.show_person_signed', $data);
+        return view('schools.posts.show_person_signed', $data);
     }
 
     public function showSigned_other()
@@ -1266,7 +1266,7 @@ class PostsController extends Controller
             'posts' => $posts,
             'sections' => $sections,
         ];
-        return view('schools.print', $data);
+        return view('schools.posts.print', $data);
     }
 
     public function showSigned_print3(Post $post)
@@ -1284,7 +1284,7 @@ class PostsController extends Controller
             'posts' => $posts,
             'sections' => $sections,
         ];
-        return view('schools.print', $data);
+        return view('schools.posts.print', $data);
     }
 
     public function search(Request $request)
@@ -1342,7 +1342,7 @@ class PostsController extends Controller
             'user_power' => $user_power,
         ];
 
-        return view('schools.search', $data);
+        return view('schools.posts.search', $data);
     }
 
     public function search_by_section($section_id)
@@ -1371,7 +1371,7 @@ class PostsController extends Controller
             'user_power' => $user_power,
         ];
 
-        return view('schools.search_by_section', $data);
+        return view('schools.posts.search_by_section', $data);
     }
 
     //簽收公告 
@@ -1389,7 +1389,23 @@ class PostsController extends Controller
         DB::update('update post_schools set signed_user_id = ? , signed_at= ?, signed_quickly= ? where id= ? ', [auth()->user()->id, now(), '0', $ps_id]);
         $post_school = PostSchool::find($ps_id);
         //echo "<body onload=\"opener.location.reload();window.location.reload();\">";
-        return redirect()->back()->withErrors(['message' => ['signed']]);;
+        echo "
+        <script>
+        // 確保頁面加載完成後執行
+        window.onload = function() {
+            // 檢查父頁面是否存在且可以訪問 jQuery
+            if (window.parent && window.parent.$) {
+                // 關閉 venobox 視窗
+                if (typeof window.parent.$.venobox !== 'undefined') {
+                    window.parent.$.venobox.close();  // 關閉 venobox 視窗
+                }
+
+                // 可選：刷新父頁面，這樣可以讓父頁面顯示最新的內容
+                window.parent.location.reload();                
+            }
+        };
+        </script>";
+        //return redirect()->back()->withErrors(['message' => ['signed']]);;
     }
 
     public function signed_more(Request $request)

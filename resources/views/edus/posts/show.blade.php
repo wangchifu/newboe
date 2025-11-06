@@ -125,22 +125,11 @@
                         @else
                         <form action="{{ route('posts.signed_at_show', $ps_id) }}" method="POST" id="sign_check_form">
                             @method('PATCH')
-                            @csrf                                       
-                            <input type="hidden" value="{{ $user_power -> power_type }}" id="h_user_power">
-                            <button class="btn btn-success btn-sm" type="button"  onclick="if(confirm('您確定簽收嗎?')) signcheck();else return false">
+                            @csrf                                                                   
+                            <button class="btn btn-success btn-sm" type="button"  onclick="sw_confirm2('您確定要簽收 編號 {{ $post_school->post->post_no }}？','sign_check_form');">
                                 我要簽收
                             </button>
-                        </form>
-                            <script>
-                                function signcheck() {
-                                    var user_power = $("#h_user_power").val();
-                                    if (user_power == "B") {
-                                        $("#sign_check_form").submit();
-                                    } else {
-                                        alert('您沒有簽收的權限');
-                                    }
-                                }
-                            </script>
+                        </form>                            
                         @endif
                     @endif
                 </div>

@@ -13,7 +13,7 @@
                             title="{{ array_get($categories,$post->category_id) }}">
                     </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('posts.signedquickly',$post->id) }}">
+                        <form method="POST" action="{{ route('posts.signedquickly',$post->id) }}" id="quickly_form" onsubmit="return false">
                             @csrf
                             {{ method_field('PATCH') }}
                             <table class="table table-striped">
@@ -119,7 +119,7 @@
                                                         @if($quick_signed)
                                                             <span class="text-danger">*已催促*</span>
                                                         @else
-                                                            <input class="btn btn-danger btn-sm" type="submit" value="催簽收" onclick="return confirm('確定？')">
+                                                            <input class="btn btn-danger btn-sm" type="submit" value="催簽收" onclick="sw_confirm2('確定要催促這些學校？','quickly_form')">
                                                         @endif
                                                     @endif
                                                 @endif
