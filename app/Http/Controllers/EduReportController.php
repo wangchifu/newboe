@@ -743,8 +743,8 @@ class EduReportController extends Controller
         $data = [
             'reports'=>$reports,
             'situation'=>$situation,
-            'sections'=>$sections,
+            'sections'=>$sections,            
         ];
-        return view('reports.edu.section_all',$data);
+        return view('edus.reports.section_all',$data);
     }
 }

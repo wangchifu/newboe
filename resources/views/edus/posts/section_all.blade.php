@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','個人通過區')
+@section('title',$sections[auth()->user()->section_id].'全數公告')
 
 @section('header')
 <header class="py-5 bg-light border-bottom mb-4">
@@ -25,7 +25,7 @@
                 </form>
             </div>
             <div class="card-body">
-                <table class="table rwd-table" style="word-break: break-all;">
+                <table class="table rwd-table table-hover" style="word-break: break-all;">
                     <thead class="thead-light">
                     <tr>
                         <th nowrap>
@@ -77,7 +77,7 @@
                 </span>
                                 @endif
                                 @if( $post->situation ===4)
-                                        <a href="{{ route('posts.show_doing_post',$post->id) }}" class="venobox" data-vbtype="iframe">
+                                        <a href="{{ route('posts.show_doing_post',$post->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;">
                     <span
                         style="color:red">[公告作廢]
                     </span>
@@ -85,7 +85,7 @@
                                             {{ $post->title }}
                                         </strike></a>
                                 @else
-                                        <a href="{{ route('posts.show_doing_post',$post->id) }}" class="venobox" data-vbtype="iframe">
+                                        <a href="{{ route('posts.show_doing_post',$post->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;">
                     <span style="color:#000088">
                     {{ $post->title }}
                     </span>

@@ -39,12 +39,12 @@
                 @if($report_school->situation==3)
                     <span data-toggle="tooltip" data-placement="top" title="{{ $report_school->updated_at }} 送出">{{ $school->school_name }}</span>
                         <small class="text-secondary">填：{{ $report_school->signed_user->name }}</small><br>
-                    <a href="{{ route('edu_report.set_back',$report_school->id) }}" class="badge bg-danger" onclick="return confirm('確定退回？')">退回</a>
+                    <a href="#!" class="badge bg-danger" onclick="sw_confirm1('確定退回 {{ $school->school_name }}？','{{ route('edu_report.set_back',$report_school->id) }}')">退回</a>
                 @elseif($report_school->situation==4)
                     <span data-toggle="tooltip" data-placement="top" title="{{ $report_school->signed_at }} 送出">{{ $school->school_name }}</span><br>
                         <small class="text-secondary">填：{{ $report_school->signed_user->name }}</small><br>
                         <span class="text-danger">不填報</span>
-                    <a href="{{ route('edu_report.set_null',$report_school->id) }}" class="badge bg-danger" onclick="return confirm('確定退回？')">退回</a>
+                    <a href="#!" class="badge bg-danger" onclick="sw_confirm1('確定退回 {{ $school->school_name }}？','{{ route('edu_report.set_null',$report_school->id) }}')">退回</a>
                 @else
                     {{ $school->school_name }}
                 @endif
@@ -82,7 +82,7 @@
                             if(!isset($answer_data[$school_code][$question->id])){
                                 $school_code="074543";
                             }
-                        }
+                        }                        
                     ?>
                     @if(isset($answer_data[$school_code][$question->id]) and $report_school->situation==3)                                
                     {{ $answer_data[$school_code][$question->id] }}

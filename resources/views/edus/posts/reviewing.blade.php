@@ -20,7 +20,7 @@
                 @include('edus.posts.list')
             </div>
             <div class="card-footer d-flex flex-row justify-content-center pt-4">
-                {{ $posts->links() }}
+                {{ $posts->links('layouts.pagination') }}
             </div>
         </div>
     @endif     
