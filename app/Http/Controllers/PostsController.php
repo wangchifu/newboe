@@ -134,7 +134,7 @@ class PostsController extends Controller
                 
                 $manager = new ImageManager(new GdDriver());
                 $image = $manager->read($photo->getRealPath());
-                $image->scale(width: 500) // 保持比例縮放，指定寬度即可
+                $image->scale(width: 1000) // 保持比例縮放，指定寬度即可
                     ->save(storage_path('app/public/post_photos/' . $post->id . "/" . $info2['original_filename']));
 
                 //$img = Image::make($photo->getRealPath());
@@ -425,7 +425,7 @@ class PostsController extends Controller
                 //縮圖
                 $manager = new ImageManager(new GdDriver());
                 $image = $manager->read($photo->getRealPath());
-                $image->scale(width: 500) // 保持比例縮放，指定寬度即可
+                $image->scale(width: 1000) // 保持比例縮放，指定寬度即可
                     ->save(storage_path('app/public/post_photos/' . $post->id . "/" . $info2['original_filename']));                
             }
         }
@@ -1618,7 +1618,7 @@ class PostsController extends Controller
                 //縮圖
                 $manager = new ImageManager(new GdDriver());
                 $image = $manager->read($photo->getRealPath());
-                $image->scale(width: 500) // 保持比例縮放，指定寬度即可
+                $image->scale(width: 1000) // 保持比例縮放，指定寬度即可
                     ->save(storage_path('app/public/post_photos/' . $post->id . "/" . $info2['original_filename']));                
             }
         }

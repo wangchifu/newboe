@@ -138,7 +138,7 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
                                 @if($report_school->situation === null)
                                     @if(date('Ymd') <= str_replace('-','',$report_school->report->die_date))
                                         @if($report_school->report->situation != 4)
-                                            <a href="javascript:open_report('{{ route('school_report.create',$report_school->id) }}','新視窗')" class="btn btn-primary btn-sm">
+                                            <a href="{{ route('school_report.create',$report_school->id) }}" class="btn btn-primary btn-sm venobox" data-vbtype="iframe">
                                                 填報
                                             </a>
                                         @endif
@@ -153,15 +153,17 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
                                 @elseif($report_school->situation ===5)
 
                                 @else
+                                    <!--
                                     <a href="{{ route('school_report.show',$report_school->id) }}" class="btn btn-success btn-sm venobox" data-vbtype="iframe">
                                         查看
                                     </a>
+                                    -->
                                 @endif
 
                                 @if($report_school->situation === 0)
                                     @if(date('Ymd') <= str_replace('-','',$report_school->report->die_date))
                                         @if($report_school->signed_user_id == auth()->user()->id or $report_school->review_user_id == auth()->user()->id or check_a_user(auth()->user()->code,auth()->user()->id))
-                                            <a href="javascript:open_report('{{ route('school_report.edit',$report_school->id) }}','新視窗')" class="btn btn-primary btn-sm">
+                                            <a href="{{ route('school_report.edit',$report_school->id) }}" class="btn btn-outline-primary btn-sm venobox" data-vbtype="iframe">
                                                 編輯
                                             </a>
                                         @endif

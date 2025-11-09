@@ -135,7 +135,7 @@ class SchoolReportController extends Controller
             'report_school'=>$report_school,
         ];
 
-        return view('reports.school.create',$data);
+        return view('schools.reports.create',$data);
     }
 
     public function store(Request $request)
@@ -179,7 +179,23 @@ class SchoolReportController extends Controller
             Answer::create($att2);
         }
 
-        echo "<body onload='opener.location.reload();window.close();'>";
+        //echo "<body onload='opener.location.reload();window.close();'>";
+        echo "
+        <script>
+        // 確保頁面加載完成後執行
+        window.onload = function() {
+            // 檢查父頁面是否存在且可以訪問 jQuery
+            if (window.parent && window.parent.$) {
+                // 關閉 venobox 視窗
+                if (typeof window.parent.$.venobox !== 'undefined') {
+                    window.parent.$.venobox.close();  // 關閉 venobox 視窗
+                }
+
+                // 可選：刷新父頁面，這樣可以讓父頁面顯示最新的內容
+                window.parent.location.reload();                
+            }
+        };
+        </script>";
     }
 
     public function show(ReportSchool $report_school)
@@ -207,12 +223,13 @@ class SchoolReportController extends Controller
         foreach($answers as $answer){
             $answer_data[$answer->question_id] = $answer->answer;
         }
-
+        $sections = config('boe.sections');
         $data = [
             'answer_data'=>$answer_data,
             'report_school'=>$report_school,
+            'sections'=>$sections,
         ];
-        return view('reports.school.edit',$data);
+        return view('schools.reports.edit',$data);
     }
 
     public function update(Request $request)
@@ -259,7 +276,23 @@ class SchoolReportController extends Controller
             Answer::create($att2);
         }
 
-        echo "<body onload='opener.location.reload();window.close();'>";
+        //echo "<body onload='opener.location.reload();window.close();'>";
+        echo "
+        <script>
+        // 確保頁面加載完成後執行
+        window.onload = function() {
+            // 檢查父頁面是否存在且可以訪問 jQuery
+            if (window.parent && window.parent.$) {
+                // 關閉 venobox 視窗
+                if (typeof window.parent.$.venobox !== 'undefined') {
+                    window.parent.$.venobox.close();  // 關閉 venobox 視窗
+                }
+
+                // 可選：刷新父頁面，這樣可以讓父頁面顯示最新的內容
+                window.parent.location.reload();                
+            }
+        };
+        </script>";
     }
 
     public function back(ReportSchool $report_school)

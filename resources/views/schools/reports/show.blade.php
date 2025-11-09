@@ -1,6 +1,6 @@
 @extends('layouts.app_clean')
 
-@section('title','編輯學校帳號')
+@section('title','查看填報內容')
 
 @section('content')
 <div class="col-lg-12 mx-auto">    
@@ -11,7 +11,14 @@
         <div class="card-body">
             <span class="text-right">{{ $sections[$report_school->report->section_id] }} / {{ $report_school->report->user->name }}@if(!empty($report_school->report->user->telephone)) / <i class="fas fa-phone"></i> {{ $report_school->report->user->telephone }}@endif</span>
             <h4>
-                {{ $report_school->report->name }}
+                @if( $report_school->report->situation !=4)
+                    {{ $report_school->report->name }}
+                @else
+                    <span style="color:red">[填報作廢]</span>
+                    <strike class="text-primary">
+                        {{ $report_school->report->name }}
+                    </strike></a> 
+                @endif
             </h4>
             @if(!empty($report_school->report->content))
                 <div class="form-group">
@@ -42,11 +49,16 @@
                         @else
                             <p>答：****㊙️****</p>
                         @endif
+                    @else
+                        <p><span class="text-danger">尚未填</span></p>
                     @endif
                 </div>
             <?php $i++; ?>
             @endforeach
-            填報者：{{ userid2name($report_school->signed_user_id) }}
+            填報者：
+            @if(!empty($report_school->signed_user_id))
+                {{ userid2name($report_school->signed_user_id) }}
+            @endif
             <br>
             填報日期：{{ $report_school->signed_at }}
             <br>
