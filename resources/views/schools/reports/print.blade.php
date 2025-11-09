@@ -25,15 +25,13 @@
                     <th>
                         資料填報主旨
                     </th>
-                    <th nowrap width="120">
+                    <th nowrap width="80">
                         發佈人
                     </th>
-                    <th nowrap width="100">
-                        公告日期
-                    </th>
-                    <th width="100">
+                    <th nowrap width="80">
+                        公告日期<br>
                         截止日期
-                    </th>
+                    </th>                    
                 </tr>
                 @foreach($report_schools as $report_school)
                     <tr>
@@ -42,17 +40,16 @@
                             總務 輔導
                         </td>
                         <td>
-                            <strong>[資料填報]</strong> {{ $report_school->report->name }}
+                            <strong>【資料填報】</strong> 編號：{{ $report_school->report->id }}<br>
+                            {{ $report_school->report->name }}
                         </td>
                         <td nowrap>
-                            {{ $sections[$report_school->report->user->section_id] }} / {{ $report_school->report->user->name }}
+                            {{ $sections[$report_school->report->user->section_id] }}<br>{{ $report_school->report->user->name }}
                         </td>
                         <td nowrap>
-                            {{ substr($report_school->report->created_at,0,10) }}
-                        </td>
-                        <td nowrap>
+                            {{ substr($report_school->report->created_at,0,10) }}<br>
                             {{ $report_school->report->die_date }}
-                        </td>
+                        </td>                        
                     </tr>
                 @endforeach
             </table>

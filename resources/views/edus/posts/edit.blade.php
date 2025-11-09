@@ -16,9 +16,7 @@
             @method('PATCH')
             <div class="card my-4">
                 <div class="card-header text-center">
-                    <h3 class="py-2">
-                        編輯公告
-                    </h3>
+                    <h3 class="py-2">編輯公告</h3>
                 </div>
                 <div class="card-body">
                     @include('edus.posts.form')
@@ -78,8 +76,8 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="button" class="btn btn-outline-primary" value="暫存" onclick="sw_confirm3(this,'確定暫存？','edit_form','暫存')">
-                        <input type="button" class="btn btn-primary" value="送出審核不再修改" onclick="sw_confirm3(this,'送出後，無法再修改喔！','edit_form','送出審核不再修改')">
+                        <input type="button" class="btn btn-outline-primary" value="暫存" onclick="sw_confirm4(this,'確定暫存？','edit_form','暫存')">
+                        <input type="button" class="btn btn-primary" value="送出審核不再修改" onclick="sw_confirm4(this,'送出後，無法再修改喔！','edit_form','送出審核不再修改')">
                         <a href="#" class="btn btn-secondary" onclick="history.back();"><i class="fas fa-backward"></i>
                             返回</a>
                     </div>

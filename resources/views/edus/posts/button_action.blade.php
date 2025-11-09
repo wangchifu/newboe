@@ -2,7 +2,7 @@
 @if($uri_name == 'review')
     <a href="{{ route('posts.eduadminedit',$post->id) }}"><button class="btn btn-outline-danger btn-sm">修改</button></a>
     <button class="btn btn-outline-success btn-sm" onclick="sw_confirm2('您確定要退回嗎?','return{{ $post->id }}')">退回</button>
-    <button class="btn btn-outline-info btn-sm" onclick="sw_confirm3(this,'確定核准嗎？','ok{{ $post->id }}',null)">核准</button>
+    <button class="btn btn-outline-info btn-sm" onclick="sw_confirm4(this,'確定核准嗎？','ok{{ $post->id }}',null)">核准</button>
     <form id="return{{ $post->id }}" class="tr" action="{{ route('posts.return',$post->id) }}" method="post">
         @csrf
         {{ method_field('PATCH') }}
@@ -64,31 +64,3 @@
     @endif
 
 @endif
-<script>
-    function sw_confirm3(button, msg, form_id, action_value) {
-        // 先讓按鈕消失
-        button.style.display = 'none';
-
-        Swal.fire({
-            title: msg,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: '確定',
-            cancelButtonText: '取消',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                let form = document.getElementById(form_id);
-                let hidden = document.createElement("input");
-                hidden.type = "hidden";
-                hidden.name = "form_action";
-                hidden.value = action_value;
-                form.appendChild(hidden);
-
-                form.submit();
-            } else {
-                // 如果取消，要把按鈕再顯示回來
-                button.style.display = '';
-            }
-        });
-    }
-</script>

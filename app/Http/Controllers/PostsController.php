@@ -902,7 +902,8 @@ class PostsController extends Controller
             'situation' => $situation,
             'uri_name' => $uri_name,
             'sections' => $sections,
-            'power_section_id' => $user_power->section_id,
+            'user_power'=>$user_power,
+            'power_section_id' => $user_power->section_id,            
         ];
 
         return view('edus.posts.review', $data);

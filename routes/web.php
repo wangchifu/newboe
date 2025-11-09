@@ -94,6 +94,9 @@ Route::group(['middleware' => 'auth'],function(){
     Route::get('about', [HomeController::class,'about'])->name('about');
     //結束模擬
     Route::get('sims/impersonate_leave', [AdminsController::class,'impersonate_leave'])->name('sims.impersonate_leave');
+
+    //下載資料填報附檔
+    Route::get('edu_report/{id}/{filename}/download', [EduReportController::class,'download'])->name('edu_report.download');
     //報錯
     Route::get('wrench/index', [WrenchController::class,'index'])->name('wrench.index');
     Route::post('wrench/store', [WrenchController::class,'store'])->name('wrench.store');

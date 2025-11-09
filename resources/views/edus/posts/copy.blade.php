@@ -20,6 +20,7 @@
             @csrf
         <div class="card my-4">
             <div class="card-header text-center">
+                <h3 class="py-2">複製公告</h3>
             </div>
             <div class="card-body">
                 @include('layouts.errors')

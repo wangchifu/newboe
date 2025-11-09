@@ -55,26 +55,63 @@
             });
         }
 
-        function check_required(id) {
-            let form = document.getElementById(id);
-            let isValid = true;
-            
-            // 只檢查指定 form 內的 required input 和 textarea
-            $(form).find('input[required], textarea[required]').each(function() {
-                if ($(this).val().trim() === '') {
-                    isValid = false;
-                    $(this).css('border', '2px solid red'); // 標示未填寫的欄位
+        function sw_confirm4(button, msg, form_id, action_value) {
+        // 先讓按鈕消失
+            button.style.display = 'none';
+
+            Swal.fire({
+                title: msg,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: '確定',
+                cancelButtonText: '取消',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let form = document.getElementById(form_id);
+                    let hidden = document.createElement("input");
+                    hidden.type = "hidden";
+                    hidden.name = "form_action";
+                    hidden.value = action_value;
+                    form.appendChild(hidden);
+                if (result.value) {
+                //document.getElementById(id).submit();
+                    check_required(form_id,button);
+                }
+                else {
+                  return false;
+                }
+                    //form.submit();
                 } else {
-                    $(this).css('border', ''); // 清除標示
+                    // 如果取消，要把按鈕再顯示回來
+                    button.style.display = '';
                 }
             });
-            
-            if (!isValid) {
-                event.preventDefault(); // 阻止表單提交
-                sw_alert('錯誤！', '請填寫所有必填欄位！');
-            } else {
-                form.submit();
-            }
+        }        
+
+        function check_required(id,button) { 
+            let form = document.getElementById(id); 
+            let isValid = true; let missing = []; 
+            // 記錄沒填的欄位名稱 
+            $(form).find('input[required], textarea[required], select[required]').each(function() { 
+                let val; 
+                if ($(this).is('select')) { 
+                    val = $(this).find('option:selected').val(); 
+                } else { 
+                    val = $(this).val().trim(); 
+                } 
+                let label = $(this).attr('id') ? $("label[for='" + $(this).attr('id') + "']").text().trim() : $(this).attr('name'); 
+                if (val === '' || val === null) { 
+                    isValid = false; missing.push(label); $(this).css('border', '2px solid red'); 
+                } else { 
+                    $(this).css('border', ''); 
+                } 
+            }); 
+            if (!isValid) { event.preventDefault(); 
+                let msg = "以下欄位尚未填寫：\r\n" + missing.join("\r\n"); button.style.display = ''; 
+                sw_alert('錯誤！', msg); 
+            } else { 
+                form.submit(); 
+            } 
         }
 
         function sw_alert(title,message){

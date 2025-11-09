@@ -20,6 +20,7 @@
             @csrf
         <div class="card my-4">
             <div class="card-header text-center">
+                <h3><i class="fa-solid fa-signs-post"></i> 新增 [{{ $sections[auth()->user()->section_id] }}] 公告</h3>
             </div>
             <div class="card-body">
                 @include('edus.posts.form')
@@ -38,8 +39,8 @@
                     </div>
                 </div>
                 <div class="form-group my-2">
-                    <input type="button" class="btn btn-outline-primary" value="暫存" onclick="sw_confirm3(this,'確定暫存？','create_form','暫存')">
-                    <input type="button" class="btn btn-primary" value="送出審核不再修改" onclick="sw_confirm3(this,'送出後，無法再修改喔！','create_form','送出審核不再修改')">
+                    <input type="button" class="btn btn-outline-primary" value="暫存" onclick="sw_confirm4(this,'確定暫存？','create_form','暫存')">
+                    <input type="button" class="btn btn-primary" value="送出審核不再修改" onclick="sw_confirm4(this,'送出後，無法再修改喔！','create_form','送出審核不再修改')">
                     <a href="#" class="btn btn-secondary" onclick="history.back();"><i class="fas fa-backward"></i> 返回</a>
                 </div>
             </div>
@@ -58,32 +59,5 @@
             $("#show_type").hide();
         }
     }    
-
-    function sw_confirm3(button, msg, form_id, action_value) {
-        // 先讓按鈕消失
-        button.style.display = 'none';
-
-        Swal.fire({
-            title: msg,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: '確定',
-            cancelButtonText: '取消',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                let form = document.getElementById(form_id);
-                let hidden = document.createElement("input");
-                hidden.type = "hidden";
-                hidden.name = "form_action";
-                hidden.value = action_value;
-                form.appendChild(hidden);
-
-                form.submit();
-            } else {
-                // 如果取消，要把按鈕再顯示回來
-                button.style.display = '';
-            }
-        });
-    }
 </script>
 @endsection

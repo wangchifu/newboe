@@ -79,7 +79,7 @@
                 <select name="section_id" class="form-control">
                     <option value="" selected> </option>
                     @foreach($sections as $key => $value)
-                        <option value="{{ $key }}">{{ $value }}</option>
+                        <option value="{{ $key }}" {{ $key == $user->section_id ? 'selected' : '' }}>{{ $value }}</option>
                     @endforeach
                 </select>
             </div>

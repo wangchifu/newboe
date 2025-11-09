@@ -56,7 +56,7 @@
         else return true;
     }
 
-		tinyMCE.init({
+	tinyMCE.init({
 		selector: "textarea",
 			plugins: [
       'advlist autolink link image lists charmap print preview hr anchor pagebreak',

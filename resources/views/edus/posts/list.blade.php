@@ -1,4 +1,4 @@
-<table class="table rwd-table" style="word-break: break-all;">
+<table class="table rwd-table table-hover" style="word-break: break-all;">
     <thead class="thead-light">
     <tr>
         <th nowrap>
@@ -55,15 +55,13 @@
                     </span>
                 @endif
                 @if( $post->situation ===4)
-                        <a href="{{ route('posts.show_doing_post',$post->id) }}" class="venobox" data-vbtype="iframe">
-                        <span
-                            style="color:red">[公告作廢]
-                        </span>
+                        <a href="{{ route('posts.show_doing_post',$post->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;">
+                        <span style="color:red">[公告作廢]</span>
                         <strike class="text-primary">
                             {{ $post->title }}
                         </strike></a>
                 @else
-                        <a href="{{ route('posts.show_doing_post',$post->id) }}" class="venobox" data-vbtype="iframe">
+                        <a href="{{ route('posts.show_doing_post',$post->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;">
                         <span style="color:#000088">
                         {{ $post->title }}
                         </span>
