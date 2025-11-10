@@ -47,7 +47,7 @@ class AdminsController extends Controller
         $users = User::orderBy('disable')
             ->orderBy('group_id')
             ->orderBy('section_id')
-            ->simplePaginate('20'); 
+            ->Paginate('20'); 
         $sections = config('boe.sections');
         $groups = config('boe.groups');
         $other_schools = config('boe.other_schools');
@@ -100,7 +100,7 @@ class AdminsController extends Controller
                 ->orderBy('disable')
                 ->orderBy('group_id')
                 ->orderBy('section_id')
-                ->simplePaginate('20');
+                ->Paginate('20');
         }
         if($group_id=="2"){
             $users = User::where('group_id',"2")
@@ -108,7 +108,7 @@ class AdminsController extends Controller
                 ->orderBy('disable')
                 ->orderBy('group_id')
                 ->orderBy('section_id')
-                ->simplePaginate('20');
+                ->Paginate('20');
         }
         if($group_id=="3"){
             $users = User::where('group_id',"9")
@@ -116,7 +116,7 @@ class AdminsController extends Controller
                 ->orderBy('disable')
                 ->orderBy('group_id')
                 ->orderBy('section_id')
-                ->simplePaginate('20');
+                ->Paginate('20');
         }
 
         $sections = config('boe.sections');

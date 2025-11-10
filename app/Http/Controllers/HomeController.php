@@ -406,10 +406,19 @@ class HomeController extends Controller
         }
     }
 
-    public function logout(){        
+    public function logout(){                
         Auth::logout();
+        
+        if(empty(session('id_token'))){
+            $link = env('APP_URL');
+        }else{
+            $url = "https://chc.sso.edu.tw/oidc/v1/logout-to-go";
+            $post_logout_redirect_uri = env('APP_URL');
+            $id_token_hint = session('id_token');
+            $link = $url . "?post_logout_redirect_uri=".$post_logout_redirect_uri."&id_token_hint=" . $id_token_hint;
+        }        
         Session::flush();
-        return redirect()->route('index');
+        return redirect($link);
     }
 
     public function search(Request $request)

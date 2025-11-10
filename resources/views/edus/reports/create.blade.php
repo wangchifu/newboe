@@ -38,7 +38,8 @@
                 <input id="die_date" name="die_date" type="date" required maxlength="10" class="form-control" style="width:180px;">                
             </div>
             <div class="form-group my-2">
-                <label for="content">4.填報說明</label>                
+                <label for="content">4.填報說明</label>  
+                <br><span class="session-timer text-danger">剩餘時間: -- 後登出</span>，請善用暫存功能。              
                 <textarea name="content" id="content" class="form-control" placeholder="請輸入內容"></textarea>                                             
             </div>
             <div class="form-group my-2">

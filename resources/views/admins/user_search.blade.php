@@ -22,7 +22,7 @@
         <div class="card-body">            
             搜尋「{{ $want }}」使用者列表<br>
             @include('admins.form')            
-            {{ $users->appends(['want' => $want])->links('layouts.simple-pagination') }}         
+            {{ $users->appends(['want' => $want])->links('layouts.pagination') }}         
         </div>
     </div>    
        

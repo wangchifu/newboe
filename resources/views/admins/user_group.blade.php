@@ -50,7 +50,7 @@
                 </li>
             </ul>
             @include('admins.form')
-            {{ $users->links('layouts.simple-pagination') }}            
+            {{ $users->links('layouts.pagination') }}            
         </div>
     </div>    
        

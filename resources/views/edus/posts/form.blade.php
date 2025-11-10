@@ -26,6 +26,7 @@
 <div class="form-group my-2">
     <label for="content"><strong class="text-danger">公告內容*</strong></label>
     <label for="content"><strong  class="text-danger">文字縮排請不要自行鍵入空格，請用編輯器的功能<span class="tox-icon tox-tbtn__icon-wrap"><svg width="24" height="24"><path d="M7 5h12c.6 0 1 .4 1 1s-.4 1-1 1H7a1 1 0 1 1 0-2zm5 4h7c.6 0 1 .4 1 1s-.4 1-1 1h-7a1 1 0 0 1 0-2zm0 4h7c.6 0 1 .4 1 1s-.4 1-1 1h-7a1 1 0 0 1 0-2zm-5 4h12a1 1 0 0 1 0 2H7a1 1 0 0 1 0-2zm-2.6-3.8L6.2 12l-1.8-1.2a1 1 0 0 1 1.2-1.6l3 2a1 1 0 0 1 0 1.6l-3 2a1 1 0 1 1-1.2-1.6z" fill-rule="evenodd"></path></svg></span></strong></label>
+    <br><span class="session-timer text-danger">剩餘時間: -- 後登出</span>，請善用暫存功能。
     <textarea name="content" id="mytextarea" class="form-control" rows="10" placeholder="請輸入內容" required>{{ old('content', $post->content ?? '') }}</textarea>    
 </div>
 <div class="form-group my-2">
