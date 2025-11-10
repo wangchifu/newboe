@@ -92,7 +92,7 @@ function sw_confirm1(message,url) {
         let form = document.getElementById(id); 
         let isValid = true; let missing = []; 
         // 記錄沒填的欄位名稱 
-        $(form).find('input[required], textarea[required], select[required]').each(function() { 
+        $(form).find('input[required], select[required]').each(function() { 
             let val; 
             if ($(this).is('select')) { 
                 val = $(this).find('option:selected').val(); 

@@ -128,6 +128,7 @@ class IntroductionController extends Controller
             'section_name'=>$section_name,
             'section_pages'=>$section_pages,
             'section_page'=>$section_page,
+            'section_id'=>auth()->user()->section_id,
         ];
         return view('introductions.section_page',$data);
     }
