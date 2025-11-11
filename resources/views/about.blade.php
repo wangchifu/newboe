@@ -40,7 +40,7 @@
                     本網站設有「問題回報與建議」，對於教育伙伴的建議，能做到的都努力達成，希望能解決、減輕、完成各項教育行政工作，請多加利用。
                 </li>
                 <li>
-                    本系統目前由和東國小資訊組長王老師負責維護，我不是專業的資訊公司，也不以這份工作維生，我只是一個老師。但是相信在維護網站上，我比任何一家資訊公司更努力，也不用收費。所以，當系統有什麼問題時，請給我一點時間解決，雖然我不是什麼都會，但想解決問題的心是堅定的。
+                    本系統目前由和東國小資訊組長王老師負責維護，我不是專業的資訊公司，也不以這份工作維生，我只是一個老師。但是相信在維護網站上，我比任何一家資訊公司更努力，也不用收費。所以，當系統有什麼問題時，請給我一點時間解決，雖然我不是什麼都會，但想解決問題的心是堅定的。                
                 <br>
                     <figure class="figure">
                         <img src="{{ asset('images/about/03-1.png') }}" class="figure-img img-fluid rounded" alt="..." width="300px">
@@ -57,7 +57,10 @@
                     <figure class="figure">
                         <img src="{{ asset('images/about/03-4.png') }}" class="figure-img img-fluid rounded" alt="..." width="300px">
                         <figcaption class="figure-caption">教育處新雲端-介面4代</figcaption>
-                    </figure>            
+                    </figure>                         
+                </li>
+                <li>
+                    本系統 2025.11.全部改寫，os、php、laravel、apache 均升級至當今最新穩定版本。
                 </li>
             </ul>
         </div>

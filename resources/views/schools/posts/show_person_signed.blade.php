@@ -81,11 +81,11 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
                     <tbody>
                         @foreach($post5 as $post)
                         <tr>
-                            <td nowrap>
+                            <td class="td-number">
                                 <span data-toggle="tooltip" data-placement="top" title="給 {{ $schools[$post->code] }}">{{ $post->post_no }}</span>
                             </td>
 
-                            <td>
+                            <td class="td-title">
                                 @if($post->another ===1)
                                     <span class="text-success">
                                         <i class="fas fa-eye"></i>

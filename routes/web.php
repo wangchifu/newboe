@@ -16,7 +16,7 @@ use App\Http\Controllers\IntroductionController;
 use App\Http\Controllers\WrenchController;
 use App\Http\Controllers\MarqueeController;
 use App\Http\Controllers\UploadController;
-use App\Http\Controllers\OpenIDController;
+use App\Http\Controllers\OpenIDLoginController;
 use App\Http\Controllers\PostsController;
 use App\Http\Controllers\EduReportController;
 use App\Http\Controllers\SchoolController;
@@ -37,8 +37,11 @@ Route::get('logout', [HomeController::class,'logout'])->name('logout');
 Route::get('pic', [HomeController::class,'pic'])->name('pic');
 
 //openid登入
-Route::get('sso', [OpenIDController::class,'sso'])->name('sso');
-Route::get('auth/callback', [OpenIDController::class,'callback'])->name('callback');
+Route::get('sso', [OpenIDLoginController::class,'sso'])->name('sso');
+Route::get('auth/callback', [OpenIDLoginController::class,'callback'])->name('callback');
+
+//rss
+Route::get('rss', [HomeController::class,'rss'])->name('rss');
 
 //內容頁面
 Route::get('contents/{content}/show', [ContentController::class,'show'])->where('content', '[0-9]+')->name('contents.show');

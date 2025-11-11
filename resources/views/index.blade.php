@@ -16,23 +16,6 @@
 <header class="py-5 bg-light border-bottom mb-4">    
     <div class="container" style="margin-top: -50px;margin-bottom:-25px;">
         <div class="d-flex align-items-center my-2" style="height: 40px;overflow: hidden;">
-
-            <!-- 左邊社群 icon -->
-            <div class="social-marquee me-3" style="font-size: 30px;">
-                <a href="https://education.chcg.gov.tw/00home/index02.aspx" target="_blank">
-                    <i class="fa-solid fa-globe text-dark"></i>
-                </a>
-                <a href="https://www.facebook.com/boe.chc.edu/" target="_blank">
-                    <i class="fa-brands fa-square-facebook text-primary"></i>
-                </a>
-                <a href="https://www.youtube.com/channel/UCRMgRmPHuLDrdYSlACT0iVQ" target="_blank">
-                    <i class="fa-brands fa-youtube text-danger"></i>
-                </a>
-                <a href="#!" target="_blank">
-                    <i class="fa-solid fa-square-rss" style="color: orange;"></i>
-                </a>
-            </div>
-
             <!-- 右邊公告跑馬燈 -->
             <div style="flex: 1; height: 100%;">
                 <marquee behavior="scroll" direction="up" scrollamount="1" style="height: 100%;background-color: #fffbe6;">
@@ -168,14 +151,29 @@
 <div class="col-lg-4">
     <!-- Search widget-->
     <div class="card mb-4">
-        <div class="card-header">搜尋本站</div>
+        <div class="card-header">教育處相關</div>
         <div class="card-body">
+                <!-- 左邊社群 icon -->
+            <div class="social-marquee me-3" style="font-size: 20px;">
+                <a href="https://education.chcg.gov.tw/00home/index02.aspx" target="_blank">
+                    <i class="fa-solid fa-globe text-dark"></i>
+                </a>
+                <a href="https://www.facebook.com/boe.chc.edu/" target="_blank">
+                    <i class="fa-brands fa-square-facebook text-primary"></i>
+                </a>
+                <a href="https://www.youtube.com/channel/UCRMgRmPHuLDrdYSlACT0iVQ" target="_blank">
+                    <i class="fa-brands fa-youtube text-danger"></i>
+                </a>
+                <a href="{{ route('rss') }}" target="_blank">
+                    <i class="fa-solid fa-square-rss" style="color: orange;"></i>
+                </a>
+            </div>
             <div class="input-group">
                 <form action="{{ route('search') }}" class="search-form" method="get" target="_blank">
                     @csrf
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="want" placeholder="請輸入關鍵字" aria-label="want_word" aria-describedby="button-addon2">
-                        <button class="btn btn-primary" type="submit" id="button-addon2">搜尋</button>
+                        <button class="btn btn-primary" type="submit" id="button-addon2"><i class="fa-brands fa-google"></i> 搜尋</button>
                     </div>
                 </form>
                 @include('layouts.errors')

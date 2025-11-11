@@ -1,7 +1,7 @@
 @if(auth()->user()->group_id==2 or !empty(auth()->user()->section_id))
     <?php $sections = config('boe.sections'); ?>
     @if(!empty(auth()->user()->section_id))
-        <div class="btn-group" role="group" aria-label="Basic example">
+        <div class="btn-group d-flex flex-wrap" role="group" aria-label="Basic example">
             <div class="dropdown">
                 <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     <i class="fas fa-plus"></i> 新增 [{{ $sections[auth()->user()->section_id] }}]

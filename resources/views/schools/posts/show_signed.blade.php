@@ -58,6 +58,7 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
                 </li>
             </ul>
             <div class="table-responsive">
+                @include('layouts.errors')
                 <table class="table rwd-table table-hover" style="word-break: break-all;">
                     <thead thead-light>
                     <tr>
@@ -87,11 +88,11 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
                     <tbody>
                         @foreach($post_schools as $post_school)
                         <tr>
-                            <td nowrap>
+                            <td class="td-number">
                                 <span data-toggle="tooltip" data-placement="top" title="給 {{ $schools[$post_school->code] }}">{{ $post_school->post->post_no }}</span>
                             </td>
 
-                            <td>
+                            <td class="td-title">
                                 @if($post_school->post->another ===1)
                                     <span class="text-success">
                                         <i class="fas fa-eye"></i>

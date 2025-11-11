@@ -96,3 +96,21 @@
 	border-radius: 10px; /* 圖片本身也圓角 */
 	display: block;
 }
+
+@media (max-width: 576px) {
+    .td-title {
+        min-width: 200px; /* 你要的最小寬度 */
+        white-space: normal;
+        word-break: break-all;
+    }
+    .td-number {
+        word-break: break-all;
+        white-space: normal;
+    }
+}
+@media (min-width: 577px) {
+    .td-number {
+        white-space: nowrap;
+        word-break: normal;
+    }
+}

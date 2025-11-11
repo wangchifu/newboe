@@ -10,8 +10,9 @@
                         alt="{{ array_get($categories,$post->category_id) }}"
                         title="{{ array_get($categories,$post->category_id) }}">
         </div>
-            <div class="card-body">
+            <div class="card-body">                
                 <div class="table-responsive">
+                    @include('layouts.errors')
                     <table class="table table-striped">
                         <tbody>
                             <tr>

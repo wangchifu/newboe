@@ -23,7 +23,7 @@
                     <div class="col-12">    
                         [<a href="images/school_sample.png" target="_blank">參考範本</a>] <a href={{"/school/" . auth()->user()->code . "/school_show"}} class="btn btn-sm btn-primary" target="_blank">瀏覽本校目前樣式</a>
                     </div>                   
-                    <div class="col-6">
+                    <div class="col-12 col-lg-6">
                         <div class="form-group">
                             <label for="pic1">左欄圖片(尺寸約515 *146)</label>
                             <input type="file" name="pic1" class="form-control" accept="image/*">
@@ -41,7 +41,7 @@
                             <textarea name="introduction1" id="introduction1" class="form-control" rows="21" placeholder="請輸入內容">{{ $introduction1 }}</textarea>
                         </div>                                                        
                     </div>
-                    <div class="col-6">
+                    <div class="col-12 col-lg-6">
                         <div class="form-group">
                             <label for="pic2">右欄圖片(尺寸約972 *550)</label>
                             <input type="file" name="pic2" id="pic2" class="form-control" accept="image/*">

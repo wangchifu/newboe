@@ -28,7 +28,7 @@ define('JWKS_URI', 'https://chc.sso.edu.tw/oidc/v1/jwksets');
 // PROFILE URL
 define('PROFILE_ENDPOINT', 'https://chc.sso.edu.tw/moeresource/api/v1/oidc/profile');
 
-class OpenIdLoginController extends Controller
+class OpenIDLoginController extends Controller
 {
     
     public function sso(){

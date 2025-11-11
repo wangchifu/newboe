@@ -49,8 +49,7 @@
                     <a class="nav-link" href="{{ route('admins.user_check') }}">重複身分證帳號</a>
                 </li>
             </ul>
-            @include('admins.form')
-            {{ $users->links('layouts.pagination') }}            
+            @include('admins.form')            
         </div>
     </div>    
        

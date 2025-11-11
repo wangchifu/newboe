@@ -85,7 +85,7 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
                     <tbody>
                     @foreach($report_schools as $report_school)
                         <tr>
-                            <td nowrap data-th="編號">
+                            <td nowrap data-th="編號" class="td-number">
                                 <span data-toggle="tooltip" data-placement="top" title="給 {{ $schools[$report_school->code] }}">{{ $report_school->report_id }}</span>
                             </td>
                             <td nowrap data-th="日期">
@@ -93,7 +93,7 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
                                 <br>
                                 <small class="text-danger">{{ $report_school->report->die_date }}</small>
                             </td>
-                            <td data-th="名稱" style="color:#000000;">
+                            <td data-th="名稱" style="color:#000000;" class="td-title">
                                 <a href="{{ route('school_report.show',$report_school->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;">
                                     @if($report_school->report->situation==3)
                                         {{ $report_school->report->name }}

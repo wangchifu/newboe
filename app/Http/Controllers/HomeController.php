@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Response;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\UserPower;
@@ -606,7 +607,75 @@ class HomeController extends Controller
         return view('bulletin_search', $data);
     }    
 
-    
+    public function rss()
+    {
+        $posts = Post::where('category_id', '<>', 5)
+            ->where('situation', '3')
+            ->orWhere(function ($q) {
+                $q->where('category_id', '5')
+                    ->where('another', '1')
+                    ->where('situation', '3');
+            })
+            ->orderBy('passed_at', 'DESC')
+            ->paginate('50');
+
+        $categories = config('boe.categories');
+        $sections = config('boe.sections');
+
+        $items = "";
+        foreach ($posts as $post) {
+            $items .= '
+            <item>
+                <link>
+                ' . env('APP_URL') . '/posts/' . $post->id . '
+                </link>
+                <title>
+                    <![CDATA[ ' . $post->title . ' ]]>
+                </title>
+                <author>' . array_get($sections, $post->section_id) . ' / ' . $post->user->name . '</author>
+                <category>
+                    <![CDATA[ ' . $categories[$post->category_id] . ' ]]>
+                </category>
+                <pubDate>' . substr($post->passed_at, 0, 16) . '</pubDate>
+                <guid>
+                    ' . env('APP_URL') . '/posts/' . $post->id . '
+                </guid>
+                <description>
+                    <![CDATA[
+                        ' . $post->content . '
+                    ]]>
+                </description>
+            </item>
+            ';
+        }
+
+        $content = '<?xml version="1.0" encoding="UTF-8"?>
+            <rss version="2.0">
+                <channel>
+                <title>
+                    <![CDATA[ 彰化縣教育處新雲端 ]]>
+                </title>
+                <link>https://newboe.chc.edu.tw</link>
+                <description>
+                    <![CDATA[
+                        歡迎光臨教育處新雲端！分享彰化縣教育的大小事！
+                    ]]>
+                </description>
+                <language>utf-8</language>
+                <copyright>
+                    <![CDATA[
+                        版權來自：newboe.chc.edu.tw
+                    ]]>
+                </copyright>
+                ' . $items . '
+                </channel>
+            </rss>
+
+        ';
+        $invalid_characters = '/[^\x9\xa\x20-\xD7FF\xE000-\xFFFD]/';
+        $content = preg_replace($invalid_characters, '', $content);
+        return Response::make($content, '200')->header('Content-Type', 'text/xml');
+    }    
 
 
 }

@@ -36,7 +36,7 @@
                 </li>
                 -->
                 @guest
-                    <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ route('logins') }}">登入</a></li>
+                    <li class="nav-item"><a class="nav-link" aria-current="page" href="{{ route('logins') }}">登入<br>Login</a></li>
                 @endguest
                 @auth
                     <li class="nav-item dropdown">
