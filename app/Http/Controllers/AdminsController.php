@@ -11,8 +11,11 @@ use App\Models\Log;
 use App\Models\Post;
 use App\Models\PostSchool;
 use App\Models\Report;
+use App\Models\Question;
+use App\Models\Answer;
 use App\Models\ReportSchool;
 use App\Models\SystemPost;
+
 use Illuminate\Support\Facades\Auth;
 
 class AdminsController extends Controller
