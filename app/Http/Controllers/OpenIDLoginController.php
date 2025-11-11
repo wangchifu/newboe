@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\School;
-use App\User;
-use App\UserPower;
+use App\Models\School;
+use App\Models\User;
+use App\Models\UserPower;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 //use Illuminate\Support\Facades\DB;
