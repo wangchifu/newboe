@@ -1543,6 +1543,7 @@ class PostsController extends Controller
     }
 
     public function signed_at_show(Request $request, $ps_id){
+        
         $post_school = PostSchool::find($ps_id);
         if (empty($post_school->signed_user_id)) {
             DB::update('update post_schools set signed_user_id = ? , signed_at= ?, signed_quickly= ? where id= ? ', [auth()->user()->id, now(), '0', $ps_id]);
@@ -1578,14 +1579,29 @@ class PostsController extends Controller
             session(['posts_not'=>$posts_not]);
             session(['posts_quick'=>$posts_quick]);
             session(['posts5_quickly'=>$posts5_quickly]);
-            //session(['reports_not'=>$reports_not]);
-
-            return redirect()->back();
+            //session(['reports_not'=>$reports_not]);                        
+            //return redirect()->back();
         }else{
-            return redirect()->back()->withErrors(['message' => ['已有人簽收了！']]);
+            //return redirect()->back()->withErrors(['message' => ['已有人簽收了！']]);
         }
-        $post_school = PostSchool::find($ps_id);
+        //$post_school = PostSchool::find($ps_id);
         //echo "<body onload=\"opener.location.reload();window.location.reload();\">";
+        echo "
+            <script>
+            // 確保頁面加載完成後執行
+            window.onload = function() {
+                // 檢查父頁面是否存在且可以訪問 jQuery
+                if (window.parent && window.parent.$) {
+                    // 關閉 venobox 視窗
+                    if (typeof window.parent.$.venobox !== 'undefined') {
+                        window.parent.$.venobox.close();  // 關閉 venobox 視窗
+                    }
+
+                    // 可選：刷新父頁面，這樣可以讓父頁面顯示最新的內容
+                    window.parent.location.reload();                
+                }
+            };
+            </script>";
         
     }
 
