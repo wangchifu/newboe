@@ -26,6 +26,16 @@
         <link href="{{ asset('css/component-chosen.min.css') }}" rel="stylesheet" />
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.2/chosen.jquery.min.js"></script>
         @yield('my_js_file')
+
+        <!-- Google tag (gtag.js) Google Analytics-->
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-RPLBGVYQZ6"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'G-RPLBGVYQZ6');
+        </script>
     </head>
     <body>
         @yield('my_css')
@@ -53,6 +63,9 @@
         <!-- Core theme JS-->
         <script src="{{ env('APP_URL') }}/js/my.js"></script>
         @include('layouts.sweet_alert')
+        @auth
+            @include('layouts.system_modal')
+        @endauth
         <script>
             var vb = new VenoBox({
                 selector: '.venobox',

@@ -92,7 +92,8 @@ Route::get('downloadimage/{filename}/{id}/', [PostsController::class,'downloadim
 
 
 //已註冊使用者可進入
-Route::group(['middleware' => 'auth'],function(){
+Route::group(['middleware' => 'auth'],function(){    
+    Route::get('user_reads/{no_read_sp}',[HomeController::class,'user_reads'])->name('user_reads');
     Route::get('qanda', [HomeController::class,'qanda'])->name('qanda');
     Route::get('about', [HomeController::class,'about'])->name('about');
     //結束模擬

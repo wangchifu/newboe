@@ -14,6 +14,7 @@ use App\Models\TitleImage;
 use App\Models\Other;
 use App\Models\Marquee;
 use App\Models\Post;
+use App\Models\UserRead;
 
 class HomeController extends Controller
 {
@@ -676,6 +677,20 @@ class HomeController extends Controller
         $content = preg_replace($invalid_characters, '', $content);
         return Response::make($content, '200')->header('Content-Type', 'text/xml');
     }    
-
+    
+    public function user_reads($no_read_sp){
+        $no_read_sp_array = explode(',',$no_read_sp);
+        foreach($no_read_sp_array as $k=>$v){
+            $att['user_id'] = auth()->user()->id;
+            $att['system_post_id'] = $v;
+            UserRead::create($att);
+        }
+        
+        $user_read_ids = UserRead::where('user_id',auth()->user()->id)->pluck('id')->toArray();    
+        session(['user_read_ids' => $user_read_ids]);
+        session(['user_all_read' => 1]);
+        return redirect()->back();
+        
+    }
 
 }
