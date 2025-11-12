@@ -21,7 +21,7 @@ use Intervention\Image\Drivers\Gd\Driver as GdDriver;
 class PostsController extends Controller
 {
     public function index(){
-        echo "123";
+        
     }
     public function create()
     {
@@ -159,12 +159,12 @@ class PostsController extends Controller
     {
         //沒通過不給看
         if ($post->situation != 3 and $post->situation != 4) {
-            dd('別想偷看！');
+            abort('404','你沒有權限訪問這個頁面');
         }
         //沒登入不給看
         if (!auth()->check() and $post->category_id == '5') {
             if ($post->another != 1) {
-                dd('別想偷看！');
+                abort('404','你沒有權限訪問這個頁面');
             }
         }
         //不是該校的行政公告，不給看
@@ -213,7 +213,7 @@ class PostsController extends Controller
             $post_school = PostSchool::find($ps_id);
             //不是該校的 post_school 不給看
             if(!strstr($post_school->code,auth()->user()->code)){
-                dd('你想做什麼？');
+                abort('404','你想做什麼？');
             }
         }else{
             $user_power = null;
@@ -1053,7 +1053,39 @@ class PostsController extends Controller
 
     //學校端顯示簽收公告
     public function showSigned()
-    {
+    {        
+        if(empty(session('posts_not'))){
+            $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where('signed_user_id',null)
+            ->get();
+            $posts_quick = 0;
+            $posts_not = 0;
+            $posts5_quickly = collect();
+            foreach($posts_all_not as $post_all_not){
+                if($post_all_not->post->situation === 3){
+                    if($post_all_not->post->type == "1"){
+                        $posts_quick++;
+                    }
+                    $posts_not++;
+                    if($post_all_not->signed_quickly == 1){
+                     $posts5_quickly->push($post_all_not);
+                    }
+                }                
+            }            
+
+            $reports_not = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where(function($q){
+                    $q->where('situation','=',0)
+                        ->orWhere('situation','=',1)
+                        ->orWhere('situation','=',2)
+                        ->orWhere('situation',null);
+                })
+                ->get()->count();
+            session(['posts_not'=>$posts_not]);
+            session(['posts_quick'=>$posts_quick]);
+            session(['posts5_quickly'=>$posts5_quickly]);
+            session(['reports_not'=>$reports_not]);            
+        }        
 
         //$post5 = DB::table('post_schools_view')
         //    ->where('code', 'like', "%" . auth()->user()->code . "%")
@@ -1061,33 +1093,34 @@ class PostsController extends Controller
         //    ->orderBy('passed_at', 'DESC')
         //    ->simplePaginate('20');        
         //$page = $post5->currentPage();
+        
         $post_schools = PostSchool::where('code', 'like', "%" . auth()->user()->code . "%")
         ->orderBy('created_at', 'DESC')
-        ->paginate('20');         
+        ->simplePaginate('20');         
 
-        $posts5_quickly = DB::table('post_schools_view')->where([
-            ['code', 'like', "%" . auth()->user()->code . "%"],
-            ['signed_quickly', '=', '1'],
-        ])->get();
+        //$posts5_quickly = DB::table('post_schools_view')->where([
+        //    ['code', 'like', "%" . auth()->user()->code . "%"],
+        //    ['signed_quickly', '=', '1'],
+        //])->get();
 
-        $user_power = DB::table('user_powers')->where([
-            ['user_id', '=', auth()->user()->id],
-            ['power_type', '=', 'B'],
-        ])
-            ->first();
+        //$user_power = DB::table('user_powers')->where([
+        //    ['user_id', '=', auth()->user()->id],
+        //    ['power_type', '=', 'B'],
+        //])
+        //    ->first();
         $categories = config('boe.categories');
         $sections = config('boe.sections');
         $user_name = config('boe.user_name');
         //$schools = School::all()->pluck('school_name', 'code_no')->toArray();
-        $schools = config('boe.schools_name');                
+        $schools = config('boe.schools_name'); 
 
         $data = [
             'post_schools' => $post_schools,
             'user_name' => $user_name,
             'sections' => $sections,
             'categories' => $categories,
-            'user_power' => $user_power,
-            'posts5_quickly' => $posts5_quickly,
+            //'user_power' => $user_power,
+            'posts5_quickly' => session('posts5_quickly'),
             'schools' => $schools, 
             //'page' => $page,
         ];
@@ -1097,6 +1130,39 @@ class PostsController extends Controller
     //學校端顯示簽收公告
     public function show_not_Signed()
     {        
+        if(empty(session('posts_not'))){
+            $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where('signed_user_id',null)
+            ->get();
+            $posts_quick = 0;
+            $posts_not = 0;
+            $posts5_quickly = collect();
+            foreach($posts_all_not as $post_all_not){
+                if($post_all_not->post->situation === 3){
+                    if($post_all_not->post->type == "1"){
+                        $posts_quick++;
+                    }
+                    $posts_not++;
+                    if($post_all_not->signed_quickly == 1){
+                     $posts5_quickly->push($post_all_not);
+                    }
+                }                
+            }            
+
+            $reports_not = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where(function($q){
+                    $q->where('situation','=',0)
+                        ->orWhere('situation','=',1)
+                        ->orWhere('situation','=',2)
+                        ->orWhere('situation',null);
+                })
+                ->get()->count();
+            session(['posts_not'=>$posts_not]);
+            session(['posts_quick'=>$posts_quick]);
+            session(['posts5_quickly'=>$posts5_quickly]);
+            session(['reports_not'=>$reports_not]);            
+        }
+
         $post5 = DB::table('post_schools_view')
             ->where('code', 'like', "%" . auth()->user()->code . "%")
             ->where('signed_user_id', null)
@@ -1104,18 +1170,13 @@ class PostsController extends Controller
             ->orderBy('passed_at', 'DESC')
             ->simplePaginate('20');
 
-        $page = $post5->currentPage();
+        $page = $post5->currentPage();        
 
-        $posts5_quickly = DB::table('post_schools_view')->where([
-            ['code', 'like', "%" . auth()->user()->code . "%"],
-            ['signed_quickly', '=', '1'],
-        ])->get();
-
-        $user_power = DB::table('user_powers')->where([
-            ['user_id', '=', auth()->user()->id],
-            ['power_type', '=', 'B'],
-        ])
-            ->first();
+        //$user_power = DB::table('user_powers')->where([
+        //    ['user_id', '=', auth()->user()->id],
+        //    ['power_type', '=', 'B'],
+        //])
+        //    ->first();
         $categories = config('boe.categories');
         $sections = config('boe.sections');
         $user_name = config('boe.user_name');
@@ -1126,8 +1187,8 @@ class PostsController extends Controller
             'user_name' => $user_name,
             'sections' => $sections,
             'categories' => $categories,
-            'user_power' => $user_power,
-            'posts5_quickly' => $posts5_quickly,
+            //'user_power' => $user_power,
+            'posts5_quickly' => session('posts5_quickly'),
             'schools' => $schools,
             'page' => $page,
         ];
@@ -1137,6 +1198,39 @@ class PostsController extends Controller
     //學校端顯示簽收公告
     public function show_quick_Signed()
     {
+       if(empty(session('posts_not'))){
+            $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where('signed_user_id',null)
+            ->get();
+            $posts_quick = 0;
+            $posts_not = 0;
+            $posts5_quickly = collect();
+            foreach($posts_all_not as $post_all_not){
+                if($post_all_not->post->situation === 3){
+                    if($post_all_not->post->type == "1"){
+                        $posts_quick++;
+                    }
+                    $posts_not++;
+                    if($post_all_not->signed_quickly == 1){
+                     $posts5_quickly->push($post_all_not);
+                    }
+                }                
+            }            
+
+            $reports_not = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where(function($q){
+                    $q->where('situation','=',0)
+                        ->orWhere('situation','=',1)
+                        ->orWhere('situation','=',2)
+                        ->orWhere('situation',null);
+                })
+                ->get()->count();
+            session(['posts_not'=>$posts_not]);
+            session(['posts_quick'=>$posts_quick]);
+            session(['posts5_quickly'=>$posts5_quickly]);
+            session(['reports_not'=>$reports_not]);            
+        }
+
         $post5 = DB::table('post_schools_view')
             ->where('code', 'like', "%" . auth()->user()->code . "%")
             ->where('signed_user_id', null)
@@ -1145,17 +1239,12 @@ class PostsController extends Controller
             ->orderBy('passed_at', 'DESC')
             ->simplePaginate('20');
         $page = $post5->currentPage();
-
-        $posts5_quickly = DB::table('post_schools_view')->where([
-            ['code', 'like', "%" . auth()->user()->code . "%"],
-            ['signed_quickly', '=', '1'],
-        ])->get();
-
-        $user_power = DB::table('user_powers')->where([
-            ['user_id', '=', auth()->user()->id],
-            ['power_type', '=', 'B'],
-        ])
-            ->first();
+    
+        //$user_power = DB::table('user_powers')->where([
+        //    ['user_id', '=', auth()->user()->id],
+        //    ['power_type', '=', 'B'],
+        //])
+        //    ->first();
         $categories = config('boe.categories');
         $sections = config('boe.sections');
         $user_name = config('boe.user_name');
@@ -1166,8 +1255,8 @@ class PostsController extends Controller
             'user_name' => $user_name,
             'sections' => $sections,
             'categories' => $categories,
-            'user_power' => $user_power,
-            'posts5_quickly' => $posts5_quickly,
+            //'user_power' => $user_power,
+            'posts5_quickly' => session('posts5_quickly'),
             'schools' => $schools,
             'page' => $page,
         ];
@@ -1178,21 +1267,49 @@ class PostsController extends Controller
     //個人已簽收
     public function show_person_Signed()
     {
+        if(empty(session('posts_not'))){
+            $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where('signed_user_id',null)
+            ->get();
+            $posts_quick = 0;
+            $posts_not = 0;
+            $posts5_quickly = collect();
+            foreach($posts_all_not as $post_all_not){
+                if($post_all_not->post->situation === 3){
+                    if($post_all_not->post->type == "1"){
+                        $posts_quick++;
+                    }
+                    $posts_not++;
+                    if($post_all_not->signed_quickly == 1){
+                     $posts5_quickly->push($post_all_not);
+                    }
+                }                
+            }            
+
+            $reports_not = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where(function($q){
+                    $q->where('situation','=',0)
+                        ->orWhere('situation','=',1)
+                        ->orWhere('situation','=',2)
+                        ->orWhere('situation',null);
+                })
+                ->get()->count();
+            session(['posts_not'=>$posts_not]);
+            session(['posts_quick'=>$posts_quick]);
+            session(['posts5_quickly'=>$posts5_quickly]);
+            session(['reports_not'=>$reports_not]);            
+        }
         $post5 = DB::table('post_schools_view')
             ->where('code', 'like', "%" . auth()->user()->code . "%")
             ->where('signed_user_id', auth()->user()->id)
             ->orderBy('passed_at', 'DESC')
-            ->simplePaginate('20');
-        $posts5_quickly = DB::table('post_schools_view')->where([
-            ['code', '=', auth()->user()->code],
-            ['signed_quickly', '=', '1'],
-        ])->get();
+            ->simplePaginate('20');        
 
-        $user_power = DB::table('user_powers')->where([
-            ['user_id', '=', auth()->user()->id],
-            ['power_type', '=', 'B'],
-        ])
-            ->first();
+        //$user_power = DB::table('user_powers')->where([
+        //    ['user_id', '=', auth()->user()->id],
+        //////    ['power_type', '=', 'B'],
+        //])
+        //    ->first();
         $categories = config('boe.categories');
         $sections = config('boe.sections');
         $user_name = config('boe.user_name');
@@ -1203,8 +1320,8 @@ class PostsController extends Controller
             'user_name' => $user_name,
             'sections' => $sections,
             'categories' => $categories,
-            'user_power' => $user_power,
-            'posts5_quickly' => $posts5_quickly,
+            //'user_power' => $user_power,
+            'posts5_quickly' => session('posts5_quickly'),
             'schools' => $schools,
         ];
         return view('schools.posts.show_person_signed', $data);
@@ -1383,6 +1500,39 @@ class PostsController extends Controller
         $post_school = PostSchool::find($ps_id);
         if (empty($post_school->signed_user_id)) {
             DB::update('update post_schools set signed_user_id = ? , signed_at= ?, signed_quickly= ? where id= ? ', [auth()->user()->id, now(), '0', $ps_id]);   
+
+            //重算
+            $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where('signed_user_id',null)
+            ->get();
+            $posts_quick = 0;
+            $posts5_quickly = collect();
+            $posts_not = 0;
+            foreach($posts_all_not as $post_all_not){
+                if($post_all_not->post->situation === 3){
+                    if($post_all_not->post->type == "1"){
+                        $posts_quick++;
+                    }
+                    if($post_all_not->signed_quickly == 1){
+                     $posts5_quickly->push($post_all_not);
+                    }
+                    $posts_not++;
+                }
+            }
+
+            //$reports_not = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."%")
+            //    ->where(function($q){
+            //        $q->where('situation','=',0)
+            //            ->orWhere('situation','=',1)
+            //           ->orWhere('situation','=',2)
+            //            ->orWhere('situation',null);
+            //    })
+            //    ->get()->count();
+            session(['posts_not'=>$posts_not]);
+            session(['posts_quick'=>$posts_quick]);
+            session(['posts5_quickly'=>$posts5_quickly]);
+            //session(['reports_not'=>$reports_not]);
+            
             return redirect()->back();
         }else{
             return redirect()->back()->withErrors(['message' => ['已有人簽收了！']]);
@@ -1396,6 +1546,40 @@ class PostsController extends Controller
         $post_school = PostSchool::find($ps_id);
         if (empty($post_school->signed_user_id)) {
             DB::update('update post_schools set signed_user_id = ? , signed_at= ?, signed_quickly= ? where id= ? ', [auth()->user()->id, now(), '0', $ps_id]);
+
+            
+            //重算
+            $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where('signed_user_id',null)
+            ->get();
+            $posts_quick = 0;
+            $posts5_quickly = collect();
+            $posts_not = 0;
+            foreach($posts_all_not as $post_all_not){
+                if($post_all_not->post->situation === 3){
+                    if($post_all_not->post->type == "1"){
+                        $posts_quick++;
+                    }
+                    if($post_all_not->signed_quickly == 1){
+                     $posts5_quickly->push($post_all_not);
+                    }
+                    $posts_not++;
+                }
+            }
+
+            //$reports_not = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."%")
+            //    ->where(function($q){
+            //        $q->where('situation','=',0)
+            //            ->orWhere('situation','=',1)
+            //            ->orWhere('situation','=',2)
+            //            ->orWhere('situation',null);
+            //    })
+            //    ->get()->count();
+            session(['posts_not'=>$posts_not]);
+            session(['posts_quick'=>$posts_quick]);
+            session(['posts5_quickly'=>$posts5_quickly]);
+            //session(['reports_not'=>$reports_not]);
+
             return redirect()->back();
         }else{
             return redirect()->back()->withErrors(['message' => ['已有人簽收了！']]);
@@ -1427,6 +1611,38 @@ class PostsController extends Controller
 
         //echo json_encode($result);
         //return;
+        //重算
+        $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where('signed_user_id',null)
+            ->get();
+            $posts_quick = 0;
+            $posts_not = 0;
+            $posts5_quickly = collect();
+            foreach($posts_all_not as $post_all_not){
+                if($post_all_not->post->situation === 3){
+                    if($post_all_not->post->type == "1"){
+                        $posts_quick++;
+                    }
+                    if($post_all_not->signed_quickly == 1){
+                     $posts5_quickly->push($post_all_not);
+                    }
+                    $posts_not++;
+                }
+            }
+
+        //$reports_not = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."%")
+        //    ->where(function($q){
+        //        $q->where('situation','=',0)
+        //            ->orWhere('situation','=',1)
+        //            ->orWhere('situation','=',2)
+        //            ->orWhere('situation',null);
+        //    })
+        //    ->get()->count();
+            session(['posts_not'=>$posts_not]);
+            session(['posts_quick'=>$posts_quick]);
+            session(['posts5_quickly'=>$posts5_quickly]);
+        //    session(['reports_not'=>$reports_not]);
+
         return redirect()->back();
     }
 

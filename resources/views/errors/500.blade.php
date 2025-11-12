@@ -10,7 +10,7 @@
 
 @section('content')
 <div class="col-lg-8 mx-auto">
-    <h1>500錯誤！伺服器錯誤！</h1>
+    <h1>500錯誤！伺服器發生問題！</h1>
     <div class="card mb-4">
         <div class="card-header">呃...</div>
         <div class="card-body text-center">

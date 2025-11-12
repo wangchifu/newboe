@@ -9,49 +9,24 @@
 @endsection
 
 @section('content')
-<?php
-$posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
-    ->where('signed_user_id',null)
-    ->get();
-$posts_quick = 0;
-$posts_not = 0;
-foreach($posts_all_not as $post_all_not){
-    if($post_all_not->post->situation === 3){
-        if($post_all_not->post->type == "1"){
-            $posts_quick++;
-        }
-        $posts_not++;
-    }
-}
-
-$c_p = $posts_not;
-$c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."%")
-    ->where(function($q){
-        $q->where('situation','=',0)
-            ->orWhere('situation','=',1)
-            ->orWhere('situation','=',2)
-            ->orWhere('situation',null);
-    })
-    ->get()->count();
-?> 
 <div class="col-lg-12 mx-auto">
     <h1>公告簽收 </h1>
     <div class="card mb-4">
         <div class="card-header">
-            <a class="btn btn-success btn-sm" href="{{ route('posts.showSigned') }}">公告簽收 ({{ $c_p }})</a>
-            <a class="btn btn-light btn-sm" href="{{ route('school_report.index') }}">資料填報 ({{ $c_r }})</a>
+            <a class="btn btn-success btn-sm" href="{{ route('posts.showSigned') }}">公告簽收({{ session('posts_not') }})</a>
+            <a class="btn btn-light btn-sm" href="{{ route('school_report.index') }}">資料填報({{ session('reports_not') }})</a>
         </div>
         <div class="card-body">                   
             @include('schools.posts.search_nav',['section_id'=>'all'])
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('posts.showSigned') }}">全部</a>
+                    <a class="nav-link" href="{{ route('posts.showSigned') }}">全部({{ session('posts_not') }})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('posts.show_not_Signed') }}">未簽收({{ $posts_not }})</a>
+                    <a class="nav-link active" href="{{ route('posts.show_not_Signed') }}">未簽收({{ session('posts_not') }})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('posts.show_quick_Signed') }}">最速件({{ $posts_quick }})</a>
+                    <a class="nav-link" href="{{ route('posts.show_quick_Signed') }}">最速件({{ session('posts_quick') }})</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('posts.show_person_Signed') }}">個人已簽收</a>
@@ -124,8 +99,7 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
                             @if($post->signed_at==null)
                             <form action="{{ route('posts.signed', ['ps_id' => $post->ps_id]) }}" method="POST" id="sign_check_form{{ $post->id }}">
                                 @method('PATCH')
-                                @csrf                                       
-                                <input type="hidden" value="{{ $user_power -> power_type }}" id="h_user_power">
+                                @csrf                                                                       
                                 <button class="btn btn-success btn-sm" type="button"  onclick="sw_confirm2('您確定要簽收 編號 {{ $post->post_no }}？','sign_check_form{{ $post->id }}');">
                                     簽收
                                 </button>
@@ -170,7 +144,7 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
             </div>
             <div class="modal-body">
                 @foreach($posts5_quickly as $post5_quickly)
-                    第{{ $post5_quickly->post_no }}號「{{ $post5_quickly->title }}....」已逾期，請速簽收
+                    第{{ $post5_quickly->post->post_no }}號「{{ $post5_quickly->post->title }}....」已逾期，請速簽收
                     <br>
                 @endforeach
             </div>
@@ -181,7 +155,7 @@ $c_r = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."
     </div>
 </div>
 
-@if($posts_not>0)
+@if(session('posts_not')>0)
     <script>        
         $(document).ready(function () {
             var yetVisited = localStorage['visited'];

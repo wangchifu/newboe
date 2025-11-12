@@ -10,7 +10,7 @@
 
 @section('content')
 <div class="col-lg-8 mx-auto">
-    <h1>404錯誤！找不到頁面！</h1>
+    <h1>404錯誤！{{ $exception->getMessage() ?: '你沒有權限訪問此頁面' }}</h1>
     <div class="card mb-4">
         <div class="card-header">呃...</div>
         <div class="card-body text-center">
