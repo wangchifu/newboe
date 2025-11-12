@@ -197,7 +197,7 @@
             </div>  
             <div class="card-footer d-flex flex-row justify-content-center pt-4">
                 <div class="text-center">
-                    {{ $report_schools->links('layouts.simple-pagination') }}
+                    {{ $report_schools->appends(['want' => $want])->links('layouts.simple-pagination') }}                                       
                 </div>
             </div>                                                                                  
         </div>
