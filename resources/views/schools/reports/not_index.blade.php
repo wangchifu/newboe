@@ -20,10 +20,10 @@
             @include('schools.reports.search_nav')
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('school_report.index') }}">全部({{ session('reports_not') }})</a>
+                    <a class="nav-link" href="{{ route('school_report.index') }}">全部 ({{ session('reports_not') }})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('school_report_not.index') }}">未填報({{ session('reports_not') }})</a>
+                    <a class="nav-link active" href="{{ route('school_report_not.index') }}">未填報 ({{ session('reports_not') }})</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('school_report.show_person_Signed') }}">個人已填報</a>

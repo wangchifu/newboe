@@ -13,20 +13,20 @@
     <h1>公告簽收 </h1>
     <div class="card mb-4">
         <div class="card-header">
-            <a class="btn btn-success btn-sm" href="{{ route('posts.showSigned') }}">公告簽收({{ session('posts_not') }})</a>
-            <a class="btn btn-light btn-sm" href="{{ route('school_report.index') }}">資料填報({{ session('reports_not') }})</a>
+            <a class="btn btn-success btn-sm" href="{{ route('posts.showSigned') }}">公告簽收 ({{ session('posts_not') }})</a>
+            <a class="btn btn-light btn-sm" href="{{ route('school_report.index') }}">資料填報 ({{ session('reports_not') }})</a>
         </div>
         <div class="card-body">                   
             @include('schools.posts.search_nav',['section_id'=>'all'])
             <ul class="nav nav-tabs">
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('posts.showSigned') }}">全部({{ session('posts_not') }})</a>
+                    <a class="nav-link" href="{{ route('posts.showSigned') }}">全部 ({{ session('posts_not') }})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('posts.show_not_Signed') }}">未簽收({{ session('posts_not') }})</a>
+                    <a class="nav-link active" href="{{ route('posts.show_not_Signed') }}">未簽收 ({{ session('posts_not') }})</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ route('posts.show_quick_Signed') }}">最速件({{ session('posts_quick') }})</a>
+                    <a class="nav-link" href="{{ route('posts.show_quick_Signed') }}">最速件 ({{ session('posts_quick') }})</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('posts.show_person_Signed') }}">個人已簽收</a>
