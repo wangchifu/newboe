@@ -41,7 +41,7 @@
                 @auth
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="fas fa-user"></i>
+                            <i class="fas fa-user"></i><br>{{ auth()->user()->name }}
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                             <?php $show_unit = (empty(auth()->user()->school))?"沒有單位":auth()->user()->school; ?>
