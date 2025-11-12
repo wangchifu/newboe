@@ -154,7 +154,7 @@
         <div class="card-header">教育處相關</div>
         <div class="card-body">
                 <!-- 左邊社群 icon -->
-            <div class="social-marquee me-3" style="font-size: 20px;">
+            <div class="social-marquee me-3" style="font-size: 24px;">
                 <a href="https://education.chcg.gov.tw/00home/index02.aspx" target="_blank">
                     <i class="fa-solid fa-globe text-dark"></i>
                 </a>
