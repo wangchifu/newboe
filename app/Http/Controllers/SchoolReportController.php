@@ -156,17 +156,16 @@ class SchoolReportController extends Controller
     {
         $want = $request->input('want');
 
-        $report_schools = DB::table('report_schools')
-            ->leftJoin('reports', 'report_schools.report_id', '=', 'reports.id')
-            ->where('report_schools.code','like',"%".auth()->user()->code."%")
-            ->where(function($q) use ($want){
-                $q->where('reports.name','like','%'.$want.'%')
-                    ->orWhere('reports.id','=',$want)
-                    ->orWhere('reports.content','like','%'.$want.'%');
+        $report_schools = ReportSchool::with('report')
+            ->where('code', 'like', '%' . auth()->user()->code . '%')
+            ->whereHas('report', function($q) use ($want) {
+                $q->where('name', 'like', '%' . $want . '%')
+                ->orWhere('id', $want)
+                ->orWhere('content', 'like', '%' . $want . '%');
             })
-            ->get();            
+            ->simplePaginate(20);
         $sections = config('boe.sections');
-        $schools = School::all()->pluck('school_name','code_no')->toArray();
+        $schools = School::all()->pluck('school_name','code_no')->toArray();        
 
         $data = [
             'report_schools'=>$report_schools,

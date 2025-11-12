@@ -18,7 +18,7 @@
         <div class="card-body">                   
             @include('schools.reports.search_nav')            
             <div class="table-responsive">
-<table class="table rwd-table table-hover">
+                <table class="table rwd-table table-hover">
                     <thead>
                     <tr>
                         <th nowrap>
@@ -51,7 +51,7 @@
                             <td nowrap data-th="編號">
                                 <span data-toggle="tooltip" data-placement="top" title="給 {{ $schools[$report_school->code] }}">{{ $report_school->report_id }}</span>
                             </td>
-                            <td nowrap data-th="日期">
+                            <td nowrap data-th="日期">                                
                                 <small>{{ substr($report_school->report->passed_at,0,16) }}</small>
                                 <br>
                                 <small class="text-danger">{{ $report_school->report->die_date }}</small>
