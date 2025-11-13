@@ -691,7 +691,7 @@ class PostsController extends Controller
                 });
         })
             ->orderBy('id', 'DESC')
-            ->paginate(15);
+            ->simplePaginate(20);
 
         $categories = config('boe.categories');
         $situation = config('boe.situation');

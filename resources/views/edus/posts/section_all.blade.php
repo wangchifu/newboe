@@ -17,7 +17,7 @@
     <h1>[{{ $sections[auth()->user()->section_id] }}]：<span class="badge border border-dark text-dark bg-white"><i class="fas fa-list"></i> 全數公告</span></h1>
         @include('edus.posts.nav')                 
         <div class="card my-4">
-            <div class="card-header text-center">
+            <div class="card-header">
                 <form action="{{ route('posts.do_search_in_section') }}" method="post" id="this_form">
                     @csrf                    
                     發佈人/主旨/內文：<input type="text" name="want" required placeholder="關鍵字" value="{{ $want }}">
@@ -112,7 +112,7 @@
                 </div>      
             </div>
             <div class="card-footer d-flex flex-row justify-content-center pt-4">
-                {{ $posts->links('layouts.pagination') }}
+                {{ $posts->links('layouts.simple-pagination') }}
             </div>
         </div>
     </div>    

@@ -743,8 +743,36 @@ class EduReportController extends Controller
         $data = [
             'reports'=>$reports,
             'situation'=>$situation,
-            'sections'=>$sections,            
+            'sections'=>$sections,     
+            'want'=>null,
         ];
         return view('edus.reports.section_all',$data);
     }
+
+    public function do_search_in_section(Request $request)
+    {
+        return redirect()->route('reports.do_search', $request->input('want'));
+    }
+
+    public function do_search($want){        
+        $reports = Report::where('section_id',auth()->user()->section_id)
+            ->where(function($q){
+                $q->where('situation','3')
+                    ->orWhere('situation','4');
+            })
+            ->where('name','like','%'.$want.'%')
+            ->orderBy('id','DESC')
+            ->paginate(10);
+        $situation = config('boe.situation');
+        $sections = config('boe.sections');
+        $data = [
+            'reports'=>$reports,
+            'situation'=>$situation,
+            'sections'=>$sections,       
+            'want'=>$want,
+        ];
+        return view('edus.reports.section_all',$data);
+    }
+
+    
 }

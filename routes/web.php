@@ -382,6 +382,8 @@ Route::group(['middleware' => 'edu_admin'],function(){
 
     //審核者可看
     Route::get('reports/section_all', [EduReportController::class,'section_all'])->name('reports.section_all');
+    Route::post('reports/do_search_in_section', [EduReportController::class,'do_search_in_section'])->name('reports.do_search_in_section');
+    Route::get('reports/{want}/do_search', [EduReportController::class,'do_search'])->name('reports.do_search');
 });
 
 //學校一級管理A才可進入
