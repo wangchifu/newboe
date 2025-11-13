@@ -74,7 +74,7 @@
                 infinigall: true,
                 //share: ['facebook', 'twitter', 'linkedin', 'pinterest', 'download'],
                 spinner: 'rotating-plane',
-                maxWidth: '90%',
+                maxWidth: '100%',
                 maxHeight: '90%'
             });
         
@@ -94,7 +94,7 @@
             top: 50% !important;
             left: 50% !important;
             transform: translate(-50%, -50%) !important;
-            height: 80vh !important;
+            height: 90vh !important;
             width: 100% !important;
             object-fit: contain;
             }
