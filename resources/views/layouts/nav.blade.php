@@ -94,7 +94,7 @@
                         @if(auth()->user()->group_id == 2 and empty(auth()->user()->section_id))
                             <li><a class="dropdown-item" href="{{ route('apply_section') }}">申請科室</a></li>
                         @endif
-                        @if((auth()->user()->group_id == 2 and !empty(auth()->user()->section_id)) and auth()->user()->group_id !=8)                             
+                        @if(!empty(auth()->user()->section_id) and auth()->user()->group_id !=8)                             
                             <li class="dropdown-submenu">
                                 <a class="dropdown-item dropdown-toggle" href="#">科室功能</a> 
                                 <ul class="dropdown-menu dropdown-menu-end">                                       

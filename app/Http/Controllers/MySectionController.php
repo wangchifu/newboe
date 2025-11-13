@@ -86,9 +86,8 @@ class MySectionController extends Controller
 
     public function power()
     {
-        $users = User::where('group_id', 2)
-            ->where('disable', null)
-            ->orderBy('section_id')
+        $users = User::where('disable', null)
+            ->where('section_id',auth()->user()->section_id)
             ->get();
         $sections = config('boe.sections');
         foreach ($users as $user) {

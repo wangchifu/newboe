@@ -157,18 +157,6 @@ Route::group(['middleware' => 'edu'],function(){
     Route::get('posts/reading', [PostsController::class,'reading'])->name('posts.reading');
 //顯示通過的公告
     Route::get('posts/passing', [PostsController::class,'passing'])->name('posts.passing');
-//顯示本科室內的全數公告
-    Route::get('posts/section_all', [PostsController::class,'section_all'])->name('posts.section_all');
-    Route::post('posts/do_search_in_section', [PostsController::class,'do_search_in_section'])->name('posts.do_search_in_section');
-    Route::get('posts/{want}/all_search_in_section', [PostsController::class,'all_search_in_section'])->name('posts.all_search_in_section');
-    Route::get('posts/all', [PostsController::class,'all'])->name('posts.all');
-    Route::post('posts/do_search', [PostsController::class,'do_search'])->name('posts.do_search');
-    Route::get('posts/{want}/all_search', [PostsController::class,'all_search'])->name('posts.all_search');
-    Route::post('posts/select_category', [PostsController::class,'select_category'])->name('posts.select_category');
-    Route::get('posts/{category}/all_category', [PostsController::class,'all_category'])->name('posts.all_category');
-    Route::post('posts/select_situation', [PostsController::class,'select_situation'])->name('posts.select_situation');
-    Route::get('posts/{situation}/all_situation', [PostsController::class,'all_situation'])->name('posts.all_situation');
-    Route::get('posts/{user_id}/all_user_id', [PostsController::class,'all_user_id'])->name('posts.all_user_id');
 //秀行程中的公告
     Route::get('posts/show_doing_post/{post}', [PostsController::class,'show_doing_post'])->name('posts.show_doing_post');
     Route::get('posts/show_doing_post_print/{post}', [PostsController::class,'show_doing_post_print'])->name('posts.show_doing_post_print');
@@ -185,49 +173,44 @@ Route::group(['middleware' => 'edu'],function(){
     Route::get('posts/{post}/copy', [PostsController::class,'copy'])->name('posts.copy');  
     
     
-            //資料填報
-        Route::get('edu_report', [EduReportController::class,'index'])->name('edu_report.index');
-        Route::get('edu_report/create', [EduReportController::class,'create'])->name('edu_report.create');
-        //Route::post('edu_report/add_one', [EduReportController::class,'add_one'])->name('edu_report.add_one');
-        //Route::post('edu_report/add_one_school', [EduReportController::class,'add_one_school'])->name('edu_report.add_one_school');
-        Route::post('edu_report/store', [EduReportController::class,'store'])->name('edu_report.store');
-        Route::get('edu_report/{report}/edit', [EduReportController::class,'edit'])->name('edu_report.edit');
-        Route::get('edu_report/{id}/{filename}/delete_file', [EduReportController::class,'delete_file'])->name('edu_report.delete_file');
-        Route::get('edu_report/{report}/show', [EduReportController::class,'show'])->name('edu_report.show');
-        Route::get('edu_report/{report}/date_late', [EduReportController::class,'date_late'])->name('edu_report.date_late');
-        Route::patch('edu_report/{report}/save_date_late', [EduReportController::class,'save_date_late'])->name('edu_report.save_date_late');
-        Route::get('edu_report/{report}/result', [EduReportController::class,'result'])->name('edu_report.result');
-        Route::get('edu_report/{report}/result2', [EduReportController::class,'result2'])->name('edu_report.result2');
-        Route::patch('edu_report/{report}/update', [EduReportController::class,'update'])->name('edu_report.update');
-        //增加附件
-        //Route::post('edu_report/add_file', [EduReportController::class,'add_file'])->name('edu_report.add_file');
-        //刪除附件
-        Route::get('edu_report/{id}/{file}/del_file', [EduReportController::class,'del_file'])->name('edu_report.del_file');
-        Route::delete('edu_report/{report}/destroy', [EduReportController::class,'destroy'])->name('edu_report.destroy');
-        //Route::get('edu_report/{question}/question_destroy', [EduReportController::class,'question_destroy'])->name('edu_report.question_destroy');
-        //Route::get('edu_report/{report}/{school_id}/school_destroy', [EduReportController::class,'school_destroy'])->name('edu_report.school_destroy');
-        Route::get('edu_report/passing', [EduReportController::class,'passing'])->name('edu_report.passing');
-        //再次送審
-        Route::patch('edu_report/{report}/resend', [EduReportController::class,'resend'])->name('edu_report.resend');
-    
-        //下載excel
-        Route::get('edu_report/{report}/export', [EduReportController::class,'export'])->name('edu_report.export');
-    
-        //作廢
-        Route::get('edu_report/{report}/obsolete', [EduReportController::class,'obsolete'])->name('edu_report.obsolete');
-        Route::get('edu_report/{report}/copy', [EduReportController::class,'copy'])->name('edu_report.copy');
-    
-        //催促公告
-        Route::post('edu_report/post', [EduReportController::class,'post'])->name('edu_report.post');
-    
-        //退回學校的填報
-        Route::get('edu_report/{report_school}/set_back', [EduReportController::class,'set_back'])->name('edu_report.set_back');
-        Route::get('edu_report/{report_school}/set_null', [EduReportController::class,'set_null'])->name('edu_report.set_null');
+        //資料填報
+    Route::get('edu_report', [EduReportController::class,'index'])->name('edu_report.index');
+    Route::get('edu_report/create', [EduReportController::class,'create'])->name('edu_report.create');
+    //Route::post('edu_report/add_one', [EduReportController::class,'add_one'])->name('edu_report.add_one');
+    //Route::post('edu_report/add_one_school', [EduReportController::class,'add_one_school'])->name('edu_report.add_one_school');
+    Route::post('edu_report/store', [EduReportController::class,'store'])->name('edu_report.store');
+    Route::get('edu_report/{report}/edit', [EduReportController::class,'edit'])->name('edu_report.edit');
+    Route::get('edu_report/{id}/{filename}/delete_file', [EduReportController::class,'delete_file'])->name('edu_report.delete_file');
+    Route::get('edu_report/{report}/show', [EduReportController::class,'show'])->name('edu_report.show');
+    Route::get('edu_report/{report}/date_late', [EduReportController::class,'date_late'])->name('edu_report.date_late');
+    Route::patch('edu_report/{report}/save_date_late', [EduReportController::class,'save_date_late'])->name('edu_report.save_date_late');
+    Route::get('edu_report/{report}/result', [EduReportController::class,'result'])->name('edu_report.result');
+    Route::get('edu_report/{report}/result2', [EduReportController::class,'result2'])->name('edu_report.result2');
+    Route::patch('edu_report/{report}/update', [EduReportController::class,'update'])->name('edu_report.update');
+    //增加附件
+    //Route::post('edu_report/add_file', [EduReportController::class,'add_file'])->name('edu_report.add_file');
+    //刪除附件
+    Route::get('edu_report/{id}/{file}/del_file', [EduReportController::class,'del_file'])->name('edu_report.del_file');
+    Route::delete('edu_report/{report}/destroy', [EduReportController::class,'destroy'])->name('edu_report.destroy');
+    //Route::get('edu_report/{question}/question_destroy', [EduReportController::class,'question_destroy'])->name('edu_report.question_destroy');
+    //Route::get('edu_report/{report}/{school_id}/school_destroy', [EduReportController::class,'school_destroy'])->name('edu_report.school_destroy');
+    Route::get('edu_report/passing', [EduReportController::class,'passing'])->name('edu_report.passing');
+    //再次送審
+    Route::patch('edu_report/{report}/resend', [EduReportController::class,'resend'])->name('edu_report.resend');
 
-        Route::get('reports/section_all', [EduReportController::class,'section_all'])->name('reports.section_all');
-        Route::post('reports/do_search_in_section', [EduReportController::class,'do_search_in_section'])->name('reports.do_search_in_section');
-        Route::get('reports/{want}/do_search', [EduReportController::class,'do_search'])->name('reports.do_search');
+    //下載excel
+    Route::get('edu_report/{report}/export', [EduReportController::class,'export'])->name('edu_report.export');
 
+    //作廢
+    Route::get('edu_report/{report}/obsolete', [EduReportController::class,'obsolete'])->name('edu_report.obsolete');
+    Route::get('edu_report/{report}/copy', [EduReportController::class,'copy'])->name('edu_report.copy');
+
+    //催促公告
+    Route::post('edu_report/post', [EduReportController::class,'post'])->name('edu_report.post');
+
+    //退回學校的填報
+    Route::get('edu_report/{report_school}/set_back', [EduReportController::class,'set_back'])->name('edu_report.set_back');
+    Route::get('edu_report/{report_school}/set_null', [EduReportController::class,'set_null'])->name('edu_report.set_null');
 
 });
 //系統管理者、科室管理者
@@ -384,7 +367,23 @@ Route::group(['middleware' => 'edu_admin'],function(){
     //核准指定的公告內容
     Route::patch('reports/{report}/approve', [EduReportController::class,'approve'])->name('reports.approve');
 
+    //顯示本科室內的全數公告
+    Route::get('posts/section_all', [PostsController::class,'section_all'])->name('posts.section_all');
+    Route::post('posts/do_search_in_section', [PostsController::class,'do_search_in_section'])->name('posts.do_search_in_section');
+    Route::get('posts/{want}/all_search_in_section', [PostsController::class,'all_search_in_section'])->name('posts.all_search_in_section');
+    Route::get('posts/all', [PostsController::class,'all'])->name('posts.all');
+    Route::post('posts/do_search', [PostsController::class,'do_search'])->name('posts.do_search');
+    Route::get('posts/{want}/all_search', [PostsController::class,'all_search'])->name('posts.all_search');
+    Route::post('posts/select_category', [PostsController::class,'select_category'])->name('posts.select_category');
+    Route::get('posts/{category}/all_category', [PostsController::class,'all_category'])->name('posts.all_category');
+    Route::post('posts/select_situation', [PostsController::class,'select_situation'])->name('posts.select_situation');
+    Route::get('posts/{situation}/all_situation', [PostsController::class,'all_situation'])->name('posts.all_situation');
+    Route::get('posts/{user_id}/all_user_id', [PostsController::class,'all_user_id'])->name('posts.all_user_id');
+
     //審核者可看
+    Route::get('reports/section_all', [EduReportController::class,'section_all'])->name('reports.section_all');
+    Route::post('reports/do_search_in_section', [EduReportController::class,'do_search_in_section'])->name('reports.do_search_in_section');
+    Route::get('reports/{want}/do_search', [EduReportController::class,'do_search'])->name('reports.do_search');    
     
 });
 

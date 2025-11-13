@@ -1,3 +1,10 @@
+<?php
+        $a = ['A','B','C','D','E','F','G','H','I','J'];
+        $user_power = \App\Models\UserPower::where('user_id',auth()->user()->id)
+        ->where('power_type','A')
+        ->whereIn('section_id',$a)
+        ->first();
+    ?>
 @if(auth()->user()->group_id==2 or !empty(auth()->user()->section_id))
     <?php $sections = config('boe.sections'); ?>
     @if(!empty(auth()->user()->section_id))
@@ -44,15 +51,17 @@
                 <li><a class="dropdown-item" href="{{ route('edu_report.passing') }}">填報通過區 ({{ $c_p2 }})</a></li>                  
                 </ul>
             </div>       
-            <div class="dropdown">
-                <button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-list"></i> [{{ $sections[auth()->user()->section_id] }}] 公告與填報
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton4">
-                <li><a class="dropdown-item" href="{{ route('posts.section_all') }}">全數公告</a></li>
-                <li><a class="dropdown-item" href="{{ route('reports.section_all') }}">全數填報</a></li>                  
-                </ul>
-            </div>                 
+            @if($user_power)
+                <div class="dropdown">
+                    <button class="btn btn-outline-dark btn-sm dropdown-toggle" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-list"></i> [{{ $sections[auth()->user()->section_id] }}] 公告與填報
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton4">
+                    <li><a class="dropdown-item" href="{{ route('posts.section_all') }}">全數公告</a></li>
+                    <li><a class="dropdown-item" href="{{ route('reports.section_all') }}">全數填報</a></li>                  
+                    </ul>
+                </div>         
+            @endif        
             @if( (auth()->user()->title =="處長" or auth()->user()->title == "副處長" or auth()->user()->title =="科長" or auth()->user()->title == "督學") and auth()->user()->code=="079999")
                 <a href="{{ route('posts.all') }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-list"></i> [教育處] 全數公告</a>
             @endif
@@ -65,14 +74,7 @@
         @else
             <a href="{{ route('my_section.index') }}" class="btn btn-success btn-sm">選填我的科室</a>
         @endif
-    @endif
-    <?php
-        $a = ['A','B','C','D','E','F','G','H','I','J'];
-        $user_power = \App\Models\UserPower::where('user_id',auth()->user()->id)
-        ->where('power_type','A')
-        ->whereIn('section_id',$a)
-        ->first();
-    ?>
+    @endif    
     @if($user_power)
         <?php
         $c_p = \App\Models\Post::where('section_id',$user_power->section_id)

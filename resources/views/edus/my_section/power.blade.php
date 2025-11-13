@@ -19,7 +19,7 @@
                 {{ $sections[auth()->user()->section_id] }}
             </h5>
             <p>
-                方式一：從教育處所有帳號選擇
+            從本科室成員加入
             <form action="{{ route('my_section.power_update1') }}" method="POST" id="type1" onsubmit="return false">
                 @csrf
                 <div class="form-group">
@@ -31,12 +31,13 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <button type="submit" class="btn btn-success btn-sm" onclick="sw_confirm2('確定？','type1')">方式一送出
+                    <button type="submit" class="btn btn-success btn-sm" onclick="sw_confirm2('確定？','type1')">送出
                     </button>
                 </div>
                 <input type="hidden" name="section_id" value="{{ auth()->user()->section_id }}">
             </form>
             </p>
+            <!--
             <p>
                 方式二：輸入本站任一帳號(可加入帳號掛學校的調府教師，例如要加入foo@chc.edu.tw，請輸入foo)
             @include('layouts.errors')
@@ -51,7 +52,8 @@
                 </div>
                 <input type="hidden" name="section_id" value="{{ auth()->user()->section_id }}">
             </form>
-            </p>            
+            </p>
+            -->            
         </div>
     </div>
 </div>
