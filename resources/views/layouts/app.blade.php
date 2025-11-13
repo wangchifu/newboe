@@ -73,7 +73,9 @@
                 numeration: true,
                 infinigall: true,
                 //share: ['facebook', 'twitter', 'linkedin', 'pinterest', 'download'],
-                spinner: 'rotating-plane'
+                spinner: 'rotating-plane',
+                maxWidth: '90%',
+                maxHeight: '90%'
             });
         
             $(document).on('click', '.vbox-close', function() {
@@ -81,5 +83,28 @@
             });
         </script>
         @yield('my_js')
+        <style>
+            .vbox-content {
+            position: relative !important;
+            }
+
+            .vbox-content iframe,
+            .vbox-content video {
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            transform: translate(-50%, -50%) !important;
+            height: 80vh !important;
+            width: 100% !important;
+            object-fit: contain;
+            }
+
+            @media (max-width: 768px) {
+            .vbox-content iframe,
+            .vbox-content video {
+                height: 90vh !important;
+            }
+            }
+        </style>
     </body>
 </html>
