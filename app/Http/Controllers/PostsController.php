@@ -184,7 +184,7 @@ class PostsController extends Controller
             }
 
             if (!$check_show and !$check_show2) {
-                dd('別想偷看！');
+                abort(404,'別想偷看！');
             }
         }
 
@@ -240,12 +240,12 @@ class PostsController extends Controller
     {
         //沒通過不給看
         if ($post->situation != 3 and $post->situation != 4) {
-            dd('別想偷看！');
+            abort(404,'別想偷看！');
         }
         //沒登入不給看
         if (!auth()->check() and $post->category_id == '5') {
             if ($post->another != 1) {
-                dd('別想偷看！');
+                abort(404,'別想偷看！');
             }
         }
 
@@ -266,7 +266,7 @@ class PostsController extends Controller
             }
 
             if (!$check_show and !$check_show2) {
-                dd('別想偷看！');
+                abort(404,'別想偷看！');
             }
         }
 
@@ -302,7 +302,10 @@ class PostsController extends Controller
         //只能編輯自己的公告，這裡的update，是去讀取PostPolicy.php政策
         //$this->authorize('update', $post);
         if($post->situation==3 or $post->situation==4){
-            dd('都審核或廢除了，還想偷改？');
+            abort(404,'都審核或廢除了，還想偷改？');
+        }
+        if($post->user_id != auth()->user()->id){
+            abort(404,'你想做什麼壞事？');
         }
 
         $files = get_files(storage_path('app/public/post_files/' . $post->id));
@@ -924,12 +927,21 @@ class PostsController extends Controller
                 $user_power = UserPower::where('section_id', $post->user->section_id)->where('user_id', auth()->user()->id)->first();
 
                 if (!$user_power) {
-                    dd('無法觀看別科室公告');
+                    abort('404','無法觀看別科室公告');
                 }
             }
         }
 
-
+        if($post->user_id != auth()->user()->id){
+            $a = ['A','B','C','D','E','F','G','H','I','J'];
+            $user_power = \App\Models\UserPower::where('user_id',auth()->user()->id)
+            ->where('power_type','A')
+            ->whereIn('section_id',$a)
+            ->first();
+            if(!$user_power){
+                abort(404,'你想做什麼壞事？');
+            }            
+        }
 
         $files = get_files(storage_path('app/public/post_files/' . $post->id));
         $images = get_files(storage_path('app/public/post_photos/' . $post->id));

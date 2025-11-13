@@ -182,7 +182,7 @@ class EduReportController extends Controller
     public function destroy(Request $request,Report $report)
     {
         if($report->situation==3 or $report->situation==4){
-            dd('都審核或廢除了，還想偷改？');
+            abort(404,'都審核或廢除了，還想偷改？');
         }
         if($report->user_id == auth()->user()->id){
             Question::where('report_id',$report->id)->delete();
@@ -231,6 +231,16 @@ class EduReportController extends Controller
 
     public function show(Report $report)
     {
+        if($report->user_id != auth()->user()->id){
+            $a = ['A','B','C','D','E','F','G','H','I','J'];
+            $user_power = \App\Models\UserPower::where('user_id',auth()->user()->id)
+            ->where('power_type','A')
+            ->whereIn('section_id',$a)
+            ->first();
+            if(!$user_power){
+                abort(404,'你想做什麼壞事？');
+            }            
+        }
         //利用checkbox_str_num將編碼過的所選學校轉成字串
         $old_schools = checkbox_str_num(array($report->school_set_0, $report->school_set_1, $report->school_set_2, $report->school_set_3, $report->school_set_4));
 
@@ -275,7 +285,7 @@ class EduReportController extends Controller
     public function edit(Report $report)
     {
         if($report->situation==3 or $report->situation==4){
-            dd('都審核或廢除了，還想偷改？');
+            abort(404,'都審核或廢除了，還想偷改？');
         }
         $select_school = checkbox_str_num(array($report->school_set_0, $report->school_set_1, $report->school_set_2, $report->school_set_3, $report->school_set_4));
         $files = get_files(storage_path('app/public/report_files/' . $report->id));
@@ -292,6 +302,16 @@ class EduReportController extends Controller
 
     public function copy(Report $report)
     {
+        if($report->user_id != auth()->user()->id){
+            $a = ['A','B','C','D','E','F','G','H','I','J'];
+            $user_power = \App\Models\UserPower::where('user_id',auth()->user()->id)
+            ->where('power_type','A')
+            ->whereIn('section_id',$a)
+            ->first();
+            if(!$user_power){
+                abort(404,'你想做什麼壞事？');
+            }            
+        }
         $select_school = checkbox_str_num(array($report->school_set_0, $report->school_set_1, $report->school_set_2, $report->school_set_3, $report->school_set_4));
         $files = get_files(storage_path('app/public/report_files/' . $report->id));
         $sections = config('boe.sections');
@@ -523,6 +543,16 @@ class EduReportController extends Controller
 
     public function result(Report $report) 
     {
+        if($report->user_id != auth()->user()->id){
+            $a = ['A','B','C','D','E','F','G','H','I','J'];
+            $user_power = \App\Models\UserPower::where('user_id',auth()->user()->id)
+            ->where('power_type','A')
+            ->whereIn('section_id',$a)
+            ->first();
+            if(!$user_power){
+                abort(404,'你想做什麼壞事？');
+            }            
+        }
         //利用checkbox_str_num將編碼過的所選學校轉成字串
         $old_schools = checkbox_str_num(array($report->school_set_0, $report->school_set_1, $report->school_set_2, $report->school_set_3, $report->school_set_4));
 
