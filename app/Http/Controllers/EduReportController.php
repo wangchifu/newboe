@@ -39,7 +39,7 @@ class EduReportController extends Controller
                     ->orWhere('situation','4');
             })
             ->orderBy('id','DESC')
-            ->paginate(10);
+            ->paginate(20);
         $situation = config('boe.situation');
         $sections = config('boe.sections');
         $data = [
@@ -760,9 +760,15 @@ class EduReportController extends Controller
                 $q->where('situation','3')
                     ->orWhere('situation','4');
             })
-            ->where('name','like','%'.$want.'%')
+            ->where(function ($q) use ($want) {
+            $q->where('name', 'like', '%' . $want . '%')
+                ->orWhere('content', 'like', '%' . $want . '%')
+                ->orWhereHas('user', function ($query) use ($want) {
+                    $query->where('name', 'like', '%' . $want . '%');
+                });
+            })            
             ->orderBy('id','DESC')
-            ->paginate(10);
+            ->paginate(20);
         $situation = config('boe.situation');
         $sections = config('boe.sections');
         $data = [
