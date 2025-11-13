@@ -56,11 +56,11 @@
                     <tbody>
                         @foreach($post5 as $post)
                         <tr>
-                            <td class="td-number">
+                            <td class="td-number" data-th="編號">
                                 <span data-toggle="tooltip" data-placement="top" title="給 {{ $schools[$post->code] }}">{{ $post->post_no }}</span>
                             </td>
 
-                            <td class="td-title">
+                            <td class="td-title" data-th="主旨">
                                 @if($post->another ===1)
                                     <span class="text-success">
                                         <i class="fas fa-eye"></i>
@@ -81,15 +81,15 @@
                                     </a>
                                 @endif
                             </td>
-                            <td nowrap>
+                            <td nowrap data-th="發佈人">
                                 {{ array_get($sections,$post->section_id) }}<br>{{ $post->name }}
                             </td>
-                            <td nowrap>
+                            <td nowrap data-th="發佈日期">
                                 <small>
                                     {{ substr($post->passed_at,0,10) }}<br>{{ substr($post->passed_at,11,5) }}
                                 </small>
                             </td>
-                            <td nowrap>                            
+                            <td nowrap data-th="簽收">                            
                             @if($post->signed_at != null)
                                 {{ userid2name($post->signed_user_id) }}
                             @endif

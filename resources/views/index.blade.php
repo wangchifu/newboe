@@ -145,7 +145,7 @@
     </div>
     <!-- Nested row for non-featured blog posts-->    
     <!-- Pagination-->
-    {{ $posts->links('layouts.pagination') }}
+    {{ $posts->links('layouts.simple-pagination') }}
 </div>
 <!-- Side widgets-->
 <div class="col-lg-4">

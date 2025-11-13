@@ -63,11 +63,11 @@
                     <tbody>
                         @foreach($post_schools as $post_school)
                         <tr>
-                            <td class="td-number">
+                            <td class="td-number" data-th="編號">
                                 <span data-toggle="tooltip" data-placement="top" title="給 {{ $schools[$post_school->code] }}">{{ $post_school->post->post_no }}</span>
                             </td>
 
-                            <td class="td-title">
+                            <td class="td-title" data-th="主旨">
                                 @if($post_school->post->another ===1)
                                     <span class="text-success">
                                         <i class="fas fa-eye"></i>
@@ -88,15 +88,15 @@
                                     </a>
                                 @endif
                             </td>
-                            <td nowrap>
+                            <td nowrap data-th="發佈人">
                                 {{ array_get($sections,$post_school->post->section_id) }}<br>{{ $post_school->post->user->name }}
                             </td>
-                            <td nowrap>
+                            <td nowrap data-th="發佈日期">
                                 <small>
                                     {{ substr($post_school->post->passed_at,0,10) }}<br>{{ substr($post_school->post->passed_at,11,5) }}
                                 </small>
                             </td>
-                            <td nowrap>
+                            <td nowrap data-th="簽收">
                             @if($post_school->signed_at==null and $post_school->post->situation != 4)
                             <form action="{{ route('posts.signed', ['ps_id' => $post_school->id]) }}" method="POST" id="sign_check_form{{ $post_school->post_id }}">
                                 @method('PATCH')
