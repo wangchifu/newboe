@@ -12,7 +12,7 @@
 <div class="col-lg-12 mx-auto">
     <h1>帳號管理</h1>
     <div class="card mb-4">
-        <div class="card-header d-flex justify-content-center">
+        <div class="card-header">
             @include('admins.search_nav')
         </div>
         <div class="card-body">            

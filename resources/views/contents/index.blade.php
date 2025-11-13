@@ -12,9 +12,10 @@
 <div class="col-lg-8 mx-auto">
     <h1>內容管理</h1>
     <div class="card mb-4">
-        <div class="card-header">列表</div>
-        <div class="card-body">
+        <div class="card-header">
             <a href="{{ route('contents.create') }}" class="btn btn-primary btn-sm"><i class="fas fa-plus"></i> 新增內容</a>
+        </div>
+        <div class="card-body">            
             <table class="table table-striped" style="word-break:break-all;">
                 <thead class="table-secondary">
                 <tr>

@@ -12,8 +12,7 @@
 <div class="col-lg-12 mx-auto">
     <h1>{{ $section_name }} 檔案上傳</h1>
     <div class="card mb-4">
-        <div class="card-header">列表</div>
-        <div class="card-body">            
+        <div class="card-header">
             <?php
             $final = end($folder_path);
             $final_key = key($folder_path);
@@ -42,6 +41,8 @@
                     <i class="fa fa-folder text-warning"></i> <a href="{{ route('uploads.index',$p) }}">{{$v}}</a>/
                 @endif
             @endforeach
+        </div>
+        <div class="card-body">                        
             <table class="table table-striped">
                 <thead class="thead-light">
                 <tr>

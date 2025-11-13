@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','帳號管理')
+@section('title','log 記錄')
 
 @section('header')
 <header class="py-5 bg-light border-bottom mb-4">
@@ -20,51 +20,58 @@
     $select[5] = ($select_level==5)?"selected":null;
     $select[6] = ($select_level==6)?"selected":null;
     ?>
-    <form id="level_form" method="get">
-        <select class="form-control" name="select_level" onchange="go()">
-            <option value="all" {{ $select_all }}>--請選擇--</option>
-            @foreach($level_array as $k=>$v)
-                <option value="{{ $k }}" {{ $select[$k] }}>{{ $v }}</option>
-            @endforeach
-        </select>
-    </form>
-    <table class="table table-striped">
-        <thead class="thead-light">
-        <tr>
-            <th nowrap>
-                等級
-            </th>
-            <th nowrap>
-                時間
-            </th>
-            <th nowrap>
-                訊息
-            </th>
-            <th nowrap>
-                IP
-            </th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($logs as $log)
-            <tr style="word-break: break-all;">
-                <td>
-                    {{ $level_array[$log->level] }}
-                </td>
-                <td>
-                    {{ $log->created_at }}
-                </td>
-                <td>
-                    {{ $log->event }}
-                </td>
-                <td>
-                    {{ $log->ip }}
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
-    {{ $logs->appends(['select_level'=>$select_level])->links('layouts.pagination') }}                           
+    <h1>log 記錄</h1>
+    <div class="card mb-4">
+        <div class="card-header">
+            <form id="level_form" method="get">
+                <select class="form-control" name="select_level" onchange="go()">
+                    <option value="all" {{ $select_all }}>--請選擇--</option>
+                    @foreach($level_array as $k=>$v)
+                        <option value="{{ $k }}" {{ $select[$k] }}>{{ $v }}</option>
+                    @endforeach
+                </select>
+            </form>
+        </div>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead class="thead-light">
+                <tr>
+                    <th nowrap>
+                        等級
+                    </th>
+                    <th nowrap>
+                        時間
+                    </th>
+                    <th nowrap>
+                        訊息
+                    </th>
+                    <th nowrap>
+                        IP
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($logs as $log)
+                    <tr style="word-break: break-all;">
+                        <td>
+                            {{ $level_array[$log->level] }}
+                        </td>
+                        <td>
+                            {{ $log->created_at }}
+                        </td>
+                        <td>
+                            {{ $log->event }}
+                        </td>
+                        <td>
+                            {{ $log->ip }}
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+            {{ $logs->appends(['select_level'=>$select_level])->links('layouts.pagination') }}            
+        </div>
+    </div>                                   
 </div>
 <div class="col-xs-12 col-md-4">
     <table class="table table-striped">

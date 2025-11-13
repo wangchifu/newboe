@@ -12,9 +12,10 @@
 <div class="col-lg-12 mx-auto">
     <h1>帳號管理</h1>
     <div class="card mb-4">
-        <div class="card-header">列表</div>
-        <div class="card-body">
+        <div class="card-header">
             @include('admins.search_nav')
+        </div>
+        <div class="card-body">            
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admins.user_index') }}">全部</a>

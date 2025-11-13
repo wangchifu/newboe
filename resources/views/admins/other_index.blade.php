@@ -12,9 +12,10 @@
 <div class="col-lg-12 mx-auto">
     <h1>其他連結</h1>
     <div class="card mb-4">
-        <div class="card-header">列表</div>
-        <div class="card-body">
+        <div class="card-header">
             <a href="{{ route('admins.other_create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增連結</a>
+        </div>
+        <div class="card-body">            
             <table class="table table-striped" style="word-break:break-all;">
                 <thead class="thead-light">
                 <tr>
