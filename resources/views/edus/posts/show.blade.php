@@ -16,7 +16,7 @@
                     <table class="table table-striped rwd-table">
                         <tbody>
                             <tr>
-                                <th scope="row" class="text-center post-th" width="20%" data-th="標題">[類別] 標題</th>
+                                <th scope="row" class="text-center" width="20%" data-th="標題">[類別] 標題</th>
                                 <td style="color: #000000">
                                     @if($post->type===1)
                                         <span class="text-danger">
@@ -34,7 +34,7 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th scope="row" class="text-center post-th" width="20%" data-th="發佈人">單位 / 發佈人</th>
+                                <th scope="row" class="text-center" width="20%" data-th="發佈人">單位 / 發佈人</th>
                                 <td style="color: #000000">{{ array_get($sections,$post->section_id) }} / 
                                     @auth
                                         {{ $post->user->name }}
@@ -45,11 +45,11 @@
                                     @if(!empty($post->user->telephone)) <i class="fas fa-phone"></i> {{ $post->user->telephone }}@endif</td>
                             </tr>
                             <tr>
-                                <th scope="row" class="text-center post-th" width="20%" data-th="時間">時間 / 點閱</th>
+                                <th scope="row" class="text-center" width="20%" data-th="時間">時間 / 點閱</th>
                                 <td style="color: #000000">{{ substr($post->passed_at,0,16)  }} / {{ $post->views }} </td>
                             </tr>
                             <tr>
-                                <th scope="row" class="text-center post-th" width="20%" data-th="內容">內容</th>
+                                <th scope="row" class="text-center" width="20%" data-th="內容">內容</th>
                                 <td style="color: #000000;word-break: break-all;">
                                     @if( $post->situation ===4 )
                                         <strike>{!! $post->content !!}</strike>
@@ -61,7 +61,7 @@
     
                             @if(!empty($files))
                                 <tr>
-                                    <th scope="row" class="text-center post-th" width="20%" data-th="檔案">
+                                    <th scope="row" class="text-center" width="20%" data-th="檔案">
                                         附加檔案
                                     </th>
                                     <td>
@@ -80,7 +80,7 @@
                             @if(!empty($images))
     
                                 <tr>
-                                    <th scope="row" class="text-center post-th" width="20%" data-th="圖片">
+                                    <th scope="row" class="text-center" width="20%" data-th="圖片">
                                         相關照片
                                     </th>
                                     <td>
@@ -100,7 +100,7 @@
     
                             @if(!empty($post->url))
                                 <tr>
-                                    <th scope="row" class="text-center post-th" width="15%" data-th="連結">
+                                    <th scope="row" class="text-center" width="15%" data-th="連結">
                                         相關連結
                                     </th>
                                     <td colspan="3">
