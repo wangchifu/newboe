@@ -587,6 +587,109 @@ class AdminsController extends Controller
         return view('admins.logs', $data);
     }
 
+    public function special()
+    {        
+        $data = [
+            
+        ];
+        return view('admins.special',$data);
+    }
+
+    public function special_post(Request $request)
+    {
+        $id = $request->input('post_id');
+        $post = Post::where('id',$id)->first();
+        $post_schools = PostSchool::where('post_id',$id)->get();
+        $categories = config('boe.categories');
+        $situation = config('boe.situation');
+        $sections = config('boe.sections');
+        $data = [
+            'post'=>$post,
+            'post_schools'=>$post_schools,
+            'categories'=>$categories,
+            'situation'=>$situation,
+            'sections'=>$sections,
+        ];
+        return view('admins.special_post',$data);
+    }
+
+    public function special_post_delete(Request $request)
+    {
+        $id = $request->input('post_id');
+        $post = Post::where('id',$id)->first();
+        $post_schools = PostSchool::where('post_id',$id)->delete();        
+
+        $folder = storage_path('app/public/post_files/'.$post->id);
+        if (is_dir($folder)) {
+            del_folder($folder);
+        }
+        $folder = storage_path('app/public/post_photos/'.$post->id);
+        if (is_dir($folder)) {
+            del_folder($folder);
+        }
+
+        //log
+        $event = "管理者 ".auth()->user()->name."(".auth()->user()->username.") 刪除了公告 id：".$post->id." 名稱：".$post->title;
+        logging('4',$event,get_ip());
+
+        $post->delete();
+
+        return redirect()->route('admins.special');
+
+    }
+
+    public function special_report(Request $request)
+    {
+        $id = $request->input('report_id');
+        $report = Report::where('id',$id)->first();
+        $questions = Question::where('report_id',$id)->get();
+        $answers = Answer::where('report_id',$id)->get();
+        $report_schools = ReportSchool::where('report_id',$id)->get();
+        $categories = config('boe.categories');
+        $situation = config('boe.situation');
+        $sections = config('boe.sections');
+        $types = [
+            'radio'=>'1.單選題',
+            'checkbox'=>'2.多選題',
+            'text'=>'3.文字題',
+            'num'=>'4.數字題',
+        ];
+        $data = [
+            'report'=>$report,
+            'questions'=>$questions,
+            'answers'=>$answers,
+            'report_schools'=>$report_schools,
+            'categories'=>$categories,
+            'situation'=>$situation,
+            'sections'=>$sections,
+            'types'=>$types,
+        ];
+        return view('admins.special_report',$data);
+    }
+
+    public function special_report_delete(Request $request)
+    {
+        $id = $request->input('report_id');
+        $report = Report::where('id',$id)->first();
+        $questions = Question::where('report_id',$id)->delete();
+        $answers = Answer::where('report_id',$id)->delete();
+        $report_schools = ReportSchool::where('report_id',$id)->delete();
+
+        $folder = storage_path('app/public/report_files/'.$id);
+        if (is_dir($folder)) {
+            del_folder($folder);
+        }        
+
+        //log
+        $event = "管理者 ".auth()->user()->name."(".auth()->user()->username.") 刪除了資料填報 id：".$report->id." 名稱：".$report->name;
+        logging('4',$event,get_ip());
+
+        $report->delete();
+
+        return redirect()->route('admins.special');
+
+    }    
+
     public function clean_index()
     {        
         $data = [

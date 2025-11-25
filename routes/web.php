@@ -299,6 +299,13 @@ Route::group(['middleware' => 'admin'],function(){
     Route::post('admin/clean_do_post', [AdminsController::class,'clean_do_post'])->name('admins.clean_do_post');
     Route::post('admin/clean_do_report', [AdminsController::class,'clean_do_report'])->name('admins.clean_do_report');
 
+    Route::get('admin/special', [AdminsController::class,'special'])->name('admins.special');
+    Route::post('admin/special_post', [AdminsController::class,'special_post'])->name('admins.special_post');
+    Route::post('admin/special_post_delete', [AdminsController::class,'special_post_delete'])->name('admins.special_post_delete');
+    Route::post('admin/special_report', [AdminsController::class,'special_report'])->name('admins.special_report');
+    Route::post('admin/special_report_delete', [AdminsController::class,'special_report_delete'])->name('admins.special_report_delete');
+
+
     //log
     Route::get('logs',[AdminsController::class,'logs'])->name('logs');
 
