@@ -141,10 +141,8 @@
                                 <li><a class="dropdown-item" href="{{ route('admins.user_index') }}">帳號管理</a></li>                            
                                 <li><a class="dropdown-item" href="{{ route('admins.introduction_index') }}">教育處介紹</a></li>                        
                                 <li><a class="dropdown-item" href="{{ route('admins.other_index') }}">其他連結</a></li>                                                                
-                                <li><a class="dropdown-item" href="{{ route('logs') }}">log 記錄</a></li>  
-                                <!--                              
-                                <li><a class="dropdown-item" href="{{ route('admins.sys_post_index') }}">系統公告</a></li>                                
-                                -->
+                                <li><a class="dropdown-item" href="{{ route('logs') }}">log 記錄</a></li>                                                               
+                                <li><a class="dropdown-item" href="{{ route('admins.sys_post_index') }}">系統公告</a></li>                                                                
                                 <li><a class="dropdown-item" href="{{ route('admins.special') }}">特殊處理</a></li>
                                 <li><a class="dropdown-item" href="{{ route('admins.clean_index') }}">清理資料</a></li>
                                 <li><a class="dropdown-item" href="{{ route('close') }}">關閉系統</a></li> 

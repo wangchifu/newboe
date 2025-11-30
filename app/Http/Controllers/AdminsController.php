@@ -31,6 +31,8 @@ class AdminsController extends Controller
         ->where('power_type', 'A')
         ->first();
         session(['user_power' => $user_power]);
+        session(['user_read_ids' => null]);
+        session(['user_all_read' => null]);
         return redirect()->route('index');
 
     }
