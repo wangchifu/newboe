@@ -62,7 +62,7 @@
                                 <td data-th="類別" nowrap>
                                     {{ $categories[$post->category_id] }}
                                 </td>
-                                <td data-th="發佈人">
+                                <td data-th="發佈人" nowrap>
                                     {{ $sections[$post->section_id] }}<br>
                                     {{ $post->user->name }}
                                 </td>
