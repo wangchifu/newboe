@@ -60,7 +60,9 @@
                     <li><a class="dropdown-item" href="{{ route('posts.section_all') }}">全數公告</a></li>
                     <li><a class="dropdown-item" href="{{ route('reports.section_all') }}">全數填報</a></li>                  
                     </ul>
-                </div>         
+                </div>  
+            @else
+                <a href="{{ route('posts.section_all2') }}" class="btn btn-outline-dark btn-sm"><i class="fas fa-list"></i> [{{ $sections[auth()->user()->section_id] }}] 全數公告</a>       
             @endif        
             @if( (auth()->user()->title =="處長" or auth()->user()->title == "副處長" or auth()->user()->title =="科長" or auth()->user()->title == "督學") and auth()->user()->code=="079999")
                 <a href="{{ route('posts.all') }}" class="btn btn-outline-primary btn-sm"><i class="fas fa-list"></i> [教育處] 全數公告</a>

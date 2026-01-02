@@ -49,6 +49,9 @@ class HomeController extends Controller
 
     public function logins()
     {
+        if(auth()->check()){
+            return redirect()->route('index');
+        }
         return view('auth.logins');
     }
 
@@ -56,7 +59,10 @@ class HomeController extends Controller
         return view('auth.glogin');
     }
 
-    public function mlogin(){        
+    public function mlogin(){       
+        if(auth()->check()){
+            return redirect()->route('index');
+        } 
         return view('auth.mlogin');
     }
 

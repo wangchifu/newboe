@@ -172,6 +172,8 @@ Route::group(['middleware' => 'edu'],function(){
     //複製公告
     Route::get('posts/{post}/copy', [PostsController::class,'copy'])->name('posts.copy');  
     
+    //看同科室的所有公告
+    Route::get('posts/section_all2', [PostsController::class,'section_all2'])->name('posts.section_all2');
     
         //資料填報
     Route::get('edu_report', [EduReportController::class,'index'])->name('edu_report.index');

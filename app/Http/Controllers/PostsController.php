@@ -636,6 +636,37 @@ class PostsController extends Controller
         return view('edus.posts.section_all', $data);
     }
 
+    public function section_all2()
+    {
+        $posts = Post::where('section_id', auth()->user()->section_id)
+            ->orderBy('id', 'DESC')
+            ->paginate(15);
+
+        $categories = config('boe.categories');
+        $situation = config('boe.situation');
+
+        $uri = $_SERVER['REQUEST_URI'];
+        $uri = strrchr($uri, "/");
+        if (strpos($uri, "?")) {
+            $uri_name = substr($uri, 1, strpos($uri, "?") - 1);
+        } else {
+            $uri_name = substr(strrchr($uri, "/"), 1);
+        }
+
+        $sections = config('boe.sections');
+
+        $data = [
+            'posts' => $posts,
+            'categories' => $categories,
+            'situation' => $situation,
+            'uri_name' => $uri_name,
+            'sections' => $sections,
+            'want' => '',
+        ];
+
+        return view('edus.posts.section_all', $data);
+    }
+
     public function all()
     {
         if (auth()->user()->code != "079999") {
