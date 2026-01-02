@@ -201,7 +201,9 @@ class EduReportController extends Controller
         }
         if($report->user_id == auth()->user()->id){
             Question::where('report_id',$report->id)->delete();
-            $report->delete();
+            Answer::where('report_id',$report->id)->delete();
+            ReportSchool::where('report_id',$report->id)->delete();
+            $report->delete();            
         }
         return redirect()->route('edu_report.index');
     }

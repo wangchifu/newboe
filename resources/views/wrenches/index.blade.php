@@ -86,13 +86,13 @@
                         @if(!$wrench->reply and (auth()->user()->group_id==9 or auth()->user()->admin==1))
                             <br>
                             @if(!$wrench->reply)                                
-                                <form action="{{ route('wrench.reply') }}" method="post" id="reply_form">
+                                <form action="{{ route('wrench.reply') }}" method="post" id="reply_form{{ $wrench->id }}">
                                 @csrf
                                 <div class="form-group">
                                     <textarea name="reply" class="form-control" placeholder="管理者回覆"></textarea>
                                 </div>
                                 <div class="form-group">
-                                    <a class="btn btn-primary btn-sm" onclick="sw_confirm2('確定送出？','reply_form')">送出</a>
+                                    <a class="btn btn-primary btn-sm" onclick="sw_confirm2('確定送出？','reply_form{{ $wrench->id }}')">送出</a>
                                 </div>
                                 <input type="hidden" name="id" value="{{ $wrench->id }}">
                                 </form>
