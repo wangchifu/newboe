@@ -174,6 +174,8 @@ Route::group(['middleware' => 'edu'],function(){
     
     //看同科室的所有公告
     Route::get('posts/section_all2', [PostsController::class,'section_all2'])->name('posts.section_all2');
+    Route::post('posts/do_search_in_section', [PostsController::class,'do_search_in_section'])->name('posts.do_search_in_section');
+    Route::get('posts/{want}/all_search_in_section', [PostsController::class,'all_search_in_section'])->name('posts.all_search_in_section');
     
         //資料填報
     Route::get('edu_report', [EduReportController::class,'index'])->name('edu_report.index');
@@ -377,9 +379,7 @@ Route::group(['middleware' => 'edu_admin'],function(){
     Route::patch('reports/{report}/approve', [EduReportController::class,'approve'])->name('reports.approve');
 
     //顯示本科室內的全數公告
-    Route::get('posts/section_all', [PostsController::class,'section_all'])->name('posts.section_all');
-    Route::post('posts/do_search_in_section', [PostsController::class,'do_search_in_section'])->name('posts.do_search_in_section');
-    Route::get('posts/{want}/all_search_in_section', [PostsController::class,'all_search_in_section'])->name('posts.all_search_in_section');
+    Route::get('posts/section_all', [PostsController::class,'section_all'])->name('posts.section_all');        
     Route::get('posts/all', [PostsController::class,'all'])->name('posts.all');
     Route::post('posts/do_search', [PostsController::class,'do_search'])->name('posts.do_search');
     Route::get('posts/{want}/all_search', [PostsController::class,'all_search'])->name('posts.all_search');
