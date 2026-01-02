@@ -15,8 +15,7 @@ class SchoolReportController extends Controller
 {
     public function index()    
     {
-        if(empty(session('posts_not'))){
-            $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+        $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
                 ->where('signed_user_id',null)
             ->get();
             $posts_quick = 0;
@@ -41,7 +40,6 @@ class SchoolReportController extends Controller
             session(['posts_not'=>$posts_not]);
             session(['posts_quick'=>$posts_quick]);
             session(['reports_not'=>$reports_not]);
-        }
         $report_schools = ReportSchool::where('code','like',"%".auth()->user()->code."%")
             ->orderBy('id','DESC')
             ->simplePaginate(10);
@@ -59,8 +57,7 @@ class SchoolReportController extends Controller
 
     public function not_index()
     {
-        if(empty(session('posts_not'))){
-            $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+        $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
                 ->where('signed_user_id',null)
             ->get();
             $posts_quick = 0;
@@ -85,7 +82,6 @@ class SchoolReportController extends Controller
             session(['posts_not'=>$posts_not]);
             session(['posts_quick'=>$posts_quick]);
             session(['reports_not'=>$reports_not]);
-        }
         $report_schools = ReportSchool::where('code','like',"%".auth()->user()->code."%")
             ->where(function($q){
                 $q->where('situation','=',0)
@@ -109,8 +105,7 @@ class SchoolReportController extends Controller
 
     public function show_person_Signed()
     {
-        if(empty(session('posts_not'))){
-            $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+        $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
                 ->where('signed_user_id',null)
             ->get();
             $posts_quick = 0;
@@ -135,7 +130,6 @@ class SchoolReportController extends Controller
             session(['posts_not'=>$posts_not]);
             session(['posts_quick'=>$posts_quick]);
             session(['reports_not'=>$reports_not]);
-        }
         $report_schools = ReportSchool::where('code','like',"%".auth()->user()->code."%")
             ->where('signed_user_id',auth()->user()->id)
             ->orderBy('id','DESC')

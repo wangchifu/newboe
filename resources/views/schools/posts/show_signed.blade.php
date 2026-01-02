@@ -136,7 +136,7 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="ModalLong" tabindex="-1" aria-labelledby="ModalLongTitle" aria-hidden="true" data-mycount="{{ count($posts5_quickly) }}">
+<div class="modal fade" id="ModalLong" tabindex="-1" aria-labelledby="ModalLongTitle" aria-hidden="true" data-mycount="{{ count($posts5_quickly ?? []) }}">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -144,7 +144,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                @foreach($posts5_quickly as $post5_quickly)
+                @foreach(($posts5_quickly ?? []) as $post5_quickly)
                     第{{ $post5_quickly->post->post_no }}號「{{ $post5_quickly->post->title }}....」已逾期，請速簽收
                     <br>
                 @endforeach

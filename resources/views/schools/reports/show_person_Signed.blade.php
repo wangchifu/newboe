@@ -128,9 +128,11 @@
                                 @elseif($report_school->situation ===5)
 
                                 @else
+                                    <!--
                                     <a href="{{ route('school_report.show',$report_school->id) }}" class="btn btn-success btn-sm venobox" data-vbtype="iframe">
                                         查看
                                     </a>
+                                    -->
                                 @endif
 
                                 @if($report_school->situation === 0)

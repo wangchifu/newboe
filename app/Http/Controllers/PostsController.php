@@ -1099,8 +1099,7 @@ class PostsController extends Controller
     //學校端顯示簽收公告
     public function showSigned()
     {        
-        if(empty(session('posts_not'))){
-            $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+        $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
                 ->where('signed_user_id',null)
             ->get();
             $posts_quick = 0;
@@ -1129,8 +1128,7 @@ class PostsController extends Controller
             session(['posts_not'=>$posts_not]);
             session(['posts_quick'=>$posts_quick]);
             session(['posts5_quickly'=>$posts5_quickly]);
-            session(['reports_not'=>$reports_not]);            
-        }        
+            session(['reports_not'=>$reports_not]);        
 
         //$post5 = DB::table('post_schools_view')
         //    ->where('code', 'like', "%" . auth()->user()->code . "%")
@@ -1175,8 +1173,7 @@ class PostsController extends Controller
     //學校端顯示簽收公告
     public function show_not_Signed()
     {        
-        if(empty(session('posts_not'))){
-            $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+        $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
                 ->where('signed_user_id',null)
             ->get();
             $posts_quick = 0;
@@ -1205,8 +1202,7 @@ class PostsController extends Controller
             session(['posts_not'=>$posts_not]);
             session(['posts_quick'=>$posts_quick]);
             session(['posts5_quickly'=>$posts5_quickly]);
-            session(['reports_not'=>$reports_not]);            
-        }
+            session(['reports_not'=>$reports_not]);   
 
         $post5 = DB::table('post_schools_view')
             ->where('code', 'like', "%" . auth()->user()->code . "%")
@@ -1243,8 +1239,7 @@ class PostsController extends Controller
     //學校端顯示簽收公告
     public function show_quick_Signed()
     {
-       if(empty(session('posts_not'))){
-            $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+       $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
                 ->where('signed_user_id',null)
             ->get();
             $posts_quick = 0;
@@ -1273,8 +1268,7 @@ class PostsController extends Controller
             session(['posts_not'=>$posts_not]);
             session(['posts_quick'=>$posts_quick]);
             session(['posts5_quickly'=>$posts5_quickly]);
-            session(['reports_not'=>$reports_not]);            
-        }
+            session(['reports_not'=>$reports_not]);   
 
         $post5 = DB::table('post_schools_view')
             ->where('code', 'like', "%" . auth()->user()->code . "%")
@@ -1312,8 +1306,7 @@ class PostsController extends Controller
     //個人已簽收
     public function show_person_Signed()
     {
-        if(empty(session('posts_not'))){
-            $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+        $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
                 ->where('signed_user_id',null)
             ->get();
             $posts_quick = 0;
@@ -1342,8 +1335,7 @@ class PostsController extends Controller
             session(['posts_not'=>$posts_not]);
             session(['posts_quick'=>$posts_quick]);
             session(['posts5_quickly'=>$posts5_quickly]);
-            session(['reports_not'=>$reports_not]);            
-        }
+            session(['reports_not'=>$reports_not]);   
         $post5 = DB::table('post_schools_view')
             ->where('code', 'like', "%" . auth()->user()->code . "%")
             ->where('signed_user_id', auth()->user()->id)
