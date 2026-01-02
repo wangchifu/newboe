@@ -106,9 +106,9 @@
 
                 </div>                
                 <div class="form-group my-2">
-                    <input type="button" class="btn btn-outline-primary" value="暫存" onclick="sw_confirm3(this,'確定暫存？','copy_form','暫存')">
-                    <input type="button" class="btn btn-primary" value="送出審核不再修改" onclick="sw_confirm3(this,'送出後，無法再修改喔！','copy_form','送出審核不再修改')">
-                    <a href="#" class="btn btn-secondary" onclick="history.back();"><i class="fas fa-backward"></i> 返回</a>
+                    <input type="button" class="btn btn-outline-primary" value="暫存" onclick="sw_confirm4(this,'確定暫存？','copy_form','暫存')">
+                    <input type="button" class="btn btn-primary" value="送出審核不再修改" onclick="sw_confirm4(this,'送出後，無法再修改喔！','copy_form','送出審核不再修改')">
+                    <a href="#" class="btn btn-secondary" onclick="history.back();"><i class="fas fa-backward"></i> 返回 </a>
                 </div>
             </div>
         </div>
