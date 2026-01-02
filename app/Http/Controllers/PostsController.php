@@ -963,6 +963,7 @@ class PostsController extends Controller
             }
         }
 
+        /**20260102移除
         if($post->user_id != auth()->user()->id){
             $a = ['A','B','C','D','E','F','G','H','I','J'];
             $user_power = \App\Models\UserPower::where('user_id',auth()->user()->id)
@@ -973,6 +974,7 @@ class PostsController extends Controller
                 abort(404,'你想做什麼壞事？');
             }            
         }
+        */
 
         $files = get_files(storage_path('app/public/post_files/' . $post->id));
         $images = get_files(storage_path('app/public/post_photos/' . $post->id));
