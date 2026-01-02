@@ -9,7 +9,7 @@
         }
     </style>
 </head>
-<body onload="window.print()">
+<body>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 text-center fw-bold">
@@ -105,4 +105,13 @@
         </div>
     </div>
 </body>
+<script>
+        // window.onload 會等待 HTML、所有圖片、CSS 都下載完畢才執行
+        window.onload = function() {
+            // 稍微延遲 200ms 可以確保某些瀏覽器的渲染引擎完全就緒
+            setTimeout(function() {
+                window.print();
+            }, 200);
+        };
+    </script>
 </html>
