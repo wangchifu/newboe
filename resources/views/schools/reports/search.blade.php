@@ -57,7 +57,7 @@
                                 <small class="text-danger">{{ $report_school->report->die_date }}</small>
                             </td>
                             <td data-th="名稱" style="color:#000000;">
-                                <a href="{{ route('school_report.show',$report_school->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;">
+                                <a href="{{ route('school_report.show',$report_school->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none;color:#000088;">
                                     @if($report_school->report->situation==3)
                                         {{ $report_school->report->name }}
                                     @endif
@@ -116,9 +116,11 @@
                                 @elseif($report_school->situation ===5)
 
                                 @else
+                                    <!--
                                     <a href="{{ route('school_report.show',$report_school->id) }}" class="btn btn-success btn-sm venobox" data-vbtype="iframe">
                                         查看
                                     </a>
+                                    -->
                                 @endif
 
                                 @if($report_school->situation === 0)

@@ -69,7 +69,7 @@
                                 <small class="text-danger">{{ $report_school->report->die_date }}</small>
                             </td>
                             <td data-th="名稱" style="color:#000000;" class="td-title">
-                                <a href="{{ route('school_report.show',$report_school->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none;">
+                                <a href="{{ route('school_report.show',$report_school->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none;color:#000088;">
                                     @if($report_school->report->situation==3)
                                         {{ $report_school->report->name }}
                                     @endif
