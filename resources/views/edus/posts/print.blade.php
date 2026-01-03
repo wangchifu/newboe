@@ -94,7 +94,7 @@
                 <?php
                     $content = str_replace(["說明：", "說明:"], "", $post->content);
                 ?>
-                <div class="h3 ms-3" style="word-break: break-word;">
+                <div class="h5 ms-3" style="word-break: break-word;">
                     @if($post->situation === 4)
                         <strike>{!! nl2br(strip_tags($content, "<ol><li><br>")) !!}</strike>
                     @else

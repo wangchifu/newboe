@@ -463,8 +463,10 @@ Route::group(['middleware' => 'school_sign'], function () {
     Route::post('school_report/save_temp', [SchoolReportController::class,'save_temp'])->name('school_report.save_temp');
     Route::post('school_report/pull_temp/{report_id}', [SchoolReportController::class,'pull_temp'])->name('school_report.pull_temp');
 
-    //列印資料填報
+    //列印資料填報列表
     Route::get('school_report/{report_school}/print', [SchoolReportController::class,'print'])->name('school_report.print');
+    //列印單一資料填報
+    Route::get('school_report/{report_school}/print2', [SchoolReportController::class,'print2'])->name('school_report.print2');
 });
 
 //其他類學校的單位

@@ -184,6 +184,23 @@ class SchoolReportController extends Controller
         return view('schools.reports.print',$data);
     }
 
+    public function print2(ReportSchool $report_school)
+    {
+        $answers = Answer::where('report_school_id',$report_school->id)
+            ->get();
+        $answer_data = [];
+        foreach($answers as $answer){
+            $answer_data[$answer->question_id] = $answer->answer;
+        }
+        $sections = config('boe.sections');
+        $data = [
+            'sections'=>$sections,
+            'answer_data'=>$answer_data,
+            'report_school'=>$report_school,
+        ];
+        return view('schools.reports.print2',$data);        
+    }
+
     public function no_report(ReportSchool $report_school)
     {
         /**

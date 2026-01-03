@@ -68,6 +68,17 @@
                 核可日期：{{ $report_school->updated_at }}
             @endif                               
         </div>
+        <div class="card-footer text-center">
+            <div>                    
+                {{ array_get($sections,$report_school->report->section_id) }}　{{ $report_school->report->user->name }}　發佈時間：{{ substr($report_school->report->passed_at,0,16)  }}
+            </div>
+                <div class="py-3 text-right">
+                    <a class="btn btn-outline-primary mx-1" href="{{ route('school_report.print2',$report_school->id) }}" target="_blank">
+                        <i class="fas fa-print"></i> 列印填報
+                    </a>
+                </div>
+            </div>
+        </div>                
     </div>
 </div>
 @endsection
