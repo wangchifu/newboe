@@ -90,7 +90,7 @@ class SchoolReportController extends Controller
                     ->orWhere('situation',null);
             })
             ->orderBy('id','DESC')
-            ->simplePaginate(10); 
+            ->simplePaginate(20); 
 
         $sections = config('boe.sections');
         $schools = School::all()->pluck('school_name','code_no')->toArray();
@@ -133,7 +133,7 @@ class SchoolReportController extends Controller
         $report_schools = ReportSchool::where('code','like',"%".auth()->user()->code."%")
             ->where('signed_user_id',auth()->user()->id)
             ->orderBy('id','DESC')
-            ->simplePaginate(10);
+            ->simplePaginate(20);
 
         $sections = config('boe.sections');
         $schools = School::all()->pluck('school_name','code_no')->toArray();
