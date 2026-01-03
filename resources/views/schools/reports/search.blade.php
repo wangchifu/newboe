@@ -101,7 +101,7 @@
                                 @if($report_school->situation === null)
                                     @if(date('Ymd') <= str_replace('-','',$report_school->report->die_date))
                                         @if($report_school->report->situation != 4)
-                                            <a href="javascript:open_report('{{ route('school_report.create',$report_school->id) }}','新視窗')" class="btn btn-primary btn-sm">
+                                            <a href="{{ route('school_report.create',$report_school->id) }}" class="btn btn-primary btn-sm venobox" data-vbtype="iframe">
                                                 填報
                                             </a>
                                         @endif
