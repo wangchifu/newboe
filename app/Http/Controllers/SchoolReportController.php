@@ -42,7 +42,7 @@ class SchoolReportController extends Controller
             session(['reports_not'=>$reports_not]);
         $report_schools = ReportSchool::where('code','like',"%".auth()->user()->code."%")
             ->orderBy('id','DESC')
-            ->simplePaginate(10);
+            ->simplePaginate(20);
 
         $sections = config('boe.sections');
         $schools = School::all()->pluck('school_name','code_no')->toArray();
