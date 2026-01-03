@@ -543,6 +543,34 @@ class EduReportController extends Controller
 
         $schools = School::whereIn('id', $select_schools)->get();
 
+        // 1. 先把這份 report 已經存在的 code 全部抓出來
+        $existingCodes = ReportSchool::where('report_id', $report->id)
+                                    ->pluck('code')
+                                    ->toArray();
+
+        $postSchools = array();
+
+        foreach ($schools as $school) {
+            // 2. 檢查這次要寫入的 code 是否已存在於「資料庫已有的」或「本次迴圈剛加進去的」
+            if (!in_array($school->code_no, $existingCodes)) {
+                $postSchools[] = [
+                    'report_id'  => $report->id,
+                    'code'       => $school->code_no,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+                
+                // 3. 預防傳入的 $schools 變數本身有重複項
+                $existingCodes[] = $school->code_no;
+            }
+        }
+
+        // 4. 使用 insertOrIgnore 進行最終寫入
+        if (!empty($postSchools)) {
+            // 即使 PHP 沒擋掉，資料庫也會根據 UNIQUE 索引直接跳過重複項
+            ReportSchool::insertOrIgnore($postSchools);
+        }
+        /**
         $postSchools = array();  //要先指定$postSchools是陣列，否則會出錯
         //利用multiple insert的方式寫入資料庫，節省寫入時間
         foreach ($schools as $school) {
@@ -554,6 +582,7 @@ class EduReportController extends Controller
             ];
         }
         ReportSchool::insert($postSchools);
+         */
 
         return redirect()->route('posts.review');
     }
