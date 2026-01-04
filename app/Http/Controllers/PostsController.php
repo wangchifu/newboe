@@ -1753,25 +1753,35 @@ class PostsController extends Controller
 
         $select_schools = explode(", ", $select_schools);
         /*echo "<pre>";print_r($select_schools);die();*/
+       
         $schools = School::whereIn('id', $select_schools)->get();
 
-        $postSchools = array();  //要先指定$postSchools是陣列，否則會出錯
-        //利用multiple insert的方式寫入資料庫，節省寫入時間
+        // 1. 先找出資料庫裡針對這個 post_id 已經有哪些 code 了
+        $existingCodes = PostSchool::where('post_id', $post->id)
+                                    ->pluck('code')
+                                    ->toArray();
+
+        $postSchools = array();
+
         foreach ($schools as $school) {
-            $postSchools[] = [
-                'post_id' => $post->id,
-                'code' => $school->code_no,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ];
+            // 2. 檢查這次要寫入的 code，是否不在資料庫已有的名單內
+            if (!in_array($school->code_no, $existingCodes)) {
+                $postSchools[] = [
+                    'post_id' => $post->id,
+                    'code' => $school->code_no,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+                
+                // 3. 重要：為了預防 $schools 裡面本身有重複資料，同步更新 $existingCodes
+                $existingCodes[] = $school->code_no;
+            }
         }
-        //避免重複寫入
-        $check = array();
+
+        // 4. 只寫入真正「新」的資料
         if (!empty($postSchools)) {
-            $check = PostSchool::where('code', $postSchools[0]['code'])->where('post_id', $postSchools[0]['post_id'])->first();
-        }
-        if (empty($check)) {
-            PostSchool::insert($postSchools);
+            // 配合你之前設定的 UNIQUE 索引，使用 insertOrIgnore 最安全
+            PostSchool::insertOrIgnore($postSchools);
         }
 
         //DB::table的寫法
