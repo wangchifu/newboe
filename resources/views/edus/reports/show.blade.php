@@ -12,8 +12,8 @@
                     </div>
                     <div class="card-body">
                         <h2>
-                            編號：{{ $report->id }} / 
-                            @if($report->situation !=4)\                            
+                            編號：{{ $report->id }}<br>
+                            @if($report->situation !=4)
                                 {{ $report->name }}                            
                             @else                       
                                 <span style="color:red">[填報作廢]</span>     

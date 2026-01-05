@@ -19,8 +19,9 @@ class EduReportController extends Controller
     {
         $reports = Report::where('user_id',auth()->user()->id)
             ->where('situation','<>',3)
+            ->where('situation','<>',4)
             ->orderBy('id','DESC')
-            ->paginate(10);
+            ->paginate(20);
         $situation = config('boe.situation');
         $sections = config('boe.sections');
         $data = [
@@ -813,7 +814,7 @@ class EduReportController extends Controller
                     ->orWhere('situation','4');
             })
             ->orderBy('id','DESC')
-            ->paginate(10);
+            ->paginate(20);
         $situation = config('boe.situation');
         $sections = config('boe.sections');
         $data = [

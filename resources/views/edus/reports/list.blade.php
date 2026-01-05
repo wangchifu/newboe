@@ -82,7 +82,9 @@
                     @endif
                     @if($report->situation==3)
                         <a href="{{ route('edu_report.result',$report->id) }}" class="btn btn-info btn-sm">結果顯示</a>
-                        <a href="#!" class="btn btn-outline-dark btn-sm" onclick="sw_confirm1('確定作廢？','{{ route('edu_report.obsolete',$report->id) }}')">作廢</a>
+                        <a href="#!" class="btn btn-outline-dark btn-sm" onclick="sw_confirm1('確定作廢？','{{ route('edu_report.obsolete',$report->id) }}')">作廢</a>                        
+                    @endif
+                    @if($report->situation==3 or $report->situation==4)                        
                         <a href="{{ route('edu_report.copy',$report->id) }}" class="btn btn-outline-primary btn-sm">
                             複製
                         </a>

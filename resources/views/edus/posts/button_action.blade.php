@@ -57,10 +57,12 @@
             <a href="#!" onclick="sw_confirm2('確定作廢？','obsolete_form')">
                 <button class="btn btn-outline-secondary btn-sm">作廢</button>
             </a>
-            <a href="{{ route('posts.copy',$post->id) }}" class="btn btn-outline-primary btn-sm">
-                複製
-            </a>
         </form>
+    @endif
+    @if ( $post->situation  === 3 or $post->situation  === 4)
+        <a href="{{ route('posts.copy',$post->id) }}" class="btn btn-outline-primary btn-sm">
+            複製
+        </a>
     @endif
 
 @endif
