@@ -81,40 +81,13 @@
 
                 <div class="form-group">
                     <a href="#" class="btn btn-secondary" onclick="history.back();"><i class="fas fa-backward"></i> 返回</a>
-                    <input type="button" class="btn btn-primary" value="送出審核不再修改" onclick="sw_confirm3(this,'送出後，無法再修改喔！','edit_form','送出審核不再修改')">
+                    <input type="button" class="btn btn-primary" value="送出審核不再修改(仍需核准)" onclick="sw_confirm4(this,'送出後，無法再修改喔！','edit_form','送出審核不再修改')">
                 </div>
             </div>
         </div>
         </form>        
     </div>
-<script>
-    function sw_confirm3(button, msg, form_id, action_value) {
-        // 先讓按鈕消失
-        button.style.display = 'none';
-
-        Swal.fire({
-            title: msg,
-            icon: 'question',
-            showCancelButton: true,
-            confirmButtonText: '確定',
-            cancelButtonText: '取消',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                let form = document.getElementById(form_id);
-                let hidden = document.createElement("input");
-                hidden.type = "hidden";
-                hidden.name = "form_action";
-                hidden.value = action_value;
-                form.appendChild(hidden);
-
-                form.submit();
-            } else {
-                // 如果取消，要把按鈕再顯示回來
-                button.style.display = '';
-            }
-        });
-    }    
-
+<script>     
     $(document).ready(function() {
         show_type($('#category_id').val());
     });
