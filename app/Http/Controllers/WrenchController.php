@@ -74,7 +74,7 @@ class WrenchController extends Controller
 
         $att['reply'] = Purifier::clean($att['reply'], array('AutoFormat.AutoParagraph' => false));
         
-        //$wrench->update($att);
+        $wrench->update($att);
 
         if ($wrench->user->email) {
             $to_mail = $wrench->user->email;
