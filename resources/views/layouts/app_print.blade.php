@@ -39,6 +39,6 @@
                     window.print();
                 }, 200);
             };
-        </script>
+            </script>
     </body>
 </html>

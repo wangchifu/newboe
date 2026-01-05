@@ -6,26 +6,27 @@
 <style>
         table {
             border: 2px solid ; border-collapse: collapse;
-            margin: 20px;
+            margin: 5px;
             }
         tr,th,td {
                 border: 2px solid ;
             }
         th,td{
-                padding: 10px;
+                padding: 1px;
+                font-size:14px;
             }
 </style>
 <div class="container-fluid">
-    <div class="row">
-            <table class="col-11">
+    <div class="row justify-content-center">
+            <table class="col-12">
                 <tr>
-                    <th nowrap width="100">
+                    <th nowrap width="80">
                         負責處室
                     </th>
                     <th>
                         資料填報主旨
                     </th>
-                    <th nowrap width="80">
+                    <th nowrap width="60">
                         發佈人
                     </th>
                     <th nowrap width="80">
@@ -35,7 +36,7 @@
                 </tr>
                 @foreach($report_schools as $report_school)
                     <tr>
-                        <td nowrap>
+                        <td nowrap style="text-align: center; vertical-align: middle;">
                             教務 學務<br>
                             總務 輔導
                         </td>
@@ -46,7 +47,7 @@
                         <td nowrap>
                             {{ $sections[$report_school->report->user->section_id] }}<br>{{ $report_school->report->user->name }}
                         </td>
-                        <td nowrap>
+                        <td nowrap style="text-align: center; vertical-align: middle;">
                             {{ substr($report_school->report->created_at,0,10) }}<br>
                             {{ $report_school->report->die_date }}
                         </td>                        

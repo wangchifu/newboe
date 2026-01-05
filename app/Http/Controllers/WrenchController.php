@@ -74,9 +74,10 @@ class WrenchController extends Controller
 
         $att['reply'] = Purifier::clean($att['reply'], array('AutoFormat.AutoParagraph' => false));
         
-        $wrench->update($att);
+        //$wrench->update($att);
 
         if ($wrench->user->email) {
+            $to_mail = $wrench->user->email;
             $subject = '回覆「' . env('APP_NAME') . '平台」中「系統錯誤與建議」';
             $body = "您問到：\r\n";
             $body .= $wrench->content . "\r\n";
@@ -84,8 +85,8 @@ class WrenchController extends Controller
             $body .= $request->input('reply');
             $body .= "\r\n-----這是系統信件，請勿回信-----";
                                 
-            Mail::raw($body, function ($message) use ($subject){
-                $message->to(env('ADMIN_MAIL'))
+            Mail::raw($body, function ($message) use ($subject,$to_mail){
+                $message->to($to_mail)
                         ->subject($subject);
             });            
         }
