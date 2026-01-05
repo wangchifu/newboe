@@ -19,9 +19,8 @@
         <div class="card-body">
             @include('layouts.errors')
             <script src=" https://cdn.jsdelivr.net/npm/tinymce@7.9.1/tinymce.min.js "></script>
-                <form action="{{ route('edu_report.update',$report->id) }}" method="post" enctype="multipart/form-data" id="edit_form" onsubmit="return false">
-                    @csrf
-                    @method('patch')
+                <form action="{{ route('edu_report.store') }}" method="post" enctype="multipart/form-data" id="edit_form" onsubmit="return false">
+                    @csrf                    
                     <div class="form-group my-2">
                         <label for="name"><strong class="text-danger">1.請務必先選擇對象*</strong></label>
                         @include('edus.posts.select_school')
