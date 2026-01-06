@@ -4,15 +4,20 @@
         公告列印1
     </title>
 </head>
-<body onload="window.print()">
-    <style type="text/css">
+<body>
+<style>
         table {
-            border: 1px solid #00; border-collapse: collapse;
-        }
-        tr, td {
-            border: 1px solid #00;
-        }
-    </style>
+            border: 2px solid ; border-collapse: collapse;
+            margin: 5px;
+            }
+        tr,th,td {
+                border: 2px solid ;
+            }
+        th,td{
+                padding: 1px;
+                font-size:14px;
+            }
+</style>
     <h1 style="align-content: center">彰化縣教育處新雲端
         @if($post->post_no)
             [{{ $post->post_no }}]
@@ -147,5 +152,14 @@
 
         </tbody>
     </table>
+<script>
+        // window.onload 會等待 HTML、所有圖片、CSS 都下載完畢才執行
+        window.onload = function() {
+            // 稍微延遲 200ms 可以確保某些瀏覽器的渲染引擎完全就緒
+            setTimeout(function() {
+                window.print();
+            }, 200);
+        };
+</script>
 </body>
 </html>

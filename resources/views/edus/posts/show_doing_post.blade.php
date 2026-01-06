@@ -140,14 +140,12 @@
                         <div>
                             {{ array_get($categories,$post->category_id) }}　{{ $post->user->name }}
                         　 創建時間：{{ $post->created_at }}
-                        </div>
-                        <!--
+                        </div>                        
                         <div class="py-3 text-right">
-                            <a class="btn btn-outline-primary mx-1" href="{{ route('posts.show_doing_post_print',$post->id) }}">
+                            <a class="btn btn-outline-primary mx-1" href="{{ route('posts.show_doing_post_print',$post->id) }}" target="_blank">
                                 <i class="fas fa-print"></i> 列印公告
                             </a>
-                        </div>
-                        -->
+                        </div>                        
                     </div>
                 </div>
             </div>
