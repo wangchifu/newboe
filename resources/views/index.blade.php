@@ -101,11 +101,13 @@
                                 {{ $page*13+$n }}
                             </div>
                             <!-- 圖片本體 -->
-                            @if(!empty($images[$n]))
-                                <img class="card-img-top object-fit-cover" src="{{ asset('storage/post_photos/'.$post->id.'/'.$images[$n][0]) }}" style="width: 100%; height: 200px;">
-                            @else
-                                <img class="card-img-top object-fit-cover" src="{{ asset('images/image.jpg') }}" style="width: 100%; height: 100px;">
-                            @endif                            
+                            <a href="{{ route('posts.show',$post->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;">
+                                @if(!empty($images[$n]))                                
+                                    <img class="card-img-top object-fit-cover" src="{{ asset('storage/post_photos/'.$post->id.'/'.$images[$n][0]) }}" style="width: 100%; height: 200px;">                                
+                                @else
+                                    <img class="card-img-top object-fit-cover" src="{{ asset('images/image.jpg') }}" style="width: 100%; height: 100px;">
+                                @endif                            
+                            </a>
                         </div>
                         <div class="card-body">
                             <div class="small text-muted">{{ substr($post->passed_at,0,10) }} / <span class="badge {{ $bg_color[$post->category_id] }}">{{ $category_array[$post->category_id] }}</span> / {{ $post->views }}</div>
@@ -125,11 +127,13 @@
                                 {{ $page*13+$n }}
                             </div>
                             <!-- 圖片本體 -->
-                            @if(!empty($images[$n]))
-                                <img class="card-img-top object-fit-cover" src="{{ asset('storage/post_photos/'.$post->id.'/'.$images[$n][0]) }}" style="width: 100%; height: 200px;">
-                            @else
-                                <img class="card-img-top object-fit-cover" src="{{ asset('images/image.jpg') }}" style="width: 100%; height: 100px;">
-                            @endif                            
+                            <a href="{{ route('posts.show',$post->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none; color: inherit;">
+                                @if(!empty($images[$n]))
+                                    <img class="card-img-top object-fit-cover" src="{{ asset('storage/post_photos/'.$post->id.'/'.$images[$n][0]) }}" style="width: 100%; height: 200px;">
+                                @else
+                                    <img class="card-img-top object-fit-cover" src="{{ asset('images/image.jpg') }}" style="width: 100%; height: 100px;">
+                                @endif                  
+                            </a>          
                         </div>                        
                         <div class="card-body">
                             <div class="small text-muted">{{ substr($post->passed_at,0,10) }} / <span class="badge {{ $bg_color[$post->category_id] }}">{{ $category_array[$post->category_id] }}</span> / {{ $post->views }}</div>
