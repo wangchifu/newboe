@@ -18,7 +18,13 @@
         </div>
         <div class="row">
             <div class="col-12 text-end" style="font-size: 25px;">
-                承辦人：{{ array_get($sections,$post->section_id) }} / {{ $post->user->name }}
+                承辦人：{{ array_get($sections,$post->section_id) }} / 
+                @auth
+                    {{ $post->user->name }}
+                @endauth
+                @guest
+                    {{ $post->user->title }}                    
+                @endguest                
                 @if(!empty($post->user->telephone)) 
                     <small>TEL {{ $post->user->telephone }}</small> 
                 @endif
