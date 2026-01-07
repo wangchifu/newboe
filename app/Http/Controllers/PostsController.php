@@ -49,6 +49,9 @@ class PostsController extends Controller
         $att['title'] = Purifier::clean($request->input('title'), array('AutoFormat.AutoParagraph' => false));
         //$att['content'] = Purifier::clean($request->input('content'), array('AutoFormat.AutoParagraph' => false));
         $att['content'] = $request->input('content');
+        if(empty($att['content'])){
+            return redirect()->back()->withErrors(['message' => ['公告內容不得為空白！']])->withInput();;
+        }
         $att['type'] = $request->input('type');
         $att['another'] = $request->input('another');
         $att['url'] = transfer_url_http($request->input('url'));        
@@ -56,7 +59,7 @@ class PostsController extends Controller
             $att['situation'] = "1";
         }elseif($request->input('form_action')=="暫存"){
             $att['situation'] = "-1";
-        }        
+        }                
         $att['section_id'] = auth()->user()->section_id;
         $att['views'] = "0";
 
