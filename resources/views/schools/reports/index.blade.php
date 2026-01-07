@@ -155,24 +155,20 @@
                             <td nowrap data-th="審核">
                             @if(check_a_user(auth()->user()->code,auth()->user()->id))
                                     @if($report_school->situation === 1 and date('Ymd') <= str_replace('-','',$report_school->report->die_date) and $report_school->report->situation != 4)
-                                        <table>
-                                            <tr>
-                                                <td>
-                                                    <form action="{{ route('school_report.back',$report_school->id) }}" method="post" id="back_form{{ $report_school->id }}" onsubmit="return false">
-                                                        @csrf
-                                                        @method('patch')
-                                                        <button class="btn btn-outline-danger btn-sm" onclick="sw_confirm2('確定退回？','back_form{{ $report_school->id }}')">退回</button>
-                                                    </form>
-                                                </td>
-                                                <td>
-                                                    <form action="{{ route('school_report.passing',$report_school->id) }}" method="post" id="passing_form{{ $report_school->id }}" onsubmit="return false">
-                                                        @csrf
-                                                        @method('patch')
-                                                        <button class="btn btn-outline-success btn-sm" onclick="sw_confirm2('確定通過？','passing_form{{ $report_school->id }}')">通過</button>
-                                                    </form>
-                                                </td>
-                                            </tr>
-                                        </table>                                                                                
+                                        <div style="float:left;margin-right: 5px">
+                                            <form action="{{ route('school_report.back',$report_school->id) }}" method="post" id="back_form{{ $report_school->id }}" onsubmit="return false">
+                                                @csrf
+                                                @method('patch')
+                                                <button class="btn btn-outline-danger btn-sm" onclick="sw_confirm2('確定退回？','back_form{{ $report_school->id }}')">退回</button>
+                                            </form>
+                                        </div>
+                                        <div style="float:left;margin-right: 5px">
+                                            <form action="{{ route('school_report.passing',$report_school->id) }}" method="post" id="passing_form{{ $report_school->id }}" onsubmit="return false">
+                                                @csrf
+                                                @method('patch')
+                                                <button class="btn btn-outline-success btn-sm" onclick="sw_confirm2('確定通過？','passing_form{{ $report_school->id }}')">通過</button>
+                                            </form>
+                                        </div>                                                                               
                                     @endif
                                     @if(($report_school->situation === 1 or $report_school->situation === 0) and date('Ymd') > str_replace('-','',$report_school->report->die_date))
                                         <form action="{{ route('school_report.delay',$report_school->id) }}" method="post" id="delay_form1{{ $report_school->id }}" onsubmit="return false">
