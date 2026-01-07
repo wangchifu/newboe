@@ -47,8 +47,8 @@ class PostsController extends Controller
         $att['user_id'] = auth()->user()->id;
         $att['category_id'] = $request->input('category_id');
         $att['title'] = Purifier::clean($request->input('title'), array('AutoFormat.AutoParagraph' => false));
-        //$att['content'] = Purifier::clean($request->input('content'), array('AutoFormat.AutoParagraph' => false));
-        $att['content'] = $request->input('content');
+        $att['content'] = Purifier::clean($request->input('content'), array('AutoFormat.AutoParagraph' => false));
+        //$att['content'] = $request->input('content');
         if(empty($att['content'])){
             return redirect()->back()->withErrors(['message' => ['公告內容不得為空白！']])->withInput();;
         }
@@ -356,8 +356,8 @@ class PostsController extends Controller
 
         $att['category_id'] = $request->input('category_id');
         $att['title'] = Purifier::clean($request->input('title'), array('AutoFormat.AutoParagraph' => false));
-        //$att['content'] = Purifier::clean($request->input('content'), array('AutoFormat.AutoParagraph' => false));
-        $att['content'] = $request->input('content');
+        $att['content'] = Purifier::clean($request->input('content'), array('AutoFormat.AutoParagraph' => false));
+        //$att['content'] = $request->input('content');
         $att['type'] = $request->input('type');
         $att['another'] = $request->input('another');
         $att['url'] = transfer_url_http($request->input('url'));        
