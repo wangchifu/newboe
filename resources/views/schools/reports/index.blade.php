@@ -158,34 +158,34 @@
                                         <table>
                                             <tr>
                                                 <td>
-                                                    <form action="{{ route('school_report.back',$report_school->id) }}" method="post" id="back_form" onsubmit="return false">
+                                                    <form action="{{ route('school_report.back',$report_school->id) }}" method="post" id="back_form{{ $report_school->id }}" onsubmit="return false">
                                                         @csrf
                                                         @method('patch')
-                                                        <button class="btn btn-outline-danger btn-sm" onclick="sw_confirm2('確定退回？','back_form')">退回</button>
+                                                        <button class="btn btn-outline-danger btn-sm" onclick="sw_confirm2('確定退回？','back_form{{ $report_school->id }}')">退回</button>
                                                     </form>
                                                 </td>
                                                 <td>
-                                                    <form action="{{ route('school_report.passing',$report_school->id) }}" method="post" id="passing_form" onsubmit="return false">
+                                                    <form action="{{ route('school_report.passing',$report_school->id) }}" method="post" id="passing_form{{ $report_school->id }}" onsubmit="return false">
                                                         @csrf
                                                         @method('patch')
-                                                        <button class="btn btn-outline-success btn-sm" onclick="sw_confirm2('確定通過？','passing_form')">通過</button>
+                                                        <button class="btn btn-outline-success btn-sm" onclick="sw_confirm2('確定通過？','passing_form{{ $report_school->id }}')">通過</button>
                                                     </form>
                                                 </td>
                                             </tr>
                                         </table>                                                                                
                                     @endif
                                     @if(($report_school->situation === 1 or $report_school->situation === 0) and date('Ymd') > str_replace('-','',$report_school->report->die_date))
-                                        <form action="{{ route('school_report.delay',$report_school->id) }}" method="post" id="delay_form1" onsubmit="return false">
+                                        <form action="{{ route('school_report.delay',$report_school->id) }}" method="post" id="delay_form1{{ $report_school->id }}" onsubmit="return false">
                                             @csrf
                                             @method('patch')
-                                            <button class="btn btn-outline-danger btn-sm" onclick="sw_confirm2('確定已知逾期未交？','delay_form1')">已知逾期未交</button>
+                                            <button class="btn btn-outline-danger btn-sm" onclick="sw_confirm2('確定已知逾期未交？','delay_form1{{ $report_school->id }}')">已知逾期未交</button>
                                         </form>
                                     @endif
                                     @if(date('Ymd') > str_replace('-','',$report_school->report->die_date) and $report_school->situation === null)
-                                        <form action="{{ route('school_report.delay',$report_school->id) }}" method="post" id="delay_form2" onsubmit="return false">
+                                        <form action="{{ route('school_report.delay',$report_school->id) }}" method="post" id="delay_form2{{ $report_school->id }}" onsubmit="return false">
                                             @csrf
                                             @method('patch')
-                                            <button class="btn btn-outline-danger btn-sm" onclick="sw_confirm2('行政公告及填報視同公文，請勿再缺交填報。','delay_form2')">已知逾期未交</button>
+                                            <button class="btn btn-outline-danger btn-sm" onclick="sw_confirm2('行政公告及填報視同公文，請勿再缺交填報。','delay_form2{{ $report_school->id }}')">已知逾期未交</button>
                                         </form>
                                     @endif
                             @endif
@@ -201,10 +201,10 @@
                                 @endif
                             @endif
                             @if($report_school->report->situation===4 and $report_school->situation != 6 and check_a_user(auth()->user()->code,auth()->user()->id))
-                            <form action="{{ route('school_report.cancel',$report_school->id) }}" method="post" id="cancel_form" onsubmit="return false">
+                            <form action="{{ route('school_report.cancel',$report_school->id) }}" method="post" id="cancel_form{{ $report_school->id }}" onsubmit="return false">
                                 @csrf
                                 @method('patch')
-                                <button class="btn btn-outline-danger btn-sm" onclick="sw_confirm2('確定已知此填報作廢？','cancel_form')">已知作廢</button>
+                                <button class="btn btn-outline-danger btn-sm" onclick="sw_confirm2('確定已知此填報作廢？','cancel_form{{ $report_school->id }}')">已知作廢</button>
                             </form>
                             @endif
                             </td>
