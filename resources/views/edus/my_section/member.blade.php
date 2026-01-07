@@ -2,12 +2,6 @@
 
 @section('title','新增成員')
 
-@section('header')
-<header class="py-5 bg-light border-bottom mb-4">
-
-</header>
-@endsection
-
 @section('content')
 <div class="col-lg-12 mx-auto">    
     <div class="card mb-4">
@@ -52,6 +46,13 @@
                 <input type="hidden" name="section_id" value="{{ auth()->user()->section_id }}">
             </form>
             </p>                       
+        </div>
+        <div class="card-footer text-center">
+            <div class="py-3 text-right">
+                <button type="button" id="closeVeno" class="btn btn-secondary">
+                    關閉視窗
+                </button>
+            </div>
         </div>
     </div>
 </div>

@@ -35,8 +35,9 @@
                             $b_checked = ($user_power)?"checked":null;
                             ?>
                             <input type="checkbox" name="b_user" id="b_user" {{ $b_checked }}> <label for="b_user">簽收+填報權</label>
-                        </td>
+                        </td>                        
                         <td>
+                            <button type="button" id="closeVeno" class="btn btn-secondary btn-sm">不存離開</button>
                             <button class="btn btn-success btn-sm" onclick="sw_confirm2('確定送出？','this_form')">儲存</button>
                         </td>
                     </tr>

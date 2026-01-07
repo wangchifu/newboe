@@ -94,10 +94,13 @@
             <table>
                 <tr>
                     <td>
+                        <button type="button" id="closeVeno" class="btn btn-secondary btn-sm">關閉視窗</button>
+                    </td>
+                    <td>
                         <button class="btn btn-success btn-sm" onclick="sw_confirm2('確定嗎？若無法送出，請檢查是否有無未填題目！','create_form')">送出</button>
                     </td>
                     <td>
-                        <span class="btn btn-secondary btn-sm" onclick="sw_confirm3('確定嗎？會覆蓋之前的暫存檔喔！',go_save_temp)"><i class="fas fa-save"></i> 暫存</span>
+                        <span class="btn btn-dark btn-sm" onclick="sw_confirm3('確定嗎？會覆蓋之前的暫存檔喔！',go_save_temp)"><i class="fas fa-save"></i> 暫存</span>
                     </td>
                     <td>
                         <?php

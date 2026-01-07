@@ -48,5 +48,33 @@
         <script src="{{ env('APP_URL') }}/js/my.js"></script>
         @include('layouts.sweet_alert')
         @yield('my_js')
+<script>
+    var vb = new VenoBox({
+        selector: '.venobox',
+        numeration: true,
+        infinigall: true,
+        //share: ['facebook', 'twitter', 'linkedin', 'pinterest', 'download'],
+        spinner: 'rotating-plane'
+    });
+
+    $(document).on('click', '.vbox-close', function() {
+        vb.close();
+    });
+    
+    document.getElementById('closeVeno').addEventListener('click', function() {
+    // 檢查父視窗是否有 VenoBox 實例並執行關閉
+    if (window.parent && window.parent.bootstrap) {
+        // 針對 VenoBox 2.x 版本
+        // 如果你在主頁面定義變數為 myVeno = new VenoBox();
+        // 則可以使用 window.parent.myVeno.close();
+        
+        // 通用作法：模擬按下 VenoBox 的關閉鈕或觸發關閉事件
+        parent.document.querySelector('.vbox-close').click();
+    } else {
+        // 另一種方式：直接透過 VenoBox 的 API (前提是主頁面有宣告)
+        window.parent.jQuery.venobox().trigger('click'); // 舊版適用
+    }
+  });
+</script>        
     </body>
 </html>

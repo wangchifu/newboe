@@ -2,12 +2,6 @@
 
 @section('title','帳號編輯')
 
-@section('header')
-<header class="py-5 bg-light border-bottom mb-4">
-
-</header>
-@endsection
-
 @section('content')
 <div class="col-lg-12 mx-auto">    
     <div class="card mb-4">
@@ -106,6 +100,9 @@
                 </label>
             </div>
             <div class="form-group">
+                <button type="button" id="closeVeno" class="btn btn-secondary btn-sm">
+                        關閉視窗
+                </button>
                 <a class="btn btn-success btn-sm" onclick="sw_confirm2('確定儲存？','user_form')">儲存</a>
             </div>
         </form>
@@ -126,8 +123,6 @@
                 window.parent.location.reload();  // 這會刷新父頁面
             }
         };
-    </script>
-    <script>
         function check_another(){
             if($('#a_user').prop('checked')){
                 $('#b_user').prop("checked", true);

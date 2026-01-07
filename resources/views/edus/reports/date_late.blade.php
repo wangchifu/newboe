@@ -22,6 +22,9 @@
                                 <input type="date" id="die_date" name="die_date" required maxlength="10" placeholder="十碼：2019-01-01" class="form-control" value="{{ $report->die_date }}" style="width:250px;">
                             </div>
                             <div class="form-group">
+                                <button type="button" id="closeVeno" class="btn btn-secondary btn-sm">
+                                    關閉視窗
+                                </button>
                                 <button class="btn btn-success btn-sm" onclick="sw_confirm2('確定？','this_form')">儲存</button>
                             </div>
                         </form>                        

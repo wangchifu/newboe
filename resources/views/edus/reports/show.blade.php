@@ -87,6 +87,13 @@
                         </div>
 
                     </div>
+                    <div class="card-footer text-center">
+                        <div class="py-3 text-right">
+                            <button type="button" id="closeVeno" class="btn btn-secondary">
+                                關閉視窗
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

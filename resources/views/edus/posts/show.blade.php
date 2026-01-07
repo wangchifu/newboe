@@ -147,6 +147,9 @@
                         　發佈時間：{{ substr($post->passed_at,0,16)  }}
                 </div>
                 <div class="py-3 text-right">
+                    <button type="button" id="closeVeno" class="btn btn-secondary">
+                        關閉視窗
+                    </button>
                     <a class="btn btn-outline-primary mx-1" href="{{ route('posts.print',$post->id) }}" target="_blank">
                         <i class="fas fa-print"></i> 列印公告
                     </a>
@@ -155,17 +158,4 @@
         </div>
     </div>
 </div>
-<script>
-    var vb = new VenoBox({
-        selector: '.venobox',
-        numeration: true,
-        infinigall: true,
-        //share: ['facebook', 'twitter', 'linkedin', 'pinterest', 'download'],
-        spinner: 'rotating-plane'
-    });
-
-    $(document).on('click', '.vbox-close', function() {
-        vb.close();
-    });
-</script>
 @endsection

@@ -113,6 +113,7 @@
                 <?php $i++; ?>
                 <input type="hidden" name="type[{{ $question->id }}]" value="{{ $question->type }}">
             @endforeach
+            <button type="button" id="closeVeno" class="btn btn-secondary">關閉視窗</button>
             <button class="btn btn-success" onclick="sw_confirm2('確定嗎？','edit_form')">送出</button>                    
             </form>                            
         </div>

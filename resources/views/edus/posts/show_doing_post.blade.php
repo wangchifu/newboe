@@ -142,6 +142,9 @@
                         　 創建時間：{{ $post->created_at }}
                         </div>                        
                         <div class="py-3 text-right">
+                            <button type="button" id="closeVeno" class="btn btn-secondary">
+                                關閉視窗
+                            </button>
                             <a class="btn btn-outline-primary mx-1" href="{{ route('posts.show_doing_post_print',$post->id) }}" target="_blank">
                                 <i class="fas fa-print"></i> 列印公告
                             </a>

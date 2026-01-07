@@ -2,12 +2,6 @@
 
 @section('title','修改選單連結')
 
-@section('header')
-<header class="py-5 bg-light border-bottom mb-4">
-
-</header>
-@endsection
-
 @section('content')
 <div class="col-lg-8 mx-auto">
     <h1>檔案下載</h1>    
@@ -23,6 +17,9 @@
             <div class="form-group">
                 <input type="hidden" name="id" value="{{ $upload->id }}">
                 <input type="hidden" name="path" value="{{ $path }}">
+                <button type="button" id="closeVeno" class="btn btn-secondary btn-sm">
+                    關閉視窗
+                </button>
                 <button class="btn btn-primary btn-sm" onclick="sw_confirm2('確定修改名稱？','store_name')"><i class="fas fa-save"></i> 修改名稱</button>
             </div>
             </form>            
