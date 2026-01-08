@@ -167,22 +167,20 @@
         $("#submit_button").addClass('disabled');
     }
 
-    tinyMCE.init({
-		selector: "textarea",
-			plugins: [
-      'advlist autolink link image lists charmap print preview hr anchor pagebreak',
-      'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
-      'table emoticons template paste help code codesample'
-    ],
-    toolbar: 'undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | ' +
-      'bullist numlist outdent indent | link | ' +
-      'forecolor backcolor emoticons | preview fullscreen',
-    menu: {
-      favs: {title: 'My Favorites', items: 'code visualaid | searchreplace | emoticons'}
-    },
+   tinyMCE.init({
+    selector: "textarea",
+    // 確保 plugins 裡確實有 code
+    plugins: 'advlist autolink link image lists charmap preview anchor pagebreak searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media table emoticons help codesample',
+    
+    // 將 code 放在最前面方便測試
+    toolbar: 'code | undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link | forecolor backcolor emoticons | preview fullscreen',
+    
     menubar: false,
     language: 'zh_TW',
-    language_url: '{{ asset('js/zh_TW.js') }}' // 加這行
+    language_url: '{{ asset("js/zh_TW.js") }}',
+    
+    // 確保強迫顯示工具列（預防因為寬度不足被隱藏）
+    toolbar_mode: 'sliding', 
 });
 
 </script>
