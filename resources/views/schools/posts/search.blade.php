@@ -24,6 +24,9 @@
                             編號
                         </th>
                         <th nowrap>
+                            對象
+                        </th>
+                        <th nowrap>
                             主旨
                         </th>
                         <th nowrap>
@@ -44,7 +47,12 @@
                             <td nowrap>
                                 {{ $post->post_no }}
                             </td>
-
+                            <td data-th="對象" class="td-school-name">
+                                <?php
+                                    $school = \App\Models\School::where('code_no',$post->code)->first();
+                                ?>
+                                {{ $school->school_name }}
+                            </td>
                             <td>
                                 @if($post->another ===1)
                                     <span class="text-success">

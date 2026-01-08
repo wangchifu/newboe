@@ -37,6 +37,9 @@
                             編號
                         </th>
                         <th nowrap>
+                            對象
+                        </th>
+                        <th nowrap>
                             發佈時間<br>
                             截止日期
                         </th>
@@ -62,6 +65,12 @@
                         <tr>
                             <td data-th="編號" class="td-number">
                                 <span data-toggle="tooltip" data-placement="top" title="給 {{ $schools[$report_school->code] }}">{{ $report_school->report_id }}</span>
+                            </td>
+                            <td data-th="對象" class="td-school-name">
+                                <?php
+                                    $school = \App\Models\School::where('code_no',$report_school->code)->first();
+                                ?>
+                                {{ $school->school_name }}
                             </td>
                             <td nowrap data-th="日期">
                                 <small>{{ substr($report_school->report->passed_at,0,16) }}</small>
