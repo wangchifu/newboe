@@ -17,6 +17,22 @@
     background-color: #fff; /* 必須設定背景色，否則捲動時會變成透明看到後方文字 */
     box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1); /* 可選：增加一點陰影讓邊界更清晰 */
 }
+/* 針對該表格的 thead th 設定 */
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: #ffffff; /* 必須有背景色，否則捲動時文字會重疊 */
+    z-index: 10;
+    
+    /* 設定粗下框線 */
+    border-bottom: 2px solid #000000 !important; 
+}
+
+/* 解決 Bootstrap 預設邊框塌陷導致 sticky 邊框消失的問題 */
+table {
+    border-collapse: separate !important;
+    border-spacing: 0;
+}
 </style>
 <div class="col-lg-12 mx-auto">
     <h1>{{ $report->name }}</h1>
