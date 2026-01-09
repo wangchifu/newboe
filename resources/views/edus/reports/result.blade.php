@@ -10,28 +10,39 @@
 
 @section('content')
 <style>
-    .table-bordered thead th {
-    position: sticky;
-    top: 0; /* 固定在最上方 */
-    z-index: 10; /* 確保表頭不會被後續的內容遮住 */
-    background-color: #fff; /* 必須設定背景色，否則捲動時會變成透明看到後方文字 */
-    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1); /* 可選：增加一點陰影讓邊界更清晰 */
-}
-/* 針對該表格的 thead th 設定 */
-thead th {
-    position: sticky;
-    top: 0;
-    background-color: #ffffff; /* 必須有背景色，否則捲動時文字會重疊 */
-    z-index: 10;
-    
-    /* 設定粗下框線 */
-    border-bottom: 2px solid #000000 !important; 
-}
-
-/* 解決 Bootstrap 預設邊框塌陷導致 sticky 邊框消失的問題 */
-table {
+/* 1. 表格基礎設定 */
+.table.table-bordered {
     border-collapse: separate !important;
     border-spacing: 0;
+    border: none !important; /* 關閉原本的 table 邊框，改由內部儲存格控制 */
+}
+
+/* 2. 針對 thead th 的設定（固定表頭 + 粗底線 + 左右邊框） */
+.table-bordered thead th {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: #fff;
+    
+    /* 移除所有原生邊框，避免 sticky 造成的渲染異常 */
+    border: none !important;
+    
+    /* 利用 box-shadow 畫出所有方向的線 */
+    /* 參數：全框細線 (0.5px) + 底部粗線 (3px) */
+    box-shadow: 
+        inset 1px 0 0 0 #dee2e6,    /* 左邊框 */
+        inset -1px 0 0 0 #dee2e6,   /* 右邊框 */
+        inset 0 1px 0 0 #dee2e6,    /* 上邊框 */
+        inset 0 -3px 0 0 #000000;   /* 下邊框：粗黑線 */
+}
+
+/* 3. 針對 tbody td 的設定（確保資料列邊框完整） */
+.table-bordered tbody td {
+    border: none !important;
+    box-shadow: 
+        inset 1px 0 0 0 #dee2e6,    /* 左邊框 */
+        inset -1px 0 0 0 #dee2e6,   /* 右邊框 */
+        inset 0 -1px 0 0 #dee2e6;   /* 下邊框 */
 }
 </style>
 <div class="col-lg-12 mx-auto">
@@ -55,7 +66,7 @@ table {
         <?php $no_report_name=""; ?>
         @foreach($schools as $school)
         <tr>
-            <td>
+            <td style="box-shadow: inset 0 0 0 0.5px #dee2e6;border: none !important;">
                 <?php
                 $report_school = \App\Models\ReportSchool::where('code',$school->code_no)
                     ->where('report_id',$report->id)
@@ -76,7 +87,7 @@ table {
             </td>
             <?php $no_report=""; ?>
             @foreach($report->questions as $question)
-                <td>
+                <td style="box-shadow: inset 0 0 0 0.5px #dee2e6;border: none !important;">
                     <?php
                         $school_code = $school->code_no;
                         //信義
