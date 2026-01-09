@@ -9,6 +9,15 @@
 @endsection
 
 @section('content')
+<style>
+    .table-bordered thead th {
+    position: sticky;
+    top: 0; /* 固定在最上方 */
+    z-index: 10; /* 確保表頭不會被後續的內容遮住 */
+    background-color: #fff; /* 必須設定背景色，否則捲動時會變成透明看到後方文字 */
+    box-shadow: 0 2px 2px -1px rgba(0, 0, 0, 0.1); /* 可選：增加一點陰影讓邊界更清晰 */
+}
+</style>
 <div class="col-lg-12 mx-auto">
     <h1>{{ $report->name }}</h1>
     <a href="#" class="btn btn-secondary btn-sm" onclick="history.back()">返回</a>
