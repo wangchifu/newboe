@@ -184,7 +184,7 @@ class SchoolReportController extends Controller
         return view('schools.reports.print',$data);
     }
 
-    public function print2(ReportSchool $report)
+    public function print2(ReportSchool $report_school)
     {
         $answers = Answer::where('report_school_id',$report_school->id)
             ->get();
