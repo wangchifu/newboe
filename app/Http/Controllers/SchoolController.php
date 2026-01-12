@@ -336,21 +336,30 @@ class SchoolController extends Controller
             $ships_town["'".$v."'"] = $k;
         }
 
-        $file = fopen(asset('school/school.csv'),"r");
+        
+        // 1. 設定本地路徑
+        $path = resource_path('data/school.csv');
 
-        $row = 1 ;
-        while(! feof($file))
-        {   
-            if($row>1){
+        // 2. 使用 fopen 開啟本地檔案路徑 (不再使用 asset 網址)
+        $file = fopen($path, "r");
+
+        $row = 1;
+        // 檢查檔案是否成功開啟
+        if ($file !== FALSE) {
+            while (!feof($file)) {   
                 $line = fgetcsv($file);
-                $all_school[$ships_town["'".$line[1]."'"]][$line[0]]['school'] = $line[2];                
-                $all_school[$ships_town["'".$line[1]."'"]][$line[0]]['website'] = $line[3];
-                $all_school[$ships_town["'".$line[1]."'"]][$line[0]]['type'] = $line[4];
+                
+                // 增加一個判斷：如果這行是空的就跳過 (避免最後一行空白報錯)
+                if (!$line) continue;
+
+                if ($row > 1) {
+                    $all_school[$ships_town["'".$line[1]."'"]][$line[0]]['school'] = $line[2];                
+                    $all_school[$ships_town["'".$line[1]."'"]][$line[0]]['website'] = $line[3];
+                    $all_school[$ships_town["'".$line[1]."'"]][$line[0]]['type'] = $line[4];
+                }
                 $row++;            
-            }else{
-                $line = fgetcsv($file);
-                $row++;
-            }    
+            }
+            fclose($file); // 讀取完畢記得關閉檔案
         }
 
         $data = [
@@ -379,21 +388,39 @@ class SchoolController extends Controller
             $facebook = null;
             $wiki = null;
         }
+        
+        // 1. 定義實體路徑
+        $path = resource_path('data/school.csv');
 
-        $file = fopen(asset('school/school.csv'),"r");
+        // 2. 使用 fopen 開啟本地檔案
+        if (file_exists($path)) {
+            $file = fopen($path, "r");
+            $row = 1;
 
-        $row = 1 ;
-        while(! feof($file))
-        {   
-            if($row>1){
-                $line = fgetcsv($file);                      
-                $school_web[$line[0]]['website'] = $line[3];
-                $school_web[$line[0]]['school'] = $line[2];
-                $row++;            
-            }else{
+            // 3. 讀取 CSV
+            while (!feof($file)) {
                 $line = fgetcsv($file);
+
+                // 跳過空行（避免檔案末尾有空白行導致錯誤）
+                if (!$line) {
+                    continue;
+                }
+
+                if ($row > 1) {
+                    // $line[0] 是 Key，確保 CSV 內容與索引對應正確
+                    $school_web[$line[0]]['website'] = $line[3];
+                    $school_web[$line[0]]['school'] = $line[2];
+                } else {
+                    // 這是標題列 (row 1)，只讀取不處理
+                }
                 $row++;
-            }    
+            }
+
+            // 4. 關閉檔案
+            fclose($file);
+        } else {
+            // 如果檔案不存在的處理邏輯
+            Log::error("找不到 CSV 檔案：$path");
         }
 
         //dd($school_web);
