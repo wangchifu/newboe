@@ -634,7 +634,7 @@ class HomeController extends Controller
             $items .= '
             <item>
                 <link>
-                ' . env('APP_URL') . '/posts/' . $post->id . '
+                ' . env('APP_URL') . '/posts_show/' . $post->id . '
                 </link>
                 <title>
                     <![CDATA[ ' . $post->title . ' ]]>
@@ -645,7 +645,7 @@ class HomeController extends Controller
                 </category>
                 <pubDate>' . substr($post->passed_at, 0, 16) . '</pubDate>
                 <guid>
-                    ' . env('APP_URL') . '/posts/' . $post->id . '
+                    ' . env('APP_URL') . '/posts_show/' . $post->id . '
                 </guid>
                 <description>
                     <![CDATA[
