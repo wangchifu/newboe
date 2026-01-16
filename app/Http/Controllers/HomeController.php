@@ -629,27 +629,25 @@ class HomeController extends Controller
         $categories = config('boe.categories');
         $sections = config('boe.sections');
 
-        $items = "";
+        $items = "";        
         foreach ($posts as $post) {
+            $safe_title = htmlspecialchars($post->title, 19, 'UTF-8');
+            $safe_content = htmlspecialchars($post->content, 19, 'UTF-8');
             $items .= '
             <item>
                 <link>
                 ' . env('APP_URL') . '/posts_show/' . $post->id . '
                 </link>
-                <title>
-                    <![CDATA[ ' . $post->title . ' ]]>
-                </title>
-                <author>' . array_get($sections, $post->section_id) . ' / ' . $post->user->name . '</author>
+                <title><![CDATA[ ' . $safe_title . ' ]]></title>
+                <dc:creator>' . array_get($sections, $post->section_id) . ' / ' . $post->user->name . '</dc:creator>
                 <category>
                     <![CDATA[ ' . $categories[$post->category_id] . ' ]]>
                 </category>
-                <pubDate>' . substr($post->passed_at, 0, 16) . '</pubDate>
-                <guid>
-                    ' . env('APP_URL') . '/posts_show/' . $post->id . '
-                </guid>
+                <pubDate>' . date(DATE_RSS, strtotime(substr($post->passed_at, 0, 16))) . '</pubDate>
+                <guid isPermaLink="true">' . env('APP_URL') . '/posts_show/' . $post->id . '</guid>
                 <description>
                     <![CDATA[
-                        ' . $post->content . '
+                        ' . $safe_content . '
                     ]]>
                 </description>
             </item>
@@ -657,18 +655,17 @@ class HomeController extends Controller
         }
 
         $content = '<?xml version="1.0" encoding="UTF-8"?>
-            <rss version="2.0">
+            <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
                 <channel>
-                <title>
-                    <![CDATA[ 彰化縣教育處新雲端 ]]>
-                </title>
+                <title><![CDATA[ 彰化縣教育處新雲端 ]]></title>
                 <link>https://newboe.chc.edu.tw</link>
                 <description>
                     <![CDATA[
                         歡迎光臨教育處新雲端！分享彰化縣教育的大小事！
                     ]]>
                 </description>
-                <language>utf-8</language>
+                <language>zh-tw</language>
+                <atom:link href="你的RSS完整網址" rel="self" type="application/rss+xml" />
                 <copyright>
                     <![CDATA[
                         版權來自：newboe.chc.edu.tw
