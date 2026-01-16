@@ -638,7 +638,7 @@ class HomeController extends Controller
                 <link>
                 ' . env('APP_URL') . '/posts_show/' . $post->id . '
                 </link>
-                <title><![CDATA[ ' . $safe_title . ' ]]></title>
+                <title>' . $safe_title . '</title>
                 <dc:creator>' . array_get($sections, $post->section_id) . ' / ' . $post->user->name . '</dc:creator>
                 <category>
                     <![CDATA[ ' . $categories[$post->category_id] . ' ]]>
@@ -665,7 +665,7 @@ class HomeController extends Controller
                     ]]>
                 </description>
                 <language>zh-tw</language>
-                <atom:link href="你的RSS完整網址" rel="self" type="application/rss+xml" />
+                <atom:link href="https://newboe.chc.edu.tw/rss" rel="self" type="application/rss+xml" />
                 <copyright>
                     <![CDATA[
                         版權來自：newboe.chc.edu.tw
