@@ -631,8 +631,10 @@ class HomeController extends Controller
 
         $items = "";        
         foreach ($posts as $post) {
-            $safe_title = htmlspecialchars($post->title, 19, 'UTF-8');
-            $safe_content = htmlspecialchars($post->content, 19, 'UTF-8');
+            $title = str_replace('&', '及', $post->title);
+            $safe_title = htmlspecialchars($title, 19, 'UTF-8');
+            $content = str_replace('&', '及', $post->content);
+            $safe_content = htmlspecialchars($content, 19, 'UTF-8');
             $items .= '
             <item>
                 <link>
