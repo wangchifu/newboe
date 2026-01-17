@@ -165,7 +165,9 @@
                                 <li><a class="dropdown-item" href="#!" onclick="sw_confirm1('確定結束模擬？','{{ route('sims.impersonate_leave') }}')">結束模擬</a></li>
                                 <li class="dropdown-divider"></li>
                             @endImpersonating
-                            <li><a class="dropdown-item" href="{{ route('logout') }}">登出系統</a></li>
+                            <li><a class="dropdown-item" href="#!" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">登出系統</a></li>
+                            <form action="{{ route('logout') }}" method="POST" id="logout-form" style="display: none;">                                
+                            </form>
                         </ul>
                     </li>                    
                 @endauth

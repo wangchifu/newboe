@@ -31,7 +31,8 @@
             if (diff <= 0) {
                 clearInterval(timerInterval);
                 // 避免重複導向，確保只執行一次
-                window.location.href = '/logout';
+                //window.location.href = '/logout';
+                document.getElementById('logout-form').submit();                
             } else {
                 const timeString = formatTime(diff);
                 timerEls.forEach(function (el) {

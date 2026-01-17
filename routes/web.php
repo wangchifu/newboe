@@ -28,9 +28,10 @@ Route::get('index', [HomeController::class,'index'])->name('index');
 //Route::get('glogin', [HomeController::class,'glogin'])->name('glogin');
 //Route::post('gauth', [HomeController::class,'gauth'])->name('gauth');
 Route::get('logins', [HomeController::class,'logins'])->name('logins');
+Route::get('login', [HomeController::class,'login'])->name('login');
 Route::get('mlogin', [HomeController::class,'mlogin'])->name('mlogin');
 Route::post('mauth', [HomeController::class,'mauth'])->name('mauth');
-Route::get('logout', [HomeController::class,'logout'])->name('logout');
+Route::post('logout', [HomeController::class,'logout'])->name('logout');
 
 
 //認證圖片

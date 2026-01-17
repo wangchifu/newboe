@@ -414,7 +414,10 @@ class HomeController extends Controller
         }
     }
 
-    public function logout(){                
+    public function login(){
+        return redirect()->route('logins');
+    }
+    public function logout(Request $request){                
         Auth::logout();
         
         if(empty(session('id_token'))){

@@ -11,6 +11,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
+        // 1. 在這裡加入排除 CSRF 的路徑
+        $middleware->validateCsrfTokens(except: [
+            '/logout', // 排除登出的 CSRF 檢查
+        ]);
         $middleware->alias([
             'all_admin' => \App\Http\Middleware\AllAdminMiddleware::class,
             'admin' => \App\Http\Middleware\AdminMiddleware::class,
