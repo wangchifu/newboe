@@ -32,7 +32,7 @@
         </div>
         
         <input type="hidden" name="section_id" value="{{ $section_id }}">
-        <input type="hidden" name="type" value="people2">
+        <input type="hidden" name="type" value="people">
         <div class="form-group">
             <a class="btn btn-success btn-sm" onclick="sw_confirm2('確定儲存？','store_form')">儲存設定</a>
         </div>
