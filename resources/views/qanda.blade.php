@@ -20,7 +20,7 @@
                         登入問題
                     </h5>
                     1.本站使用彰化 EIP 帳號登入，無法登入均是 EIP 問題，請檢查密碼或是按 <a href="https://eip.chc.edu.tw/recovery-password" target="_blank" class="btn btn-warning">忘記密碼？</a>。<br>
-                    2.使用 EIP 登入後，若帶出的職稱若不正確，請至右上角 <i class="fas fa-user"></i> 人像按鈕下拉，選擇「 <a href="http://newboe.localhost/edit_title">變更職稱</a> 」修正。<br>
+                    2.使用 EIP 登入後，若帶出的職稱若不正確，請至右上角 <i class="fas fa-user"></i> 人像按鈕下拉，選擇「 <a href="https://newboe.chc.edu.tw/edit_title">變更職稱</a> 」修正。<br>
                 </div>
             </div>
             <br>

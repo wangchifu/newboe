@@ -51,10 +51,10 @@
     <!--當審核通過時，只能作廢一途-->
 @elseif($uri_name == 'passing')
     @if ( $post->situation  === 3)
-        <form class="tr" action="{{ route('posts.obsolete',$post->id) }}" method="post" id="obsolete_form" onsubmit="return false">
+        <form class="tr" action="{{ route('posts.obsolete',$post->id) }}" method="post" id="obsolete_form{{ $post->id }}" onsubmit="return false">
             @csrf
             {{ method_field('PATCH') }}
-            <a href="#!" onclick="sw_confirm2('確定作廢？','obsolete_form')">
+            <a href="#!" onclick="sw_confirm2('確定作廢？','obsolete_form{{ $post->id }}')">
                 <button class="btn btn-outline-secondary btn-sm">作廢</button>
             </a>
         </form>
