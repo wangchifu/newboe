@@ -55,15 +55,15 @@
                     <td data-bs-toggle="tooltip" data-bs-placement="top" title="{{  $question->title }}">
                         <?php
                         $school_code = $school->code_no;
-                        /**                            
+                                                    
                             //信義
-                            if($school_code=="074541074774"){
-                                $school_code="074541";
-                                if(!isset($answer_data[$school_code][$question->id])){
-                                    $school_code="074774";
-                                }
+                            //if($school_code=="074541074774"){
+                            //    $school_code="074541";
+                            //    if(!isset($answer_data[$school_code][$question->id])){
+                            //        $school_code="074774";
+                            //    }
                                 
-                            };
+                            //};
                             //原斗
                             if($school_code=="074537074745"){
                                 $school_code="074537";
@@ -72,20 +72,19 @@
                                 }
                             };
                             //鹿江
-                            if($school_code=="074542074778"){
-                                $school_code="074542";
-                                if(!isset($answer_data[$school_code][$question->id])){
-                                    $school_code="074778";
-                                }
-                            }
+                            //if($school_code=="074542074778"){
+                            //    $school_code="074542";
+                            //    if(!isset($answer_data[$school_code][$question->id])){
+                            //        $school_code="074778";
+                            //    }
+                            //}
                             //民權074543074760
-                            if($school_code=="074543074760"){
-                                $school_code="074760";
-                                if(!isset($answer_data[$school_code][$question->id])){
-                                    $school_code="074543";
-                                }
-                            }   
-                        */                     
+                            //if($school_code=="074543074760"){
+                             //   $school_code="074760";
+                             //   if(!isset($answer_data[$school_code][$question->id])){
+                             //       $school_code="074543";
+                             //   }
+                            //}                                            
                         ?>
                         @if(isset($answer_data[$school_code][$question->id]) and $report_school->situation==3) 
                             <div class="d-block w-100 h-100 text-break" style="padding: 0px;">                               

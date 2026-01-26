@@ -699,14 +699,14 @@ class EduReportController extends Controller
                             //$report_school = ReportSchool::find($answer->report_school_id);
             
                 $school_code = $school->code_no;
-            /**
+            
                 //信義            
-                if($school_code=="074541074774"){
-                    $school_code="074541";
-                    if(!isset($answer_data[$school_code][$question->id])){
-                        $school_code="074774";
-                    }
-                }
+                //if($school_code=="074541074774"){
+                //    $school_code="074541";
+                //    if(!isset($answer_data[$school_code][$question->id])){
+                //        $school_code="074774";
+                //    }
+                //}
             //原斗
                 if($school_code=="074537074745"){
                     $school_code="074537";
@@ -715,20 +715,20 @@ class EduReportController extends Controller
                     }
                 }
             //鹿江
-                if($school_code=="074542074778"){
-                    $school_code="074542";
-                    if(!isset($answer_data[$school_code][$question->id])){
-                        $school_code="074778";
-                    }
-                }
+                //if($school_code=="074542074778"){
+                //    $school_code="074542";
+                //    if(!isset($answer_data[$school_code][$question->id])){
+                //        $school_code="074778";
+                //    }
+                //}
             //民權
-                if($school_code=="074543074760"){
-                    $school_code="074760";
-                    if(!isset($answer_data[$school_code][$question->id])){
-                        $school_code="074543";
-                    }
-                }
-            */
+                //if($school_code=="074543074760"){
+                //    $school_code="074760";
+                //    if(!isset($answer_data[$school_code][$question->id])){
+                //        $school_code="074543";
+                //    }
+                //}
+            
                 if(isset($answer_data[$school_code][$question->id])){
 
                     //$get_report_school = ReportSchool::where('code',$school->code_no)
