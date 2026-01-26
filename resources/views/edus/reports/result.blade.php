@@ -57,13 +57,15 @@
                         $school_code = $school->code_no;
                                                     
                             //信義
-                            //if($school_code=="074541074774"){
-                            //    $school_code="074541";
-                            //    if(!isset($answer_data[$school_code][$question->id])){
-                            //        $school_code="074774";
-                            //    }
-                                
-                            //};
+                            if(isset($answer_data[$school_code][$question->id])){
+                                $school_code = $school->code_no;
+                            }else{
+                                if(isset($answer_data['074541'][$question->id])) $school_code = '074541'; 
+                                if(isset($answer_data['074541074774'][$question->id])) $school_code = '074541074774';                                   
+                                if(isset($answer_data['074774'][$question->id])) $school_code = '074774';
+                                if(isset($answer_data['074774074541'][$question->id])) $school_code = '074774074541';
+                            }
+
                             //原斗
                             if(isset($answer_data[$school_code][$question->id])){
                                 $school_code = $school->code_no;
@@ -74,19 +76,25 @@
                                 if(isset($answer_data['074745074537'][$question->id])) $school_code = '074745074537';
                             }                            
                             //鹿江
-                            //if($school_code=="074542074778"){
-                            //    $school_code="074542";
-                            //    if(!isset($answer_data[$school_code][$question->id])){
-                            //        $school_code="074778";
-                            //    }
-                            //}
+                            if(isset($answer_data[$school_code][$question->id])){
+                                $school_code = $school->code_no;
+                            }else{
+                                if(isset($answer_data['074542'][$question->id])) $school_code = '074542'; 
+                                if(isset($answer_data['074542074778'][$question->id])) $school_code = '074542074778';                                   
+                                if(isset($answer_data['074778'][$question->id])) $school_code = '074778';
+                                if(isset($answer_data['074778074542'][$question->id])) $school_code = '074778074542';
+                            } 
+
                             //民權074543074760
-                            //if($school_code=="074543074760"){
-                             //   $school_code="074760";
-                             //   if(!isset($answer_data[$school_code][$question->id])){
-                             //       $school_code="074543";
-                             //   }
-                            //}                                            
+                            if(isset($answer_data[$school_code][$question->id])){
+                                $school_code = $school->code_no;
+                            }else{
+                                if(isset($answer_data['074543'][$question->id])) $school_code = '074543'; 
+                                if(isset($answer_data['074543074760'][$question->id])) $school_code = '074543074760';                                   
+                                if(isset($answer_data['074760'][$question->id])) $school_code = '074760';
+                                if(isset($answer_data['074760074543'][$question->id])) $school_code = '074760074543';
+                            } 
+                                          
                         ?>
                         @if(isset($answer_data[$school_code][$question->id]) and $report_school->situation==3) 
                             <div class="d-block w-100 h-100 text-break" style="padding: 0px;">                               
