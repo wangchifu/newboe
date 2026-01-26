@@ -65,12 +65,14 @@
                                 
                             //};
                             //原斗
-                            if($school_code=="074537074745"){
-                                $school_code="074537";
-                                if(!isset($answer_data[$school_code][$question->id])){
-                                    $school_code="074745";
-                                }
-                            };
+                            if(isset($answer_data[$school_code][$question->id])){
+                                $school_code = $school->code_no;
+                            }else{
+                                if(isset($answer_data['074537'][$question->id])) $school_code = '074537'; 
+                                if(isset($answer_data['074537074745'][$question->id])) $school_code = '074537074745';                                   
+                                if(isset($answer_data['074745'][$question->id])) $school_code = '074745';
+                                if(isset($answer_data['074745074537'][$question->id])) $school_code = '074745074537';
+                            }                            
                             //鹿江
                             //if($school_code=="074542074778"){
                             //    $school_code="074542";
