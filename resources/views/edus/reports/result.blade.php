@@ -54,6 +54,7 @@
                 @foreach($report->questions as $question)
                     <td data-bs-toggle="tooltip" data-bs-placement="top" title="{{  $question->title }}">
                         <?php
+                        /**
                             $school_code = $school->code_no;
                             //信義
                             if($school_code=="074541074774"){
@@ -83,7 +84,8 @@
                                 if(!isset($answer_data[$school_code][$question->id])){
                                     $school_code="074543";
                                 }
-                            }                        
+                            }   
+                        */                     
                         ?>
                         @if(isset($answer_data[$school_code][$question->id]) and $report_school->situation==3) 
                             <div class="d-block w-100 h-100 text-break" style="padding: 0px;">                               

@@ -699,7 +699,8 @@ class EduReportController extends Controller
                             //$report_school = ReportSchool::find($answer->report_school_id);
             
                 $school_code = $school->code_no;
-            //信義
+            /**
+                //信義            
                 if($school_code=="074541074774"){
                     $school_code="074541";
                     if(!isset($answer_data[$school_code][$question->id])){
@@ -727,6 +728,7 @@ class EduReportController extends Controller
                         $school_code="074543";
                     }
                 }
+            */
                 if(isset($answer_data[$school_code][$question->id])){
 
                     //$get_report_school = ReportSchool::where('code',$school->code_no)
