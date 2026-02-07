@@ -24,8 +24,7 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>        
         <script src=" https://cdn.jsdelivr.net/npm/venobox@2.1.8/dist/venobox.min.js "></script>     
         <!-- Chosen v1.8.2 -->
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.2/chosen.min.css" rel="stylesheet" />
-        <link href="{{ asset('css/component-chosen.min.css') }}" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.2/chosen.min.css" rel="stylesheet" />        
         <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.2/chosen.jquery.min.js"></script>              
         @yield('my_js_file')
     </head>
