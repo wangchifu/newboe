@@ -112,7 +112,7 @@
                 </div>         
             </div>
             <div class="card-footer d-flex flex-row justify-content-center pt-4">
-                {{ $posts->links('layouts.pagination') }}
+                {{ $posts->links('layouts.simple-pagination') }}
             </div>
         </div>
     </div>    
