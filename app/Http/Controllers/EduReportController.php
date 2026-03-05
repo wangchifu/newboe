@@ -285,6 +285,44 @@ class EduReportController extends Controller
         return view('edus.reports.show',$data);
     }
 
+    public function print(Report $report)
+    {
+        if($report->user_id != auth()->user()->id){
+            $a = ['A','B','C','D','E','F','G','H','I','J'];
+            $user_power = \App\Models\UserPower::where('user_id',auth()->user()->id)
+            ->where('power_type','A')
+            ->whereIn('section_id',$a)
+            ->first();
+            if(!$user_power){
+                abort(404,'你想做什麼壞事？');
+            }            
+        }
+        //利用checkbox_str_num將編碼過的所選學校轉成字串
+        $old_schools = checkbox_str_num(array($report->school_set_0, $report->school_set_1, $report->school_set_2, $report->school_set_3, $report->school_set_4));
+
+
+        $select_school = explode(", ", $old_schools);
+
+        $schools = School::whereIn('id', $select_school)->get();
+
+        $school_select = School::orderBy('code_no')->get();
+
+        $files = get_files(storage_path('app/public/report_files/' . $report->id));
+
+        $sections = config('boe.sections');
+
+        $data = [
+            'report'=>$report,
+            'schools'=>$schools,
+            'school_select'=>$school_select,
+            'old_schools'=>$old_schools,
+            'files'=>$files,
+            'sections'=>$sections,
+        ];
+
+        return view('edus.reports.print',$data);
+    }
+
     public function download($id,$filename)
     {
         $file = storage_path('app/public/report_files/' . $id . '/' . $filename);

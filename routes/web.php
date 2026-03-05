@@ -187,6 +187,7 @@ Route::group(['middleware' => 'edu'],function(){
     Route::get('edu_report/{report}/edit', [EduReportController::class,'edit'])->name('edu_report.edit');
     Route::get('edu_report/{id}/{filename}/delete_file', [EduReportController::class,'delete_file'])->name('edu_report.delete_file');
     Route::get('edu_report/{report}/show', [EduReportController::class,'show'])->name('edu_report.show');
+    Route::get('edu_report/{report}/print', [EduReportController::class,'print'])->name('edu_report.print');
     Route::get('edu_report/{report}/date_late', [EduReportController::class,'date_late'])->name('edu_report.date_late');
     Route::patch('edu_report/{report}/save_date_late', [EduReportController::class,'save_date_late'])->name('edu_report.save_date_late');
     Route::get('edu_report/{report}/result', [EduReportController::class,'result'])->name('edu_report.result');

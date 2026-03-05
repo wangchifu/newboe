@@ -92,7 +92,10 @@
                             <button type="button" id="closeVeno" class="btn btn-secondary">
                                 關閉視窗
                             </button>
-                        </div>
+                            <a class="btn btn-outline-primary mx-1" href="{{ route('edu_report.print',$report->id) }}" target="_blank">
+                                <i class="fas fa-print"></i> 列印公告
+                            </a>
+                        </div>                        
                     </div>
                 </div>
             </div>
