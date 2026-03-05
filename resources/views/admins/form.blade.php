@@ -102,4 +102,5 @@
         @endforeach
         </tbody>
     </table>    
+    {{ $users->links('layouts.simple-pagination') }}
 </div>

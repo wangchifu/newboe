@@ -20,7 +20,7 @@
             <div class="card-header">
                 <form action="{{ route('posts.do_search_in_section') }}" method="post" id="this_form">
                     @csrf                    
-                    發佈人/主旨/內文：<input type="text" name="want" required placeholder="關鍵字" value="{{ $want }}">
+                    編號/發佈人/主旨/內文：<input type="text" name="want" required placeholder="關鍵字" value="{{ $want }}">
                     <input type="submit" value="搜尋" class="btn btn-success btn-sm">
                 </form>
             </div>

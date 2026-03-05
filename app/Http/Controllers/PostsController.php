@@ -721,7 +721,7 @@ class PostsController extends Controller
     {
 
         $posts = Post::where(function ($q) use ($want) {
-            $q->where('title', 'like', '%' . $want . '%')
+            $q->where('title', 'like', '%' . $want . '%')                
                 ->orWhere('content', 'like', '%' . $want . '%')
                 ->orWhereHas('user', function ($query) use ($want) {
                     $query->where('name', 'like', '%' . $want . '%');
@@ -760,6 +760,7 @@ class PostsController extends Controller
 
         $posts = Post::where(function ($q) use ($want) {
             $q->where('title', 'like', '%' . $want . '%')
+                ->orWhere('post_no', 'like', '%' . $want . '%')
                 ->orWhere('content', 'like', '%' . $want . '%')
                 ->orWhereHas('user', function ($query) use ($want) {
                     $query->where('name', 'like', '%' . $want . '%');
