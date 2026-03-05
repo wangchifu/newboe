@@ -93,7 +93,7 @@
                                 關閉視窗
                             </button>
                             <a class="btn btn-outline-primary mx-1" href="{{ route('edu_report.print',$report->id) }}" target="_blank">
-                                <i class="fas fa-print"></i> 列印公告
+                                <i class="fas fa-print"></i> 列印填報
                             </a>
                         </div>                        
                     </div>
