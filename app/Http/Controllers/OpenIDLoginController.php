@@ -194,7 +194,13 @@ class OpenIDLoginController extends Controller
                 $att['code'] = $user_obj['code'];
                 $att['school'] = $user_obj['school'];
                 $att['kind'] = $user_obj['kind'];
-                $att['title'] = $user_obj['title'];
+                //title欄位如果有，就不更改
+                if(empty($user->title)){
+                  $att['title'] = $user_obj['title'];                
+                }else{
+                  $att['title'] = $user->title;
+                }
+                
                 $att['edu_key'] = $user_obj['personid'];
                 $att['uid'] = "";
                 $att['disable'] = null;
