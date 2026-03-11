@@ -67,10 +67,14 @@
                                     <td>
     
                                         @foreach($files as $file)
-                                            <a href="{{ route('posts.download',['id'=>$post->id,'filename'=>$file]) }}"
-                                               title="點選下載附加檔案({{ $file }})">
+                                            @if( $post->situation ===4 )
+                                                <a href="{{ route('posts.download',['id'=>$post->id,'filename'=>$file]) }}"
+                                                title="點選下載附加檔案({{ $file }})">
+                                                    {{ $file }}
+                                                </a>
+                                            @else
                                                 {{ $file }}
-                                            </a>
+                                            @endif                                            
                                             <br>
                                         @endforeach
                                     </td>
