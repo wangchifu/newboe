@@ -68,7 +68,7 @@
     
                                         @foreach($files as $file)
                                             @if( $post->situation ===4 )
-                                                {{ $file }}
+                                                <strike>{{ $file }}</strike>
                                             @else
                                                 <a href="{{ route('posts.download',['id'=>$post->id,'filename'=>$file]) }}"
                                                 title="點選下載附加檔案({{ $file }})">
