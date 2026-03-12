@@ -34,7 +34,7 @@
     <input type="text" name="url" value="{{ old('url', $post->url ?? '') }}" id="url" class="form-control">
 </div>
 <div class="form-group my-2">
-    <label for="files[]">附加檔案( 單檔不大於10MB，請以ODF格式附加 ) <small class="text-secondary">csv,txt,zip,jpg,jpeg,gif,png,pdf,odt,ods</small></label>
+    <label for="files[]">附加檔案( <span class="text-danger">切勿上傳含個資之檔案！</span>單檔不大於10MB，請以ODF格式附加 ) <small class="text-secondary">csv,txt,zip,jpg,jpeg,gif,png,pdf,odt,ods</small></label>
     <input type="file" name="files[]" class="form-control" multiple onchange="checkfile(this);">
 </div>
 <div class="form-group my-2">
