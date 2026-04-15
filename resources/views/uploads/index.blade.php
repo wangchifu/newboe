@@ -87,6 +87,8 @@
                         <td>
                             @if(!empty($folder->user->title))
                                 {{ $folder->user->title }}
+                            @else
+                                <span class="text-danger">遺失上傳者</span>
                             @endif
                         </td>
                         <td>
