@@ -122,7 +122,11 @@
 
                         </td>
                         <td>
-                            {{ $file->user->title }}
+                            @if(!empty($file->user->title))
+                                {{ $file->user->title }}
+                            @else
+                                <span class="text-danger">遺失上傳者</span>
+                            @endif                            
                         </td>
                         <td>
                             @if(file_exists(storage_path($f.'/'.$file->name)))
