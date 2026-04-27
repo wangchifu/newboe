@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\File;
 use Purifier;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Gd\Driver as GdDriver;
+use Illuminate\Support\Str;
 
 class PostsController extends Controller
 {
@@ -114,7 +115,19 @@ class PostsController extends Controller
                 if ($info['extension'] && !in_array($info['extension'], $allowed_extensions)) {
                     continue;
                 }
-                $file->storeAs('public/post_files/' . $post->id, $info['original_filename']);
+                // 1. 取得副檔名 (odt)
+                $extension = pathinfo($info['original_filename'], PATHINFO_EXTENSION);
+
+                // 2. 取得主檔名 (2023_{台北市}_中山國小)
+                $mainName = pathinfo($info['original_filename'], PATHINFO_FILENAME);
+
+                // 3. 只清理主檔名的符號
+                $safeMainName = preg_replace('/[^\x{4e00}-\x{9fa5}a-zA-Z0-9_\-]/u', '_', $mainName);
+
+                // 4. 處理連續底線並組合回副檔名
+                $safeMainName = Str::of($safeMainName)->replaceMatches('/_+/', '_')->trim('_');
+                $safeName = $safeMainName . '.' . $extension;                
+                $file->storeAs('public/post_files/' . $post->id, $safeName);
             }
         }
 
@@ -131,14 +144,26 @@ class PostsController extends Controller
                 if ($info2['extension'] && !in_array($info2['extension'], $allowed_extensions)) {
                     continue;
                 }
-                $photo->storeAs('public/post_photos/' . $post->id, $info2['original_filename']);
+                // 1. 取得副檔名 (odt)
+                $extension = pathinfo($info2['original_filename'], PATHINFO_EXTENSION);
+
+                // 2. 取得主檔名 (2023_{台北市}_中山國小)
+                $mainName = pathinfo($info2['original_filename'], PATHINFO_FILENAME);
+
+                // 3. 只清理主檔名的符號
+                $safeMainName = preg_replace('/[^\x{4e00}-\x{9fa5}a-zA-Z0-9_\-]/u', '_', $mainName);
+
+                // 4. 處理連續底線並組合回副檔名
+                $safeMainName = Str::of($safeMainName)->replaceMatches('/_+/', '_')->trim('_');
+                $safeName = $safeMainName . '.' . $extension;                      
+                $photo->storeAs('public/post_photos/' . $post->id, $safeName);
 
                 //縮圖
                 
                 $manager = new ImageManager(new GdDriver());
                 $image = $manager->read($photo->getRealPath());
                 $image->scale(width: 1000) // 保持比例縮放，指定寬度即可
-                    ->save(storage_path('app/public/post_photos/' . $post->id . "/" . $info2['original_filename']));
+                    ->save(storage_path('app/public/post_photos/' . $post->id . "/" . $safeName));
 
                 //$img = Image::make($photo->getRealPath());
                 //$img->resize(500, null, function ($constraint) {
@@ -408,7 +433,19 @@ class PostsController extends Controller
                 if ($info['extension'] && !in_array($info['extension'], $allowed_extensions)) {
                     continue;
                 }
-                $file->storeAs('public/post_files/' . $post->id, $info['original_filename']);
+                // 1. 取得副檔名 (odt)
+                $extension = pathinfo($info['original_filename'], PATHINFO_EXTENSION);
+
+                // 2. 取得主檔名 (2023_{台北市}_中山國小)
+                $mainName = pathinfo($info['original_filename'], PATHINFO_FILENAME);
+
+                // 3. 只清理主檔名的符號
+                $safeMainName = preg_replace('/[^\x{4e00}-\x{9fa5}a-zA-Z0-9_\-]/u', '_', $mainName);
+
+                // 4. 處理連續底線並組合回副檔名
+                $safeMainName = Str::of($safeMainName)->replaceMatches('/_+/', '_')->trim('_');
+                $safeName = $safeMainName . '.' . $extension;                      
+                $file->storeAs('public/post_files/' . $post->id, $safeName);
             }
         }
 
@@ -426,13 +463,25 @@ class PostsController extends Controller
                 if ($info2['extension'] && !in_array($info2['extension'], $allowed_extensions)) {
                     continue;
                 }
-                $photo->storeAs('public/post_photos/' . $post->id, $info2['original_filename']);
+                // 1. 取得副檔名 (odt)
+                $extension = pathinfo($info2['original_filename'], PATHINFO_EXTENSION);
+
+                // 2. 取得主檔名 (2023_{台北市}_中山國小)
+                $mainName = pathinfo($info2['original_filename'], PATHINFO_FILENAME);
+
+                // 3. 只清理主檔名的符號
+                $safeMainName = preg_replace('/[^\x{4e00}-\x{9fa5}a-zA-Z0-9_\-]/u', '_', $mainName);
+
+                // 4. 處理連續底線並組合回副檔名
+                $safeMainName = Str::of($safeMainName)->replaceMatches('/_+/', '_')->trim('_');
+                $safeName = $safeMainName . '.' . $extension;                      
+                $photo->storeAs('public/post_photos/' . $post->id, $safeName);
 
                 //縮圖
                 $manager = new ImageManager(new GdDriver());
                 $image = $manager->read($photo->getRealPath());
                 $image->scale(width: 1000) // 保持比例縮放，指定寬度即可
-                    ->save(storage_path('app/public/post_photos/' . $post->id . "/" . $info2['original_filename']));                
+                    ->save(storage_path('app/public/post_photos/' . $post->id . "/" . $safeName));                
             }
         }
         //}
@@ -1881,7 +1930,19 @@ class PostsController extends Controller
                 if ($info['extension'] && !in_array($info['extension'], $allowed_extensions)) {
                     continue;
                 }
-                $file->storeAs('public/post_files/' . $post->id, $info['original_filename']);
+                // 1. 取得副檔名 (odt)
+                $extension = pathinfo($info['original_filename'], PATHINFO_EXTENSION);
+
+                // 2. 取得主檔名 (2023_{台北市}_中山國小)
+                $mainName = pathinfo($info['original_filename'], PATHINFO_FILENAME);
+
+                // 3. 只清理主檔名的符號
+                $safeMainName = preg_replace('/[^\x{4e00}-\x{9fa5}a-zA-Z0-9_\-]/u', '_', $mainName);
+
+                // 4. 處理連續底線並組合回副檔名
+                $safeMainName = Str::of($safeMainName)->replaceMatches('/_+/', '_')->trim('_');
+                $safeName = $safeMainName . '.' . $extension;                      
+                $file->storeAs('public/post_files/' . $post->id, $safeName);
             }
         }
 
@@ -1899,13 +1960,25 @@ class PostsController extends Controller
                 if ($info2['extension'] && !in_array($info2['extension'], $allowed_extensions)) {
                     continue;
                 }
-                $photo->storeAs('public/post_photos/' . $post->id, $info2['original_filename']);
+                // 1. 取得副檔名 (odt)
+                $extension = pathinfo($info2['original_filename'], PATHINFO_EXTENSION);
+
+                // 2. 取得主檔名 (2023_{台北市}_中山國小)
+                $mainName = pathinfo($info2['original_filename'], PATHINFO_FILENAME);
+
+                // 3. 只清理主檔名的符號
+                $safeMainName = preg_replace('/[^\x{4e00}-\x{9fa5}a-zA-Z0-9_\-]/u', '_', $mainName);
+
+                // 4. 處理連續底線並組合回副檔名
+                $safeMainName = Str::of($safeMainName)->replaceMatches('/_+/', '_')->trim('_');
+                $safeName = $safeMainName . '.' . $extension;                      
+                $photo->storeAs('public/post_photos/' . $post->id, $safeName);
 
                 //縮圖
                 $manager = new ImageManager(new GdDriver());
                 $image = $manager->read($photo->getRealPath());
                 $image->scale(width: 1000) // 保持比例縮放，指定寬度即可
-                    ->save(storage_path('app/public/post_photos/' . $post->id . "/" . $info2['original_filename']));                
+                    ->save(storage_path('app/public/post_photos/' . $post->id . "/" . $safeName));                
             }
         }
         //}

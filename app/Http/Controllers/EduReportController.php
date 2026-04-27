@@ -12,6 +12,7 @@ use App\Models\School;
 use App\Models\UserPower;
 use Rap2hpoutre\FastExcel\FastExcel;
 use Purifier;
+use Illuminate\Support\Str;
 
 class EduReportController extends Controller
 {
@@ -112,7 +113,19 @@ class EduReportController extends Controller
                 if ( $info['extension'] && !in_array($info['extension'],$allowed_extensions)) {
                     continue;
                 }
-                $file->storeAs('public/report_files/'.$report->id, $info['original_filename']);
+                // 1. 取得副檔名 (odt)
+                $extension = pathinfo($info['original_filename'], PATHINFO_EXTENSION);
+
+                // 2. 取得主檔名 (2023_{台北市}_中山國小)
+                $mainName = pathinfo($info['original_filename'], PATHINFO_FILENAME);
+
+                // 3. 只清理主檔名的符號
+                $safeMainName = preg_replace('/[^\x{4e00}-\x{9fa5}a-zA-Z0-9_\-]/u', '_', $mainName);
+
+                // 4. 處理連續底線並組合回副檔名
+                $safeMainName = Str::of($safeMainName)->replaceMatches('/_+/', '_')->trim('_');
+                $safeName = $safeMainName . '.' . $extension;                                      
+                $file->storeAs('public/report_files/'.$report->id, $safeName);
             }
         }
 
@@ -470,8 +483,19 @@ class EduReportController extends Controller
                     if ( $info['extension'] && !in_array($info['extension'],$allowed_extensions)) {
                       continue;
                     }
+                    $extension = pathinfo($info['original_filename'], PATHINFO_EXTENSION);
+
+                    // 2. 取得主檔名 (2023_{台北市}_中山國小)
+                    $mainName = pathinfo($info['original_filename'], PATHINFO_FILENAME);
+
+                    // 3. 只清理主檔名的符號
+                    $safeMainName = preg_replace('/[^\x{4e00}-\x{9fa5}a-zA-Z0-9_\-]/u', '_', $mainName);
+
+                    // 4. 處理連續底線並組合回副檔名
+                    $safeMainName = Str::of($safeMainName)->replaceMatches('/_+/', '_')->trim('_');
+                    $safeName = $safeMainName . '.' . $extension;                       
         
-                    $file->storeAs('public/report_files/'.$report->id, $info['original_filename']);
+                    $file->storeAs('public/report_files/'.$report->id, $safeName);
                 }
             }
 
