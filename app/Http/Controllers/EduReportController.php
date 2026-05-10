@@ -762,44 +762,31 @@ class EduReportController extends Controller
             
                 $school_code = $school->code_no;
             
-                //信義
-                if(isset($answer_data[$school_code][$question->id])){
-                    //$school_code = $school->code_no;
-                }else{
-                    if(isset($answer_data['074541'][$question->id])) $school_code = '074541'; 
-                    if(isset($answer_data['074541074774'][$question->id])) $school_code = '074541074774';                                   
-                    if(isset($answer_data['074774'][$question->id])) $school_code = '074774';
-                    if(isset($answer_data['074774074541'][$question->id])) $school_code = '074774074541';
-                }
+                // 1. 定義學校群組對照表（把相關的代碼放在同一個群組內）
+                $school_groups = [
+                    ['074541', '074541074774', '074774', '074774074541'], // 信義組
+                    ['074537', '074537074745', '074745', '074745074537'], // 原斗組
+                    ['074542', '074542074778', '074778', '074778074542'], // 鹿江組
+                    ['074543', '074543074760', '074760', '074760074543'], // 民權組
+                ];
 
-                //原斗
-                if(isset($answer_data[$school_code][$question->id])){
-                    //$school_code = $school->code_no;
-                }else{
-                    if(isset($answer_data['074537'][$question->id])) $school_code = '074537'; 
-                    if(isset($answer_data['074537074745'][$question->id])) $school_code = '074537074745';                                   
-                    if(isset($answer_data['074745'][$question->id])) $school_code = '074745';
-                    if(isset($answer_data['074745074537'][$question->id])) $school_code = '074745074537';
-                }                            
-                //鹿江
-                if(isset($answer_data[$school_code][$question->id])){
-                    //$school_code = $school->code_no;
-                }else{
-                    if(isset($answer_data['074542'][$question->id])) $school_code = '074542'; 
-                    if(isset($answer_data['074542074778'][$question->id])) $school_code = '074542074778';                                   
-                    if(isset($answer_data['074778'][$question->id])) $school_code = '074778';
-                    if(isset($answer_data['074778074542'][$question->id])) $school_code = '074778074542';
-                } 
-
-                //民權074543074760
-                if(isset($answer_data[$school_code][$question->id])){
-                    //$school_code = $school->code_no;
-                }else{
-                    if(isset($answer_data['074543'][$question->id])) $school_code = '074543'; 
-                    if(isset($answer_data['074543074760'][$question->id])) $school_code = '074543074760';                                   
-                    if(isset($answer_data['074760'][$question->id])) $school_code = '074760';
-                    if(isset($answer_data['074760074543'][$question->id])) $school_code = '074760074543';
-                }                 
+                // 2. 只有在當前 $school_code 找不到資料時才執行
+                if (!isset($answer_data[$school_code][$question->id])) {
+                    
+                    foreach ($school_groups as $group) {
+                        // 判斷目前的 $school_code 是否屬於這一個學校群組
+                        if (in_array($school_code, $group)) {
+                            
+                            // 如果屬於這組，則在組內依序尋找有資料的代碼
+                            foreach ($group as $fallback_code) {
+                                if (isset($answer_data[$fallback_code][$question->id])) {
+                                    $school_code = $fallback_code;
+                                    break 2; // 跳出兩層迴圈 (找到了就直接結束所有檢查)
+                                }
+                            }
+                        }
+                    }
+                }            
             
                 if(isset($answer_data[$school_code][$question->id])){
 
