@@ -327,13 +327,22 @@ class UploadController extends Controller
         $folder_path[0] = '根目錄';
 
         $path_array = explode('&',$path);
-        $folder_id = end($path_array);
+
+        //清掉空值
+        $path_array = array_filter($path_array);
+        $folder_id = end($path_array);   
+        $first_folder_id = reset($path_array);
+        //查看是否最上層
+        $check_first_folder = Upload::where('id',$first_folder_id)->first();                
+        if(!empty($check_first_folder->folder_id)) abort('404');
+
+
         if(empty($folder_id)) $folder_id=null;
 
         $i=1;
         foreach($path_array as $v){
             if($v != null){
-                $check = Upload::where('id',$v)->first();
+                $check = Upload::where('id',$v)->first();                
                 $folder_path[$v] = $check->name;
             }
             if($i==1){
