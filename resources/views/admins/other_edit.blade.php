@@ -13,7 +13,7 @@
     <h1>修改其他連結</h1>
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('admins.other_index') }}">其他連結列表</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('admins.other_index') }}">連結列表</a></li>
             <li class="breadcrumb-item active" aria-current="page">修改連結</li>
         </ol>
     </nav>

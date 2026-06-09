@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\UserPower;
 use App\Models\LoginError;
 use App\Models\TitleImage;
+use App\Models\Link;
 use App\Models\Other;
 use App\Models\Marquee;
 use App\Models\Post;
@@ -19,7 +20,15 @@ use App\Models\UserRead;
 class HomeController extends Controller
 {
     public function index(){        
-        $title_images = TitleImage::where('disable', null)->get();       
+        $title_images = TitleImage::where('disable', null)->get();     
+        $links = Link::whereNotNull('type')
+            ->where('type', '!=', '')
+            ->orderBy('type')
+            ->orderBy('order_by')
+            ->get();
+        $link2s = Link::whereNull('type')            
+            ->orderBy('order_by')
+            ->get();                       
         $others = Other::orderBy('order_by')->get();
         $marquees = Marquee::where('start_date', '<=', date('Ymd'))
             ->where('stop_date', '>', date('Ymd'))
@@ -38,7 +47,9 @@ class HomeController extends Controller
             ->paginate(13); 
         $category_array = config('boe.categories');
         $data = [
-            'title_images'=>$title_images,            
+            'title_images'=>$title_images,       
+            'links'=>$links,
+            'link2s'=>$link2s,            
             'others'=>$others,
             'marquees'=>$marquees,
             'posts'=>$posts,

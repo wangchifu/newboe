@@ -287,6 +287,14 @@ Route::group(['middleware' => 'admin'],function(){
     Route::post('admin/introduction/store', [AdminsController::class,'introduction_store'])->name('admins.introduction_store');
     Route::post('admin/introduction/store2', [AdminsController::class,'introduction_store2'])->name('admins.introduction_store2');
 
+    //相關連結    
+    Route::get('admin/link/create', [AdminsController::class,'link_create'])->name('admins.link_create');
+    Route::post('admin/link', [AdminsController::class,'link_store'])->name('admins.link_store');
+    Route::delete('admin/link/{link}', [AdminsController::class,'link_destroy'])->name('admins.link_destroy');
+    Route::get('admin/link/{link}/edit', [AdminsController::class,'link_edit'])->name('admins.link_edit');
+    Route::patch('admin/link/{link}', [AdminsController::class,'link_update'])->name('admins.link_update');
+
+
     //其他連結
     Route::get('admin/other', [AdminsController::class,'other_index'])->name('admins.other_index');
     Route::get('admin/other/create', [AdminsController::class,'other_create'])->name('admins.other_create');

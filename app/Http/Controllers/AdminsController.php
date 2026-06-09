@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\UserPower;
 use App\Models\Introduction;
+use App\Models\Link;
 use App\Models\Other;
 use App\Models\Log;
 use App\Models\Post;
@@ -503,9 +504,30 @@ class AdminsController extends Controller
 
     public function other_index()
     {
+        $links = Link::whereNotNull('type')
+            ->where('type', '!=', '')
+            ->orderBy('type')
+            ->orderBy('order_by')
+            ->get();
+        $link2s = Link::whereNull('type')            
+            ->orderBy('order_by')
+            ->get();
         $others = Other::orderBy('order_by')
             ->get();
-        return view('admins.other_index',compact('others'));
+        $type_array = [
+            1=>'1.教學類',
+            2=>'2.藝文類',
+            3=>'3.資訊類',
+            4=>'4.防疫專區',
+            5=>'5.行政單位',
+        ];         
+        $data= [
+            'links'=>$links,
+            'link2s'=>$link2s,
+            'others'=>$others,
+            'type_array'=>$type_array,
+        ];
+        return view('admins.other_index',$data);
     }
 
     public function other_create()
@@ -553,6 +575,56 @@ class AdminsController extends Controller
 
         //log
         $event = "管理者 ".auth()->user()->name."(".auth()->user()->username.") 刪除了其他連結 id：".$other->id." 名稱：".$other->name;
+        logging('5',$event,get_ip());
+
+        return redirect()->route('admins.other_index');
+    }
+
+    public function link_create()
+    {
+        return view('admins.link_create');
+    }
+
+    public function link_store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required',
+            'url' => 'required',
+        ]);
+        $link = Link::create($request->all());
+
+        //log
+        $event = "管理者 ".auth()->user()->name."(".auth()->user()->username.") 新增了相關連結 id：".$link->id." 名稱：".$link->name;
+        logging('5',$event,get_ip());
+
+        return redirect()->route('admins.other_index');
+    }
+
+    public function link_edit(Link $link)
+    {
+        $data = [
+            'link'=>$link,
+        ];
+        return view('admins.link_edit',$data);
+    }
+
+    public function link_update(Request $request, Link $link)
+    {
+        $link->update($request->all());
+
+        //log
+        $event = "管理者 ".auth()->user()->name."(".auth()->user()->username.") 修改了相關連結 id：".$link->id." 名稱：".$link->name;
+        logging('5',$event,get_ip());
+
+        return redirect()->route('admins.other_index');
+    }    
+
+    public function link_destroy(Link $link)
+    {
+        $link->delete();
+
+        //log
+        $event = "管理者 ".auth()->user()->name."(".auth()->user()->username.") 刪除了其他連結 id：".$link->id." 名稱：".$link->name;
         logging('5',$event,get_ip());
 
         return redirect()->route('admins.other_index');

@@ -184,6 +184,78 @@
             </div>
         </div>
     </div>
+    @php
+        // 1. 這是你定義的分類對應表
+        $type_array = [
+            1 => '1.教學類',
+            2 => '2.藝文類',
+            3 => '3.資訊類',
+            4 => '4.防疫專區',
+            5 => '5.行政單位',
+        ];
+
+        // 2. 為了符合 Bootstrap Accordion 的 id 規範（不建議使用純數字做 id），
+        // 我們建立一個數字轉英文單字的對應表，用來動態生成 #collapseOne, #collapseFive 等識別碼。
+        $id_map = [
+            1 => 'One',
+            2 => 'Two',
+            3 => 'Three',
+            4 => 'Four',
+            5 => 'Five',
+        ];
+
+        // 3. 把有分類的 $links 按照 type 進行分組
+        $grouped_links = $links->groupBy('type');
+    @endphp
+
+    <div class="card mb-4">
+        <div class="card-header">相關連結</div>
+        <div class="card-body">
+            <div class="accordion" id="accordionExample">
+                
+                {{-- 🔄 1. 跑迴圈：依序檢查你設定的 1 ~ 5 分類 --}}
+                @foreach($type_array as $type_id => $type_name)
+                    {{-- 安全防護：只有當資料庫裡「真的有該分類的連結」時，才渲染這個折疊 item --}}
+                    @if($grouped_links->has($type_id))
+                        @php 
+                            // 取得對應的英文單字，萬一沒定義就用數字替代
+                            $word_id = $id_map[$type_id] ?? $type_id; 
+                        @endphp
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="heading{{ $word_id }}">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $word_id }}" aria-expanded="false" aria-controls="collapse{{ $word_id }}">
+                                    {{-- 這裡會自動去除「1.」等數字前綴，只顯示「教學類」、「行政單位」 --}}
+                                    {{ Str::after($type_name, '.') }}
+                                </button>
+                            </h2>
+                            <div id="collapse{{ $word_id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $word_id }}" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <ul>
+                                        {{-- 🔄 抓出該分類下的所有連結 --}}
+                                        @foreach($grouped_links->get($type_id) as $link)
+                                            <li><a href="{{ $link->url }}" target="_blank">{{ $link->name }}</a></li>
+                                        @endforeach
+                                    </ul>                    
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                @endforeach
+
+            </div>      
+            
+            {{-- 🔄 2. 最下方獨立清單：渲染完全沒有 type 值 ($link2->type 為 null) 的 $link2s --}}
+            @if($link2s->isNotEmpty())
+                <ul class="mt-3">
+                    @foreach($link2s as $link2)
+                        <li><a href="{{ $link2->url }}" target="_blank">{{ $link2->name }}</a></li>
+                    @endforeach
+                </ul>
+            @endif
+                            
+        </div>
+    </div>    
+    
     <!-- Categories widget-->
     <div class="card mb-4">
         <div class="card-header">相關連結</div>

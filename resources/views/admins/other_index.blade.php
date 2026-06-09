@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','其他連結')
+@section('title','連結')
 
 @section('header')
 <header class="py-5 bg-light border-bottom mb-4">
@@ -10,7 +10,79 @@
 
 @section('content')
 <div class="col-lg-12 mx-auto">
-    <h1>其他連結</h1>
+    <h1>1.相關連結</h1>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a href="{{ route('admins.link_create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增連結</a>
+        </div>
+        <div class="card-body">            
+            <table class="table table-striped" style="word-break:break-all;">
+                <thead class="thead-light">
+                <tr>
+                    <th>排序</th>
+                    <th>類別</th>
+                    <th>名稱</th>
+                    <th>網址</th>
+                    <th>動作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <?php $i=0;$j=0; ?>
+                @foreach($links as $link)
+                    <tr>
+                        <td>
+                            {{ $link->order_by }}
+                        </td>
+                        <td>
+                            {{ $type_array[$link->type] ?? '' }}
+                        </td>
+                        <td>
+                            {{ $link->name }}
+                        </td>
+                        <td>
+                            <a href="{{ $link->url }}" target="_blank"><i class="fas fa-globe"></i></a>
+                        </td>
+
+                        <td>
+                            <a href="{{ route('admins.link_edit',$link->id) }}" class="btn btn-info btn-sm">修改</a>
+                            <a href="#!" class="btn btn-danger btn-sm" onclick="sw_confirm2('確定刪除？','delete{{ $link->id }}')">刪除</a>
+                        </td>
+                    </tr>
+                    <form action="{{ route('admins.link_destroy', $link->id) }}" method="POST" id="delete{{ $link->id }}" onsubmit="return false;">
+                        @method('DELETE')
+                        @csrf
+                    </form>                            
+                @endforeach
+                @foreach($link2s as $link)
+                    <tr>
+                        <td>
+                            {{ $link->order_by }}
+                        </td>
+                        <td>                            
+                            {{ $type_array[$link->type] ?? '' }}
+                        </td>
+                        <td>
+                            {{ $link->name }}
+                        </td>
+                        <td>
+                            <a href="{{ $link->url }}" target="_blank"><i class="fas fa-globe"></i></a>
+                        </td>
+
+                        <td>
+                            <a href="{{ route('admins.link_edit',$link->id) }}" class="btn btn-info btn-sm">修改</a>
+                            <a href="#!" class="btn btn-danger btn-sm" onclick="sw_confirm2('確定刪除？','delete{{ $link->id }}')">刪除</a>
+                        </td>
+                    </tr>
+                    <form action="{{ route('admins.link_destroy', $link->id) }}" method="POST" id="delete{{ $link->id }}" onsubmit="return false;">
+                        @method('DELETE')
+                        @csrf
+                    </form>                            
+                @endforeach
+                </tbody>
+            </table>                    
+        </div>
+    </div> 
+    <h1>2.其他連結</h1>
     <div class="card mb-4">
         <div class="card-header">
             <a href="{{ route('admins.other_create') }}" class="btn btn-success btn-sm"><i class="fas fa-plus"></i> 新增連結</a>
