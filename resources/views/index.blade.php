@@ -266,7 +266,7 @@
             <ul class="mt-3">
                 <li><a href="https://volunteer.chc.edu.tw/duty/duty.php" target="_blank">彰化縣教育志工人力資源整合中心資訊網</a></li>
                 <li><a href="https://168motc2021.yam.com/" target="_blank">交通安全入口網</a></li>
-                <li><a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vSkFvtRf0JFTTvOcEdP105sAcJCfvDXr31BXTAiCeI0ojuiZfm4eSZfuI0OEdUlLou9lTYNAJrsTalg/pubhtml?gid=1503246253&single=true" target="_blank">彰化縣政府教育基金會資訊網</a></li>
+                <li><a href="https://docs.google.com/spreadsheets/d/1VRnKiphQu7PqKk2Q1---cNVYpc0JMMI3fxCj0hozKPU/edit?gid=0#gid=0" target="_blank">彰化縣政府教育基金會資訊網</a></li>
                 <li><a href="https://near.archives.gov.tw/home" target="_blank">機關檔案目錄查詢網</a></li>                                        
             </ul>                 
         </div>
