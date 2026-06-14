@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\post_schools_view;
 use App\Models\PostSchool;
+use App\Models\RegularReport;
 use App\Models\Report;
 use App\Models\School;
 use App\Models\User;
@@ -963,6 +964,12 @@ class PostsController extends Controller
             ->orderBy('id', 'DESC')
             ->get();
 
+        $regular_reports = RegularReport::where('section_id',$user_power->section_id)
+            ->where('situation','1')
+            ->orwhere('situation', '=', '2')
+            ->orderBy('id','DESC')
+            ->get();
+
         $reports = Report::where('section_id', $user_power->section_id)
             ->where('situation', '1')
             ->orwhere('situation', '=', '2')
@@ -984,6 +991,7 @@ class PostsController extends Controller
 
         $data = [
             'posts' => $posts,
+            'regular_reports'=>$regular_reports,
             'reports' => $reports,
             'categories' => $categories,
             'situation' => $situation,

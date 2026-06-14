@@ -17,15 +17,15 @@ use Illuminate\Support\Str;
 class EduReportController extends Controller
 {
     public function index()
-    {
+    {        
         $reports = Report::where('user_id',auth()->user()->id)
             ->where('situation','<>',3)
             ->where('situation','<>',4)
             ->orderBy('id','DESC')
-            ->paginate(20);
+            ->paginate(20);        
         $situation = config('boe.situation');
         $sections = config('boe.sections');
-        $data = [
+        $data = [            
             'reports'=>$reports,
             'situation'=>$situation,
             'sections'=>$sections,
@@ -34,7 +34,7 @@ class EduReportController extends Controller
     }
 
     public function passing()
-    {
+    {        
         $reports = Report::where('user_id',auth()->user()->id)
             ->where(function($q){
                 $q->where('situation','3')
@@ -44,7 +44,7 @@ class EduReportController extends Controller
             ->paginate(20);
         $situation = config('boe.situation');
         $sections = config('boe.sections');
-        $data = [
+        $data = [            
             'reports'=>$reports,
             'situation'=>$situation,
             'sections'=>$sections,
@@ -568,6 +568,12 @@ class EduReportController extends Controller
             ->where('power_type','A')
             ->first();
 
+        $regular_reports = RegularReport::where('section_id',$user_power->section_id)
+            ->where('situation','1')
+            ->orwhere('situation', '=', '2')
+            ->orderBy('id','DESC')
+            ->get();
+
         $reports = Report::where('section_id',$user_power->section_id)
             ->where('situation','1')
             ->orwhere('situation', '=', '2')
@@ -575,8 +581,9 @@ class EduReportController extends Controller
             ->paginate(15);
 
         $situation = config('boe.situation');
-        $sections = config('boe.sections');
+        $sections = config('boe.sections');        
         $data = [
+            'regular_reports'=>$regular_reports,
             'reports'=>$reports,
             'situation'=>$situation,
             'sections'=>$sections,
@@ -875,10 +882,10 @@ class EduReportController extends Controller
                     ->orWhere('situation','4');
             })
             ->orderBy('id','DESC')
-            ->paginate(20);
+            ->paginate(20);                    
         $situation = config('boe.situation');
         $sections = config('boe.sections');
-        $data = [
+        $data = [            
             'reports'=>$reports,
             'situation'=>$situation,
             'sections'=>$sections,     

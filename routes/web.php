@@ -21,6 +21,7 @@ use App\Http\Controllers\PostsController;
 use App\Http\Controllers\EduReportController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\SchoolReportController;
+use App\Http\Controllers\RegularReportController;
 
 
 Route::get('/', [HomeController::class,'index'])->name('index');
@@ -102,6 +103,7 @@ Route::group(['middleware' => 'auth'],function(){
 
     //下載資料填報附檔
     Route::get('edu_report/{id}/{filename}/download', [EduReportController::class,'download'])->name('edu_report.download');
+    Route::get('edu_regular_report/{id}/{filename}/download', [RegularReportController::class,'download'])->name('edu_regular_report.download');
     //報錯
     Route::get('wrench/index', [WrenchController::class,'index'])->name('wrench.index');
     Route::post('wrench/store', [WrenchController::class,'store'])->name('wrench.store');
@@ -204,6 +206,8 @@ Route::group(['middleware' => 'edu'],function(){
     //再次送審
     Route::patch('edu_report/{report}/resend', [EduReportController::class,'resend'])->name('edu_report.resend');
 
+    Route::patch('regular_report/{regular_report}/resend', [RegularReportController::class,'resend'])->name('regular_report.resend');
+
     //下載excel
     Route::get('edu_report/{report}/export', [EduReportController::class,'export'])->name('edu_report.export');
 
@@ -217,6 +221,23 @@ Route::group(['middleware' => 'edu'],function(){
     //退回學校的填報
     Route::get('edu_report/{report_school}/set_back', [EduReportController::class,'set_back'])->name('edu_report.set_back');
     Route::get('edu_report/{report_school}/set_null', [EduReportController::class,'set_null'])->name('edu_report.set_null');
+
+    //定期填報    
+    Route::get('edu_regular_report', [RegularReportController::class,'index'])->name('edu_regular_report.index');
+    Route::get('edu_regular_report/passing', [RegularReportController::class,'passing'])->name('edu_regular_report.passing');
+    Route::get('edu_regular_report/create', [RegularReportController::class,'create'])->name('edu_regular_report.create');
+    Route::get('edu_regular_report/show/{regular_report}', [RegularReportController::class,'show'])->name('edu_regular_report.show');
+    Route::get('edu_regular_report/show_sample/{regular_sample}', [RegularReportController::class,'show_sample'])->name('edu_regular_report.show_sample');
+    Route::get('edu_regular_report/create_by_sample/{regular_sample}', [RegularReportController::class,'create_by_sample'])->name('edu_regular_report.create_by_sample');
+    Route::post('edu_regular_report/store_by_sample', [RegularReportController::class,'store_by_sample'])->name('edu_regular_report.store_by_sample');
+    Route::delete('edu_regular_report/{regular_report}/delete_by_sample', [RegularReportController::class,'delete_by_sample'])->name('edu_regular_report.delete_by_sample');
+    Route::get('edu_regular_report/{regular_report}/edit', [RegularReportController::class,'edit_by_sample'])->name('edu_regular_report.edit_by_sample');
+    Route::patch('edu_regular_report/{regular_report}/update', [RegularReportController::class,'update_by_sample'])->name('edu_regular_report.update_by_sample');
+    Route::get('edu_regular_report/{id}/{file}/del_file', [RegularReportController::class,'del_file'])->name('edu_regular_report.del_file');
+    Route::get('edu_regular_report/{regular_report}/date_late', [RegularReportController::class,'date_late'])->name('edu_regular_report.date_late');
+    Route::patch('edu_regular_report/{regular_report}/save_date_late', [RegularReportController::class,'save_date_late'])->name('edu_regular_report.save_date_late');
+    Route::get('edu_regular_report/{regular_report}/obsolete', [RegularReportController::class,'obsolete'])->name('edu_regular_report.obsolete');
+    Route::get('edu_regular_report/{regular_report}/result', [RegularReportController::class,'result'])->name('edu_regular_report.result');
 
 });
 //系統管理者、科室管理者
@@ -383,10 +404,15 @@ Route::group(['middleware' => 'edu_admin'],function(){
 
         //資料填報審查
     Route::get('reports/review', [EduReportController::class,'review'])->name('reports.review');
-    //退回指定的公告內容
+    //退回指定的填報內容
     Route::patch('reports/{report}/return', [EduReportController::class,'return'])->name('reports.return');
-    //核准指定的公告內容
+    //核准指定的填報內容
     Route::patch('reports/{report}/approve', [EduReportController::class,'approve'])->name('reports.approve');
+
+    //退回指定的定期填報內容
+    Route::patch('regular_reports/{regular_report}/return', [RegularReportController::class,'return'])->name('regular_reports.return');
+    //核准指定的定期填報內容
+    Route::patch('regular_reports/{regular_report}/approve', [RegularReportController::class,'approve'])->name('regular_reports.approve');
 
     //顯示本科室內的全數公告
     Route::get('posts/section_all', [PostsController::class,'section_all'])->name('posts.section_all');        
@@ -403,6 +429,9 @@ Route::group(['middleware' => 'edu_admin'],function(){
     Route::get('reports/section_all', [EduReportController::class,'section_all'])->name('reports.section_all');
     Route::post('reports/do_search_in_section', [EduReportController::class,'do_search_in_section'])->name('reports.do_search_in_section');
     Route::get('reports/{want}/do_search', [EduReportController::class,'do_search'])->name('reports.do_search');    
+
+    //定期填報審核者可看
+    Route::get('regular_reports/section_all', [RegularReportController::class,'section_all'])->name('regular_reports.section_all');    
     
 });
 

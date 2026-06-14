@@ -14,7 +14,7 @@
             <th nowrap>
                 創建時間
             </th>
-            <th nowrap>
+            <th nowrap>                
                 截止日期
             </th>
             <th nowrap>
@@ -25,7 +25,7 @@
             </th>
         </tr>
         </thead>
-        <tbody>
+        <tbody>        
         @foreach($reports as $report)
             <tr>
                 <td data-th="編號" class="td-number">

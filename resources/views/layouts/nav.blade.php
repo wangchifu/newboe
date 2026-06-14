@@ -119,7 +119,7 @@
                                 </ul>          
                             </li>                    
                             <li><a class="dropdown-item" href="{{ route('posts.reviewing') }}"><i class="fa-solid fa-signs-post"></i>  公告系統</a></li>   
-                            <li><a class="dropdown-item" href="{{ route('edu_report.index') }}"><i class="fa-solid fa-list"></i> 填報系統</a></li>                                           
+                            <li><a class="dropdown-item" href="{{ route('edu_report.index') }}"><i class="fa-solid fa-list"></i> 填報系統</a></li>                                                                       
                             <li class="dropdown-divider"></li>
                         @endif
                         @if(auth()->user()->group_id=="8" or auth()->user()->group_id=="9" or auth()->user()->admin=="1" or (!empty(auth()->user()->section_id) and !empty(session('user_power'))))

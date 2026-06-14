@@ -16,6 +16,7 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                   <li><a class="dropdown-item" href="{{ route('posts.create') }}">新增公告</a></li>
                   <li><a class="dropdown-item" href="{{ route('edu_report.create') }}">新增填報</a></li>                  
+                  <li><a class="dropdown-item" href="{{ route('edu_regular_report.create') }}">新增定期填報</a></li>                  
                 </ul>
             </div>
         <!--
@@ -27,28 +28,34 @@
                 ->whereNotIn('situation',[3,4])->count();
             $c_r2 = \App\Models\Report::where('user_id',auth()->user()->id)
                 ->whereNotIn('situation',[3,4])->count();
+            $c_r3 = \App\Models\RegularReport::where('user_id',auth()->user()->id)
+                ->whereNotIn('situation',[3,4])->count();
 
             $c_p1 = \App\Models\Post::where('user_id',auth()->user()->id)
                 ->where('situation','3')->count();
             $c_p2 = \App\Models\Report::where('user_id',auth()->user()->id)
                 ->where('situation','3')->count();
+            $c_p3 = \App\Models\RegularReport::where('user_id',auth()->user()->id)
+                ->where('situation','3')->count();
             ?>
             <div class="dropdown">
                 <button class="btn btn-warning btn-sm dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-exclamation-circle"></i> 作業區 ({{ $c_r1+$c_r2 }})
+                    <i class="fas fa-exclamation-circle"></i> 作業區 ({{ $c_r1+$c_r2+$c_r3 }})
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
                 <li><a class="dropdown-item" href="{{ route('posts.reviewing') }}">公告作業區 ({{ $c_r1 }})</a></li>
-                <li><a class="dropdown-item" href="{{ route('edu_report.index') }}">填報作業區  ({{ $c_r2 }})</a></li>                  
+                <li><a class="dropdown-item" href="{{ route('edu_report.index') }}">填報作業區  ({{ $c_r2 }})</a></li>                                  
+                <li><a class="dropdown-item" href="{{ route('edu_regular_report.index') }}">定期填報作業區  ({{ $c_r3 }})</a></li>                                  
                 </ul>
             </div>            
             <div class="dropdown">
                 <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
-                    <i class="fas fa-check-circle"></i> 通過區 ({{ $c_p1+$c_p2 }})
+                    <i class="fas fa-check-circle"></i> 通過區 ({{ $c_p1+$c_p2+$c_p3 }})
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton3">
                 <li><a class="dropdown-item" href="{{ route('posts.passing') }}">公告通過區 ({{ $c_p1 }})</a></li>
                 <li><a class="dropdown-item" href="{{ route('edu_report.passing') }}">填報通過區 ({{ $c_p2 }})</a></li>                  
+                <li><a class="dropdown-item" href="{{ route('edu_regular_report.passing') }}">定期填報通過區 ({{ $c_p3 }})</a></li>                  
                 </ul>
             </div>       
             @if($user_power)
@@ -59,6 +66,7 @@
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton4">
                     <li><a class="dropdown-item" href="{{ route('posts.section_all') }}">全數公告</a></li>
                     <li><a class="dropdown-item" href="{{ route('reports.section_all') }}">全數填報</a></li>                  
+                    <li><a class="dropdown-item" href="{{ route('regular_reports.section_all') }}">全數定期填報</a></li>                  
                     </ul>
                 </div>  
             @else
@@ -87,7 +95,11 @@
             ->where('situation','1')
             ->orwhere('situation', '=', '2')
             ->count();
+        $c_r2 = \App\Models\RegularReport::where('section_id',$user_power->section_id)
+            ->where('situation','1')
+            ->orwhere('situation', '=', '2')
+            ->count();
         ?>
-        　　<a href="{{ route('posts.review') }}" class="btn btn-primary btn-sm">[{{ $sections[$user_power->section_id] }}] <i class="fas fa-user-cog"></i> 審核區 ({{ $c_p+$c_r }})</a>        
+        　　<a href="{{ route('posts.review') }}" class="btn btn-primary btn-sm">[{{ $sections[$user_power->section_id] }}] <i class="fas fa-user-cog"></i> 審核區 ({{ $c_p+$c_r+$c_r2 }})</a>        
     @endif
 @endif

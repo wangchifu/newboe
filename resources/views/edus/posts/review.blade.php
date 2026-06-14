@@ -32,5 +32,15 @@
             @include('edus.reports.list',$user_power)   
         </div>
     </div>
+    <div class="card my-4">
+        <div class="card-header text-center bg-success-subtle">
+            <h3 class="py-2">
+                [{{ $sections[$power_section_id] }}] <i class="fas fa-user-cog"></i> 待審定期填報
+            </h3>
+        </div>
+        <div class="card-body">
+            @include('edus.regular_reports.list',$user_power)   
+        </div>
+    </div>
 </div>
 @endsection
