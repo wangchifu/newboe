@@ -11,4 +11,9 @@ class RegularSample extends Model
         'content',
         'section_id',
     ];
+
+    public function regular_questions()
+    {
+        return $this->hasMany(RegularQuestion::class)->where('show','1');
+    }
 }

@@ -65,7 +65,7 @@
             @if($report_school->review_user_id)
                 審核者：{{ $report_school->review_user->name }}
                 <br>
-                核可日期：{{ $report_school->updated_at }}
+                審核日期：{{ $report_school->updated_at }}
             @endif                               
         </div>
         <div class="card-footer text-center">

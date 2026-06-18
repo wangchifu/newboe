@@ -454,6 +454,11 @@ Route::group(['middleware' => 'school_admin'],function(){
     Route::patch('school_report/{report_school}/cancel', [SchoolReportController::class,'cancel'])->name('school_report.cancel');
     Route::patch('school_report/{report_school}/passing', [SchoolReportController::class,'passing'])->name('school_report.passing');
 
+    Route::patch('school_regular_report/{regular_report_school}/back', [RegularReportController::class,'school_back'])->name('school_regular_report.back');
+    Route::patch('school_regular_report/{regular_report_school}/delay', [RegularReportController::class,'school_delay'])->name('school_regular_report.delay');
+    Route::patch('school_regular_report/{regular_report_school}/cancel', [RegularReportController::class,'school_cancel'])->name('school_regular_report.cancel');
+    Route::patch('school_regular_report/{regular_report_school}/passing', [RegularReportController::class,'school_passing'])->name('school_regular_report.passing');
+
     Route::post('school_acc/other', [SchoolController::class,'other'])->name('school_acc.other');
     Route::post('school_acc/store_other', [SchoolController::class,'store_other'])->name('school_acc.store_other');
 
@@ -494,7 +499,7 @@ Route::group(['middleware' => 'school_sign'], function () {
     Route::match(['post', 'get'], 'school_report/search', [SchoolReportController::class,'search'])->name('school_report.search');
     Route::get('school_report/{report_school}/create', [SchoolReportController::class,'create'])->name('school_report.create');
     //20230815取消這功能
-    Route::get('school_report/{report_school}/no_report', [SchoolReportController::class,'no_report'])->name('school_report.no_report');
+    //Route::get('school_report/{report_school}/no_report', [SchoolReportController::class,'no_report'])->name('school_report.no_report');
     Route::post('school_report/store', [SchoolReportController::class,'store'])->name('school_report.store');
     Route::get('school_report/{report_school}/show', [SchoolReportController::class,'show'])->name('school_report.show');
     Route::get('school_report/{report_school}/edit', [SchoolReportController::class,'edit'])->name('school_report.edit');
@@ -506,6 +511,23 @@ Route::group(['middleware' => 'school_sign'], function () {
     Route::get('school_report/{report_school}/print', [SchoolReportController::class,'print'])->name('school_report.print');
     //列印單一資料填報
     Route::get('school_report/{report_school}/print2', [SchoolReportController::class,'print2'])->name('school_report.print2');
+
+    //定期資料填報
+    Route::get('school_regular_report', [RegularReportController::class,'school_index'])->name('school_regular_report.index');
+    Route::get('school_regular_report_not', [RegularReportController::class,'not_index'])->name('school_regular_report_not.index');
+    Route::get('regular_show_person_Signed', [RegularReportController::class,'show_person_Signed'])->name('school_regular_report.show_person_Signed');
+    Route::get('school_regular_report/{regular_report_school}/show', [RegularReportController::class,'school_show'])->name('school_regular_report.show');
+    Route::get('school_regular_report/{regular_report_school}/create', [RegularReportController::class,'school_create'])->name('school_regular_report.create');
+    Route::post('school_regular_report/store', [RegularReportController::class,'school_store'])->name('school_regular_report.store');
+    Route::get('school_regular_report/{regular_report_school}/edit', [RegularReportController::class,'school_edit'])->name('school_regular_report.edit');
+    Route::patch('school_regular_report/{regular_report_school}/update', [RegularReportController::class,'school_update'])->name('school_regular_report.update');
+    Route::post('school_regular_report/save_temp', [RegularReportController::class,'school_save_temp'])->name('school_regular_report.save_temp');
+    Route::post('school_regular_report/pull_temp/{regular_report_id}', [RegularReportController::class,'school_pull_temp'])->name('school_regular_report.pull_temp');
+
+    //列印資料填報列表
+    Route::get('school_regular_report/{regular_report_school}/print', [RegularReportController::class,'school_print'])->name('school_regular_report.print');
+    //列印單一資料填報
+    Route::get('school_regular_report/{regular_report_school}/print2', [RegularReportController::class,'school_print2'])->name('school_regular_report.print2');
 });
 
 //其他類學校的單位

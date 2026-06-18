@@ -65,6 +65,7 @@
                             @if(check_b_user(auth()->user()->code,auth()->user()->id))
                             <li><a class="dropdown-item" href="{{ route('posts.showSigned') }}"><i class="fa-solid fa-signs-post"></i> 公告簽收</a></li>
                             <li><a class="dropdown-item" href="{{ route('school_report.index') }}"><i class="fa-solid fa-list"></i> 資料填報</a></li>
+                            <li><a class="dropdown-item" href="{{ route('school_regular_report.index') }}"><i class="fas fa-bars-progress"></i> 定期資料填報</a></li>                                                                       
                             <li class="dropdown-divider"></li>
                             @endif
                         @endif
@@ -119,7 +120,8 @@
                                 </ul>          
                             </li>                    
                             <li><a class="dropdown-item" href="{{ route('posts.reviewing') }}"><i class="fa-solid fa-signs-post"></i>  公告系統</a></li>   
-                            <li><a class="dropdown-item" href="{{ route('edu_report.index') }}"><i class="fa-solid fa-list"></i> 填報系統</a></li>                                                                       
+                            <li><a class="dropdown-item" href="{{ route('edu_report.index') }}"><i class="fa-solid fa-list"></i> 填報系統</a></li>                                           
+                            <li><a class="dropdown-item" href="{{ route('edu_regular_report.index') }}"><i class="fas fa-bars-progress"></i> 定期填報</a></li>                                                                       
                             <li class="dropdown-divider"></li>
                         @endif
                         @if(auth()->user()->group_id=="8" or auth()->user()->group_id=="9" or auth()->user()->admin=="1" or (!empty(auth()->user()->section_id) and !empty(session('user_power'))))

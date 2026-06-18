@@ -104,7 +104,7 @@
                     </td>
                     <td>
                         <?php
-                            $check_report_temp = \App\Models\ReportTemp::where('code',auth()->user()->code)->where('report_id',$report_school->report_id)->first();
+                            $check_report_temp = \App\Models\ReportTemp::where('code','like', "%".auth()->user()->code."%")->where('report_id',$report_school->report_id)->first();
                         ?>
                         <div id="show_pull">
                             @if(!empty($check_report_temp))

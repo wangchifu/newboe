@@ -38,11 +38,6 @@ class RegularReport extends Model
         return $this->belongsTo(User::class,'pass_user_id','id');
     }
 
-    public function regular_questions()
-    {
-        return $this->hasMany(RegularQuestion::class)->where('show','1');
-    }
-
     public function regular_report_schools()
     {
         return $this->hasMany(RegularReportSchool::class);

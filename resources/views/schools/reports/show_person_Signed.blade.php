@@ -15,6 +15,7 @@
         <div class="card-header">
             <a class="btn btn-light btn-sm" href="{{ route('posts.showSigned') }}">公告簽收 ({{ session('posts_not') }})</a>
             <a class="btn btn-success btn-sm" href="{{ route('school_report.index') }}">資料填報 ({{ session('reports_not') }})</a>
+            <a class="btn btn-light btn-sm" href="{{ route('school_regular_report.index') }}">定期資料填報 ({{ session('regular_reports_not') }})</a>
         </div>
         <div class="card-body">                   
             @include('schools.reports.search_nav')

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class RegularAnswer extends Model
 {
     protected $fillable = [
-        'regular_answer',
+        'answer',
         'regular_report_id',
         'regular_question_id',
         'regular_report_school_id',

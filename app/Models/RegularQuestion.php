@@ -10,12 +10,12 @@ class RegularQuestion extends Model
         'title',
         'type',
         'options',
-        'regular_report_id',
+        'regular_sample_id',
         'show',
     ];
 
-    public function regular_report()
+    public function regular_sample()
     {
-        return $this->belongsTo(RegularReport::class);
+        return $this->belongsTo(RegularSample::class);
     }
 }

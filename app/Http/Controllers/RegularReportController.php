@@ -7,6 +7,7 @@ use App\Models\RegularSample;
 use App\Models\RegularReport;
 use App\Models\RegularAnswer;
 use App\Models\RegularReportSchool;
+use App\Models\RegularReportTemp;
 use App\Models\School;
 use Illuminate\Support\Str;
 
@@ -449,5 +450,439 @@ class RegularReportController extends Controller
             'answer_data'=> $answer_data,
         ];
         return view('edus.regular_reports.result',$data);
+    }
+
+    public function school_index()    
+    {
+        $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where('signed_user_id',null)
+            ->get();
+            $posts_quick = 0;
+            $posts_not = 0;
+            foreach($posts_all_not as $post_all_not){
+                if($post_all_not->post->situation === 3){
+                    if($post_all_not->post->type == "1"){
+                        $posts_quick++;
+                    }
+                    $posts_not++;
+                }
+            }
+
+            $reports_not = \App\Models\ReportSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where(function($q){
+                    $q->where('situation','=',0)
+                        ->orWhere('situation','=',1)
+                        ->orWhere('situation','=',2)
+                        ->orWhere('situation',null);
+                })
+                ->get()->count();
+            $regular_reports_not = \App\Models\RegularReportSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where(function($q){
+                    $q->where('situation','=',0)
+                        ->orWhere('situation','=',1)
+                        ->orWhere('situation','=',2)
+                        ->orWhere('situation',null);
+                })
+                ->get()->count();
+            session(['posts_not'=>$posts_not]);
+            session(['posts_quick'=>$posts_quick]);
+            session(['reports_not'=>$reports_not]);
+            session(['regular_reports_not'=>$regular_reports_not]);
+        $regular_report_schools = RegularReportSchool::where('code','like',"%".auth()->user()->code."%")
+            ->orderBy('id','DESC')
+            ->simplePaginate(20);
+
+        $sections = config('boe.sections');
+        $schools = School::all()->pluck('school_name','code_no')->toArray();
+
+        $data = [
+            'regular_report_schools'=>$regular_report_schools,
+            'sections'=>$sections,
+            'schools'=>$schools,
+        ];
+        return view('schools.regular_reports.index',$data);
+    }
+
+    public function not_index()
+    {
+        $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where('signed_user_id',null)
+            ->get();
+            $posts_quick = 0;
+            $posts_not = 0;
+            foreach($posts_all_not as $post_all_not){
+                if($post_all_not->post->situation === 3){
+                    if($post_all_not->post->type == "1"){
+                        $posts_quick++;
+                    }
+                    $posts_not++;
+                }
+            }
+
+            $regular_reports_not = \App\Models\RegularReportSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where(function($q){
+                    $q->where('situation','=',0)
+                        ->orWhere('situation','=',1)
+                        ->orWhere('situation','=',2)
+                        ->orWhere('situation',null);
+                })
+                ->get()->count();
+            session(['posts_not'=>$posts_not]);
+            session(['posts_quick'=>$posts_quick]);
+            session(['regular_reports_not'=>$regular_reports_not]);
+        $regular_report_schools = RegularReportSchool::where('code','like',"%".auth()->user()->code."%")
+            ->where(function($q){
+                $q->where('situation','=',0)
+                    ->orWhere('situation','=',1)
+                    ->orWhere('situation','=',2)
+                    ->orWhere('situation',null);
+            })
+            ->orderBy('id','DESC')
+            ->simplePaginate(20); 
+
+        $sections = config('boe.sections');
+        $schools = School::all()->pluck('school_name','code_no')->toArray();
+
+        $data = [
+            'regular_report_schools'=>$regular_report_schools,
+            'sections'=>$sections,
+            'schools'=>$schools,
+        ];
+        return view('schools.regular_reports.not_index',$data);
+    }
+
+    public function show_person_Signed()
+    {
+        $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where('signed_user_id',null)
+            ->get();
+            $posts_quick = 0;
+            $posts_not = 0;
+            foreach($posts_all_not as $post_all_not){
+                if($post_all_not->post->situation === 3){
+                    if($post_all_not->post->type == "1"){
+                        $posts_quick++;
+                    }
+                    $posts_not++;
+                }
+            }
+
+            $regular_reports_not = \App\Models\RegularReportSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where(function($q){
+                    $q->where('situation','=',0)
+                        ->orWhere('situation','=',1)
+                        ->orWhere('situation','=',2)
+                        ->orWhere('situation',null);
+                })
+                ->get()->count();
+            session(['posts_not'=>$posts_not]);
+            session(['posts_quick'=>$posts_quick]);
+            session(['regular_reports_not'=>$regular_reports_not]);
+        $regular_report_schools = RegularReportSchool::where('code','like',"%".auth()->user()->code."%")
+            ->where('signed_user_id',auth()->user()->id)
+            ->orderBy('id','DESC')
+            ->simplePaginate(20);
+
+        $sections = config('boe.sections');
+        $schools = School::all()->pluck('school_name','code_no')->toArray();
+
+        $data = [
+            'regular_report_schools'=>$regular_report_schools,
+            'sections'=>$sections,
+            'schools'=>$schools,
+        ];
+        return view('schools.regular_reports.show_person_Signed',$data);
+    }
+
+    public function school_back(RegularReportSchool $regular_report_school)
+    {
+        $att['situation'] = 0;
+        $att['review_user_id'] = auth()->user()->id;
+        $regular_report_school->update($att);
+        return redirect()->back();
+    }
+
+    public function school_delay(RegularReportSchool $regular_report_school)
+    {
+        $att['situation'] = 5;
+        $att['review_user_id'] = auth()->user()->id;
+        $regular_report_school->update($att);        
+        return redirect()->back();
+    }
+
+    public function school_cancel(RegularReportSchool $regular_report_school)
+    {
+        $att['situation'] = 6;
+        $att['review_user_id'] = auth()->user()->id;
+        $regular_report_school->update($att);
+        return redirect()->back();
+    }
+
+    public function school_passing(RegularReportSchool $regular_report_school)
+    {
+        $att['situation'] = 3;
+        $att['review_user_id'] = auth()->user()->id;
+        $regular_report_school->update($att);
+
+        //重算        
+        $regular_reports_not = \App\Models\RegularReportSchool::where('code','like', "%".auth()->user()->code."%")
+            ->where(function($q){
+                $q->where('situation','=',0)
+                    ->orWhere('situation','=',1)
+                   ->orWhere('situation','=',2)
+                    ->orWhere('situation',null);
+            })
+            ->get()->count();            
+        session(['regular_reports_not'=>$regular_reports_not]);
+        return redirect()->back();
+    }
+
+    public function school_create(RegularReportSchool $regular_report_school)
+    {
+        if(date('Ymd') > str_replace('-','',$regular_report_school->regular_report->die_date) or date('Ymd') < str_replace('-','',$regular_report_school->regular_report->start_date)){
+            return back();
+        }
+        $sections = config('boe.sections');
+        $sample_num = $regular_report_school->regular_report->section_id.$regular_report_school->regular_report->regular_sample->id;
+        
+        //檢查是否曾經填過
+        $question_array = $regular_report_school->regular_report->regular_sample->regular_questions->pluck('id')->toArray();
+        $check = RegularAnswer::where('school_code','like', "%".auth()->user()->code."%")
+            ->whereIn('regular_question_id',$question_array)->orderBy('regular_report_id','DESC')->first();            
+        $answer_data = [];
+        if($check){
+            //拿到最新的
+
+            $answers = RegularAnswer::where('regular_report_school_id',$check->regular_report_school_id)
+            ->get();            
+            foreach($answers as $answer){
+                $answer_data[$answer->regular_question->title] = $answer->answer;
+            }            
+        }
+
+
+        $data = [
+            'sample_num'=>$sample_num,
+            'sections'=>$sections,
+            'regular_report_school'=>$regular_report_school,
+            'answer_data'=>$answer_data,
+        ];
+
+        return view('schools.regular_reports.create',$data);
+    }
+
+    public function school_store(Request $request)
+    {        
+        
+        $regular_report_school = RegularReportSchool::where('id',$request->input('regular_report_school_id'))
+        ->first();
+        $att['signed_user_id'] = auth()->user()->id;
+        $att['signed_at'] = now();
+        $att['situation'] = 1;
+
+        $regular_report_school->update($att);
+        
+        // 1. 先準備一個空陣列，用來收集所有要寫入的資料
+        $insertData = [];
+
+        // 2. 取得當前時間（因為使用 DB::insert 必須手動填入時間戳記）
+        $now = now();
+
+        foreach($regular_report_school->regular_report->regular_sample->regular_questions as $question) {
+            // 收集每一筆資料，改為純陣列操作
+            $insertData[] = [
+                'answer'                    => $request->input($question->title),
+                'regular_report_id'         => $regular_report_school->regular_report_id,
+                'regular_question_id'       => $question->id,
+                'regular_report_school_id'  => $regular_report_school->id,
+                'school_code'               => $regular_report_school->code,
+                'created_at'                => $now, // ✨ 大宗寫入記得補上時間
+                'updated_at'                => $now,
+            ];
+        }
+
+        // 3. 只有當陣列裡面有資料時，才「一次性」送進資料庫
+        if (!empty($insertData)) {
+            RegularAnswer::insert($insertData);
+        }        
+        echo "
+        <script>
+        // 確保頁面加載完成後執行
+        window.onload = function() {
+            // 檢查父頁面是否存在且可以訪問 jQuery
+            if (window.parent && window.parent.$) {
+                // 關閉 venobox 視窗
+                if (typeof window.parent.$.venobox !== 'undefined') {
+                    window.parent.$.venobox.close();  // 關閉 venobox 視窗
+                }
+
+                // 可選：刷新父頁面，這樣可以讓父頁面顯示最新的內容
+                window.parent.location.reload();                
+            }
+        };
+        </script>";
+    }    
+
+    public function school_show(RegularReportSchool $regular_report_school){           
+        $sections = config('boe.sections');
+        $sample_num = $regular_report_school->regular_report->section_id.$regular_report_school->regular_report->regular_sample->id;       
+        $answer_data = [];
+        if(!empty($regular_report_school->signed_user_id)){
+            $answers = RegularAnswer::where('regular_report_school_id',$regular_report_school->id)
+            ->get();            
+            foreach($answers as $answer){
+                $answer_data[$answer->regular_question->title] = $answer->answer;
+            }
+        }
+        $data = [
+            'regular_report_school'=>$regular_report_school,  
+            'sample_num'=>$sample_num,
+            'sections'=>$sections,
+            'readonly'=>1,
+            'answer_data'=>$answer_data,
+        ];
+
+        return view('schools.regular_reports.show',$data);
+    }
+
+    public function school_edit(RegularReportSchool $regular_report_school)
+    {
+        $answers = RegularAnswer::where('regular_report_school_id',$regular_report_school->id)
+            ->get();
+        $answer_data = [];
+        foreach($answers as $answer){
+            $answer_data[$answer->regular_question->title] = $answer->answer;
+        }
+        $sections = config('boe.sections');
+        $sample_num = $regular_report_school->regular_report->section_id.$regular_report_school->regular_report->regular_sample->id;
+        $data = [
+            'sample_num'=>$sample_num,
+            'answer_data'=>$answer_data,
+            'regular_report_school'=>$regular_report_school,
+            'sections'=>$sections,
+        ];
+        return view('schools.regular_reports.edit',$data);
+    }
+
+    public function school_update(Request $request,RegularReportSchool $regular_report_school)
+    {                        
+        $att['signed_user_id'] = auth()->user()->id;
+        $att['signed_at'] = now();
+        $att['situation'] = 1;
+
+        $regular_report_school->update($att);
+        
+        $updateData = [];
+        $now = now();
+
+        foreach($regular_report_school->regular_report->regular_sample->regular_questions as $question) {
+            $updateData[] = [
+                'regular_report_id'         => $regular_report_school->regular_report_id,
+                'regular_question_id'       => $question->id,
+                'regular_report_school_id'  => $regular_report_school->id,
+                'school_code'               => $regular_report_school->code,
+                'answer'                    => $request->input($question->title),
+                'created_at'                => $now, // 如果是剛好要新增時會用到
+                'updated_at'                => $now,
+            ];
+        }
+
+        if (!empty($updateData)) {
+            // 使用 upsert，只跟資料庫對話一次
+            RegularAnswer::upsert(
+                $updateData, 
+                // 1. 這裡填入在資料庫中能組合出「唯一性（Unique）」的欄位
+                ['regular_report_school_id', 'regular_question_id'], 
+                // 2. 當資料已存在時，只更新以下欄位
+                ['answer', 'updated_at']
+            );
+        }               
+        echo "
+        <script>
+        // 確保頁面加載完成後執行
+        window.onload = function() {
+            // 檢查父頁面是否存在且可以訪問 jQuery
+            if (window.parent && window.parent.$) {
+                // 關閉 venobox 視窗
+                if (typeof window.parent.$.venobox !== 'undefined') {
+                    window.parent.$.venobox.close();  // 關閉 venobox 視窗
+                }
+
+                // 可選：刷新父頁面，這樣可以讓父頁面顯示最新的內容
+                window.parent.location.reload();                
+            }
+        };
+        </script>";
+    }    
+
+    public function school_save_temp(Request $request)
+    {        
+        $att = $request->all();        
+        
+
+        $att_temp['content'] = serialize($att);
+        $att_temp['regular_report_id'] = $att['regular_report_id'];
+        $att_temp['code'] = auth()->user()->code;
+        $att_temp['user_id'] = auth()->user()->id;
+
+        $check = RegularReportTemp::where('code',$att_temp['code'])
+            ->where('regular_report_id',$att_temp['regular_report_id'])
+            ->first();
+
+        if($check){
+            $check->update($att_temp);
+        }else{
+            $check = RegularReportTemp::create($att_temp);
+        }
+        $data = $check->id;
+
+        $result = json_encode($data,true);        
+        echo $result;
+        return ;
+    }
+
+    public function school_pull_temp($regular_report_id)
+    {
+        $regular_report_temp = RegularReportTemp::where('code','like', "%".auth()->user()->code."%")
+            ->where('regular_report_id',$regular_report_id)
+            ->first();
+        $data = unserialize($regular_report_temp->content);
+
+        $result = json_encode($data,true);
+        echo $result;
+        return ;
+    }
+
+    public function school_print($id)
+    {
+        $regular_report_schools = RegularReportSchool::where('code','like',"%".auth()->user()->code."%")
+            ->where('id',">=",$id)
+            ->orderBy('id','DESC')
+            ->get();
+        $sections = config('boe.sections');
+        $data = [
+            'regular_report_schools'=>$regular_report_schools,
+            'sections'=>$sections,
+        ];
+        return view('schools.regular_reports.print',$data);
+    }
+
+    public function school_print2(RegularReportSchool $regular_report_school)
+    {
+        $answers = RegularAnswer::where('regular_report_school_id',$regular_report_school->id)
+            ->get();
+        $answer_data = [];
+        foreach($answers as $answer){
+            $answer_data[$answer->regular_question->title] = $answer->answer;
+        }
+        $sections = config('boe.sections');
+        $sample_num = $regular_report_school->regular_report->regular_sample->section_id.$regular_report_school->regular_report->regular_sample->id;
+        $data = [
+            'sections'=>$sections,
+            'answer_data'=>$answer_data,
+            'regular_report_school'=>$regular_report_school,
+            'sample_num'=>$sample_num,
+        ];
+        return view('schools.regular_reports.print2',$data);        
     }
 }
