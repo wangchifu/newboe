@@ -8,6 +8,7 @@ class RegularQuestion extends Model
 {
     protected $fillable = [
         'title',
+        'cht_title',
         'type',
         'options',
         'regular_sample_id',

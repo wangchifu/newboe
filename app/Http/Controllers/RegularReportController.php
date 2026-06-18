@@ -10,6 +10,7 @@ use App\Models\RegularReportSchool;
 use App\Models\RegularReportTemp;
 use App\Models\School;
 use Illuminate\Support\Str;
+use Rap2hpoutre\FastExcel\FastExcel;
 
 class RegularReportController extends Controller
 {
@@ -370,6 +371,22 @@ class RegularReportController extends Controller
         return redirect()->route('edu_regular_report.index');
     }
 
+    public function set_back(RegularReportSchool $regular_report_school)
+    {        
+        $att['situation'] = 0;
+        $att['review_user_id'] = auth()->user()->id;
+        $regular_report_school->update($att);
+        return redirect()->route('edu_regular_report.result',$regular_report_school->regular_report_id);
+    }
+
+    public function set_null(RegularReportSchool $regular_report_school)
+    {
+        $att['situation'] = null;
+        $att['review_user_id'] = auth()->user()->id;
+        $regular_report_school->update($att);
+        return redirect()->route('edu_regular_report.result',$regular_report_school->regular_report_id);
+    }
+
     public function obsolete(RegularReport $regular_report)
     {
         if($regular_report->user_id != auth()->user()->id){
@@ -436,13 +453,13 @@ class RegularReportController extends Controller
 
         $schools = School::whereIn('id', $select_school)->get();
 
-        $answers = RegularAnswer::where('report_id',$report->id)
+        $answers = RegularAnswer::where('regular_report_id',$regular_report->id)
             ->get();
         $answer_data = [];
 
-        //foreach($answers as $answer){            
-        //    $answer_data[$answer->school_code][$answer->question_id] = $answer->answer;
-        //}
+        foreach($answers as $answer){            
+            $answer_data[$answer->school_code][$answer->regular_question_id] = $answer->answer;
+        }        
 
         $data = [
             'regular_report'=>$regular_report,
@@ -450,6 +467,113 @@ class RegularReportController extends Controller
             'answer_data'=> $answer_data,
         ];
         return view('edus.regular_reports.result',$data);
+    }
+
+    public function export(RegularReport $regular_report)
+    {
+        //利用checkbox_str_num將編碼過的所選學校轉成字串
+        $old_schools = checkbox_str_num(array($regular_report->school_set_0, $regular_report->school_set_1, $regular_report->school_set_2, $regular_report->school_set_3, $regular_report->school_set_4));
+
+
+        $select_school = explode(", ", $old_schools);
+
+        $schools = School::whereIn('id', $select_school)->get();
+
+        $answers = RegularAnswer::where('regular_report_id',$regular_report->id)
+            ->get();
+        $answer_data = [];
+        foreach($answers as $answer){           
+            $a = str_replace(',','，',$answer->answer);
+            $answer_data[$answer->school_code][$answer->regular_question_id] = $a;
+        }
+
+
+        $i=0;
+        foreach($schools as $school){
+            $rs = RegularReportSchool::where('code',$school->code_no)
+            ->where('regular_report_id',$regular_report->id)
+            ->first();
+            if($rs->situation==4){
+                $no = "-不填報";
+            }else{
+                $no = null;
+            }
+
+            if($rs->signed_user_id){
+                $n = $rs->signed_user->name;
+            }else{
+                $n = "";
+            }
+
+            $data[$i] =[
+                '學校名稱'=>$school->school_name.$no,
+                '填報人'=>$n,
+            ];
+
+
+            $n=1;
+            foreach($regular_report->regular_sample->regular_questions as $question){
+                            //$report_school = ReportSchool::find($answer->report_school_id);
+            
+                $school_code = $school->code_no;
+            
+                // 1. 定義學校群組對照表（把相關的代碼放在同一個群組內）
+                $school_groups = [
+                    ['074541', '074541074774', '074774', '074774074541'], // 信義組
+                    ['074537', '074537074745', '074745', '074745074537'], // 原斗組
+                    ['074542', '074542074778', '074778', '074778074542'], // 鹿江組
+                    ['074543', '074543074760', '074760', '074760074543'], // 民權組
+                ];
+
+                // 2. 只有在當前 $school_code 找不到資料時才執行
+                if (!isset($answer_data[$school_code][$question->id])) {
+                    
+                    foreach ($school_groups as $group) {
+                        // 判斷目前的 $school_code 是否屬於這一個學校群組
+                        if (in_array($school_code, $group)) {
+                            
+                            // 如果屬於這組，則在組內依序尋找有資料的代碼
+                            foreach ($group as $fallback_code) {
+                                if (isset($answer_data[$fallback_code][$question->id])) {
+                                    $school_code = $fallback_code;
+                                    break 2; // 跳出兩層迴圈 (找到了就直接結束所有檢查)
+                                }
+                            }
+                        }
+                    }
+                }            
+            
+                if(isset($answer_data[$school_code][$question->id])){
+
+                    //$get_report_school = ReportSchool::where('code',$school->code_no)
+                        //->where('report_id',$report->id)
+                        //->first();
+
+                    if($rs->situation===3) {
+                        $data[$i]['送出時間'] = substr($rs->updated_at, 0, 16);
+                        $data[$i]["(".$n.")".$question->cht_title] = $answer_data[$school_code][$question->id];
+                    }else{
+                        $data[$i]['送出時間'] = "";
+                        $data[$i]["(".$n.")".$question->cht_title] = "";
+                    }
+                }else{
+                    if($rs->situation===4) {
+                        $data[$i]['送出時間'] = substr($rs->updated_at, 0, 16);
+                        $data[$i]["(".$n.")".$question->cht_title] = "不填報";
+                    }else{
+                        $data[$i]['送出時間'] = "";
+                        $data[$i]["(".$n.")".$question->cht_title] = "";
+                    }
+                }
+                $n++;
+            }
+            $i++;
+        }
+
+        $list = collect($data);
+
+        //return (new FastExcel($list))->download('Report'.$report->id.'.xlsx');
+        return (new FastExcel($list))->download('RegularReport'.$regular_report->id.'.csv');
     }
 
     public function school_index()    

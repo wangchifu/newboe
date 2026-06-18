@@ -238,6 +238,13 @@ Route::group(['middleware' => 'edu'],function(){
     Route::patch('edu_regular_report/{regular_report}/save_date_late', [RegularReportController::class,'save_date_late'])->name('edu_regular_report.save_date_late');
     Route::get('edu_regular_report/{regular_report}/obsolete', [RegularReportController::class,'obsolete'])->name('edu_regular_report.obsolete');
     Route::get('edu_regular_report/{regular_report}/result', [RegularReportController::class,'result'])->name('edu_regular_report.result');
+    Route::get('edu_regular_report/{regular_report}/result2', [RegularReportController::class,'result2'])->name('edu_regular_report.result2');
+    //下載excel
+    Route::get('edu_regular_report/{regular_report}/export', [RegularReportController::class,'export'])->name('edu_regular_report.export');
+
+    //退回學校的定期填報
+    Route::get('edu_regular_report/{regular_report_school}/set_back', [RegularReportController::class,'set_back'])->name('edu_regular_report.set_back');
+    Route::get('edu_regular_report/{regular_report_school}/set_null', [RegularReportController::class,'set_null'])->name('edu_regular_report.set_null');
 
 });
 //系統管理者、科室管理者
