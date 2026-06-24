@@ -1,6 +1,7 @@
 {{-- 💡 事先在頂端定義好 class 與屬性的 Blade 變數，下方乾淨又好維護 --}}
 @php
     $isReadonly = (isset($readonly) && $readonly == 1) ? 'readonly' : '';
+    $isDisabled = (isset($readonly) && $readonly == 1) ? 'disabled' : ''; // 💡 Select 唯讀需要用 disabled
     $inputBg = (isset($readonly) && $readonly == 1) ? 'bg-light' : '';
 @endphp
 
@@ -24,7 +25,7 @@
             font-size: 13px !important;
             padding: 4px 2px !important;
         }
-        .input-group-text, input.form-control {
+        .input-group-text, input.form-control, select.form-select {
             font-size: 13px !important;
             padding: 2px !important;
         }
@@ -297,17 +298,31 @@
                                 <th scope="col">自行車考照</th>
                                 <th scope="col">電動輔助自行車考照</th>
                                 <th scope="col">微型電動二輪車考照</th>
-                                <th scope="col">合計</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input type="number" name="guide_bike" class="form-control text-center {{ $inputBg }}" value="{{ $answer_data['guide_bike'] ?? 0 }}" {{ $isReadonly }}></td>
-                                <td><input type="number" name="guide_ebike" class="form-control text-center {{ $inputBg }}" value="{{ $answer_data['guide_ebike'] ?? 0 }}" {{ $isReadonly }}></td>
-                                <td><input type="number" name="guide_escooter" class="form-control text-center {{ $inputBg }}" value="{{ $answer_data['guide_escooter'] ?? 0 }}" {{ $isReadonly }}></td>                                            
-                                <td class="table-light">
-                                    <input type="number" name="guide_total" class="form-control text-center fw-bold bg-light" readonly placeholder="0">
+                                <td>
+                                    <select name="guide_bike" class="form-select form-select-sm text-center {{ $inputBg }}" {{ $isDisabled }}>
+                                        <option value="">-- 請選擇 --</option>
+                                        <option value="是" {{ (isset($answer_data['guide_bike']) && $answer_data['guide_bike'] === '是') ? 'selected' : '' }}>是</option>
+                                        <option value="否" {{ (isset($answer_data['guide_bike']) && $answer_data['guide_bike'] === '否') ? 'selected' : '' }}>否</option>
+                                    </select>
                                 </td>
+                                <td>
+                                    <select name="guide_ebike" class="form-select form-select-sm text-center {{ $inputBg }}" {{ $isDisabled }}>
+                                        <option value="">-- 請選擇 --</option>
+                                        <option value="是" {{ (isset($answer_data['guide_ebike']) && $answer_data['guide_ebike'] === '是') ? 'selected' : '' }}>是</option>
+                                        <option value="否" {{ (isset($answer_data['guide_ebike']) && $answer_data['guide_ebike'] === '否') ? 'selected' : '' }}>否</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <select name="guide_escooter" class="form-select form-select-sm text-center {{ $inputBg }}" {{ $isDisabled }}>
+                                        <option value="">-- 請選擇 --</option>
+                                        <option value="是" {{ (isset($answer_data['guide_escooter']) && $answer_data['guide_escooter'] === '是') ? 'selected' : '' }}>是</option>
+                                        <option value="否" {{ (isset($answer_data['guide_escooter']) && $answer_data['guide_escooter'] === '否') ? 'selected' : '' }}>否</option>
+                                    </select>
+                                </td>                                            
                             </tr>
                         </tbody>
                     </table>                                
@@ -408,24 +423,12 @@ $(document).ready(function() {
     });
 
     // ==========================================
-    // 4. 騎車學生考照輔導計算
+    // 🔥 關鍵改動：已將第 4 區塊的 JS 監聽與初始化完全刪除
     // ==========================================
-    $('input[name^="guide_"]').not('[name="guide_total"]').on('input', function() {
-        let total = 0;
-        $('input[name^="guide_"]').not('[name="guide_total"]').each(function() {
-            let val = parseInt($(this).val()) || 0;
-            if (val < 0) { val = 0; $(this).val(0); }
-            total += val;
-        });
-        $('input[name="guide_total"]').val(total);
-    });
 
-    // ==========================================
-    // 網頁一載入完成，立刻自動觸發計算
-    // ==========================================
+    // 網頁一載入完成，立刻自動觸發前三個區塊的計算
     $('input[name="go_walk_count"]').trigger('input');
     $('input[name="back_walk_count"]').trigger('input');
     $('input[name="park_bike"]').trigger('input');
-    $('input[name="guide_bike"]').trigger('input');
 });
 </script>
