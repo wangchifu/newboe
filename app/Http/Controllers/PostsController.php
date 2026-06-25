@@ -1186,10 +1186,20 @@ class PostsController extends Controller
                         ->orWhere('situation',null);
                 })
                 ->get()->count();
+            $regular_reports_not = \App\Models\RegularReportSchool::where('code','like', "%".auth()->user()->code."%")
+                ->where(function($q){
+                    $q->where('situation','=',0)
+                        ->orWhere('situation','=',1)
+                        ->orWhere('situation','=',2)
+                        ->orWhere('situation',null);
+                })
+                ->get()->count();
+
             session(['posts_not'=>$posts_not]);
             session(['posts_quick'=>$posts_quick]);
             session(['posts5_quickly'=>$posts5_quickly]);
-            session(['reports_not'=>$reports_not]);        
+            session(['reports_not'=>$reports_not]);      
+            session(['regular_reports_not'=>$regular_reports_not]);  
 
         //$post5 = DB::table('post_schools_view')
         //    ->where('code', 'like', "%" . auth()->user()->code . "%")
