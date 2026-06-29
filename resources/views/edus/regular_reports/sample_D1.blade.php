@@ -45,8 +45,8 @@
                             <th scope="col" style="min-width: 65px;">項目</th>
                             <th scope="col">步行</th>
                             <th scope="col">騎自行車</th>
-                            <th scope="col">騎電動輔助自行車<br><small class="text-muted">(滿14歲)</small></th>
-                            <th scope="col">騎微型電動二輪車<br><small class="text-muted">(滿14歲)</small></th>
+                            <th scope="col">騎電動輔助自行車</th>
+                            <th scope="col">騎微型電動二輪車</th>
                             <th scope="col">騎機車<br><small class="text-muted">(滿18歲)</small></th>
                             <th scope="col">搭公車<br><span class="text-danger small">(含幸福巴士)</span></th>
                             <th scope="col">搭學校專車</th>
@@ -150,8 +150,8 @@
                             <th scope="col" style="min-width: 65px;">項目</th>
                             <th scope="col">步行</th>
                             <th scope="col">騎自行車</th>
-                            <th scope="col">騎電動輔助自行車<br><small class="text-muted">(滿14歲)</small></th>
-                            <th scope="col">騎微型電動二輪車<br><small class="text-muted">(滿14歲)</small></th>
+                            <th scope="col">騎電動輔助自行車</th>
+                            <th scope="col">騎微型電動二輪車</th>
                             <th scope="col">騎機車<br><small class="text-muted">(滿18歲)</small></th>
                             <th scope="col">搭公車<br><span class="text-danger small">(含幸福巴士)</span></th>
                             <th scope="col">搭學校專車</th>
