@@ -369,6 +369,9 @@ class PostsController extends Controller
      */
     public function update(Request $request, Post $post)
     {
+        if ($post->user_id != auth()->user()->id) {
+            abort(403);
+        }
         if($post->situation==3 or $post->situation==4){
             header("refresh:5;url=".route('posts.passing'));
             print('失敗！！此公告已被審核通過，或已廢除！<br>五秒後自動跳轉。');
@@ -501,6 +504,9 @@ class PostsController extends Controller
         if($post->situation==3 or $post->situation==4){
             return redirect()->back();
         }
+        if ($post->user_id != auth()->user()->id) {   
+            return back();
+        }
 
         if ($post->situation == -1 or $post->situation == 0) {
             //刪除附檔案
@@ -542,6 +548,9 @@ class PostsController extends Controller
     //重新送審
     public function resend(Post $post)
     {
+        if ($post->user_id != auth()->user()->id) {   
+            return back();
+        }
         $att['situation'] = 1;
         $post->update($att);
         return redirect()->route('posts.reviewing');
@@ -2125,6 +2134,9 @@ class PostsController extends Controller
     //催收公告
     public function signedquickly($post)
     {
+        if ($post->user_id != auth()->user()->id) {   
+            return back();
+        }
         PostSchool::where('post_id', $post)->whereNull('signed_at')->update(['signed_quickly' => '1']);
 
         return back()->with('message', '已送出催簽收訊息');
