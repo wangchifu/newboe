@@ -155,6 +155,10 @@ class SchoolController extends Controller
 
     public function power_remove($id)
     {
+        $user_power = UserPower::where('id', $id)->first();
+        if ($user_power->section_id != auth()->user()->code) {
+            abort(403);
+        }        
         UserPower::where('id',$id)
             ->delete();
         return redirect()->back();
@@ -162,6 +166,9 @@ class SchoolController extends Controller
 
     public function edit(User $user)
     {
+        if ($user->code !== auth()->user()->code) {
+            abort(403, '只能管理自己的學校');
+        }                
         $data = [
             'user'=>$user,
         ];
@@ -223,6 +230,9 @@ class SchoolController extends Controller
 
     public function update(Request $request,User $user)
     {
+        if ($user->code !== auth()->user()->code) {
+            abort(403, '只能管理自己的學校');
+        }                        
         if($request->input('a_user')=="on"){
             $user_power = UserPower::where('user_id',$user->id)
                 ->where('section_id',auth()->user()->code)
@@ -279,6 +289,10 @@ class SchoolController extends Controller
 
     public function destroy(User $user)
     {
+        if ($user->code !== auth()->user()->code) {
+            abort(403, '只能管理自己的學校');
+        }                
+
         $att['disable'] = 1;
         $att['disabled_at'] = now();
         $user->update($att);
@@ -290,6 +304,9 @@ class SchoolController extends Controller
 
     public function reback(User $user)
     {
+        if ($user->code !== auth()->user()->code) {
+            abort(403, '只能管理自己的學校');
+        }                        
         $att['disable'] = null;
         $att['disabled_at'] = null;
         $user->update($att);

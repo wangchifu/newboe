@@ -75,6 +75,10 @@ class MySectionController extends Controller
     public function power_remove($id)
     {
         $user_power = UserPower::where('id', $id)->first();
+        $caller_section = auth()->user()->section_id;
+        if ($user_power->section_id !== $caller_section) {
+            abort(403, '只能管理自己科室的權限');
+        }        
         //log
         $event = "管理者 " . auth()->user()->name . "(" . auth()->user()->username . ") 移除了使用者 id：" . $user_power->user_id . " " . $user_power->user->name . " 在科室的管理權：" . $user_power->section_id;
         logging('2', $event, get_ip());
@@ -104,10 +108,10 @@ class MySectionController extends Controller
     }
 
     public function power_update1(Request $request)
-    {
-        //UserPower::where('section_id',$request->input('section_id'))
-        //    ->where('power_type','A')
-        //    ->delete();
+    {        
+        if ($request->input('section_id') !== auth()->user()->section_id) {
+            abort(403, '只能管理自己的科室');
+        }
 
         $att['section_id'] = $request->input('section_id');
         $att['user_id'] = $request->input('user_id');
@@ -138,6 +142,9 @@ class MySectionController extends Controller
 
     public function power_update2(Request $request)
     {
+        if ($request->input('section_id') !== auth()->user()->section_id) {
+            abort(403, '只能管理自己的科室');
+        }        
         $user = User::where('username', $request->input('username'))
             ->first();
 
@@ -170,6 +177,9 @@ class MySectionController extends Controller
 
     public function remove(User $user)
     {
+        if ($user->section_id != auth()->user()->code) {
+            abort(403);
+        }                      
         $old_section_id = $user->section_id;
         $att['section_id'] = null;
 
@@ -184,6 +194,9 @@ class MySectionController extends Controller
 
     public function agree(User $user)
     {
+        if ($user->my_section_id != auth()->user()->code) {
+            abort(403);
+        }              
         $att['my_section_id'] = null;
         $att['section_id'] = $user->my_section_id;
         $user->update($att);
@@ -197,6 +210,9 @@ class MySectionController extends Controller
 
     public function disagree(User $user)
     {
+        if ($user->my_section_id != auth()->user()->code) {
+            abort(403);
+        }                      
         $att['my_section_id'] = null;
 
         $user->update($att);
