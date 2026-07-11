@@ -743,6 +743,9 @@ class RegularReportController extends Controller
 
     public function school_back(RegularReportSchool $regular_report_school)
     {
+        if (!strstr($regular_report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }        
         $att['situation'] = 0;
         $att['review_user_id'] = auth()->user()->id;
         $regular_report_school->update($att);
@@ -751,6 +754,9 @@ class RegularReportController extends Controller
 
     public function school_delay(RegularReportSchool $regular_report_school)
     {
+        if (!strstr($regular_report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }        
         $att['situation'] = 5;
         $att['review_user_id'] = auth()->user()->id;
         $regular_report_school->update($att);        
@@ -759,6 +765,9 @@ class RegularReportController extends Controller
 
     public function school_cancel(RegularReportSchool $regular_report_school)
     {
+        if (!strstr($regular_report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }        
         $att['situation'] = 6;
         $att['review_user_id'] = auth()->user()->id;
         $regular_report_school->update($att);
@@ -767,6 +776,9 @@ class RegularReportController extends Controller
 
     public function school_passing(RegularReportSchool $regular_report_school)
     {
+        if (!strstr($regular_report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }        
         $att['situation'] = 3;
         $att['review_user_id'] = auth()->user()->id;
         $regular_report_school->update($att);
@@ -789,6 +801,9 @@ class RegularReportController extends Controller
         if(date('Ymd') > str_replace('-','',$regular_report_school->regular_report->die_date) or date('Ymd') < str_replace('-','',$regular_report_school->regular_report->start_date)){
             return back();
         }
+        if (!strstr($regular_report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }        
         $sections = config('boe.sections');
         $sample_num = $regular_report_school->regular_report->section_id.$regular_report_school->regular_report->regular_sample->id;
         
@@ -823,6 +838,9 @@ class RegularReportController extends Controller
         
         $regular_report_school = RegularReportSchool::where('id',$request->input('regular_report_school_id'))
         ->first();
+        if (!strstr($regular_report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }        
         $att['signed_user_id'] = auth()->user()->id;
         $att['signed_at'] = now();
         $att['situation'] = 1;
@@ -870,7 +888,10 @@ class RegularReportController extends Controller
         </script>";
     }    
 
-    public function school_show(RegularReportSchool $regular_report_school){           
+    public function school_show(RegularReportSchool $regular_report_school){    
+        if (!strstr($regular_report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }               
         $sections = config('boe.sections');
         $sample_num = $regular_report_school->regular_report->section_id.$regular_report_school->regular_report->regular_sample->id;       
         $answer_data = [];
@@ -894,6 +915,10 @@ class RegularReportController extends Controller
 
     public function school_edit(RegularReportSchool $regular_report_school)
     {
+        if (!strstr($regular_report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }
+
         $answers = RegularAnswer::where('regular_report_school_id',$regular_report_school->id)
             ->get();
         $answer_data = [];
@@ -913,6 +938,9 @@ class RegularReportController extends Controller
 
     public function school_update(Request $request,RegularReportSchool $regular_report_school)
     {                        
+        if (!strstr($regular_report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }        
         $att['signed_user_id'] = auth()->user()->id;
         $att['signed_at'] = now();
         $att['situation'] = 1;
@@ -1016,6 +1044,9 @@ class RegularReportController extends Controller
 
     public function school_print2(RegularReportSchool $regular_report_school)
     {
+        if (!strstr($regular_report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }        
         $answers = RegularAnswer::where('regular_report_school_id',$regular_report_school->id)
             ->get();
         $answer_data = [];

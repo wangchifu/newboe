@@ -229,6 +229,9 @@ class SchoolReportController extends Controller
         if(date('Ymd') > str_replace('-','',$report_school->report->die_date)){
             return back();
         }
+        if (!strstr($report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }
         $sections = config('boe.sections');
         $data = [
             'sections'=>$sections,
@@ -253,6 +256,11 @@ class SchoolReportController extends Controller
 
         $report_school = ReportSchool::where('id',$request->input('report_school_id'))
         ->first();
+
+        if (!strstr($report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }
+
         $att['signed_user_id'] = auth()->user()->id;
         $att['signed_at'] = now();
         $att['situation'] = 1;
@@ -300,6 +308,10 @@ class SchoolReportController extends Controller
 
     public function show(ReportSchool $report_school)
     {
+        if (!strstr($report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }
+
         $answers = Answer::where('report_school_id',$report_school->id)
             ->get();
         $answer_data = [];
@@ -317,6 +329,10 @@ class SchoolReportController extends Controller
 
     public function edit(ReportSchool $report_school)
     {
+        if (!strstr($report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }
+
         $answers = Answer::where('report_school_id',$report_school->id)
             ->get();
         $answer_data = [];
@@ -347,6 +363,11 @@ class SchoolReportController extends Controller
 
         $report_school = ReportSchool::where('id',$request->input('report_school_id'))
             ->first();
+
+        if (!strstr($report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }
+
         $att['signed_user_id'] = auth()->user()->id;
         $att['signed_at'] = now();
         $att['situation'] = 1;
@@ -397,6 +418,10 @@ class SchoolReportController extends Controller
 
     public function back(ReportSchool $report_school)
     {
+        if (!strstr($report_school->code, auth()->user()->code)) {
+            abort(403, '非本校填報');
+        }
+                
         $att['situation'] = 0;
         $att['review_user_id'] = auth()->user()->id;
         $report_school->update($att);
