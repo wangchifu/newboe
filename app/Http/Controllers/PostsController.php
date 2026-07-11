@@ -1967,6 +1967,16 @@ class PostsController extends Controller
     public function eduadminedit($id)
     {
         $post = Post::where('id', $id)->first();
+        
+        //檢查是不是自己科室
+        $user_power = UserPower::where('user_id', auth()->user()->id)
+            ->where('power_type', 'A')
+            ->where('section_id', $post->section_id)
+            ->first();
+        if (!$user_power) {
+            abort(403, '無權編輯其他科室公告');
+        }
+
         $files = get_files(storage_path('app/public/post_files/' . $post->id));
         $images = get_files(storage_path('app/public/post_photos/' . $post->id));
         $images_path = storage_path('app/public/post_photos/' . $post->id . '/');
@@ -2002,6 +2012,14 @@ class PostsController extends Controller
     {
 
         $post = Post::where('id', $id)->first();
+        //檢查是不是自己科室
+        $user_power = UserPower::where('user_id', auth()->user()->id)
+            ->where('power_type', 'A')
+            ->where('section_id', $post->section_id)
+            ->first();
+        if (!$user_power) {
+            abort(403, '無權編輯其他科室公告');
+        }        
         $att['category_id'] = $request->input('category_id');
         $att['title'] = $request->input('title');
         $att['content'] = $request->input('content');
