@@ -2111,13 +2111,29 @@ class PostsController extends Controller
         return redirect()->route('posts.review');
     }
     //圖片呈現
+    //public function getImg($file_path)
+    //{
+    //    $file_path = str_replace('&', '/', $file_path); //斜線不可以在URL中傳
+    //    $file = File::get($file_path);
+    //    $type = File::mimeType($file_path);
+    //    return response($file)->header("Content-Type", $type);
+    //}
     public function getImg($file_path)
     {
-        $file_path = str_replace('&', '/', $file_path); //斜線不可以在URL中傳
-        $file = File::get($file_path);
-        $type = File::mimeType($file_path);
+        $file_path = str_replace('&', '/', $file_path);
+
+        // 限制只能存取 storage/app/public 目錄下的檔案
+        $allowed_base = storage_path('app/public');
+        $real_path = realpath($file_path);
+
+        if ($real_path === false || !str_starts_with($real_path, $allowed_base)) {
+            abort(404);
+        }
+
+        $file = File::get($real_path);
+        $type = File::mimeType($real_path);
         return response($file)->header("Content-Type", $type);
-    }
+    }    
     //刪除附件
     public function del_att($id, $filename)
     {
