@@ -1662,6 +1662,9 @@ class PostsController extends Controller
         //$page = $request->input('page');
 
         $post_school = PostSchool::find($ps_id);
+        if (!strstr($post_school->code, auth()->user()->code)) {
+            abort('404', '你想做什麼？');
+        }
         if (empty($post_school->signed_user_id)) {
             DB::update('update post_schools set signed_user_id = ? , signed_at= ?, signed_quickly= ? where id= ? ', [auth()->user()->id, now(), '0', $ps_id]);   
 
@@ -1778,10 +1781,20 @@ class PostsController extends Controller
                 $posts_id = array_diff($posts_id, [$post_id]);
             }
         }
-        
+        //檢查是不是自校的
+        $post_schools = PostSchool::whereIn('id', $posts_id)->get();
+        foreach($post_schools as $post_school){
+            if (!strstr($post_school->code, auth()->user()->code)) {
+                abort(403, '非本校公告');
+            }   
+        }        
+
+
         $att['signed_user_id'] = auth()->user()->id;
         $att['signed_at'] = now();
         $att['signed_quickly'] = 0;
+
+        
 
         $post_schools = PostSchool::whereIn('id', $posts_id)->update($att);
         //dd($post_schools);
@@ -1828,6 +1841,10 @@ class PostsController extends Controller
 
     public function signed2(Request $request, $ps_id)
     {
+        $post_school = PostSchool::find($ps_id);
+        if (!strstr($post_school->code, auth()->user()->code)) {
+            abort('404', '你想做什麼？');
+        }
         $page = $request->input('page');
         DB::update('update post_schools set signed_user_id = ? , signed_at= ?, signed_quickly= ? where id= ? ', [auth()->user()->id, now(), '0', $ps_id]);
 
@@ -1837,6 +1854,10 @@ class PostsController extends Controller
 
     public function signed3(Request $request, $ps_id)
     {
+        $post_school = PostSchool::find($ps_id);
+        if (!strstr($post_school->code, auth()->user()->code)) {
+            abort('404', '你想做什麼？');
+        }
         $page = $request->input('page');
         DB::update('update post_schools set signed_user_id = ? , signed_at= ?, signed_quickly= ? where id= ? ', [auth()->user()->id, now(), '0', $ps_id]);
 
@@ -1847,6 +1868,10 @@ class PostsController extends Controller
     //其他單位簽收公告
     public function signed_other($ps_id)
     {
+        $post_school = PostSchool::find($ps_id);
+        if ($post_school->code != auth()->user()->other_code) {
+            abort('404', '你想做什麼？');
+        }
         DB::update('update post_schools set signed_user_id = ? , signed_at= ?, signed_quickly= ? where id= ? ', [auth()->user()->id, now(), '0', $ps_id]);
 
         return redirect()->route('posts.showSigned_other');
