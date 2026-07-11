@@ -8,6 +8,7 @@ use App\Models\RegularReport;
 use App\Models\RegularAnswer;
 use App\Models\RegularReportSchool;
 use App\Models\RegularReportTemp;
+use App\Models\UserPower;
 use App\Models\School;
 use Illuminate\Support\Str;
 use Rap2hpoutre\FastExcel\FastExcel;
@@ -103,6 +104,28 @@ class RegularReportController extends Controller
 
     public function download($id,$filename)
     {
+        $a = ['A','B','C','D','E','F','G','H','I','J'];
+        if(auth()->check()){
+            $user_power = UserPower::where('user_id',auth()->user()->id)
+            ->where('power_type','A')
+            ->whereIn('section_id',$a)
+            ->first();      
+        }else{
+            $user_power = null;
+        }              
+        $regular_report = RegularReport::findOrFail($id);
+        if ($regular_report->situation != 3 && $regular_report->situation != 4) {       
+            if(auth()->user()->id != $regular_report->user_id && !$user_power){                    
+                abort(404);
+            }            
+        }else{            
+            $check = RegularReportSchool::where('code', 'like', '%' . auth()->user()->code . '%')
+                    ->where('regular_report_id', $regular_report->id)
+                    ->first();
+                if (!$check) {                    
+                    abort(404);
+                }        
+        }    
         $file = storage_path('app/public/regular_report_files/' . $id . '/' . $filename);
         return response()->download($file);
     }

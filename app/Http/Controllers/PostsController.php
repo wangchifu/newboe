@@ -550,7 +550,32 @@ class PostsController extends Controller
     //檔案下載
     public function download($filename,$post_id)
     {
-
+        $a = ['A','B','C','D','E','F','G','H','I','J'];
+        if(auth()->check()){
+            $user_power = UserPower::where('user_id',auth()->user()->id)
+            ->where('power_type','A')
+            ->whereIn('section_id',$a)
+            ->first();      
+        }else{
+            $user_power = null;
+        }              
+        $post = Post::findOrFail($post_id);
+        if ($post->situation != 3 && $post->situation != 4) {       
+            if(auth()->user()->id != $post->user_id && !$user_power){                    
+                abort(404);
+            }            
+        }else{
+            if ($post->category_id == '5' && $post->another != '1') {
+                $check = DB::table('post_schools_view')
+                    ->where('code', 'like', '%' . auth()->user()->code . '%')
+                    ->where('id', $post->id)
+                    ->first();
+                if (!$check) {                    
+                    abort(404);
+                }
+            }        
+        }
+        
         $file = storage_path('app/public/post_files/' . $post_id . '/' . $filename);        
         if (file_exists($file)) {
             return response()->download($file);
@@ -559,6 +584,31 @@ class PostsController extends Controller
     //圖片下載
     public function downloadimage($filename,$post_id,)
     {
+        $a = ['A','B','C','D','E','F','G','H','I','J'];
+        if(auth()->check()){
+            $user_power = UserPower::where('user_id',auth()->user()->id)
+            ->where('power_type','A')
+            ->whereIn('section_id',$a)
+            ->first();      
+        }else{
+            $user_power = null;
+        }              
+        $post = Post::findOrFail($post_id);
+        if ($post->situation != 3 && $post->situation != 4) {       
+            if(auth()->user()->id != $post->user_id && !$user_power){                    
+                abort(404);
+            }            
+        }else{
+            if ($post->category_id == '5' && $post->another != '1') {
+                $check = DB::table('post_schools_view')
+                    ->where('code', 'like', '%' . auth()->user()->code . '%')
+                    ->where('id', $post->id)
+                    ->first();
+                if (!$check) {                    
+                    abort(404);
+                }
+            }        
+        }
 
         $file = storage_path('app/public/post_photos/' . $post_id . '/' . $filename);
         return response()->download($file);
@@ -2019,6 +2069,13 @@ class PostsController extends Controller
     //刪除附件
     public function del_att($id, $filename)
     {
+        $post = Post::findOrFail($id);
+        if ($post->user_id != auth()->user()->id) {
+            abort(403);
+        }
+        if ($post->situation == 3 || $post->situation == 4) {
+            abort(403);
+        }
         $file_path = storage_path('app/public/post_files/' . $id);
         $file = $file_path . '/' . $filename;
         File::delete($file);
@@ -2027,6 +2084,13 @@ class PostsController extends Controller
     //刪除圖片
     public function del_img($id, $filename)
     {
+        $post = Post::findOrFail($id);
+        if ($post->user_id != auth()->user()->id) {
+            abort(403);
+        }
+        if ($post->situation == 3 || $post->situation == 4) {
+            abort(403);
+        }        
         $file_path = storage_path('app/public/post_photos/' . $id);
         $file = $file_path . '/' . $filename;
         File::delete($file);

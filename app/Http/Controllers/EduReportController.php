@@ -338,12 +338,38 @@ class EduReportController extends Controller
 
     public function download($id,$filename)
     {
+        $a = ['A','B','C','D','E','F','G','H','I','J'];
+        if(auth()->check()){
+            $user_power = UserPower::where('user_id',auth()->user()->id)
+            ->where('power_type','A')
+            ->whereIn('section_id',$a)
+            ->first();      
+        }else{
+            $user_power = null;
+        }              
+        $report = Report::findOrFail($id);
+        if ($report->situation != 3 && $report->situation != 4) {       
+            if(auth()->user()->id != $report->user_id && !$user_power){                    
+                abort(404);
+            }            
+        }else{            
+            $check = ReportSchool::where('code', 'like', '%' . auth()->user()->code . '%')
+                    ->where('report_id', $report->id)
+                    ->first();
+                if (!$check) {                    
+                    abort(404);
+                }        
+        }        
         $file = storage_path('app/public/report_files/' . $id . '/' . $filename);
         return response()->download($file);
     }
 
     public function delete_file($id,$filename)
     {
+        $report = Report::find($id);
+        if($report->user_id != auth()->user()->id){
+            return back();
+        }
         $file = storage_path('app/public/report_files/' . $id . '/' . $filename);
         if(file_exists($file)){
             unlink($file);
