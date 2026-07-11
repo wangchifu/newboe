@@ -959,20 +959,26 @@ class PostsController extends Controller
             ->first();
 
         $posts = Post::where('section_id', $user_power->section_id)
-            ->where('situation', '1')
-            ->orwhere('situation', '=', '2')
+            ->where(function ($q) {
+                $q->where('situation', '1')
+                ->orWhere('situation', '2');
+            })
             ->orderBy('id', 'DESC')
             ->get();
 
         $regular_reports = RegularReport::where('section_id',$user_power->section_id)
-            ->where('situation','1')
-            ->orwhere('situation', '=', '2')
+            ->where(function ($q) {
+                $q->where('situation', '1')
+                ->orWhere('situation', '2');
+            })
             ->orderBy('id','DESC')
             ->get();
 
         $reports = Report::where('section_id', $user_power->section_id)
-            ->where('situation', '1')
-            ->orwhere('situation', '=', '2')
+            ->where(function ($q) {
+                $q->where('situation', '1')
+                ->orWhere('situation', '2');
+            })
             ->orderBy('id', 'DESC')
             ->get();
 
