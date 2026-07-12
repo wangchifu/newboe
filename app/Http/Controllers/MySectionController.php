@@ -177,7 +177,7 @@ class MySectionController extends Controller
 
     public function remove(User $user)
     {
-        if ($user->section_id != auth()->user()->code) {
+        if ($user->section_id != auth()->user()->section_id) {
             abort(403);
         }                      
         $old_section_id = $user->section_id;
@@ -194,7 +194,7 @@ class MySectionController extends Controller
 
     public function agree(User $user)
     {
-        if ($user->my_section_id != auth()->user()->code) {
+        if ($user->my_section_id != auth()->user()->section_id) {
             abort(403);
         }              
         $att['my_section_id'] = null;
@@ -210,7 +210,7 @@ class MySectionController extends Controller
 
     public function disagree(User $user)
     {
-        if ($user->my_section_id != auth()->user()->code) {
+        if ($user->my_section_id != auth()->user()->section_id) {
             abort(403);
         }                      
         $att['my_section_id'] = null;

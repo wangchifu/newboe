@@ -47,6 +47,9 @@ class ContentController extends Controller
         $requestData = $request->all();
         $requestData['title'] = Purifier::clean($requestData['title'], array('AutoFormat.AutoParagraph'=>false));
         $requestData['content'] = Purifier::clean($requestData['content'], array('AutoFormat.AutoParagraph'=>false));
+        $requestData['user_id']    = auth()->user()->id;
+        $requestData['section_id'] = auth()->user()->section_id;
+        unset($requestData['disable']);
 
         $content = Content::create($requestData);
 

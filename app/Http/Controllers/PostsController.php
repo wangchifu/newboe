@@ -2021,8 +2021,10 @@ class PostsController extends Controller
             abort(403, '無權編輯其他科室公告');
         }        
         $att['category_id'] = $request->input('category_id');
-        $att['title'] = $request->input('title');
-        $att['content'] = $request->input('content');
+        $att['title']   = Purifier::clean($request->input('title'),
+                        array('AutoFormat.AutoParagraph'=>false));
+        $att['content'] = Purifier::clean($request->input('content'),
+                        array('AutoFormat.AutoParagraph'=>false));                
         $att['type'] = $request->input('type');
         $att['another'] = $request->input('another');
         $att['url'] = transfer_url_http($request->input('url'));

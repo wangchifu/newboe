@@ -909,6 +909,7 @@ class AdminsController extends Controller
     
     public function sys_post_store(Request $request){
         $att = $request->all();
+        $att['user_id'] = auth()->user()->id;
         SystemPost::create($att);
         return redirect()->back();
     }
