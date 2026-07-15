@@ -73,6 +73,38 @@ class DB2Controller extends Controller
         $att['staff_username'] = generateRandomString(10);
         $att['staff_password'] = generateRandomString(12);
 
+        $check_sql = "SELECT id,staff_sid,staff_status FROM staff WHERE staff_person_id = :staff_person_id LIMIT 1";
+
+        $stmt = $dbh->prepare($check_sql);
+
+        // 2. 執行並綁定變數
+        $stmt->execute([
+            ':staff_person_id' => $att['staff_person_id']
+        ]);
+
+        // 3. 取得查詢結果
+        $exists = $stmt->fetch();
+
+        // 4. 判斷並回傳結果
+        if ($exists) {
+            // 有找到資料，代表已經申請過
+            $id = $exists['id'];
+            $staff_sid = $exists['staff_sid'];
+            $staff_status = $exists['staff_status'];
+            $data = [
+                'id'=>$id,
+                'staff_sid'=>$staff_sid,  
+                'staff_status'=>$staff_status,
+                'new_staff_sid'=>$att['staff_sid'],
+                'new_staff_curr_class_num'=>$att['staff_curr_class_num'],
+                'new_staff_name'=>$att['staff_name'],
+                'new_staff_sex'=>$att['staff_sex'],
+                'new_staff_title'=>$att['staff_title'],
+            ];
+            return view('admins.user_db2_has',$data);
+        }
+
+
         $sql = "INSERT INTO staff (
             staff_sid,
             staff_curr_class_num,
@@ -98,6 +130,56 @@ class DB2Controller extends Controller
         )";   
         
         $result=$dbh->query($sql);
+
+        echo "
+            <script>
+            // 確保頁面加載完成後執行
+            window.onload = function() {
+                // 檢查父頁面是否存在且可以訪問 jQuery
+                if (window.parent && window.parent.$) {
+                    // 關閉 venobox 視窗
+                    if (typeof window.parent.$.venobox !== 'undefined') {
+                        window.parent.$.venobox.close();  // 關閉 venobox 視窗
+                    }
+
+                    // 可選：刷新父頁面，這樣可以讓父頁面顯示最新的內容
+                    window.parent.location.reload();                
+                }
+            };
+            </script>";
+        
+    }
+
+    function user_db2_store2(Request $request){
+        $dbh = connect_DB2();
+        $att = $request->all();
+        
+        if($att['staff_sid'] =="079998") $att['staff_curr_class_num'] = "I";
+
+        $sql = "UPDATE staff SET 
+            staff_sid = '{$att['staff_sid']}',
+            staff_curr_class_num = '{$att['staff_curr_class_num']}',            
+            staff_name = '{$att['staff_name']}',
+            staff_sex = '{$att['staff_sex']}',
+            staff_title = '{$att['staff_title']}',
+            staff_kind = '教職員',            
+            staff_status = '1'
+        WHERE id = '{$att['id']}'";
+        
+        $result=$dbh->query($sql);
+
+        if ($result) {
+            // 💡 取得真正被更新的資料筆數
+            $count = $result->rowCount(); 
+            
+            if ($count > 0) {                
+            } else {
+                // 註：如果使用者「沒有修改任何欄位就直接送出」，也會回傳 0 喔！
+                dd('沒有更新！');
+            }
+        } else {
+            dd('更新失敗！');
+        }
 
         echo "
             <script>
