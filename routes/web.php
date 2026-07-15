@@ -391,7 +391,7 @@ Route::group(['middleware' => 'section_admin'],function(){
     Route::get('my_section/{user}/remove', [MySectionController::class,'remove'])->name('my_section.remove');
     Route::get('my_section/power', [MySectionController::class,'power'])->name('my_section.power');
     Route::post('my_section/power_update1', [MySectionController::class,'power_update1'])->name('my_section.power_update1');
-    //Route::post('my_section/power_update2', [MySectionController::class,'power_update2'])->name('my_section.power_update2');
+    Route::post('my_section/power_update2', [MySectionController::class,'power_update2'])->name('my_section.power_update2');
     Route::get('my_section/{id}/power_remove', [MySectionController::class,'power_remove'])->name('my_section.power_remove');
     Route::get('my_section/member', [MySectionController::class,'member'])->name('my_section.member');
     Route::post('my_section/update', [MySectionController::class,'member_update'])->name('my_section.member_update');

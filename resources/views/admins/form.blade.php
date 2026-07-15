@@ -35,7 +35,7 @@
                     {{ $groups[$user->group_id] }}
                 </td>
                 <td>
-                    {{ $user->name }}<br>
+                    {{ $user->name }}({{ $user->id }})<br>
                     @if($user->username)
                         ({{ $user->username }})
                     @else

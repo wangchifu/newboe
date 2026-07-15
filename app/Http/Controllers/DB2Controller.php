@@ -32,7 +32,7 @@ class DB2Controller extends Controller
 
         $result=$dbh->query($sql);        
         $staff_in = [];
-        $staff_in = [];
+        $staff_out = [];
         foreach ($result as $row) {
             if($row['staff_status']==1){
                 $staff_in[$row['id']]['person_id'] = $row['staff_person_id'];
@@ -42,6 +42,7 @@ class DB2Controller extends Controller
                 $staff_in[$row['id']]['title'] = $row['staff_title'];
                 $staff_in[$row['id']]['staff_curr_class_num'] = $row['staff_curr_class_num'];
             }else{
+                $staff_out[$row['id']]['person_id'] = $row['staff_person_id'];
                 $staff_out[$row['id']]['sid'] = $row['staff_sid'];
                 $staff_out[$row['id']]['name'] = $row['staff_name'];
                 $staff_out[$row['id']]['sex'] = $row['staff_sex'];
@@ -373,6 +374,56 @@ class DB2Controller extends Controller
     }
 
     function admin_db2(){
-        $dbh = connect_DB2();                       
+        $section_id = auth()->user()->section_id;
+        $code = auth()->user()->code;
+        $dbh = connect_DB2();    
+        $sql = "
+        SELECT 
+            id,
+            staff_person_id,
+            staff_sid,
+            staff_name,
+            staff_sex,            
+            staff_status,
+            staff_title,            
+            staff_curr_class_num
+        FROM 
+            staff
+        WHERE 
+            staff_sid = '{$code}'
+            AND staff_kind = '教職員'
+            AND staff_curr_class_num = '{$section_id}'             
+        ORDER BY
+            staff_sid,
+            staff_curr_class_num                        
+        ";        
+
+        $result=$dbh->query($sql);     
+        $staff_in = [];
+        $staff_out = [];
+        foreach ($result as $row) {
+            if($row['staff_status']=="1"){
+                $staff_in[$row['id']]['person_id'] = $row['staff_person_id'];
+                $staff_in[$row['id']]['sid'] = $row['staff_sid'];
+                $staff_in[$row['id']]['name'] = $row['staff_name'];
+                $staff_in[$row['id']]['sex'] = $row['staff_sex'];
+                $staff_in[$row['id']]['title'] = $row['staff_title'];
+                $staff_in[$row['id']]['staff_curr_class_num'] = $row['staff_curr_class_num'];
+            }else{
+                $staff_out[$row['id']]['person_id'] = $row['staff_person_id'];
+                $staff_out[$row['id']]['sid'] = $row['staff_sid'];
+                $staff_out[$row['id']]['name'] = $row['staff_name'];
+                $staff_out[$row['id']]['sex'] = $row['staff_sex'];
+                $staff_out[$row['id']]['title'] = $row['staff_title'];
+                $staff_out[$row['id']]['staff_curr_class_num'] = $row['staff_curr_class_num'];
+            }                        
+        }        
+        $sections = config('boe.sections');
+        $data = [            
+            'staff_in'=>$staff_in,
+            'staff_out'=>$staff_out,
+            'sections'=>$sections,
+        ];
+        return view('edus.my_section.user_db2',$data);                               
     }
 }

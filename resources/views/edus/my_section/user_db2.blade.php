@@ -1,41 +1,15 @@
-@extends('layouts.app')
+@extends('layouts.app_clean')
 
 @section('title','帳號管理')
 
-@section('header')
-<header class="py-5 bg-light border-bottom mb-4">
-
-</header>
-@endsection
-
 @section('content')
 <div class="col-lg-12 mx-auto">
-    <h1>帳號管理</h1>
+    <h1>認證主機帳號</h1>
     <div class="card mb-4">
         <div class="card-header">
-            @include('admins.search_nav')
+            帳號資訊
         </div>
         <div class="card-body">            
-            <ul class="nav nav-tabs">
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admins.user_index') }}">全部</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admins.user_group','1') }}">學校</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admins.user_group','2') }}">教育處</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admins.user_group','3') }}">系統管理者</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('admins.user_check') }}">重複身分證帳號</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('admins.user_db2') }}">認證主機帳號</a>
-                </li>
-            </ul>
             <div class="container mt-4">
 
                 {{-- 💡 切換分頁的按鈕區 (Nav Pills) --}}
@@ -78,21 +52,19 @@
                                     <tbody>
                                         <?php $n=1; ?>
                                         @foreach($staff_in as $id => $info)
-                                        <form action="{{ route('admins.user_db2_change',$id) }}" method="post" id="change_room{{ $id }}">
+                                        <form action="" method="post" id="change_room{{ $id }}">
                                         @csrf
                                         <tr>
                                             <td class="fw-bold text-secondary">{{ $n }}</td>
                                             <td>{{ $id }}</td>
                                             <td>
-                                                <select name="staff_sid" class="form-select" autocomplete="off">
-                                                    <option value="079998" {{ (isset($info['sid']) && $info['sid'] == '079998') ? 'selected' : '' }}>
-                                                        縣網中心 (079998)
-                                                    </option>
-                                                    
-                                                    <option value="079999" {{ (isset($info['sid']) && $info['sid'] == '079999') ? 'selected' : '' }}>
-                                                        教育處 (079999)
-                                                    </option>
-                                                </select>
+                                                @if($info['sid'] == '079998')
+                                                    縣網中心 {{ $info['sid'] }}
+                                                @elseif($info['sid'] == '079999')
+                                                    教育處 {{ $info['sid'] }}
+                                                @else
+                                                    ---
+                                                @endif
                                             </td>
                                             <td class="fw-bold text-dark">
                                                 <input type="text" name="staff_name" class="form-control fw-bold text-dark" value="{{ $info['name'] ?? '' }}" placeholder="請輸入姓名" required>
@@ -111,23 +83,18 @@
                                                 <input type="text" name="staff_title" class="form-control fw-bold text-primary" value="{{ $info['title'] ?? '' }}" placeholder="請輸入職稱">
                                             </td>
                                             <td>                                                                                                    
-                                                <div class="input-group input-group-sm" style="max-width: 250px;">
-                                                    <select name="staff_curr_class_num" class="form-select" autocomplete="off">
-                                                        <option value="">---</option>
-                                                        @foreach($sections as $key => $section_name)
-                                                            <option value="{{ $key }}" {{ (isset($info['staff_curr_class_num']) && $info['staff_curr_class_num'] === $key) ? 'selected' : '' }}>
-                                                                {{ $section_name }} ({{ $key }})
-                                                            </option>
-                                                        @endforeach
-                                                    </select>                                                    
-                                                </div>                                                                                            
+                                                @if(isset($sections[$info['staff_curr_class_num']]))
+                                                    {{ $sections[$info['staff_curr_class_num']] }} ({{ $info['staff_curr_class_num'] }})
+                                                @else
+                                                    ---
+                                                @endif                                                                                        
                                             </td>
                                             <td>
                                                 <div class="d-flex gap-1">
                                                     <button class="btn btn-success btn-sm" type="button" onclick="sw_confirm2('左列資料都確定了嗎？','change_room{{ $id }}')">
                                                         儲存
                                                     </button>                                                    
-                                                    <a href="#!" class="btn btn-danger btn-sm" onclick="sw_confirm1('你確定要離職 {{ $info['name'] }}','{{ route('admins.user_db2_out',$id) }}')">
+                                                    <a href="#!" class="btn btn-danger btn-sm" onclick="">
                                                         離職他
                                                     </a>
                                                 </div>                                                
@@ -201,7 +168,7 @@
                     </div>
 
                 </div>
-            </div>           
+            </div>                         
         </div>
     </div>           
 </div>

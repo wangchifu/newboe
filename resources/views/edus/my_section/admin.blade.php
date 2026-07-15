@@ -11,7 +11,7 @@
 @section('content')
 <h1>{{ $sections[$section_id] }} 科室成員管理</h1>
 <div class="col-lg-12 mx-auto mb-3">  
-<a href="" class="btn btn-success btn-sm">檢視認證主機的帳號</a>
+<a href="{{ route('my_section.admin_db2') }}" class="btn btn-success btn-sm venobox" data-vbtype="iframe">檢視認證主機的帳號</a>
 <span class="text-danger"><i class="fas fa-arrow-left me-1"></i>從這裡新增帳號者，他還是必須到 <a href="https://eip.chc.edu.tw" target="_blank">eip.chc.edu.tw</a> 申請帳號，才能登入新雲端。</span>
 </div>
 <div class="col-lg-4 mx-auto">    
@@ -29,7 +29,7 @@
                     <tr>
                         <td><strong>
                                 審核者：
-                                {{ $a_admin->user->name }} ( {{ $a_admin->user->username }} )
+                                {{ $a_admin->user->name }} ( {{ $a_admin->user->username }} ) ({{ $a_admin->user->id }})
                             </strong></td>
                         <td>
                             @if($a_admin->user->id != auth()->user()->id)
@@ -53,7 +53,7 @@
                 @foreach($users1 as $user)
                     <tr>
                         <td>
-                            {{ $user->name }} ( {{ $user->username }} )
+                            {{ $user->name }} ( {{ $user->username }} ) ({{ $user->id }})
                         </td>
                         <td>
                             @if($user->group_id != 8 and $user->id != auth()->user()->id)
@@ -76,7 +76,7 @@
                 @foreach($users2 as $user)
                     <tr>
                         <td>
-                            {{ $user->name }} ( {{ $user->username }} )
+                            {{ $user->name }} ( {{ $user->username }} ) ({{ $user->id }})
                         </td>
                         <td>
                             <a href="#!" class="btn btn-success btn-sm" onclick="sw_confirm1('確定同意？','{{ route('my_section.agree',$user->id) }}')">同意</a>

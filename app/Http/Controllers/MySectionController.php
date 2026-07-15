@@ -146,6 +146,7 @@ class MySectionController extends Controller
             abort(403, '只能管理自己的科室');
         }        
         $user = User::where('username', $request->input('username'))
+            ->whereNull('disable')
             ->first();
 
         if ($user) {
