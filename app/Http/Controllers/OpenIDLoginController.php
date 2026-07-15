@@ -147,7 +147,7 @@ class OpenIDLoginController extends Controller
             $user_obj['school'] = !isset($schools_name[$user_obj['code']]) ? "查無學校" : $schools_name[$user_obj['code']];
 
             //是否已有此帳號
-            $user = User::where('edu_key', $user_obj['personid'])      
+            $user = User::where('edu_key', strtoupper($user_obj['personid']))      
                 ->where('code', $user_obj['code'])                    
                 ->first();
 
@@ -160,7 +160,7 @@ class OpenIDLoginController extends Controller
                 $att['school'] = $user_obj['school'];
                 $att['kind'] = $user_obj['kind'];
                 $att['title'] = $user_obj['title'];
-                $att['edu_key'] = $user_obj['personid'];
+                $att['edu_key'] = strtoupper($user_obj['personid']);
                 $att['uid'] = "";
                 $att['login_type'] = "open_id";
                 $att['school_id'] = $school_id;
@@ -201,7 +201,7 @@ class OpenIDLoginController extends Controller
                   $att['title'] = $user->title;
                 }
                 
-                $att['edu_key'] = $user_obj['personid'];
+                $att['edu_key'] = strtoupper($user_obj['personid']);
                 $att['uid'] = "";
                 $att['disable'] = null;
                 $att['login_type'] = "open_id";

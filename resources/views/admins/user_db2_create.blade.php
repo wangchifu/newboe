@@ -7,7 +7,7 @@
     <h1>新增認證主機帳號</h1>
     <div class="card mb-4">
         <div class="card-header">
-            帳號資訊
+            帳號資訊 <span class="text-danger">此處會順便加帳號到新雲端的各科室</span>
         </div>
         <div class="card-body">            
             <div class="container mt-4" style="max-width: 600px;">
@@ -17,7 +17,7 @@
                     </div>
                     <div class="card-body p-4">
                         <!-- 💡 加上 needs-validation 與 novalidate 啟用 Bootstrap 5 驗證機制 -->
-                        <form action="{{ route('admins.user_db2_store') }}" method="POST" class="needs-validation" novalidate>
+                        <form action="{{ route('admins.user_db2_store') }}" method="POST" class="needs-validation" novalidate id="this_form">
                             @csrf
                             <!-- 第一欄位：單位 (下拉 - 必填) -->
                             <div class="mb-3">
@@ -103,7 +103,7 @@
 
                             <!-- 按鈕區 -->
                             <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary fw-bold">送出表單</button>
+                                <button type="button" class="btn btn-primary fw-bold" onclick="sw_confirm2('確定送出？','this_form')">送出表單</button>
                                 <button type="reset" class="btn btn-outline-secondary">重填</button>
                             </div>
 

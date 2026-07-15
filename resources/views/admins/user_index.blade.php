@@ -36,7 +36,8 @@
                     <a class="nav-link" href="{{ route('admins.user_db2') }}">認證主機帳號</a>
                 </li>                
             </ul>
-            @include('admins.form')            
+            @include('admins.form')         
+            {{ $users->links('layouts.simple-pagination') }}   
         </div>
     </div>           
 </div>

@@ -385,6 +385,7 @@ Route::group(['middleware' => 'section_admin'],function(){
 
     //成員管理
     Route::get('my_section/admin', [MySectionController::class,'admin'])->name('my_section.admin');
+    Route::get('my_section/admin_db2', [DB2Controller::class,'admin_db2'])->name('my_section.admin_db2');
     Route::get('my_section/{user}/agree', [MySectionController::class,'agree'])->name('my_section.agree');
     Route::get('my_section/{user}/disagree', [MySectionController::class,'disagree'])->name('my_section.disagree');
     Route::get('my_section/{user}/remove', [MySectionController::class,'remove'])->name('my_section.remove');

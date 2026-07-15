@@ -10,6 +10,10 @@
 
 @section('content')
 <h1>{{ $sections[$section_id] }} 科室成員管理</h1>
+<div class="col-lg-12 mx-auto mb-3">  
+<a href="" class="btn btn-success btn-sm">檢視認證主機的帳號</a>
+<span class="text-danger"><i class="fas fa-arrow-left me-1"></i>從這裡新增帳號者，他還是必須到 <a href="https://eip.chc.edu.tw" target="_blank">eip.chc.edu.tw</a> 申請帳號，才能登入新雲端。</span>
+</div>
 <div class="col-lg-4 mx-auto">    
     <div class="card mb-4">
         <div class="card-header">

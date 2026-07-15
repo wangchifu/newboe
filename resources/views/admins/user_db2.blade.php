@@ -59,6 +59,7 @@
                     {{-- ========================================== --}}
                     <div class="tab-pane fade show active" id="pills-in" role="tabpanel" aria-labelledby="pills-in-tab">
                         <a href="{{ route('admins.user_db2_create') }}" class="btn btn-success venobox" data-vbtype="iframe">新增帳號</a>
+                        <span class="text-danger">這裡新增完帳號，其本人還要至 <a href="https://eip.chc.edu.tw" target="_blank">eip.chc.edu.tw</a> 申請帳號，才能登入新雲端。</span>
                         @if(!empty($staff_in))
                             <div class="table-responsive border rounded shadow-sm">
                                 <table class="table table-bordered table-hover align-middle text-center mb-0">

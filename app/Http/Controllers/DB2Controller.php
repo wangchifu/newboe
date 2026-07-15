@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class DB2Controller extends Controller
 {
@@ -131,6 +132,61 @@ class DB2Controller extends Controller
         
         $result=$dbh->query($sql);
 
+        //新雲端是否已有此帳號
+        $schools_id = config('boe.schools_id');
+        $schools_name = config('boe.schools_name');
+        $school_id = !isset($schools_id[$att['staff_sid']]) ? 0 : $schools_id[$att['staff_sid']];        
+        $unit = !isset($schools_name[$att['staff_sid']]) ? "查無學校" : $schools_name[$att['staff_sid']];   
+
+        // 1. 準備好大寫與小寫的陣列
+        $personIds = [
+            strtolower($att['staff_person_id']), // 轉小寫
+            strtoupper($att['staff_person_id'])  // 轉大寫
+        ];
+
+        // 2. 使用 whereIn 進行查詢
+        $user = User::whereIn('edu_key', $personIds)      
+            ->whereIn('code', ['079998','079999'])                    
+            ->first();
+        $att2['username'] = $att['staff_username'];
+        $att2['password'] = $att['staff_password'];
+        $att2['group_id'] = "2";
+        $att2['name'] = $att['staff_name'];
+        $att2['code'] = $att['staff_sid'];
+        $att2['school'] = $unit;
+        $att2['kind'] = "教職員";
+        $att2['title'] = $att['staff_title'];
+        $att2['edu_key'] = strtoupper($att['staff_person_id']);
+        $att2['uid'] = "";
+        $att2['login_type'] = "open_id";
+        $att2['school_id'] = $school_id;
+        $att2['section_id'] = $att['staff_curr_class_num'];
+        if (empty($user)) {                
+                $user = User::create($att2);
+            } else {
+                //如果換了學校，初次登入刪除權限
+                if ($user->code != $att['staff_sid']) {
+                    $att_change['disable'] = null;
+                    $att_change['disabled_at'] = null;
+                    $user->update($att_change);
+                }
+
+                //有此使用者，即更新使用者資料
+                $att3['group_id'] = "2";
+                $att3['name'] = $att['staff_name'];                
+                $att3['code'] = $att['staff_sid'];
+                $att3['school'] = $unit;
+                $att3['kind'] = "教職員";
+                $att3['title'] = $att['staff_title'];                
+                $att3['edu_key'] = strtoupper($att['staff_person_id']);
+                $att3['uid'] = "";
+                $att3['disable'] = null;
+                $att3['login_type'] = "open_id";
+                $att3['school_id'] = $school_id;        
+                $att3['section_id'] = $att['staff_curr_class_num'];                     
+                $user->update($att3);
+        }
+
         echo "
             <script>
             // 確保頁面加載完成後執行
@@ -180,6 +236,61 @@ class DB2Controller extends Controller
         } else {
             dd('更新失敗！');
         }
+
+        //新雲端是否已有此帳號
+        $schools_id = config('boe.schools_id');
+        $schools_name = config('boe.schools_name');
+        $school_id = !isset($schools_id[$att['staff_sid']]) ? 0 : $schools_id[$att['staff_sid']];        
+        $unit = !isset($schools_name[$att['staff_sid']]) ? "查無學校" : $schools_name[$att['staff_sid']];   
+
+        // 1. 準備好大寫與小寫的陣列
+        $personIds = [
+            strtolower($att['staff_person_id']), // 轉小寫
+            strtoupper($att['staff_person_id'])  // 轉大寫
+        ];
+
+        // 2. 使用 whereIn 進行查詢
+        $user = User::whereIn('edu_key', $personIds)      
+            ->whereIn('code', ['079998','079999'])                    
+            ->first();
+        $att2['username'] = $att['staff_username'];
+        $att2['password'] = $att['staff_password'];
+        $att2['group_id'] = "2";
+        $att2['name'] = $att['staff_name'];
+        $att2['code'] = $att['staff_sid'];
+        $att2['school'] = $unit;
+        $att2['kind'] = "教職員";
+        $att2['title'] = $att['staff_title'];
+        $att2['edu_key'] = strtolower($att['staff_person_id']);
+        $att2['uid'] = "";
+        $att2['login_type'] = "open_id";
+        $att2['school_id'] = $school_id;
+        $att2['section_id'] = $att['staff_curr_class_num'];
+        if (empty($user)) {                
+                $user = User::create($att2);
+            } else {
+                //如果換了學校，初次登入刪除權限
+                if ($user->code != $att['staff_sid']) {
+                    $att_change['disable'] = null;
+                    $att_change['disabled_at'] = null;
+                    $user->update($att_change);
+                }
+
+                //有此使用者，即更新使用者資料
+                $att3['group_id'] = "2";
+                $att3['name'] = $att['staff_name'];                
+                $att3['code'] = $att['staff_sid'];
+                $att3['school'] = $unit;
+                $att3['kind'] = "教職員";
+                $att3['title'] = $att['staff_title'];                
+                $att3['edu_key'] = strtolower($att['staff_person_id']);
+                $att3['uid'] = "";
+                $att3['disable'] = null;
+                $att3['login_type'] = "open_id";
+                $att3['school_id'] = $school_id;        
+                $att3['section_id'] = $att['staff_curr_class_num'];                     
+                $user->update($att3);
+        }        
 
         echo "
             <script>
@@ -248,5 +359,9 @@ class DB2Controller extends Controller
         echo "<body onload='sw_alert()'>";
 
         return back();
+    }
+
+    function admin_db2(){
+        $dbh = connect_DB2();                       
     }
 }
