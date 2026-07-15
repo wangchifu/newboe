@@ -49,15 +49,7 @@ class AdminsController extends Controller
     }
     
     public function user_index()
-    {
-        $users = User::all();
-        foreach($users as $user){
-            if(!empty($user->edu_key)){
-                $att['edu_key'] = strtoupper($user->edu_key);
-                $user->update($att);
-            }
-        }
-        dd('ok');
+    {        
         $users = User::orderBy('disable')
             ->orderBy('group_id')
             ->orderBy('section_id')
