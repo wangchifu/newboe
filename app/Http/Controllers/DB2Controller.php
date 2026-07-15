@@ -48,6 +48,17 @@ class DB2Controller extends Controller
                 $staff_out[$row['id']]['title'] = $row['staff_title'];
                 $staff_out[$row['id']]['staff_curr_class_num'] = $row['staff_curr_class_num'];
             }
+            //順便把各科室的代碼寫入DB2
+            if(empty($row['staff_curr_class_num']) && $row['staff_status'] == 1){
+                $user = User::where('edu_key',strtoupper($row['staff_person_id']))
+                    ->whereNull('disable')
+                    ->whereNotNull('section_id')
+                    ->first();
+                if($user){
+                    $update_sql = "UPDATE staff SET staff_curr_class_num = '{$user->section_id}' WHERE id = '{$row['id']}'";
+                    $result2=$dbh->query($update_sql);
+                }                
+            }
             
         }        
         $sections = config('boe.sections');

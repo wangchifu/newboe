@@ -121,8 +121,14 @@
                                                 </div>                                                                                            
                                             </td>
                                             <td>
-                                                <button class="btn btn-success btn-sm" type="button" onclick="sw_confirm2('左列資料都確定了嗎？','change_room{{ $id }}')">儲存</button>
-                                                <a href="#!" class="btn btn-danger btn-sm" onclick="sw_confirm1('你確定要離職 {{ $info['name'] }}','{{ route('admins.user_db2_out',$id) }}')">離職他</a>
+                                                <div class="d-flex gap-1">
+                                                    <button class="btn btn-success btn-sm" type="button" onclick="sw_confirm2('左列資料都確定了嗎？','change_room{{ $id }}')">
+                                                        儲存
+                                                    </button>                                                    
+                                                    <a href="#!" class="btn btn-danger btn-sm" onclick="sw_confirm1('你確定要離職 {{ $info['name'] }}','{{ route('admins.user_db2_out',$id) }}')">
+                                                        離職他
+                                                    </a>
+                                                </div>                                                
                                             </td>
                                         </tr>
                                         </form>    
