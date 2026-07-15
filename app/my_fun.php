@@ -451,3 +451,36 @@ function userid2name($user_id)
     $name = $name['name'];
     return $name;
 }
+
+function connect_DB2(){
+    ///////////////////////////////連接資料庫
+    $dbms='mysql';     //数据库类型
+    $host=env('DB2_HOST'); //数据库主机名
+    $dbName=env('DB2_DBNAME');    //使用的数据库
+    $user=env('DB2_USER');      //数据库连接用户名 
+    $pass=env('DB2_PASSWORD');          //对应的密码
+    $dsn="$dbms:host=$host;dbname=$dbName";
+
+    try {
+        $dbh = new PDO($dsn, $user, $pass); //初始化一个PDO对象
+        $dbh->query('SET NAMES "utf8"');
+
+    } catch (PDOException $e) {
+        die ("Error!: " . $e->getMessage() . "<br/>");
+    }
+    return $dbh;
+}
+
+function generateRandomString($length = 10) {
+    // 定義所有可能出現的字元（數字 + 小寫英文 + 大寫英文）
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+    
+    for ($i = 0; $i < $length; $i++) {
+        // 使用安全隨機數 random_int 隨機抽取字元
+        $randomString .= $characters[random_int(0, $charactersLength - 1)];
+    }
+    
+    return $randomString;
+}

@@ -22,6 +22,7 @@ use App\Http\Controllers\EduReportController;
 use App\Http\Controllers\SchoolController;
 use App\Http\Controllers\SchoolReportController;
 use App\Http\Controllers\RegularReportController;
+use App\Http\Controllers\DB2Controller;
 
 
 Route::get('/', [HomeController::class,'index'])->name('index');
@@ -296,6 +297,12 @@ Route::group(['middleware' => 'admin'],function(){
     //帳號管理
     Route::get('admin/user_index' , [AdminsController::class,'user_index'])->name('admins.user_index');
     Route::get('admin/user_check' , [AdminsController::class,'user_check'])->name('admins.user_check');
+    Route::get('admin/user_db2' , [DB2Controller::class,'user_db2'])->name('admins.user_db2');
+    Route::get('admin/user_db2_create' , [DB2Controller::class,'user_db2_create'])->name('admins.user_db2_create');
+    Route::post('admin/user_db2_store' , [DB2Controller::class,'user_db2_store'])->name('admins.user_db2_store');
+    Route::get('admin/{id}/user_db2_out' , [DB2Controller::class,'user_db2_out'])->name('admins.user_db2_out');
+    Route::get('admin/{id}/user_db2_in' , [DB2Controller::class,'user_db2_in'])->name('admins.user_db2_in');
+    Route::post('admin/{id}/user_db2_change' , [DB2Controller::class,'user_db2_change'])->name('admins.user_db2_change');
     Route::get('admin/{group_id}/user_group' , [AdminsController::class,'user_group'])->name('admins.user_group');
     Route::match(['post','get'],'admin/user_search/{want?}',[AdminsController::class,'user_search'])->name('admins.user_search');
     Route::get('admin/user', [AdminsController::class,'user'])->name('admins.user');

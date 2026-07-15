@@ -32,6 +32,9 @@
                 <li class="nav-item">
                     <a class="nav-link active" href="{{ route('admins.user_check') }}">重複身分證帳號</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('admins.user_db2') }}">認證主機帳號</a>
+                </li>
             </ul>
             <table class="table table-striped">
                 <tr>
