@@ -114,22 +114,13 @@
                                                 填報
                                             </a>
                                         @endif
-                                    @endif
-                                    <!--20230815
-                                        <a href="{{ route('school_report.no_report',$report_school->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('確定不填報嗎？')">
-                                            不填報
-                                        </a>
-                                    -->
+                                    @endif                                    
                                 @elseif($report_school->situation ===4)
 
                                 @elseif($report_school->situation ===5)
 
                                 @else
-                                    <!--
-                                    <a href="{{ route('school_report.show',$report_school->id) }}" class="btn btn-success btn-sm venobox" data-vbtype="iframe">
-                                        查看
-                                    </a>
-                                    -->
+                                                                    
                                 @endif
 
                                 @if($report_school->situation === 0)

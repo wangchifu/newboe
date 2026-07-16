@@ -41,6 +41,9 @@ class DB2Controller extends Controller
                 $staff_in[$row['id']]['sex'] = $row['staff_sex'];
                 $staff_in[$row['id']]['title'] = $row['staff_title'];
                 $staff_in[$row['id']]['staff_curr_class_num'] = $row['staff_curr_class_num'];
+                //記錄在職的科室
+                $staff_db2[$row['staff_sid']][strtoupper($row['staff_person_id'])]['room'] = $row['staff_curr_class_num'];
+                $staff_db2[$row['staff_sid']][strtoupper($row['staff_person_id'])]['id'] = $row['id'];
             }else{
                 $staff_out[$row['id']]['person_id'] = $row['staff_person_id'];
                 $staff_out[$row['id']]['sid'] = $row['staff_sid'];
@@ -48,20 +51,70 @@ class DB2Controller extends Controller
                 $staff_out[$row['id']]['sex'] = $row['staff_sex'];
                 $staff_out[$row['id']]['title'] = $row['staff_title'];
                 $staff_out[$row['id']]['staff_curr_class_num'] = $row['staff_curr_class_num'];
-            }
-            //順便把各科室的代碼寫入DB2
-            if(empty($row['staff_curr_class_num']) && $row['staff_status'] == 1){
-                $user = User::where('edu_key',strtoupper($row['staff_person_id']))
+            }                        
+        }    
+
+        //查詢新雲端內的usrer 是教育處或縣網中心
+        $users = User::whereIn('code',['079998','079999'])
                     ->whereNull('disable')
                     ->whereNotNull('section_id')
-                    ->first();
-                if($user){
-                    $update_sql = "UPDATE staff SET staff_curr_class_num = '{$user->section_id}' WHERE id = '{$row['id']}'";
-                    $result2=$dbh->query($update_sql);
-                }                
+                    ->get();
+        $update_user = [];                
+        foreach($users as $user){            
+            if(isset($staff_db2[$user->code][$user->edu_key]['room'])){                
+                if($user->section_id != $staff_db2[$user->code][$user->edu_key]['room']){                                        
+                    $update_user[$staff_db2[$user->code][$user->edu_key]['id']] = $user->section_id;
+                    //修正 staff_if 對的科室
+                    $staff_in[$staff_db2[$user->code][$user->edu_key]['id']]['staff_curr_class_num'] = $user->section_id;
+                }
             }
+        }
+
+        if (!empty($update_user)) {
+            $ids = array_keys($update_user);
+            $cases = [];
+            $bindings = [];
+            $where_placeholders = [];
+
+            // 1. 建立 CASE WHEN 語法與對應的綁定參數
+            foreach ($update_user as $id => $section_id) {
+                // SQL CASE 語法
+                $cases[] = "WHEN id = :id_{$id} THEN :sec_{$id}";
+                
+                // 綁定 CASE 的值
+                $bindings[":id_{$id}"] = $id;
+                $bindings[":sec_{$id}"] = $section_id;
+            }
+
+            // 2. 建立 WHERE IN 專用的命名佔位符（例如 :where_id_123）
+            foreach ($ids as $id) {
+                $where_placeholders[] = ":where_id_{$id}";
+                $bindings[":where_id_{$id}"] = $id; // 同樣塞進綁定陣列中
+            }
+
+            $cases_sql = implode(' ', $cases);
+            $where_in_sql = implode(',', $where_placeholders);
             
-        }        
+            // 3. 組合最終的 SQL（完全不含問號 ?）
+            $sql = "UPDATE staff SET 
+                        staff_curr_class_num = CASE 
+                            {$cases_sql} 
+                            ELSE staff_curr_class_num 
+                        END 
+                    WHERE id IN ({$where_in_sql})";
+
+            // 4. 準備 PDO Statement
+            $stmt = $dbh->prepare($sql);
+
+            // 5. 一口氣綁定所有命名參數並執行
+            // 由於我們把 CASE 和 WHERE 的參數都整理在 $bindings 陣列中，可以直接傳入 execute
+            $stmt->execute($bindings);
+
+            // 6. 取得受影響的總筆數
+            $affected_rows = $stmt->rowCount();            
+        }
+
+
         $sections = config('boe.sections');
         $data = [            
             'staff_in'=>$staff_in,
