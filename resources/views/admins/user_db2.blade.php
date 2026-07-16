@@ -36,13 +36,21 @@
                     <a class="nav-link active" href="{{ route('admins.user_db2') }}">認證主機帳號</a>
                 </li>
             </ul>
+            <form action="{{ route('admins.user_db2_search') }}" method="POST" class="w-100" style="max-width: 400px;">
+                @csrf                 
+                <div class="input-group">
+                    <input type="text" name="person_id" class="form-control" placeholder="請輸入身分證字號" maxlength="10" required>
+                    <button class="btn btn-primary" type="submit">
+                        依身分證送出查詢
+                    </button>
+                </div>
+            </form>
             <div class="container mt-4">
-
                 {{-- 💡 切換分頁的按鈕區 (Nav Pills) --}}
                 <ul class="nav nav-pills mb-3 gap-2" id="staff-tab" role="tablist">
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="pills-in-tab" data-bs-toggle="pill" data-bs-target="#pills-in" type="button" role="tab" aria-controls="pills-in" aria-selected="true">
-                            在職 <span class="badge bg-white text-primary ms-1">{{ count($staff_in ?? []) }}</span>
+                            在職 <span class="badge bg-secondary text-white ms-1">{{ count($staff_in ?? []) }}</span>
                         </button>
                     </li>
                     <li class="nav-item" role="presentation">
@@ -80,6 +88,7 @@
                                         @foreach($staff_in as $id => $info)
                                         <form action="{{ route('admins.user_db2_change',$id) }}" method="post" id="change_room{{ $id }}">
                                         @csrf
+                                        <input type="hidden" name="person_id" value="{{ $info['person_id'] }}">
                                         <tr>
                                             <td class="fw-bold text-secondary">{{ $n }}</td>
                                             <td>{{ $id }}</td>

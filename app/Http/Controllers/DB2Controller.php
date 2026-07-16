@@ -138,6 +138,46 @@ class DB2Controller extends Controller
         return back();
     }
 
+    function user_db2_search(Request $request){
+        $person_id = hash('sha256', strtoupper(trim($request->input('person_id'))));
+        $dbh = connect_DB2();
+        $sql = "
+        SELECT 
+            id,
+            staff_person_id,
+            staff_sid,
+            staff_name,
+            staff_sex,            
+            staff_status,            
+            staff_title,            
+            staff_curr_class_num
+        FROM 
+            staff
+        WHERE 
+            staff_sid IN ('079999', '079998')
+            AND staff_kind = '教職員'   
+            AND staff_person_id = '{$person_id}'              
+        ";        
+        $result=$dbh->query($sql);   
+        
+        $staff = [];        
+        foreach ($result as $row) {
+            $staff[$row['id']]['person_id'] = $row['staff_person_id'];
+            $staff[$row['id']]['sid'] = $row['staff_sid'];
+            $staff[$row['id']]['name'] = $row['staff_name'];
+            $staff[$row['id']]['sex'] = $row['staff_sex'];
+            $staff[$row['id']]['title'] = $row['staff_title'];
+            $staff[$row['id']]['staff_curr_class_num'] = $row['staff_curr_class_num'];            
+            $staff[$row['id']]['staff_status'] = $row['staff_status'];
+        }
+        $sections = config('boe.sections');
+        $data = [
+            'sections'=>$sections,
+            'staff'=>$staff,
+        ];
+        return view('admins.user_db2_search',$data);
+    }
+
     function user_db2_store(Request $request){
         $dbh = connect_DB2();
         $att = $request->all();
@@ -410,6 +450,7 @@ class DB2Controller extends Controller
     }
 
     function user_db2_change(Request $request,$id){
+        $person_id = $request->input('person_id');
         $staff_sid = $request->input('staff_sid');
         $staff_name = $request->input('staff_name');
         $staff_sex = $request->input('staff_sex');
@@ -426,11 +467,51 @@ class DB2Controller extends Controller
         WHERE 
             id = '{$id}'                    
         ";        
-        $result=$dbh->query($sql); 
-
-        echo "<body onload='sw_alert()'>";
+        $result=$dbh->query($sql);    
+        
+        //如果他在新雲端也有帳號，把他科室改為正確的
+        $user = User::where('edu_key',strtoupper($person_id))
+            ->whereIn('code',['079999','079998'])
+            ->whereNull('disable')            
+            ->first();
+        $att['section_id'] = $staff_curr_class_num;
+        $att['code'] = $staff_sid;
+        if($user) $user->update($att);
 
         return back();
+    }
+
+    function user_db2_change2(Request $request,$id){
+        $person_id = $request->input('person_id');
+        $staff_sid = $request->input('staff_sid');
+        $staff_name = $request->input('staff_name');
+        $staff_sex = $request->input('staff_sex');
+        $staff_title = $request->input('staff_title');
+        $staff_curr_class_num = $request->input('staff_curr_class_num');
+        $staff_status = $request->input('staff_status');
+        $dbh = connect_DB2();
+        $sql = "
+        UPDATE staff 
+        SET staff_sid = '{$staff_sid}',
+        staff_name = '{$staff_name}',
+        staff_sex = '{$staff_sex}',
+        staff_title = '{$staff_title}',
+        staff_curr_class_num = '{$staff_curr_class_num}',
+        staff_status = '{$staff_status}'
+        WHERE 
+            id = '{$id}'                    
+        ";        
+        $result=$dbh->query($sql);         
+        //如果他在新雲端也有帳號，把他科室改為正確的
+        $user = User::where('edu_key',strtoupper($person_id))
+            ->whereIn('code',['079999','079998'])
+            ->whereNull('disable')            
+            ->first();
+        $att['section_id'] = $staff_curr_class_num;
+        $att['code'] = $staff_sid;
+        if($user) $user->update($att);
+
+        return redirect()->route('admins.user_db2');
     }
 
     function admin_db2(){

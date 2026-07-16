@@ -300,11 +300,13 @@ Route::group(['middleware' => 'admin'],function(){
     Route::get('admin/user_db2' , [DB2Controller::class,'user_db2'])->name('admins.user_db2');
     Route::get('admin/user_db2_create' , [DB2Controller::class,'user_db2_create'])->name('admins.user_db2_create');
     //Route::get('admin/{id}/user_db2_delete' , [DB2Controller::class,'user_db2_delete'])->name('admins.user_db2_delete');
+    Route::post('admin/user_db2_search' , [DB2Controller::class,'user_db2_search'])->name('admins.user_db2_search');
     Route::post('admin/user_db2_store' , [DB2Controller::class,'user_db2_store'])->name('admins.user_db2_store');
     Route::post('admin/user_db2_store2' , [DB2Controller::class,'user_db2_store2'])->name('admins.user_db2_store2');
     Route::get('admin/{id}/user_db2_out' , [DB2Controller::class,'user_db2_out'])->name('admins.user_db2_out');
     Route::get('admin/{id}/user_db2_in' , [DB2Controller::class,'user_db2_in'])->name('admins.user_db2_in');
     Route::post('admin/{id}/user_db2_change' , [DB2Controller::class,'user_db2_change'])->name('admins.user_db2_change');
+    Route::post('admin/{id}/user_db2_change2' , [DB2Controller::class,'user_db2_change2'])->name('admins.user_db2_change2');
     Route::get('admin/{group_id}/user_group' , [AdminsController::class,'user_group'])->name('admins.user_group');
     Route::match(['post','get'],'admin/user_search/{want?}',[AdminsController::class,'user_search'])->name('admins.user_search');
     Route::get('admin/user', [AdminsController::class,'user'])->name('admins.user');
