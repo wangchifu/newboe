@@ -57,11 +57,12 @@ class WrenchController extends Controller
 
         $subject = env('APP_NAME') . '平台有人回報系統錯誤與建議';
         $body = $request->input('content');
-                
+        /**
         Mail::raw($body, function ($message) use ($subject){
             $message->to(env('ADMIN_MAIL'))
                     ->subject($subject);
-        });        
+        });
+         */                
 
         return redirect()->route('wrench.index');
     }
@@ -84,11 +85,12 @@ class WrenchController extends Controller
             $body .= "\r\n系統管理員回覆：\r\n";
             $body .= $request->input('reply');
             $body .= "\r\n-----這是系統信件，請勿回信-----";
-                                
+            /**
             Mail::raw($body, function ($message) use ($subject,$to_mail){
                 $message->to($to_mail)
                         ->subject($subject);
-            });            
+            });
+             */                                
         }
 
         return redirect()->route('wrench.index');
