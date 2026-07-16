@@ -24,13 +24,14 @@
                                 <label for="unit" class="form-label fw-bold">
                                     第一欄位：單位 <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-select" id="unit" name="staff_sid" required>
-                                    <option value="" selected disabled>-- 請選擇單位 --</option>
-                                    <option value="079998">縣網中心</option>
-                                    <option value="079999">教育處</option>
-                                </select>
-                                <div class="invalid-feedback">
-                                    請選擇所屬單位。
+                                <div class="text-secondary ps-1">
+                                    @if(auth()->user()->code == '079998')
+                                        縣網中心 079998
+                                    @elseif($info['sid'] == '079999')
+                                        教育處 079999
+                                    @else
+                                        ---
+                                    @endif
                                 </div>
                             </div>
 
@@ -39,22 +40,8 @@
                                 <label for="section" class="form-label fw-bold">
                                     第二欄位：科別 <span class="text-danger">*</span>
                                 </label>
-                                <select class="form-select" id="section" name="staff_curr_class_num" required>
-                                    <option value="" selected disabled>-- 請選擇科別 --</option>
-                                    <option value="0">未分類</option>
-                                    <option value="A">督學室</option>
-                                    <option value="B">學管科</option>
-                                    <option value="C">國教科</option>
-                                    <option value="D">社教科</option>
-                                    <option value="E">體健科</option>
-                                    <option value="F">學特科</option>
-                                    <option value="H">幼教科</option>
-                                    <option value="I">縣網中心</option>    
-                                    <option value="J">體發中心</option>                                                    
-                                    <option value="99">全域管理</option>                                                    
-                                </select>
-                                <div class="invalid-feedback">
-                                    請選擇所屬科別。
+                                <div class="text-secondary ps-1">
+                                    {{ $sections[auth()->user()->section_id] }}
                                 </div>
                             </div>
 

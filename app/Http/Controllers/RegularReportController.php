@@ -119,12 +119,14 @@ class RegularReportController extends Controller
                 abort(404);
             }            
         }else{            
-            $check = RegularReportSchool::where('code', 'like', '%' . auth()->user()->code . '%')
-                    ->where('regular_report_id', $regular_report->id)
-                    ->first();
-                if (!$check) {                    
-                    abort(404);
-                }        
+            if (auth()->user()->id != $regular_report->user_id) {
+                $check = RegularReportSchool::where('code', 'like', '%' . auth()->user()->code . '%')
+                        ->where('regular_report_id', $regular_report->id)
+                        ->first();
+                    if (!$check) {                    
+                        abort(404);
+                    }        
+            }
         }    
         $file = storage_path('app/public/regular_report_files/' . $id . '/' . $filename);
         return response()->download($file);

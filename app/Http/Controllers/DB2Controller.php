@@ -615,9 +615,149 @@ class DB2Controller extends Controller
     }
 
     function admin_db2_create(){
+        $sections = config('boe.sections');
         $data = [
-
+            'sections'=>$sections,
         ];
         return view('edus.my_section.user_db2_create',$data);
+    }
+
+    function admin_db2_store(Request $request){
+        $dbh = connect_DB2();
+        $att = $request->all();
+        $att['staff_person_id'] = hash('sha256', strtoupper(trim($att['id_card'])));
+        if($att['staff_sid'] =="079998") $att['staff_curr_class_num'] = "I";
+        $att['staff_username'] = generateRandomString(10);
+        $att['staff_password'] = generateRandomString(12);
+
+        $check_sql = "SELECT id,staff_sid,staff_status FROM staff WHERE staff_person_id = :staff_person_id LIMIT 1";
+
+        $stmt = $dbh->prepare($check_sql);
+
+        // 2. 執行並綁定變數
+        $stmt->execute([
+            ':staff_person_id' => $att['staff_person_id']
+        ]);
+
+        // 3. 取得查詢結果
+        $exists = $stmt->fetch();
+
+        // 4. 判斷並回傳結果
+        if ($exists) {
+            // 有找到資料，代表已經申請過
+            $id = $exists['id'];
+            $staff_sid = $exists['staff_sid'];
+            $staff_status = $exists['staff_status'];
+            $data = [
+                'id'=>$id,
+                'staff_sid'=>$staff_sid,  
+                'staff_status'=>$staff_status,
+                'new_staff_sid'=>$att['staff_sid'],
+                'new_staff_curr_class_num'=>$att['staff_curr_class_num'],
+                'new_staff_name'=>$att['staff_name'],
+                'new_staff_sex'=>$att['staff_sex'],
+                'new_staff_title'=>$att['staff_title'],
+            ];
+            return view('admins.user_db2_has',$data);
+        }
+
+
+        $sql = "INSERT INTO staff (
+            staff_sid,
+            staff_curr_class_num,
+            staff_person_id,
+            staff_name,
+            staff_sex,
+            staff_title,
+            staff_kind,
+            staff_username,
+            staff_password,
+            staff_status
+        ) VALUES (
+            '{$att['staff_sid']}',
+            '{$att['staff_curr_class_num']}',
+            '{$att['staff_person_id']}',
+            '{$att['staff_name']}',
+            '{$att['staff_sex']}',
+            '{$att['staff_title']}',
+            '教職員',
+            '{$att['staff_username']}',
+            '{$att['staff_password']}',
+            '1'
+        )";   
+        
+        $result=$dbh->query($sql);
+
+        //新雲端是否已有此帳號
+        $schools_id = config('boe.schools_id');
+        $schools_name = config('boe.schools_name');
+        $school_id = !isset($schools_id[$att['staff_sid']]) ? 0 : $schools_id[$att['staff_sid']];        
+        $unit = !isset($schools_name[$att['staff_sid']]) ? "查無學校" : $schools_name[$att['staff_sid']];   
+
+        // 1. 準備好大寫與小寫的陣列
+        $personIds = [
+            strtolower($att['staff_person_id']), // 轉小寫
+            strtoupper($att['staff_person_id'])  // 轉大寫
+        ];
+
+        // 2. 使用 whereIn 進行查詢
+        $user = User::whereIn('edu_key', $personIds)      
+            ->whereIn('code', ['079998','079999'])                    
+            ->first();
+        $att2['username'] = $att['staff_username'];
+        $att2['password'] = $att['staff_password'];
+        $att2['group_id'] = "2";
+        $att2['name'] = $att['staff_name'];
+        $att2['code'] = $att['staff_sid'];
+        $att2['school'] = $unit;
+        $att2['kind'] = "教職員";
+        $att2['title'] = $att['staff_title'];
+        $att2['edu_key'] = strtoupper($att['staff_person_id']);
+        $att2['uid'] = "";
+        $att2['login_type'] = "open_id";
+        $att2['school_id'] = $school_id;
+        $att2['section_id'] = $att['staff_curr_class_num'];
+        if (empty($user)) {                
+                $user = User::create($att2);
+            } else {
+                //如果換了學校，初次登入刪除權限
+                if ($user->code != $att['staff_sid']) {
+                    $att_change['disable'] = null;
+                    $att_change['disabled_at'] = null;
+                    $user->update($att_change);
+                }
+
+                //有此使用者，即更新使用者資料
+                $att3['group_id'] = "2";
+                $att3['name'] = $att['staff_name'];                
+                $att3['code'] = $att['staff_sid'];
+                $att3['school'] = $unit;
+                $att3['kind'] = "教職員";
+                $att3['title'] = $att['staff_title'];                
+                $att3['edu_key'] = strtoupper($att['staff_person_id']);
+                $att3['uid'] = "";
+                $att3['disable'] = null;
+                $att3['login_type'] = "open_id";
+                $att3['school_id'] = $school_id;        
+                $att3['section_id'] = $att['staff_curr_class_num'];                     
+                $user->update($att3);
+        }
+
+        echo "
+            <script>
+            // 確保頁面加載完成後執行
+            window.onload = function() {
+                // 檢查父頁面是否存在且可以訪問 jQuery
+                if (window.parent && window.parent.$) {
+                    // 關閉 venobox 視窗
+                    if (typeof window.parent.$.venobox !== 'undefined') {
+                        window.parent.$.venobox.close();  // 關閉 venobox 視窗
+                    }
+
+                    // 可選：刷新父頁面，這樣可以讓父頁面顯示最新的內容
+                    window.parent.location.reload();                
+                }
+            };
+            </script>";
     }
 }

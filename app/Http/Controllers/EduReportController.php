@@ -353,12 +353,14 @@ class EduReportController extends Controller
                 abort(404);
             }            
         }else{            
-            $check = ReportSchool::where('code', 'like', '%' . auth()->user()->code . '%')
-                    ->where('report_id', $report->id)
-                    ->first();
-                if (!$check) {                    
-                    abort(404);
-                }        
+            if (auth()->user()->id != $report->user_id) {
+                $check = ReportSchool::where('code', 'like', '%' . auth()->user()->code . '%')
+                        ->where('report_id', $report->id)
+                        ->first();
+                    if (!$check) {                    
+                        abort(404);
+                    }    
+            }    
         }        
         $file = storage_path('app/public/report_files/' . $id . '/' . $filename);
         return response()->download($file);
