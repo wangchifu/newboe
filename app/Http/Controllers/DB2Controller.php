@@ -131,6 +131,13 @@ class DB2Controller extends Controller
         return view('admins.user_db2_create',$data);
     }
 
+    function user_db2_delete($id){
+        $dbh = connect_DB2();
+        $sql = "delete from staff where id = '{$id}'";
+        $result=$dbh->query($sql);   
+        return back();
+    }
+
     function user_db2_store(Request $request){
         $dbh = connect_DB2();
         $att = $request->all();
@@ -626,6 +633,8 @@ class DB2Controller extends Controller
         $dbh = connect_DB2();
         $att = $request->all();
         $att['staff_person_id'] = hash('sha256', strtoupper(trim($att['id_card'])));
+        $att['staff_sid'] = auth()->user()->code;
+        $att['staff_curr_class_num'] = auth()->user()->section_id;
         if($att['staff_sid'] =="079998") $att['staff_curr_class_num'] = "I";
         $att['staff_username'] = generateRandomString(10);
         $att['staff_password'] = generateRandomString(12);
@@ -643,11 +652,11 @@ class DB2Controller extends Controller
         $exists = $stmt->fetch();
 
         // 4. 判斷並回傳結果
-        if ($exists) {
+        if ($exists) {            
             // 有找到資料，代表已經申請過
             $id = $exists['id'];
             $staff_sid = $exists['staff_sid'];
-            $staff_status = $exists['staff_status'];
+            $staff_status = $exists['staff_status'];            
             $data = [
                 'id'=>$id,
                 'staff_sid'=>$staff_sid,  
@@ -656,9 +665,9 @@ class DB2Controller extends Controller
                 'new_staff_curr_class_num'=>$att['staff_curr_class_num'],
                 'new_staff_name'=>$att['staff_name'],
                 'new_staff_sex'=>$att['staff_sex'],
-                'new_staff_title'=>$att['staff_title'],
+                'new_staff_title'=>$att['staff_title'],                
             ];
-            return view('admins.user_db2_has',$data);
+            return view('edus.my_section.user_db2_has',$data);
         }
 
 

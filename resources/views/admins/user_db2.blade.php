@@ -167,7 +167,9 @@
                                         <?php $n=1; ?>
                                         @foreach($staff_out as $id => $info)
                                         <tr>
-                                            <td class="fw-bold text-secondary">{{ $n }}</td>
+                                            <td class="fw-bold text-secondary"><!--刪除的程式有寫 -->
+                                                {{ $n }}
+                                            </td>
                                             <td>{{ $id }}</td>
                                             <td>
                                                 @if($info['sid'] == '079998')

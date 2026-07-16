@@ -299,6 +299,7 @@ Route::group(['middleware' => 'admin'],function(){
     Route::get('admin/user_check' , [AdminsController::class,'user_check'])->name('admins.user_check');
     Route::get('admin/user_db2' , [DB2Controller::class,'user_db2'])->name('admins.user_db2');
     Route::get('admin/user_db2_create' , [DB2Controller::class,'user_db2_create'])->name('admins.user_db2_create');
+    //Route::get('admin/{id}/user_db2_delete' , [DB2Controller::class,'user_db2_delete'])->name('admins.user_db2_delete');
     Route::post('admin/user_db2_store' , [DB2Controller::class,'user_db2_store'])->name('admins.user_db2_store');
     Route::post('admin/user_db2_store2' , [DB2Controller::class,'user_db2_store2'])->name('admins.user_db2_store2');
     Route::get('admin/{id}/user_db2_out' , [DB2Controller::class,'user_db2_out'])->name('admins.user_db2_out');

@@ -17,7 +17,7 @@
                     </div>
                     <div class="card-body p-4">
                         <!-- 💡 加上 needs-validation 與 novalidate 啟用 Bootstrap 5 驗證機制 -->
-                        <form action="{{ route('admins.user_db2_store') }}" method="POST" class="needs-validation" novalidate id="this_form">
+                        <form action="{{ route('admins.db2_store') }}" method="POST" class="needs-validation" novalidate id="this_form">
                             @csrf
                             <!-- 第一欄位：單位 (下拉 - 必填) -->
                             <div class="mb-3">
