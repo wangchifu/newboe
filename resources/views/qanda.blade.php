@@ -27,6 +27,18 @@
             <div class="card">
                 <div class="card-body">
                     <h5>
+                        教職處新進科員科長
+                    </h5>
+                    先確認他是否有 EIP 的帳號<br>
+                    1.無 EIP 帳號，申請一個，EIP審核通過後，然後用 EIP 登入新雲端，再申請科室，由新雲端該該室管理員審核通過。<br>
+                    2.有 EIP 帳號，可以登入 EIP，則直接登入新雲端申請科室即可，若為學校調府教師，請教育處科室管理員，直接加帳號進入科室。<br>
+                    3.曾經有過 EIP 帳號，但目前無單位無法登入，請縣網中心系統管理員在新雲端「認證主機帳號」上面更改帳號資訊。
+                </div>
+            </div>
+            <br>
+            <div class="card">
+                <div class="card-body">
+                    <h5>
                         新就任與離職問題
                     </h5>
                     1.新就任職員，請先於 EIP 系統(cloudschool)設定完成後，<span class="text-danger">他本人要登入本站才能建立帳號</span>。<br>
