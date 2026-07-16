@@ -186,9 +186,11 @@ class PostsController extends Controller
      */
     public function show(Post $post,$ps_id=null)
     {
-        //沒通過不給看
+        //沒通過不給看（發文者自己可以看）
         if ($post->situation != 3 and $post->situation != 4) {
-            abort('404','你沒有權限訪問這個頁面');
+            if (!auth()->check() || auth()->user()->id != $post->user_id) {
+                abort('404','你沒有權限訪問這個頁面');
+            }
         }
         //沒登入不給看
         if (!auth()->check() and $post->category_id == '5') {
@@ -196,24 +198,26 @@ class PostsController extends Controller
                 abort('404','你沒有權限訪問這個頁面');
             }
         }
-        //不是該校的行政公告，不給看
+        //不是該校的行政公告，不給看（發文者自己可以看）
         if (auth()->check() and $post->category_id == '5' and $post->another != '1') {
-            $check_show = DB::table('post_schools_view')
-                ->where('code', 'like', "%" . auth()->user()->code . "%")
-                ->where('id', $post->id)
-                ->first();
-
-            if (auth()->user()->other_code) {
-                $check_show2 = DB::table('post_schools_view')
-                    ->where('code', 'like', "%" . auth()->user()->other_code . "%")
+            if (auth()->user()->id != $post->user_id) {
+                $check_show = DB::table('post_schools_view')
+                    ->where('code', 'like', "%" . auth()->user()->code . "%")
                     ->where('id', $post->id)
                     ->first();
-            } else {
-                $check_show2 = false;
-            }
 
-            if (!$check_show and !$check_show2) {
-                abort(404,'別想偷看！');
+                if (auth()->user()->other_code) {
+                    $check_show2 = DB::table('post_schools_view')
+                        ->where('code', 'like', "%" . auth()->user()->other_code . "%")
+                        ->where('id', $post->id)
+                        ->first();
+                } else {
+                    $check_show2 = false;
+                }
+
+                if (!$check_show and !$check_show2) {
+                    abort(404,'別想偷看！');
+                }
             }
         }
 
@@ -575,16 +579,18 @@ class PostsController extends Controller
             }            
         }else{
             if ($post->category_id == '5' && $post->another != '1') {
-                $check = DB::table('post_schools_view')
-                    ->where('code', 'like', '%' . auth()->user()->code . '%')
-                    ->where('id', $post->id)
-                    ->first();
-                if (!$check) {                    
-                    abort(404);
+                if(auth()->user()->id != $post->user_id && !$user_power){
+                    $check = DB::table('post_schools_view')
+                        ->where('code', 'like', '%' . auth()->user()->code . '%')
+                        ->where('id', $post->id)
+                        ->first();
+                    if (!$check) {
+                        abort(404);
+                    }
                 }
-            }        
+            }
         }
-        
+
         $file = storage_path('app/public/post_files/' . $post_id . '/' . $filename);        
         if (file_exists($file)) {
             return response()->download($file);
@@ -609,14 +615,16 @@ class PostsController extends Controller
             }            
         }else{
             if ($post->category_id == '5' && $post->another != '1') {
-                $check = DB::table('post_schools_view')
-                    ->where('code', 'like', '%' . auth()->user()->code . '%')
-                    ->where('id', $post->id)
-                    ->first();
-                if (!$check) {                    
-                    abort(404);
+                if(auth()->user()->id != $post->user_id && !$user_power){
+                    $check = DB::table('post_schools_view')
+                        ->where('code', 'like', '%' . auth()->user()->code . '%')
+                        ->where('id', $post->id)
+                        ->first();
+                    if (!$check) {
+                        abort(404);
+                    }
                 }
-            }        
+            }
         }
 
         $file = storage_path('app/public/post_photos/' . $post_id . '/' . $filename);

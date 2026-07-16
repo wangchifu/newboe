@@ -32,7 +32,7 @@
                     {{-- 🟢 在職教職員分頁 --}}
                     {{-- ========================================== --}}
                     <div class="tab-pane fade show active" id="pills-in" role="tabpanel" aria-labelledby="pills-in-tab">
-                        <a href="{{ route('admins.user_db2_create') }}" class="btn btn-success venobox" data-vbtype="iframe">新增帳號</a>
+                        <a href="{{ route('admins.db2_create') }}" class="btn btn-success">新增帳號</a>
                         <span class="text-danger"><i class="fas fa-arrow-left me-1"></i>這裡新增完帳號，本人還是要到 <a href="https://eip.chc.edu.tw" target="_blank">eip.chc.edu.tw</a> 申請帳號，才能登入新雲端。</span>
                         @if(!empty($staff_in))
                             <div class="table-responsive border rounded shadow-sm">
@@ -94,7 +94,7 @@
                                                     <button class="btn btn-success btn-sm" type="button" onclick="sw_confirm2('左列資料都確定了嗎？','change_room{{ $id }}')">
                                                         儲存
                                                     </button>                                                    
-                                                    <a href="#!" class="btn btn-danger btn-sm" onclick="">
+                                                    <a href="#!" class="btn btn-danger btn-sm" onclick="sw_confirm1('離職後將無法登入 eip 及新雲端，如果只是換科室，不要離職他，只要移除權限即可','{{ route('admins.db2_out',$id) }}')">
                                                         離職他
                                                     </a>
                                                 </div>                                                
@@ -155,7 +155,7 @@
                                                     ---
                                                 @endif
                                             </td>
-                                            <td><a href="#!" class="btn btn-success btn-sm" onclick="sw_confirm1('你確定要復職 {{ $info['name'] }}','{{ route('admins.user_db2_in',$id) }}')">復職他</a></td>                                            
+                                            <td><a href="#!" class="btn btn-success btn-sm" onclick="sw_confirm1('你確定要復職 {{ $info['name'] }}','{{ route('admins.db2_in',$id) }}')">復職他</a></td>                                            
                                         </tr>
                                         <?php $n++; ?>
                                         @endforeach
