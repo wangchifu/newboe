@@ -639,7 +639,14 @@ class DB2Controller extends Controller
         $dbh = connect_DB2();
         $att = $request->all();
         $att['staff_person_id'] = hash('sha256', strtoupper(trim($att['id_card'])));
-        $att['staff_sid'] = auth()->user()->code;
+        $admin = ['admin1','admin2','admin3','admin4','admin5','admin6','admin7','admin8','admin9','admin10'];
+        if(in_array(auth()->user()->username,$admin)){
+            $code = "079999";
+            if(auth()->user()->username == "admin9") $code = "079998";
+        }else{
+            $code = auth()->user()->code;
+        }
+        $att['staff_sid'] = $code;
         $att['staff_curr_class_num'] = auth()->user()->section_id;
         if($att['staff_sid'] =="079998") $att['staff_curr_class_num'] = "I";
         $att['staff_username'] = generateRandomString(10);

@@ -25,7 +25,7 @@
                                     第一欄位：單位 <span class="text-danger">*</span>
                                 </label>
                                 <div class="text-secondary ps-1">
-                                    @if(auth()->user()->username == 'admin9')
+                                    @if(auth()->user()->username == 'admin9' or auth()->user()->code == '079998')
                                         縣網中心 079998
                                     @else
                                         教育處 079999
