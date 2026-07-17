@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="col-lg-12 mx-auto">
-    <h1>認證主機帳號</h1>
+    <h1>科室人員資料(不含調府教師)</h1>
     <div class="card mb-4">
         <div class="card-header">
             帳號資訊
@@ -32,16 +32,16 @@
                     {{-- 🟢 在職教職員分頁 --}}
                     {{-- ========================================== --}}
                     <div class="tab-pane fade show active" id="pills-in" role="tabpanel" aria-labelledby="pills-in-tab">
-                        <a href="{{ route('admins.db2_create') }}" class="btn btn-success">新增帳號</a>
-                        <span class="text-danger"><i class="fas fa-arrow-left me-1"></i>這裡新增完帳號，本人還是要到 <a href="https://eip.chc.edu.tw" target="_blank">eip.chc.edu.tw</a> 申請帳號，才能登入新雲端。</span>
+                        <a href="{{ route('admins.db2_create') }}" class="btn btn-success">新增</a>
+                        <span class="text-danger"><i class="fas fa-arrow-left me-1"></i>這裡新增完資料，本人還是要到 <a href="https://eip.chc.edu.tw" target="_blank">eip.chc.edu.tw</a> 申請資料。</span>
                         @if(!empty($staff_in))
                             <div class="table-responsive border rounded shadow-sm">
                                 <table class="table table-bordered table-hover align-middle text-center mb-0">
                                     <thead class="table-light">
                                         <tr>
                                             <th>序號</th>
-                                            <th>ID</th>
-                                            <th>代碼</th>
+                                            {{-- <th>ID</th> --}}
+                                            {{-- <th>代碼</th> --}}
                                             <th>姓名</th>
                                             <th>性別</th>
                                             <th>職稱</th>
@@ -56,8 +56,8 @@
                                         @csrf
                                         <tr>
                                             <td class="fw-bold text-secondary">{{ $n }}</td>
-                                            <td>{{ $id }}</td>
-                                            <td>
+                                            {{-- <td>{{ $id }}</td> --}}
+                                            {{-- <td>
                                                 @if($info['sid'] == '079998')
                                                     縣網中心 {{ $info['sid'] }}
                                                 @elseif($info['sid'] == '079999')
@@ -65,7 +65,7 @@
                                                 @else
                                                     ---
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td class="fw-bold text-dark">
                                                 <input type="text" name="staff_name" class="form-control fw-bold text-dark" value="{{ $info['name'] ?? '' }}" placeholder="請輸入姓名" required>
                                             </td>
@@ -121,8 +121,8 @@
                                     <thead class="table-light">
                                         <tr>
                                             <th>序號</th>
-                                            <th>ID</th>
-                                            <th>代碼</th>
+                                            {{-- <th>ID</th> --}}
+                                            {{-- <th>代碼</th> --}}
                                             <th>姓名</th>
                                             <th>性別</th>
                                             <th>職稱</th>
@@ -135,8 +135,8 @@
                                         @foreach($staff_out as $id => $info)
                                         <tr>
                                             <td class="fw-bold text-secondary">{{ $n }}</td>
-                                            <td>{{ $id }}</td>
-                                            <td>
+                                            {{-- <td>{{ $id }}</td> --}}
+                                            {{-- <td>
                                                 @if($info['sid'] == '079998')
                                                     縣網中心 {{ $info['sid'] }}
                                                 @elseif($info['sid'] == '079999')
@@ -144,7 +144,7 @@
                                                 @else
                                                     ---
                                                 @endif
-                                            </td>
+                                            </td> --}}
                                             <td class="text-muted text-decoration-line-through">{{ $info['name'] ?? '---' }}</td>
                                             <td>{{ $info['sex'] ?? '---' }}</td>
                                             <td><span class="badge bg-light text-secondary border">{{ $info['title'] ?? '---' }}</span></td>

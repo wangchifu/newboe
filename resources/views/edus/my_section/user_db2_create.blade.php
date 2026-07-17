@@ -4,10 +4,10 @@
 
 @section('content')
 <div class="col-lg-12 mx-auto">
-    <h1>新增認證主機帳號</h1>
+    <h1>新增科室成員資料</h1>
     <div class="card mb-4">
         <div class="card-header">
-            帳號資訊 <span class="text-danger">此處會順便加帳號到新雲端</span>
+            人員資料
         </div>
         <div class="card-body">            
             <div class="container mt-4" style="max-width: 600px;">
@@ -25,12 +25,10 @@
                                     第一欄位：單位 <span class="text-danger">*</span>
                                 </label>
                                 <div class="text-secondary ps-1">
-                                    @if(auth()->user()->code == '079998')
+                                    @if(auth()->user()->username == 'admin9')
                                         縣網中心 079998
-                                    @elseif($info['sid'] == '079999')
-                                        教育處 079999
                                     @else
-                                        ---
+                                        教育處 079999
                                     @endif
                                 </div>
                             </div>

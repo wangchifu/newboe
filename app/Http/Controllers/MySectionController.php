@@ -52,6 +52,45 @@ class MySectionController extends Controller
             ->orderBy('disable')
             ->get();
 
+        // 檢查 OpenID 成員在 DB2 的身份（本地帳號不查）
+        $db2_status = [];
+        $openid_users = $users1->filter(fn($u) => in_array($u->login_type, ['open_id', 'gsuite']) && !empty($u->edu_key));
+        $edu_keys = $openid_users->pluck('edu_key')->map(fn($k) => strtolower($k))->toArray();
+        if (!empty($edu_keys)) {
+            try {
+                $dbh = connect_DB2();
+                $placeholders = implode(',', array_fill(0, count($edu_keys), '?'));
+                $sql = "SELECT LOWER(staff_person_id) as pid, staff_sid FROM staff WHERE LOWER(staff_person_id) IN ({$placeholders}) AND staff_kind = '教職員' AND staff_status = '1'";
+                $stmt = $dbh->prepare($sql);
+                $stmt->execute($edu_keys);
+                $found = [];
+                foreach ($stmt->fetchAll() as $row) {
+                    $found[$row['pid']][] = $row['staff_sid'];
+                }
+                foreach ($openid_users as $u) {
+                    $key = strtolower($u->edu_key);
+                    if (!isset($found[$key])) {
+                        $db2_status[$u->id] = '未有人員資料';
+                    } else {
+                        $sids = $found[$key];
+                        $has_bureau = in_array('079999', $sids) || in_array('079998', $sids);
+                        $has_school = count(array_filter($sids, fn($s) => $s != '079999' && $s != '079998')) > 0;
+                        if ($has_bureau && $has_school) {
+                            $db2_status[$u->id] = '調府教師';
+                        } elseif (in_array('079999', $sids)) {
+                            $db2_status[$u->id] = '教育處';
+                        } elseif (in_array('079998', $sids)) {
+                            $db2_status[$u->id] = '縣網中心';
+                        } else {
+                            $db2_status[$u->id] = '調府教師';
+                        }
+                    }
+                }
+            } catch (\Exception $e) {
+                // DB2 連線失敗就不標註
+            }
+        }
+
         //選填本科室者
         $users2 = User::where('my_section_id', $section_id)
             ->get();
@@ -68,6 +107,7 @@ class MySectionController extends Controller
             'sections' => $sections,
             'a_admins' => $a_admins,
             'section_id' => $section_id,
+            'db2_status' => $db2_status,
         ];
         return view('edus.my_section.admin', $data);
     }

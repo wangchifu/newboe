@@ -11,10 +11,10 @@
 @section('content')
 <h1>{{ $sections[$section_id] }} 科室成員管理</h1>
 <div class="col-lg-12 mx-auto mb-3">  
-<a href="{{ route('my_section.admin_db2') }}" class="btn btn-success btn-sm venobox" data-vbtype="iframe">檢視認證主機的帳號</a>
-<span class="text-danger"><i class="fas fa-arrow-left me-1"></i>從這裡新增帳號者，他還是必須到 <a href="https://eip.chc.edu.tw" target="_blank">eip.chc.edu.tw</a> 申請帳號，才能登入新雲端。</span>
+<a href="{{ route('my_section.admin_db2') }}" class="btn btn-success btn-sm venobox" data-vbtype="iframe">科室人員資料管理(不含調府教師)</a>
+<span class="text-danger"><i class="fas fa-arrow-left me-1"></i>從這裡新增資料者，他還是必須到 <a href="https://eip.chc.edu.tw" target="_blank">eip.chc.edu.tw</a> 申請帳號，才能登入新雲端。</span>
 </div>
-<div class="col-lg-4 mx-auto">    
+<div class="col-lg-4 mx-auto">
     <div class="card mb-4">
         <div class="card-header">
             <h4 class="py-2">具審核權(科長)</h4>
@@ -42,7 +42,7 @@
         </div>
     </div>           
 </div>
-<div class="col-lg-4 mx-auto">    
+<div class="col-lg-5 mx-auto">
     <div class="card mb-4">
         <div class="card-header">
             <h4 class="py-2">成員列表</h4>
@@ -54,6 +54,13 @@
                     <tr>
                         <td>
                             {{ $user->name }} ( {{ $user->username }} ) ({{ $user->id }})
+                            @if(isset($db2_status[$user->id]) && $user->group_id != 8)
+                                @if($db2_status[$user->id] == '未有人員資料')
+                                    <span class="text-danger">({{ $db2_status[$user->id] }})</span>
+                                @else
+                                    <span class="text-secondary">({{ $db2_status[$user->id] }})</span>
+                                @endif
+                            @endif
                         </td>
                         <td>
                             @if($user->group_id != 8 and $user->id != auth()->user()->id)
@@ -66,7 +73,7 @@
         </div>
     </div>           
 </div>
-<div class="col-lg-4 mx-auto">    
+<div class="col-lg-3 mx-auto">
     <div class="card mb-4">
         <div class="card-header">
             <h4 class="py-2">選填本科室者</h4>

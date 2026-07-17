@@ -255,6 +255,22 @@ class OpenIDLoginController extends Controller
             $att_login['logined_at'] = now();
             $user->update($att_login);
 
+            // 教育處/縣網中心人員，如果沒有 section_id，自動從 DB2 比對取得
+            if (in_array($user_obj['code'], ['079999', '079998']) && empty($user->section_id) && !empty($user->edu_key)) {
+                try {
+                    $dbh = connect_DB2();
+                    $sql = "SELECT staff_curr_class_num FROM staff WHERE LOWER(staff_person_id) = ? AND staff_sid = ? AND staff_kind = '教職員' AND staff_status = '1' LIMIT 1";
+                    $stmt = $dbh->prepare($sql);
+                    $stmt->execute([strtolower($user->edu_key), $user_obj['code']]);
+                    $staff = $stmt->fetch();
+                    if ($staff && !empty($staff['staff_curr_class_num'])) {
+                        $user->update(['section_id' => $staff['staff_curr_class_num']]);
+                    }
+                } catch (\Exception $e) {
+                    // DB2 連線失敗不阻擋登入
+                }
+            }
+
             //登入
             Auth::login($user);
 
