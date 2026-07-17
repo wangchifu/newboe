@@ -55,7 +55,7 @@
                         <td>
                             {{ $user->name }} ( {{ $user->username }} ) ({{ $user->id }})
                             @if(isset($db2_status[$user->id]) && $user->group_id != 8)
-                                @if($db2_status[$user->id] == '未有人員資料')
+                                @if($db2_status[$user->id] == '未有人員資料' || $db2_status[$user->id] == '異常')
                                     <span class="text-danger">({{ $db2_status[$user->id] }})</span>
                                 @else
                                     <span class="text-secondary">({{ $db2_status[$user->id] }})</span>

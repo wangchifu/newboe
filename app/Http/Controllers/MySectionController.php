@@ -67,9 +67,20 @@ class MySectionController extends Controller
                 foreach ($stmt->fetchAll() as $row) {
                     $found[$row['pid']][] = $row['staff_sid'];
                 }
+                // 再查一次不限 status，用來判斷是否有離職紀錄
+                $sql2 = "SELECT LOWER(staff_person_id) as pid, staff_sid FROM staff WHERE LOWER(staff_person_id) IN ({$placeholders}) AND staff_kind = '教職員' AND staff_status = '0'";
+                $stmt2 = $dbh->prepare($sql2);
+                $stmt2->execute($edu_keys);
+                $found_inactive = [];
+                foreach ($stmt2->fetchAll() as $row) {
+                    $found_inactive[$row['pid']][] = $row['staff_sid'];
+                }
+
                 foreach ($openid_users as $u) {
                     $key = strtolower($u->edu_key);
-                    if (!isset($found[$key])) {
+                    if (!isset($found[$key]) && isset($found_inactive[$key])) {
+                        $db2_status[$u->id] = '異常';
+                    } elseif (!isset($found[$key])) {
                         $db2_status[$u->id] = '未有人員資料';
                     } else {
                         $sids = $found[$key];
