@@ -357,6 +357,8 @@ Route::group(['middleware' => 'admin'],function(){
     Route::post('admin/special_post_delete', [AdminsController::class,'special_post_delete'])->name('admins.special_post_delete');
     Route::post('admin/special_report', [AdminsController::class,'special_report'])->name('admins.special_report');
     Route::post('admin/special_report_delete', [AdminsController::class,'special_report_delete'])->name('admins.special_report_delete');
+    Route::post('admin/special_change', [AdminsController::class,'special_change'])->name('admins.special_change');
+    Route::post('admin/special_change_og', [AdminsController::class,'special_change_go'])->name('admins.special_change_go');
 
 
     //log

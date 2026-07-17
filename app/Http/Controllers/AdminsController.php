@@ -12,6 +12,7 @@ use App\Models\Log;
 use App\Models\Post;
 use App\Models\PostSchool;
 use App\Models\Report;
+use App\Models\RegularReport;
 use App\Models\Question;
 use App\Models\Answer;
 use App\Models\ReportSchool;
@@ -917,6 +918,35 @@ class AdminsController extends Controller
     public function sys_post_destroy(SystemPost $system_post){
         $system_post->delete();
         return redirect()->back();
+    }
+
+    public function special_change(Request $request){
+        $old_user_id = $request->input('old_user_id');
+        $new_user_id = $request->input('new_user_id');
+        $post_count = Post::where('user_id',$old_user_id)->count();
+        $report_count = Report::where('user_id',$old_user_id)->count();
+        $regular_report_count = RegularReport::where('user_id',$old_user_id)->count();
+        $old_user = User::find($old_user_id);
+        $new_user = User::find($new_user_id);
+        $data = [
+            'old_user'=>$old_user,
+            'new_user'=>$new_user,
+            'post_count'=>$post_count,
+            'report_count'=>$report_count,
+            'regular_report_count'=>$regular_report_count,
+
+        ];
+        return view('admins.special_change',$data);
+    }
+    public function special_change_go(Request $request){
+        $old_user_id = $request->input('old_user_id');
+        $new_user_id = $request->input('new_user_id');
+        $att['user_id'] = $new_user_id;
+        Post::where('user_id',$old_user_id)->update($att);
+        Report::where('user_id',$old_user_id)->update($att);
+        RegularReport::where('user_id',$old_user_id)->update($att);
+                
+        return redirect()->route('admins.special');
     }
 
 }
