@@ -96,23 +96,19 @@ class HomeController extends Controller
         $cht_key = "";
         for ($i = 0; $i < 5; $i++) $cht_key .= $cht[substr($key, $i, 1)];
 
-        header("Content-type: image/gif");
-        $images = asset('images/captcha/captcha_bk' . $back . '.gif');
+        $images = public_path('images/captcha/captcha_bk' . $back . '.gif');
 
-        $context = stream_context_create([
-            "ssl" => [
-                "verify_peer"      => false,
-                "verify_peer_name" => false
-            ]
-        ]);
-
-        $fileContent = file_get_contents($images, false, $context);
+        $fileContent = file_get_contents($images);
         $im = imagecreatefromstring($fileContent);
         $text_color = imagecolorallocate($im, $r, $g, $b);
 
         imagettftext($im, 50, 0, 50, 50, $text_color, public_path('wt071.ttf'), $cht_key);
+        ob_start();
         imagegif($im);
+        $imageData = ob_get_clean();
         imagedestroy($im);
+
+        return response($imageData, 200, ['Content-Type' => 'image/gif']);
     }
 
     public function gauth(Request $request)
@@ -485,6 +481,9 @@ class HomeController extends Controller
     public function edit_title()
     {
         $title_array = explode(',',auth()->user()->kind);
+        if (!in_array('課程督學', $title_array)) {
+            $title_array[] = '課程督學';
+        }
         $data = [
             'title_array'=>$title_array,
         ];
