@@ -484,6 +484,9 @@ class HomeController extends Controller
         if (!in_array('課程督學', $title_array)) {
             $title_array[] = '課程督學';
         }
+        if (!in_array('調府教師', $title_array)) {
+            $title_array[] = '調府教師';
+        }
         $data = [
             'title_array'=>$title_array,
         ];
