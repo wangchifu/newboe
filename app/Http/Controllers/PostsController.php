@@ -2176,7 +2176,7 @@ class PostsController extends Controller
     }
 
     //催收公告
-    public function signedquickly($post)
+    public function signedquickly(Post $post)
     {
         if ($post->user_id != auth()->user()->id) {   
             return back();
