@@ -2176,12 +2176,12 @@ class PostsController extends Controller
     }
 
     //催收公告
-    public function signedquickly($post)
+    public function signedquickly(Post $post)
     {
         if ($post->user_id != auth()->user()->id) {   
             return back();
         }
-        PostSchool::where('post_id', $post)->whereNull('signed_at')->update(['signed_quickly' => '1']);
+        PostSchool::where('post_id', $post->id)->whereNull('signed_at')->update(['signed_quickly' => '1']);
 
         return back()->with('message', '已送出催簽收訊息');
     }

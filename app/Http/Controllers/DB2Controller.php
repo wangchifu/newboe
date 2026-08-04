@@ -253,7 +253,10 @@ class DB2Controller extends Controller
             ->whereIn('code', ['079998','079999'])
             ->first();
         if ($user) {
-            $user->update(['section_id' => $att['staff_curr_class_num']]);
+            $user->update([
+                'section_id' => $att['staff_curr_class_num'],
+                'title' => $att['staff_title'],
+            ]);
         }
 
         echo "
@@ -268,11 +271,11 @@ class DB2Controller extends Controller
                     }
 
                     // 可選：刷新父頁面，這樣可以讓父頁面顯示最新的內容
-                    window.parent.location.reload();                
+                    window.parent.location.reload();
                 }
             };
             </script>";
-        
+
     }
 
     function user_db2_store2(Request $request){
@@ -315,8 +318,11 @@ class DB2Controller extends Controller
             ->whereIn('code', ['079998','079999'])
             ->first();
         if ($user) {
-            $user->update(['section_id' => $att['staff_curr_class_num']]);
-        }        
+            $user->update([
+                'section_id' => $att['staff_curr_class_num'],
+                'title' => $att['staff_title'],
+            ]);
+        }
 
         echo "
             <script>
@@ -390,6 +396,7 @@ class DB2Controller extends Controller
             ->first();
         $att['section_id'] = $staff_curr_class_num;
         $att['code'] = $staff_sid;
+        $att['title'] = $staff_title;
         if($user) $user->update($att);
 
         return back();
@@ -423,6 +430,7 @@ class DB2Controller extends Controller
             ->first();
         $att['section_id'] = $staff_curr_class_num;
         $att['code'] = $staff_sid;
+        $att['title'] = $staff_title;
         if($user) $user->update($att);
 
         return redirect()->route('admins.user_db2');
@@ -719,7 +727,10 @@ class DB2Controller extends Controller
             ->whereIn('code', ['079998','079999'])
             ->first();
         if ($user) {
-            $user->update(['section_id' => $att['staff_curr_class_num']]);
+            $user->update([
+                'section_id' => $att['staff_curr_class_num'],
+                'title' => $att['staff_title'],
+            ]);
         }
 
         echo "
@@ -734,7 +745,7 @@ class DB2Controller extends Controller
                     }
 
                     // 可選：刷新父頁面，這樣可以讓父頁面顯示最新的內容
-                    window.parent.location.reload();                
+                    window.parent.location.reload();
                 }
             };
             </script>";
