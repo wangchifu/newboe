@@ -578,8 +578,8 @@ class PostsController extends Controller
                 abort(404);
             }            
         }else{
-            if ($post->category_id == '5' && $post->another != '1') {
-                if(auth()->user()->id != $post->user_id && !$user_power){
+            if ($post->category_id == '5' && $post->another != '1') {                
+                if(auth()->user()->section_id != $post->user->section_id && !$user_power){
                     $check = DB::table('post_schools_view')
                         ->where('code', 'like', '%' . auth()->user()->code . '%')
                         ->where('id', $post->id)
