@@ -481,11 +481,12 @@ class HomeController extends Controller
     public function edit_title()
     {
         $title_array = explode(',',auth()->user()->kind);
-        if (!in_array('課程督學', $title_array)) {
-            $title_array[] = '課程督學';
-        }
-        if (!in_array('調府教師', $title_array)) {
-            $title_array[] = '調府教師';
+        if (in_array(auth()->user()->code, ['079999', '079998'])) {
+            foreach (['科長', '專員', '督學', '組員', '辦事員', '課程督學', '調府教師'] as $extra) {
+                if (!in_array($extra, $title_array)) {
+                    $title_array[] = $extra;
+                }
+            }
         }
         $data = [
             'title_array'=>$title_array,
