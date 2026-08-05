@@ -274,10 +274,6 @@
             <p class="fw-bold">教育處</p>
             <i class="fa-solid fa-location-dot text-danger"></i> 500 彰化市中山路二段416號<br>
             <i class="fa-solid fa-phone text-warning"></i> 電話：04-7222151
-            <hr>
-            <p class="fw-bold">教育網路中心</p>
-            <i class="fa-solid fa-location-dot text-danger"></i> 彰化市中正路二段530號彰安國中實踐樓4F<br>
-            <i class="fa-solid fa-phone-volume text-success"></i> 電話：04-7237182 
         </div>
     </div>
 </div>
