@@ -51,8 +51,8 @@
                 2.功能在「學校管理/學校帳號」 找到人員後按"編輯"，再給予對應的功能權限。
             </div>
         </div>
-        <div class="text-center">
-            <a href="{{ route('qanda') }}" class="btn btn-outline-secondary"><i class="fas fa-question-circle"></i> 更多常見問題</a>
+        <div class="text-center mb-4">
+            <a href="{{ route('qanda') }}" class="btn btn-outline-secondary fw-bold"><i class="fas fa-question-circle"></i> 更多常見問題</a>
         </div>
     </div>
 </div>
