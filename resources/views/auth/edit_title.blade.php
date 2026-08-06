@@ -31,7 +31,7 @@
                         @endforeach
                         </select>
                     </div>
-                    <button type="button" class="btn btn-info btn-sm mt-2" onclick="toggleMultiMode()"><i class="fas fa-users"></i> 多職稱兼任</button>
+                    <button type="button" class="btn btn-info btn-sm mt-2" onclick="toggleMultiMode()">多職稱兼任</button>
                 </div>
 
                 <div id="multi_mode" style="display:none;">
@@ -46,11 +46,11 @@
                     <div class="mt-2">
                         <strong>預覽：</strong><span id="preview" class="text-primary">（請勾選職稱）</span>
                     </div>
-                    <button type="button" class="btn btn-secondary btn-sm mt-2" onclick="toggleSingleMode()"><i class="fas fa-arrow-left"></i> 返回單一職稱</button>
+                    <button type="button" class="btn btn-secondary btn-sm mt-2" onclick="toggleSingleMode()">返回單一職稱</button>
                 </div>
 
                 <hr>
-                <button type="submit" class="btn btn-primary btn-sm" onclick="submitForm()"><i class="fas fa-save"></i> 送出</button>
+                <button type="submit" class="btn btn-primary btn-sm" onclick="submitForm()">送出</button>
             </form>
             @include('layouts.errors')
         </div>
