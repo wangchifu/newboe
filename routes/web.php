@@ -55,6 +55,9 @@ Route::get('photo_albums/{photo_album}/guest_show', [PhotoAlbumController::class
 
 //檔案下載
 Route::get('upload/show_download/{path?}', [UploadController::class,'show_download'])->name('uploads.show_download');
+
+//常見問題
+Route::get('qanda', [HomeController::class,'qanda'])->name('qanda');
 Route::get('upload/download/{path}', [UploadController::class,'download'])->name('uploads.download');
 
 //各科室介紹
@@ -97,7 +100,6 @@ Route::get('downloadimage/{filename}/{id}/', [PostsController::class,'downloadim
 //已註冊使用者可進入
 Route::group(['middleware' => 'auth'],function(){    
     Route::get('user_reads/{no_read_sp}',[HomeController::class,'user_reads'])->name('user_reads');
-    Route::get('qanda', [HomeController::class,'qanda'])->name('qanda');
     Route::get('about', [HomeController::class,'about'])->name('about');
     //結束模擬
     Route::get('sims/impersonate_leave', [AdminsController::class,'impersonate_leave'])->name('sims.impersonate_leave');
