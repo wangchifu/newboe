@@ -148,11 +148,7 @@
                                             </a>
                                         @endif
                                     @else
-                                        <!--20230815
-                                        <a href="{{ route('school_report.no_report',$report_school->id) }}" class="btn btn-danger btn-sm" onclick="return confirm('確定不填報嗎？')">
-                                            不填報
-                                        </a>
-                                        -->
+                                        
                                     @endif
                                 @endif
                                     <a href="{{ route('school_report.print',$report_school->id) }}" class="btn btn-outline-secondary btn-sm" target="_blank"><i class="fas fa-print"></i> <i class="fas fa-sort-amount-up"></i></a>
