@@ -31,7 +31,9 @@
                         @endforeach
                         </select>
                     </div>
+                    @if(!in_array(auth()->user()->code, ['079999', '079998']))
                     <button type="button" class="btn btn-info btn-sm mt-2" onclick="toggleMultiMode()">多職稱兼任</button>
+                    @endif
                 </div>
 
                 <div id="multi_mode" style="display:none;">
