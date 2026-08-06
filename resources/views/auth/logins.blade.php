@@ -15,7 +15,10 @@
             <a href="https://eip.chc.edu.tw" target="_blank"><img src="{{ asset('images/chc2.png') }}" alt="CHC Logo" width="50" class="me-2" style="margin-right:10px; border:1px solid #000000;"></a>
             彰化縣教育雲端帳號登入
         </div>
-        <div class="card-body">            
+        <div class="card-body">
+            <div class="alert alert-warning fw-bold" role="alert">
+                老師調校後，請至校務系統建立該教師資料後，無法立即登入，最晚等待一天，即可用原本帳號登入使用。
+            </div>
             <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">                        
                 <div class="text-center">
                     <a href="{{ route('sso') }}" class="image-button">
