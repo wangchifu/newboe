@@ -20,18 +20,94 @@
             <form action="{{ route('update_title') }}" method="post" onsubmit="return false" id="this_form">
                 @csrf
                 @method('patch')
-                <div class="form-group">
-                    <label for="title">請選擇正確的職稱</label>
-                    <select class="form-control" id="title" name="title" tabindex="1" required>
+                <input type="hidden" id="title" name="title" value="{{ auth()->user()->title }}">
+
+                <div id="single_mode">
+                    <div class="form-group">
+                        <label for="title_select">請選擇正確的職稱</label>
+                        <select class="form-control" id="title_select" tabindex="1">
+                        @foreach($title_array as $k => $v)
+                            <option value="{{ $v }}" {{ (auth()->user()->title == $v) ? 'selected' : '' }}>{{ $v }}</option>
+                        @endforeach
+                        </select>
+                    </div>
+                    <button type="button" class="btn btn-info btn-sm mt-2" onclick="toggleMultiMode()"><i class="fas fa-users"></i> 多職稱兼任</button>
+                </div>
+
+                <div id="multi_mode" style="display:none;">
+                    <label>請依兼任順序勾選職稱</label>
+                    <div class="list-group mt-2" id="checkbox_list">
                     @foreach($title_array as $k => $v)
-                        <option value="{{ $v }}" {{ (auth()->user()->title == $v) ? 'selected' : '' }}>{{ $v }}</option>
-                    @endforeach                            
-                    </select>
-                </div>                                  
-                <button type="submit" class="btn btn-primary btn-sm" onclick="sw_confirm2('確定？','this_form')"><i class="fas fa-save"></i> 送出</button>
+                        <label class="list-group-item">
+                            <input type="checkbox" class="form-check-input me-2 title_checkbox" value="{{ $v }}"> {{ $v }}
+                        </label>
+                    @endforeach
+                    </div>
+                    <div class="mt-2">
+                        <strong>預覽：</strong><span id="preview" class="text-primary">（請勾選職稱）</span>
+                    </div>
+                    <button type="button" class="btn btn-secondary btn-sm mt-2" onclick="toggleSingleMode()"><i class="fas fa-arrow-left"></i> 返回單一職稱</button>
+                </div>
+
+                <hr>
+                <button type="submit" class="btn btn-primary btn-sm" onclick="submitForm()"><i class="fas fa-save"></i> 送出</button>
             </form>
             @include('layouts.errors')
         </div>
     </div>
 </div>
+
+<script>
+    var selectedTitles = [];
+
+    document.getElementById('title_select').addEventListener('change', function() {
+        document.getElementById('title').value = this.value;
+    });
+
+    document.querySelectorAll('.title_checkbox').forEach(function(cb) {
+        cb.addEventListener('change', function() {
+            if (this.checked) {
+                selectedTitles.push(this.value);
+            } else {
+                selectedTitles = selectedTitles.filter(function(t) { return t !== cb.value; });
+            }
+            updatePreview();
+        });
+    });
+
+    function updatePreview() {
+        var preview = document.getElementById('preview');
+        if (selectedTitles.length === 0) {
+            preview.textContent = '（請勾選職稱）';
+            document.getElementById('title').value = '';
+        } else {
+            var result = selectedTitles.join('兼');
+            preview.textContent = result;
+            document.getElementById('title').value = result;
+        }
+    }
+
+    function toggleMultiMode() {
+        document.getElementById('single_mode').style.display = 'none';
+        document.getElementById('multi_mode').style.display = 'block';
+        selectedTitles = [];
+        document.querySelectorAll('.title_checkbox').forEach(function(cb) { cb.checked = false; });
+        updatePreview();
+    }
+
+    function toggleSingleMode() {
+        document.getElementById('multi_mode').style.display = 'none';
+        document.getElementById('single_mode').style.display = 'block';
+        document.getElementById('title').value = document.getElementById('title_select').value;
+    }
+
+    function submitForm() {
+        var title = document.getElementById('title').value;
+        if (!title) {
+            alert('請選擇職稱');
+            return;
+        }
+        sw_confirm2('確定？', 'this_form');
+    }
+</script>
 @endsection
