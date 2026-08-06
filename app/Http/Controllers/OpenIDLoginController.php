@@ -171,7 +171,7 @@ class OpenIDLoginController extends Controller
 
                 //停用者，沒有換學校，不得登入
                 if ($user->disable == 1 and $user->code == $user_obj['code']) {
-                  $message = "你已被停用，請聯絡學校管理者！";
+                  $message = "你已被停用，請聯絡學校管理者至「學校管理/學校帳號」內啟用！";
                   $url = "https://chc.sso.edu.tw/oidc/v1/logout-to-go";
                   $post_logout_redirect_uri = url('logins');
                   $id_token_hint = session('id_token');
