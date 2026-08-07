@@ -67,6 +67,20 @@
                             <li><a class="dropdown-item" href="{{ route('school_report.index') }}"><i class="fa-solid fa-list"></i> 資料填報</a></li>
                             <li><a class="dropdown-item" href="{{ route('school_regular_report.index') }}"><i class="fas fa-bars-progress"></i> 定期資料填報</a></li>                                                                       
                             <li class="dropdown-divider"></li>
+                            @else
+                                <?php
+                                    $userIds = \App\Models\UserPower::where('section_id', auth()->user()->code)
+                                        ->where('power_type', 'A')
+                                        ->pluck('user_id');                                    
+
+                                    $users = \App\Models\User::whereNull('disable')->whereIn('id', $userIds)->get();                                    
+                                    $this_school_admins = "請你找以下管理者給你適當權限：<br>";
+                                    foreach($users as $user){
+                                        $this_school_admins .= $user->title." ".$user->name."<br>";
+                                    }
+                                ?>
+                                <li><a class="dropdown-item" href="#!" onclick="sw_alert('{{ $this_school_admins }}')"><i class="fas fa-user-shield"></i> 我要權限看公告</a></li>                                                                       
+                                <li class="dropdown-divider"></li>
                             @endif
                         @endif
                         @if(auth()->user()->other_code)
