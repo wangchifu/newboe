@@ -36,7 +36,7 @@
                     <a class="nav-link active" href="{{ route('admins.user_db2') }}">科室人員資料</a>
                 </li>
             </ul>
-            <form action="{{ route('admins.user_db2_search') }}" method="POST" class="w-100" style="max-width: 400px;">
+            <form action="{{ route('admins.user_db2_search') }}" method="POST" class="w-100 mt-3" style="max-width: 400px;">
                 @csrf
                 <div class="input-group">
                     <input type="text" name="person_id" class="form-control" placeholder="請輸入身分證字號" maxlength="10" required>
