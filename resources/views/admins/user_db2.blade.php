@@ -15,7 +15,7 @@
         <div class="card-header">
             @include('admins.search_nav')
         </div>
-        <div class="card-body">            
+        <div class="card-body">
             <ul class="nav nav-tabs">
                 <li class="nav-item">
                     <a class="nav-link" href="{{ route('admins.user_index') }}">全部</a>
@@ -37,7 +37,7 @@
                 </li>
             </ul>
             <form action="{{ route('admins.user_db2_search') }}" method="POST" class="w-100" style="max-width: 400px;">
-                @csrf                 
+                @csrf
                 <div class="input-group">
                     <input type="text" name="person_id" class="form-control" placeholder="請輸入身分證字號" maxlength="10" required>
                     <button class="btn btn-primary" type="submit">
@@ -61,7 +61,7 @@
                 </ul>
 
                 {{-- 💡 分頁內容區 (Tab Content) --}}
-                <div class="tab-content" id="staff-tabContent">                    
+                <div class="tab-content" id="staff-tabContent">
                     {{-- ========================================== --}}
                     {{-- 🟢 在職教職員分頁 --}}
                     {{-- ========================================== --}}
@@ -69,6 +69,12 @@
                         <a href="{{ route('admins.user_db2_create') }}" class="btn btn-success venobox" data-vbtype="iframe">新增帳號</a>
                         <span class="text-danger"><i class="fas fa-arrow-left me-1"></i>這裡新增完帳號，本人還是要到 <a href="https://eip.chc.edu.tw" target="_blank">eip.chc.edu.tw</a> 申請帳號，才能登入新雲端。</span>
                         @if(!empty($staff_in))
+                            @foreach($staff_in as $id => $info)
+                            <form action="{{ route('admins.user_db2_change',$id) }}" method="post" id="change_room{{ $id }}">
+                                @csrf
+                                <input type="hidden" name="person_id" value="{{ $info['person_id'] }}">
+                            </form>
+                            @endforeach
                             <div class="table-responsive border rounded shadow-sm">
                                 <table class="table table-bordered table-hover align-middle text-center mb-0">
                                     <thead class="table-light">
@@ -86,63 +92,59 @@
                                     <tbody>
                                         <?php $n=1; ?>
                                         @foreach($staff_in as $id => $info)
-                                        <form action="{{ route('admins.user_db2_change',$id) }}" method="post" id="change_room{{ $id }}">
-                                        @csrf
-                                        <input type="hidden" name="person_id" value="{{ $info['person_id'] }}">
                                         <tr>
                                             <td class="fw-bold text-secondary">{{ $n }}</td>
                                             <td>{{ $id }}</td>
                                             <td>
-                                                <select name="staff_sid" class="form-select" autocomplete="off">
+                                                <select name="staff_sid" form="change_room{{ $id }}" class="form-select" autocomplete="off">
                                                     <option value="079998" {{ (isset($info['sid']) && $info['sid'] == '079998') ? 'selected' : '' }}>
                                                         縣網中心 (079998)
                                                     </option>
-                                                    
+
                                                     <option value="079999" {{ (isset($info['sid']) && $info['sid'] == '079999') ? 'selected' : '' }}>
                                                         教育處 (079999)
                                                     </option>
                                                 </select>
                                             </td>
                                             <td class="fw-bold text-dark">
-                                                <input type="text" name="staff_name" class="form-control fw-bold text-dark" value="{{ $info['name'] ?? '' }}" placeholder="請輸入姓名" required>
+                                                <input type="text" name="staff_name" form="change_room{{ $id }}" class="form-control fw-bold text-dark" value="{{ $info['name'] ?? '' }}" placeholder="請輸入姓名" required>
                                             </td>
                                             <td>
-                                                <select name="staff_sex" 
+                                                <select name="staff_sex" form="change_room{{ $id }}"
                                                         class="form-select text-center fw-bold {{ (isset($info['sex']) && $info['sex'] === '女') ? 'text-danger' : 'text-primary' }}"
                                                         onchange="this.className = 'form-select text-center fw-bold ' + (this.value === '女' ? 'text-danger' : 'text-primary')">
-                                                    
+
                                                     <option class="text-primary" value="男" {{ (isset($info['sex']) && $info['sex'] === '男') ? 'selected' : '' }}>男</option>
                                                     <option class="text-danger" value="女" {{ (isset($info['sex']) && $info['sex'] === '女') ? 'selected' : '' }}>女</option>
-                                                    
+
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="text" name="staff_title" class="form-control fw-bold text-primary" value="{{ $info['title'] ?? '' }}" placeholder="請輸入職稱">
+                                                <input type="text" name="staff_title" form="change_room{{ $id }}" class="form-control fw-bold text-primary" value="{{ $info['title'] ?? '' }}" placeholder="請輸入職稱">
                                             </td>
-                                            <td>                                                                                                    
+                                            <td>
                                                 <div class="input-group input-group-sm" style="max-width: 250px;">
-                                                    <select name="staff_curr_class_num" class="form-select" autocomplete="off">
+                                                    <select name="staff_curr_class_num" form="change_room{{ $id }}" class="form-select" autocomplete="off">
                                                         <option value="">---</option>
                                                         @foreach($sections as $key => $section_name)
                                                             <option value="{{ $key }}" {{ (isset($info['staff_curr_class_num']) && $info['staff_curr_class_num'] === $key) ? 'selected' : '' }}>
                                                                 {{ $section_name }} ({{ $key }})
                                                             </option>
                                                         @endforeach
-                                                    </select>                                                    
-                                                </div>                                                                                            
+                                                    </select>
+                                                </div>
                                             </td>
                                             <td>
                                                 <div class="d-flex gap-1">
                                                     <button class="btn btn-success btn-sm" type="button" onclick="sw_confirm2('左列資料都確定了嗎？','change_room{{ $id }}')">
                                                         儲存
-                                                    </button>                                                    
+                                                    </button>
                                                     <a href="#!" class="btn btn-danger btn-sm" onclick="sw_confirm1('你確定要離職 {{ $info['name'] }}','{{ route('admins.user_db2_out',$id) }}')">
                                                         離職他
                                                     </a>
-                                                </div>                                                
+                                                </div>
                                             </td>
                                         </tr>
-                                        </form>    
                                         <?php $n++; ?>
                                         @endforeach
                                     </tbody>
@@ -199,7 +201,7 @@
                                                     ---
                                                 @endif
                                             </td>
-                                            <td><a href="#!" class="btn btn-success btn-sm" onclick="sw_confirm1('你確定要復職 {{ $info['name'] }}','{{ route('admins.user_db2_in',$id) }}')">復職他</a></td>                                            
+                                            <td><a href="#!" class="btn btn-success btn-sm" onclick="sw_confirm1('你確定要復職 {{ $info['name'] }}','{{ route('admins.user_db2_in',$id) }}')">復職他</a></td>
                                         </tr>
                                         <?php $n++; ?>
                                         @endforeach
@@ -212,8 +214,8 @@
                     </div>
 
                 </div>
-            </div>           
+            </div>
         </div>
-    </div>           
+    </div>
 </div>
 @endsection

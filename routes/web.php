@@ -397,6 +397,7 @@ Route::group(['middleware' => 'section_admin'],function(){
     Route::get('my_section/{id}/admin_db2_in' , [DB2Controller::class,'admin_db2_in'])->name('admins.db2_in');
     Route::get('my_section/admin_db2_create' , [DB2Controller::class,'admin_db2_create'])->name('admins.db2_create');
     Route::post('my_section/admin_db2_store' , [DB2Controller::class,'admin_db2_store'])->name('admins.db2_store');
+    Route::post('my_section/{id}/admin_db2_change' , [DB2Controller::class,'user_db2_change'])->name('my_section.db2_change');
     Route::get('my_section/{user}/agree', [MySectionController::class,'agree'])->name('my_section.agree');
     Route::get('my_section/{user}/disagree', [MySectionController::class,'disagree'])->name('my_section.disagree');
     Route::get('my_section/{user}/remove', [MySectionController::class,'remove'])->name('my_section.remove');

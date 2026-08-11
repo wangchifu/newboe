@@ -9,7 +9,7 @@
         <div class="card-header">
             帳號資訊
         </div>
-        <div class="card-body">            
+        <div class="card-body">
             <div class="container mt-4">
 
                 {{-- 💡 切換分頁的按鈕區 (Nav Pills) --}}
@@ -27,7 +27,7 @@
                 </ul>
 
                 {{-- 💡 分頁內容區 (Tab Content) --}}
-                <div class="tab-content" id="staff-tabContent">                    
+                <div class="tab-content" id="staff-tabContent">
                     {{-- ========================================== --}}
                     {{-- 🟢 在職教職員分頁 --}}
                     {{-- ========================================== --}}
@@ -35,6 +35,14 @@
                         <a href="{{ route('admins.db2_create') }}" class="btn btn-success">新增</a>
                         <span class="text-danger"><i class="fas fa-arrow-left me-1"></i>這裡新增完資料，本人還是要到 <a href="https://eip.chc.edu.tw" target="_blank">eip.chc.edu.tw</a> 申請資料。</span>
                         @if(!empty($staff_in))
+                            @foreach($staff_in as $id => $info)
+                            <form action="{{ route('my_section.db2_change', $id) }}" method="post" id="change_room{{ $id }}">
+                                @csrf
+                                <input type="hidden" name="person_id" value="{{ $info['person_id'] ?? '' }}">
+                                <input type="hidden" name="staff_sid" value="{{ $info['sid'] ?? '' }}">
+                                <input type="hidden" name="staff_curr_class_num" value="{{ $info['staff_curr_class_num'] ?? '' }}">
+                            </form>
+                            @endforeach
                             <div class="table-responsive border rounded shadow-sm">
                                 <table class="table table-bordered table-hover align-middle text-center mb-0">
                                     <thead class="table-light">
@@ -52,8 +60,6 @@
                                     <tbody>
                                         <?php $n=1; ?>
                                         @foreach($staff_in as $id => $info)
-                                        <form action="" method="post" id="change_room{{ $id }}">
-                                        @csrf
                                         <tr>
                                             <td class="fw-bold text-secondary">{{ $n }}</td>
                                             {{-- <td>{{ $id }}</td> --}}
@@ -67,40 +73,39 @@
                                                 @endif
                                             </td> --}}
                                             <td class="fw-bold text-dark">
-                                                <input type="text" name="staff_name" class="form-control fw-bold text-dark" value="{{ $info['name'] ?? '' }}" placeholder="請輸入姓名" required>
+                                                <input type="text" name="staff_name" form="change_room{{ $id }}" class="form-control fw-bold text-dark" value="{{ $info['name'] ?? '' }}" placeholder="請輸入姓名" required>
                                             </td>
                                             <td>
-                                                <select name="staff_sex" 
+                                                <select name="staff_sex" form="change_room{{ $id }}"
                                                         class="form-select text-center fw-bold {{ (isset($info['sex']) && $info['sex'] === '女') ? 'text-danger' : 'text-primary' }}"
                                                         onchange="this.className = 'form-select text-center fw-bold ' + (this.value === '女' ? 'text-danger' : 'text-primary')">
-                                                    
+
                                                     <option class="text-primary" value="男" {{ (isset($info['sex']) && $info['sex'] === '男') ? 'selected' : '' }}>男</option>
                                                     <option class="text-danger" value="女" {{ (isset($info['sex']) && $info['sex'] === '女') ? 'selected' : '' }}>女</option>
-                                                    
+
                                                 </select>
                                             </td>
                                             <td>
-                                                <input type="text" name="staff_title" class="form-control fw-bold text-primary" value="{{ $info['title'] ?? '' }}" placeholder="請輸入職稱">
+                                                <input type="text" name="staff_title" form="change_room{{ $id }}" class="form-control fw-bold text-primary" value="{{ $info['title'] ?? '' }}" placeholder="請輸入職稱">
                                             </td>
-                                            <td>                                                                                                    
+                                            <td>
                                                 @if(isset($sections[$info['staff_curr_class_num']]))
                                                     {{ $sections[$info['staff_curr_class_num']] }} ({{ $info['staff_curr_class_num'] }})
                                                 @else
                                                     ---
-                                                @endif                                                                                        
+                                                @endif
                                             </td>
                                             <td>
                                                 <div class="d-flex gap-1">
                                                     <button class="btn btn-success btn-sm" type="button" onclick="sw_confirm2('左列資料都確定了嗎？','change_room{{ $id }}')">
                                                         儲存
-                                                    </button>                                                    
+                                                    </button>
                                                     <a href="#!" class="btn btn-danger btn-sm" onclick="sw_confirm1('離職後將無法登入 eip 及新雲端，如果只是換科室，不要離職他，只要移除權限即可','{{ route('admins.db2_out',$id) }}')">
                                                         離職他
                                                     </a>
-                                                </div>                                                
+                                                </div>
                                             </td>
                                         </tr>
-                                        </form>    
                                         <?php $n++; ?>
                                         @endforeach
                                     </tbody>
@@ -155,7 +160,7 @@
                                                     ---
                                                 @endif
                                             </td>
-                                            <td><a href="#!" class="btn btn-success btn-sm" onclick="sw_confirm1('你確定要復職 {{ $info['name'] }}','{{ route('admins.db2_in',$id) }}')">復職他</a></td>                                            
+                                            <td><a href="#!" class="btn btn-success btn-sm" onclick="sw_confirm1('你確定要復職 {{ $info['name'] }}','{{ route('admins.db2_in',$id) }}')">復職他</a></td>
                                         </tr>
                                         <?php $n++; ?>
                                         @endforeach
@@ -168,8 +173,8 @@
                     </div>
 
                 </div>
-            </div>                         
+            </div>
         </div>
-    </div>           
+    </div>
 </div>
 @endsection
