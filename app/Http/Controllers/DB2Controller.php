@@ -394,6 +394,7 @@ class DB2Controller extends Controller
             ->whereIn('code',['079999','079998'])
             ->whereNull('disable')            
             ->first();
+        $att['name'] = $staff_name;
         $att['section_id'] = $staff_curr_class_num;
         $att['code'] = $staff_sid;
         $att['title'] = $staff_title;
@@ -428,6 +429,7 @@ class DB2Controller extends Controller
             ->whereIn('code',['079999','079998'])
             ->whereNull('disable')            
             ->first();
+        $att['name'] = $staff_name;
         $att['section_id'] = $staff_curr_class_num;
         $att['code'] = $staff_sid;
         $att['title'] = $staff_title;

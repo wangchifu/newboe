@@ -33,7 +33,7 @@
                     <a class="nav-link" href="{{ route('admins.user_check') }}">重複身分證帳號</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link active" href="{{ route('admins.user_db2') }}">認證主機帳號</a>
+                    <a class="nav-link active" href="{{ route('admins.user_db2') }}">科室人員資料</a>
                 </li>
             </ul>
             <form action="{{ route('admins.user_db2_search') }}" method="POST" class="w-100" style="max-width: 400px;">
@@ -66,8 +66,8 @@
                     {{-- 🟢 在職教職員分頁 --}}
                     {{-- ========================================== --}}
                     <div class="tab-pane fade show active" id="pills-in" role="tabpanel" aria-labelledby="pills-in-tab">
-                        <a href="{{ route('admins.user_db2_create') }}" class="btn btn-success venobox" data-vbtype="iframe">新增帳號</a>
-                        <span class="text-danger"><i class="fas fa-arrow-left me-1"></i>這裡新增完帳號，本人還是要到 <a href="https://eip.chc.edu.tw" target="_blank">eip.chc.edu.tw</a> 申請帳號，才能登入新雲端。</span>
+                        <a href="{{ route('admins.user_db2_create') }}" class="btn btn-success venobox" data-vbtype="iframe">新增</a>
+                        <span class="text-danger"><i class="fas fa-arrow-left me-1"></i>這裡新增完資料，本人還是要到 <a href="https://eip.chc.edu.tw" target="_blank">eip.chc.edu.tw</a> 申請資料。</span>
                         @if(!empty($staff_in))
                             @foreach($staff_in as $id => $info)
                             <form action="{{ route('admins.user_db2_change',$id) }}" method="post" id="change_room{{ $id }}">
