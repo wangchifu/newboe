@@ -19,19 +19,23 @@
         <div class="row">
             <div class="col-12 text-end" style="font-size: 25px;">
                 承辦人：{{ array_get($sections,$report->section_id) }} / {{ $report->user->name }}
-                @if(!empty($report_school->report->user->telephone)) 
-                    <small>TEL {{ $report->user->telephone }}</small> 
+                @if(!empty($report->user->telephone))
+                    <small>TEL {{ $report->user->telephone }}</small>
                 @endif
             </div>
         </div>        
         <div class="row">
             <div class="col-12 text-start" style="font-size: 20px;">
+                @if(!empty($report->passed_at))
                 <?php
                     $y = substr($report->passed_at,0,4) - 1911;
                     $m = substr($report->passed_at,5,2);
                     $d = substr($report->passed_at,8,2);
                 ?>
                 <div>公告時間：中華民國{{ $y }}年{{ $m }}月{{ $d }}日 {{ substr($report->passed_at,11,5) }}</div>
+                @else
+                <div>公告時間：尚未通過</div>
+                @endif
                 <div>填報編號：{{ $report->id }}</div>     
                 <?php
                     $files = get_files(storage_path('app/public/report_files/' . $report->id));
