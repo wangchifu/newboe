@@ -130,7 +130,7 @@
     </div>
 </div>
 <script>
-    var q = 1;
+    var q = {{ $q - 1 }};
 
      function add() {
         var content;
