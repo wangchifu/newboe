@@ -481,7 +481,7 @@ class HomeController extends Controller
     public function edit_title()
     {
         $title_array = explode(',',auth()->user()->kind);
-        if (in_array(auth()->user()->code, ['079999', '079998'])) {
+        if (in_array(auth()->user()->code, ['079999', '079998']) || !empty(auth()->user()->section_id)) {
             foreach (['科長', '專員', '督學', '組員', '辦事員', '技士', '技佐', '課程督學', '調府教師', '約聘人員', '約僱人員', '臨時約僱人員'] as $extra) {
                 if (!in_array($extra, $title_array)) {
                     $title_array[] = $extra;
