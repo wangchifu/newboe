@@ -320,18 +320,19 @@ class MySectionController extends Controller
 
     public function member_update2(Request $request)
     {
-        $user = User::where('username', $request->input('username'))
-            ->first();
+        $users = User::where('username', $request->input('username'))
+            ->get();
 
-        if ($user) {
+        if ($users->isNotEmpty()) {
             $att['section_id'] = $request->input('section_id');
-            $user->update($att);
+            foreach ($users as $user) {
+                $user->update($att);
 
-            //log
-            $event = "管理者 " . auth()->user()->name . "(" . auth()->user()->username . ") 增加了使用者 id：" . $user->id . " " . $user->name . " 屬於科室：" . $att['section_id'];
-            logging('2', $event, get_ip());
+                $event = "管理者 " . auth()->user()->name . "(" . auth()->user()->username . ") 增加了使用者 id：" . $user->id . " " . $user->name . "(" . $user->code . ") 屬於科室：" . $att['section_id'];
+                logging('2', $event, get_ip());
+            }
         } else {
-            return back()->withErrors(['errors' => ['無此帳號！']]);;
+            return back()->withErrors(['errors' => ['無此帳號！']]);
         }
 
 
