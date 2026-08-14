@@ -43,7 +43,7 @@
                     </div>
                     <div class="form-group my-2">
                         <label for="files[]">5.附加檔案( 單檔不大於10MB )</label>
-                        <input type="file" name="files[]" class="form-control" multiple>
+                        <input type="file" name="files[]" class="form-control" multiple accept=".png,.jpg,.jpeg,.pdf,.odt,.csv,.txt,.zip,.ods,.xls,.xlsx" onchange="checkFileExtensions(this)">
                         @foreach($files as $k=>$v)
                             <a href="{{ route('edu_report.delete_file',['id'=>$report->id,'filename'=>$v]) }}" class="btn btn-danger btn-sm" style="margin:3px" onclick="return confirm('確定刪除此附件？')"><i class="fas fa-trash"></i> {{ $v }}</a>
                         @endforeach
@@ -216,6 +216,18 @@
     language: 'zh_TW',
     language_url: '{{ asset('js/zh_TW.js') }}' // 加這行
 });
+
+function checkFileExtensions(input) {
+    const allowed = ['png','jpg','jpeg','pdf','odt','csv','txt','zip','ods','xls','xlsx'];
+    for (const file of input.files) {
+        const ext = file.name.split('.').pop().toLowerCase();
+        if (!allowed.includes(ext)) {
+            alert('不支援的副檔名: .' + ext + '\n允許的格式: ' + allowed.join(', '));
+            input.value = '';
+            return;
+        }
+    }
+}
 
 </script>
 @endsection

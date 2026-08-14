@@ -44,7 +44,7 @@
             </div>
             <div class="form-group my-2">
                 <label for="files[]">5.附加檔案( 單檔不大於10MB )</label>
-                <input type="file" name="files[]" class="form-control" multiple>
+                <input type="file" name="files[]" class="form-control" multiple accept=".png,.jpg,.jpeg,.pdf,.odt,.csv,.txt,.zip,.ods,.xls,.xlsx" onchange="checkFileExtensions(this)">
             </div>
 
             <div class="form-group my-2">
@@ -180,8 +180,20 @@
     language_url: '{{ asset("js/zh_TW.js") }}',
     
     // 確保強迫顯示工具列（預防因為寬度不足被隱藏）
-    toolbar_mode: 'sliding', 
+    toolbar_mode: 'sliding',
 });
+
+function checkFileExtensions(input) {
+    const allowed = ['png','jpg','jpeg','pdf','odt','csv','txt','zip','ods','xls','xlsx'];
+    for (const file of input.files) {
+        const ext = file.name.split('.').pop().toLowerCase();
+        if (!allowed.includes(ext)) {
+            alert('不支援的副檔名: .' + ext + '\n允許的格式: ' + allowed.join(', '));
+            input.value = '';
+            return;
+        }
+    }
+}
 
 </script>
 @endsection
