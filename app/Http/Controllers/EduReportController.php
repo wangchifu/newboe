@@ -93,7 +93,7 @@ class EduReportController extends Controller
         }
 
         //檢查檔案
-        $allowed_extensions = ["png", "jpg", "pdf","PDF","JPG","odt","ODT","csv","txt","zip","jpeg","ods","ODS"];
+        $allowed_extensions = ["png", "jpg", "pdf","PDF","JPG","odt","ODT","csv","txt","zip","jpeg","ods","ODS","xls","XLS","xlsx","XLSX"];
         $report = Report::create($att);
 
         //公務電話
@@ -498,7 +498,7 @@ class EduReportController extends Controller
             $report->update($att);
 
             //處理檔案上傳
-            $allowed_extensions = ["png", "jpg", "pdf","PDF","JPG","odt","ODT","csv","txt","zip","jpeg","ods","ODS"];
+            $allowed_extensions = ["png", "jpg", "pdf","PDF","JPG","odt","ODT","csv","txt","zip","jpeg","ods","ODS","xls","XLS","xlsx","XLSX"];
             if ($request->hasFile('files')) {
                 $files = $request->file('files');
                 foreach($files as $file){
