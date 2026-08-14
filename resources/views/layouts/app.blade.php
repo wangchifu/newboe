@@ -169,5 +169,64 @@
             }
             }
         </style>
+
+        </style>
+
+        <div id="helper-widget" style="position:fixed;bottom:20px;right:20px;z-index:9999;">
+            <div id="helper-menu" style="display:none;background:#fff;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.15);padding:12px;margin-bottom:10px;min-width:200px;">
+                <div style="font-weight:bold;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #eee;">
+                    <i class="fas fa-headset"></i> 小幫手
+                </div>
+                <a href="{{ route('qanda') }}" class="d-block text-decoration-none text-dark py-2 px-2 rounded helper-item">
+                    <i class="fas fa-question-circle text-primary"></i> 常見問題
+                </a>
+                @auth
+                <a href="{{ route('wrench.index') }}" class="d-block text-decoration-none text-dark py-2 px-2 rounded helper-item">
+                    <i class="fas fa-comment-dots text-success"></i> 系統報錯與建議
+                </a>
+                @if(auth()->user()->group_id==1 && !check_b_user(auth()->user()->code, auth()->user()->id))
+                <a href="#!" onclick="showPowerInfo()" class="d-block text-decoration-none text-dark py-2 px-2 rounded helper-item">
+                    <i class="fas fa-user-shield text-warning"></i> 我要簽收/填報權限
+                </a>
+                @endif
+                @endauth
+            </div>
+            <button onclick="toggleHelperMenu()" style="width:54px;height:54px;border-radius:50%;border:none;background:linear-gradient(135deg,#ffc107,#ff9800);color:#fff;font-size:24px;cursor:pointer;box-shadow:0 4px 14px rgba(255,152,0,0.4);transition:transform 0.2s;" onmouseover="this.style.transform='scale(1.15)'" onmouseout="this.style.transform='scale(1)'">
+                <i class="fas fa-lightbulb"></i>
+            </button>
+        </div>
+        <script>
+        function toggleHelperMenu(){
+            var m=document.getElementById('helper-menu');
+            m.style.display=m.style.display==='none'?'block':'none';
+        }
+        document.addEventListener('click',function(e){
+            var w=document.getElementById('helper-widget');
+            if(w && !w.contains(e.target)){
+                document.getElementById('helper-menu').style.display='none';
+            }
+        });
+        @auth
+        @if(auth()->user()->group_id==1 && !check_b_user(auth()->user()->code, auth()->user()->id))
+        function showPowerInfo(){
+            @php
+                $widgetUserIds = \App\Models\UserPower::where('section_id', auth()->user()->code)
+                    ->where('power_type', 'A')
+                    ->pluck('user_id');
+                $widgetUsers = \App\Models\User::whereNull('disable')->whereIn('id', $widgetUserIds)->get();
+                $widgetAdmins = "請你找以下管理者給你適當權限：<br>";
+                foreach($widgetUsers as $wu){
+                    $widgetAdmins .= $wu->title." ".$wu->name."<br>";
+                }
+            @endphp
+            sw_alert('{!! $widgetAdmins !!}');
+            document.getElementById('helper-menu').style.display='none';
+        }
+        @endif
+        @endauth
+        </script>
+        <style>
+        .helper-item:hover{background:#f0f0f0;}
+
     </body>
 </html>

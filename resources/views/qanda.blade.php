@@ -20,7 +20,7 @@
                         登入問題
                     </h5>
                     1.本站使用彰化 EIP 帳號登入，無法登入均是 EIP 問題，請檢查密碼或是按 <a href="https://eip.chc.edu.tw/recovery-password" target="_blank" class="btn btn-warning">忘記密碼？</a>。<br>
-                    2.使用 EIP 登入後，若帶出的職稱若不正確，請至右上角 <i class="fas fa-user"></i> 人像按鈕下拉，選擇「 <a href="https://newboe.chc.edu.tw/edit_title">變更職稱</a> 」修正。<br>
+                    2.使用 EIP 登入後，若帶出的職稱不正確，請至右上角 <i class="fas fa-user"></i> 人像按鈕下拉，選擇「 <a href="https://newboe.chc.edu.tw/edit_title">變更職稱</a> 」修正。<br>
                 </div>
             </div>
             <br>
@@ -30,9 +30,9 @@
                         教育處新進科員科長
                     </h5>
                     先確認他是否有 EIP 的帳號<br>
-                    1.無 EIP 帳號，申請一個，EIP審核通過後，然後用 EIP 登入新雲端，再申請科室，由新雲端該該室管理員審核通過。<br>
+                    1.無 EIP 帳號，申請一個，EIP審核通過後，然後用 EIP 登入新雲端，再申請科室，由新雲端科室管理員審核通過。<br>
                     2.有 EIP 帳號，可以登入 EIP，則直接登入新雲端申請科室即可，若為學校調府教師，請教育處科室管理員，直接加帳號進入科室。<br>
-                    3.曾經有過 EIP 帳號，但目前無單位無法登入，請縣網中心系統管理員在新雲端「認證主機帳號」上面更改帳號資訊。
+                    3.曾經有過 EIP帳號，但目前無單位無法登入，請科室管理員在新雲端「科室人員資料」上面更改帳號資訊。
                 </div>
             </div>
             <br>
@@ -43,7 +43,7 @@
                     </h5>
                     1.新就任職員，請先於 EIP 系統(cloudschool)設定完成後，<span class="text-danger">他本人要登入本站才能建立帳號</span>。<br>
                     2.請具學校帳號管理權者(至少有教務主任)，給予新就任教職員適當的權限，<span class="text-danger">找不到該職員，就是他沒有登入過本站</span>。<br>
-                    3.離職者，請具學校帳號管理權者，紿他移除權限或停用。
+                    3.離職者，請具學校帳號管理權者，給他移除權限或停用。
                 </div>
             </div>
             <br>
