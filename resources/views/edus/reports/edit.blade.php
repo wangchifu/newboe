@@ -219,10 +219,16 @@
 
 function checkFileExtensions(input) {
     const allowed = ['png','jpg','jpeg','pdf','odt','csv','txt','zip','ods','xls','xlsx'];
+    const maxSize = 10 * 1024 * 1024;
     for (const file of input.files) {
         const ext = file.name.split('.').pop().toLowerCase();
         if (!allowed.includes(ext)) {
             alert('不支援的副檔名: .' + ext + '\n允許的格式: ' + allowed.join(', '));
+            input.value = '';
+            return;
+        }
+        if (file.size > maxSize) {
+            alert('檔案「' + file.name + '」超過 10MB 限制');
             input.value = '';
             return;
         }
