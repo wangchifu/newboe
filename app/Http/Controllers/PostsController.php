@@ -614,12 +614,15 @@ class PostsController extends Controller
             $user_power = null;
         }              
         $post = Post::findOrFail($post_id);
-        if ($post->situation != 3 && $post->situation != 4) {       
-            if(auth()->user()->id != $post->user_id && !$user_power){                    
+        if ($post->situation != 3 && $post->situation != 4) {
+            if(!auth()->check() || (auth()->user()->id != $post->user_id && !$user_power)){
                 abort(404);
-            }            
+            }
         }else{
             if ($post->category_id == '5' && $post->another != '1') {
+                if(!auth()->check()){
+                    abort(404);
+                }
                 if(auth()->user()->id != $post->user_id && !$user_power){
                     $check = DB::table('post_schools_view')
                         ->where('code', 'like', '%' . auth()->user()->code . '%')
