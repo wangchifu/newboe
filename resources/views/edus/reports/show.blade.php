@@ -20,9 +20,9 @@
                                 <del>{{ $report->name }}</del>
                             @endif
                         </h2>
-                        {{ $sections[auth()->user()->section_id] }} / {{ $report->user->name }} / {{ $report->created_at }} 創建
-                        @if(!empty($report->user->telephone))
-                            <i class="fas fa-phone"></i> {{ $report->user->telephone }}
+                        {{ $sections[auth()->user()->section_id] }} / {{ $report->user?->name }} / {{ $report->created_at }} 創建
+                        @if(!empty($report->user?->telephone))
+                            <i class="fas fa-phone"></i> {{ $report->user?->telephone }}
                         @endif
                         <hr>
                         <strong>截止日期：</strong>

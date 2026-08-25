@@ -44,19 +44,19 @@
                         @foreach($user_powers as $user_power)
                             <tr>
                                 <td>
-                                    {{ $user_power->user->name }}(
-                                    @if($user_power->user->username)
-                                        {{ $user_power->user->username }}
+                                    {{ $user_power->user?->name }}(
+                                    @if($user_power->user?->username)
+                                        {{ $user_power->user?->username }}
                                     @else
-                                        {{ $user_power->user->openid }}
+                                        {{ $user_power->user?->openid }}
                                     @endif
                                     )
                                 </td>
                                 <td>
-                                    {{ $user_power->user->school }}
+                                    {{ $user_power->user?->school }}
                                 </td>
                                 <td>
-                                    {{ $user_power->user->title }}
+                                    {{ $user_power->user?->title }}
                                 </td>
                                 <td>
                                     {{ $school_powers[$user_power->power_type] ?? '' }}

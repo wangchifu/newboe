@@ -45,7 +45,7 @@
         </tr>
         <tr>
             <td>單位 / 發佈人</td>
-            <td>{{ array_get($sections,$post->section_id) }} / {{ $post->user->name }}@if(!empty($post->user->telephone)) / TEL {{ $post->user->telephone }}@endif</td>
+            <td>{{ array_get($sections,$post->section_id) }} / {{ $post->user?->name }}@if(!empty($post->user?->telephone)) / TEL {{ $post->user?->telephone }}@endif</td>
         </tr>
         <tr>
             <td>時間 / 點閱</td>

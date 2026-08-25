@@ -43,16 +43,16 @@
                             @if($wrench->show !=1 and (auth()->user()->group_id==9 or auth()->user()->admin==1))
                                 <a href="{{ route('wrench.set_show',$wrench->id) }}" class="btn btn-success btn-sm" onclick="return confirm('確定嗎？')">設為顯示</a>
                             @endif
-                            @if($wrench->user->school)
-                                {{ $wrench->user->school }} {{ $wrench->user->title }}
+                            @if($wrench->user?->school)
+                                {{ $wrench->user?->school }} {{ $wrench->user?->title }}
                             @endif
-                            @if($wrench->user->section_id)
+                            @if($wrench->user?->section_id)
                                 <?php $sections = config('boe.sections'); ?>
-                                {{ $sections[$wrench->user->section_id] ?? '' }}
+                                {{ $sections[$wrench->user?->section_id] ?? '' }}
                             @endif
-                            {{ $wrench->user->name }} /
+                            {{ $wrench->user?->name }} /
                         @else
-                            {{ mb_substr($wrench->user->name,0,1) }}** /
+                            {{ mb_substr($wrench->user?->name,0,1) }}** /
                         @endif
                         {{ $wrench->created_at}}
                         @if(auth()->user()->group_id==9 or auth()->user()->admin==1)

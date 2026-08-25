@@ -64,7 +64,7 @@
                                 </td>
                                 <td data-th="發佈人">
                                     {{ $sections[$post->section_id] ?? '' }}<br>
-                                    {{ $post->user->name }}
+                                    {{ $post->user?->name }}
                                 </td>
                                 <td data-th="主旨" class="td-title">
                                     @if($post->another ===1)

@@ -423,7 +423,9 @@ class PostsController extends Controller
         //dd($post);
         //公務電話
         $user_att['telephone'] = $request->input('telephone');
-        $post->user->update($user_att);
+        if ($post->user) {
+            $post->user->update($user_att);
+        }
         //if($att['category_id'] != "5") {
         //$post->update($att);
 
@@ -1087,9 +1089,9 @@ class PostsController extends Controller
             //if($post->user->section_id != auth()->user()->section_id){
             //$post->user有可能是以前在教育處調府教師,歸鑑回學校後,它以前發的公告就會進入這邊了
             //所以再多檢查section_id=='' 時, 暫時防止不是教育處的人就好
-            if ($post->user->section_id != '' && $post->user->section_id != auth()->user()->section_id) {
+            if ($post->user?->section_id != '' && $post->user?->section_id != auth()->user()->section_id) {
                 //不同科室 也不是該科室的審核權
-                $user_power = UserPower::where('section_id', $post->user->section_id)->where('user_id', auth()->user()->id)->first();
+                $user_power = UserPower::where('section_id', $post->user?->section_id)->where('user_id', auth()->user()->id)->first();
 
                 if (!$user_power) {
                     abort('404','無法觀看別科室公告');
@@ -1167,9 +1169,9 @@ class PostsController extends Controller
     public function show_doing_post_print(Post $post)
     {
         //非同科室的不得看
-        if ($post->user->section_id != auth()->user()->section_id) {
+        if ($post->user?->section_id != auth()->user()->section_id) {
             //不同科室 也不是該科室的審核權
-            $user_power = UserPower::where('section_id', $post->user->section_id)->where('user_id', auth()->user()->id)->first();
+            $user_power = UserPower::where('section_id', $post->user?->section_id)->where('user_id', auth()->user()->id)->first();
 
             if (!$user_power) {
                 //dd('不要亂玩！');

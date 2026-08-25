@@ -42,7 +42,7 @@
                     {{ $categories[$post->category_id] ?? '' }}
                 </td>
                 <td data-th="發佈人">
-                    {{ $post->user->name }}
+                    {{ $post->user?->name }}
                 </td>
                 <td data-th="主旨" class="td-title">
                     @if($post->another ===1)

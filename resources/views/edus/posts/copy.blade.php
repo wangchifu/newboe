@@ -40,7 +40,7 @@
                 <div class="form-group  my-2">
                     <label for="telephone">公務電話</label>
                     <?php
-                        $telephone = (empty($post->user->id))?auth()->user()->telephone:$post->user->telephone;
+                        $telephone = (empty($post->user?->id))?auth()->user()->telephone:$post->user?->telephone;
                     ?>
                     <input type="text" name="telephone" id="telephone" class="form-control" placeholder="請輸入聯絡電話" value="{{ $telephone }}">
                 </div>

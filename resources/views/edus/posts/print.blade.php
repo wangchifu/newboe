@@ -20,13 +20,13 @@
             <div class="col-12 text-end" style="font-size: 25px;">
                 承辦人：{{ array_get($sections,$post->section_id) }} / 
                 @auth
-                    {{ $post->user->name }}
+                    {{ $post->user?->name }}
                 @endauth
                 @guest
-                    {{ $post->user->title }}                    
+                    {{ $post->user?->title }}                    
                 @endguest                
-                @if(!empty($post->user->telephone)) 
-                    <small>TEL {{ $post->user->telephone }}</small> 
+                @if(!empty($post->user?->telephone)) 
+                    <small>TEL {{ $post->user?->telephone }}</small> 
                 @endif
             </div>
         </div>

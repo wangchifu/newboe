@@ -18,9 +18,9 @@
         </div>
         <div class="row">
             <div class="col-12 text-end" style="font-size: 25px;">
-                承辦人：{{ array_get($sections,$report->section_id) }} / {{ $report->user->name }}
-                @if(!empty($report->user->telephone))
-                    <small>TEL {{ $report->user->telephone }}</small>
+                承辦人：{{ array_get($sections,$report->section_id) }} / {{ $report->user?->name }}
+                @if(!empty($report->user?->telephone))
+                    <small>TEL {{ $report->user?->telephone }}</small>
                 @endif
             </div>
         </div>        

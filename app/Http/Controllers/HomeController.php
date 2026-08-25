@@ -663,7 +663,7 @@ class HomeController extends Controller
                 ' . env('APP_URL') . '/posts_show/' . $post->id . '
                 </link>
                 <title>' . $safe_title . '</title>
-                <dc:creator>' . array_get($sections, $post->section_id) . ' / ' . $post->user->name . '</dc:creator>
+                <dc:creator>' . array_get($sections, $post->section_id) . ' / ' . ($post->user?->name ?? '') . '</dc:creator>
                 <category>
                     <![CDATA[ ' . $categories[$post->category_id] . ' ]]>
                 </category>

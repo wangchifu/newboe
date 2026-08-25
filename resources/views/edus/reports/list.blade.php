@@ -32,7 +32,7 @@
                     {{ $report->id }}
                 </td>
                 <td data-th="發佈人" nowrap>
-                    {{ $report->user->name }}
+                    {{ $report->user?->name }}
                 </td>
                 <td data-th="名稱" class="td-title">
                     @if( $report->situation ===4)

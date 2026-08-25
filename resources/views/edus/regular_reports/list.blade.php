@@ -33,7 +33,7 @@
                     {{ $regular_report->id }}
                 </td>
                 <td data-th="發佈人" nowrap>
-                    {{ $regular_report->user->name }}
+                    {{ $regular_report->user?->name }}
                 </td>
                 <td data-th="名稱" class="td-title">
                     <spna class="badge bg-danger">定期填報</spna><br>

@@ -76,8 +76,8 @@ class WrenchController extends Controller
         
         $wrench->update($att);
 
-        if ($wrench->user->email) {
-            $to_mail = $wrench->user->email;
+        if ($wrench->user?->email) {
+            $to_mail = $wrench->user?->email;
             $subject = '回覆「' . env('APP_NAME') . '平台」中「系統錯誤與建議」';
             $body = "您問到：\r\n";
             $body .= $wrench->content . "\r\n";

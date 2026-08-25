@@ -71,6 +71,7 @@ class SchoolController extends Controller
 
         $user_not_data = [];
         foreach($user_powers as $user_power){
+            if(!$user_power->user) continue;
             if($user_power->user->code != auth()->user()->code){
                 //信義國中小視為同校
                 if(auth()->user()->code ==="074774" and $user_power->user->code=="074541"){
