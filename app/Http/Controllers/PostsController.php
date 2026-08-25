@@ -237,7 +237,9 @@ class PostsController extends Controller
         session([$post_key => 1]);
 
         if(!is_null($ps_id)){
-                        
+            if(!auth()->check()){
+                abort(404);
+            }
             $user_power = DB::table('user_powers')->where([
                 ['user_id', '=', auth()->user()->id],
                 ['power_type', '=', 'B'],
