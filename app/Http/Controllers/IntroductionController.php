@@ -165,6 +165,9 @@ class IntroductionController extends Controller
     public function show($type,$section_id)
     {
         $sections = config('boe.sections');
+        if (!isset($sections[$section_id])) {
+            abort(404);
+        }
         $section_name = $sections[$section_id];
 
         $introduction = Introduction::where('section_id',$section_id)
@@ -191,6 +194,9 @@ class IntroductionController extends Controller
     public function section_page_show($section_id,SectionPage $section_page)
     {
         $sections = config('boe.sections');
+        if (!isset($sections[$section_id])) {
+            abort(404);
+        }
         $section_name = $sections[$section_id];
         $section_pages = SectionPage::where('section_id',$section_id)->orderBy('order_by')->get();
         $data = [
@@ -209,6 +215,9 @@ class IntroductionController extends Controller
             '2'=>'副處長',
             '3'=>'專員',
         ];
+        if (!isset($sections[$section_id])) {
+            abort(404);
+        }
         $section_name = $sections[$section_id];
 
         $introduction = Introduction::where('section_id',$section_id)
