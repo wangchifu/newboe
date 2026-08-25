@@ -145,8 +145,9 @@ class MySectionController extends Controller
             ->where('section_id',auth()->user()->section_id)
             ->get();
         $sections = config('boe.sections');
+        $select_users = [];
         foreach ($users as $user) {
-            $s = ($user->section_id) ? $sections[$user->section_id] . "--" : "";
+            $s = ($user->section_id && isset($sections[$user->section_id])) ? $sections[$user->section_id] . "--" : "";
             $select_users[$user->id] = $s . $user->name . "(" . $user->username . ")";
         }
 
@@ -281,8 +282,9 @@ class MySectionController extends Controller
             ->orderBy('section_id')
             ->get();
         $sections = config('boe.sections');
+        $select_users = [];
         foreach ($users as $user) {
-            $s = ($user->section_id) ? $sections[$user->section_id] . "--" : "";
+            $s = ($user->section_id && isset($sections[$user->section_id])) ? $sections[$user->section_id] . "--" : "";
             $select_users[$user->id] = $s . $user->name . "(" . $user->username . ")";
         }
 

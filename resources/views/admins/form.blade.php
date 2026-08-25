@@ -32,7 +32,7 @@
                     @if($user->admin)
                         <i class="fas fa-crown text-primary"></i>
                     @endif
-                    {{ $groups[$user->group_id] }}
+                    {{ $groups[$user->group_id] ?? '' }}
                 </td>
                 <td>
                     {{ $user->name }}({{ $user->id }})<br>
@@ -57,13 +57,13 @@
                     @if(check_b_user($user->code,$user->id))
                         <br><small class="text-success">該校 簽收+填報權</small>
                     @endif
-                    @if($user->other_code)
+                    @if($user->other_code && isset($other_schools[$user->other_code]))
                         <br>
                         <span class="text-danger">{{ $other_schools[$user->other_code] }}</span>
                     @endif
                 </td>
                 <td>
-                    @if($user->section_id)
+                    @if($user->section_id && isset($sections[$user->section_id]))
                         {{ $sections[$user->section_id] }}
                     @endif
                     <?php

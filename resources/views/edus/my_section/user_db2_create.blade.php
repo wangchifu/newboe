@@ -39,7 +39,7 @@
                                     第二欄位：科別 <span class="text-danger">*</span>
                                 </label>
                                 <div class="text-secondary ps-1">
-                                    {{ $sections[auth()->user()->section_id] }}
+                                    {{ $sections[auth()->user()->section_id] ?? '' }}
                                 </div>
                             </div>
 
