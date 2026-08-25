@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">                    
             <h5>
-                {{ $sections[auth()->user()->section_id] }}
+                {{ $sections[auth()->user()->section_id] ?? '' }}
             </h5>
             <p>
                 方式一：從教育處所有帳號選擇

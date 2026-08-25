@@ -13,7 +13,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 text-center fw-bold">
-                <h1>彰化縣政府教育處 {{ $categories[$post->category_id] }}</h1>
+                <h1>彰化縣政府教育處 {{ $categories[$post->category_id] ?? '' }}</h1>
             </div>
         </div>
         <div class="row">

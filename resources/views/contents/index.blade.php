@@ -36,7 +36,7 @@
                             <a href="#!" class="btn btn-danger btn-sm" onclick="sw_confirm2('確定刪除？','delete{{ $content->id }}')"><i class="fas fa-trash"></i> 刪除</a>
                         </td>
                         <td>
-                            <?php $section_name = (!empty($content->section_id))?$sections[$content->section_id]:""; ?>
+                            <?php $section_name = (!empty($content->section_id))?($sections[$content->section_id] ?? ''):""; ?>
                             {{ $content->updated_at }}<br>{{ $section_name }} {{ $content->user->name }}
                         </td>
                     </tr>                        

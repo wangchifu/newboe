@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-<h1>{{ $sections[$section_id] }} 科室成員管理</h1>
+<h1>{{ $sections[$section_id] ?? '' }} 科室成員管理</h1>
 <div class="col-lg-12 mx-auto mb-3">  
 <a href="{{ route('my_section.admin_db2') }}" class="btn btn-success btn-sm venobox" data-vbtype="iframe">科室人員資料管理(不含調府教師)</a>
 <span class="text-danger"><i class="fas fa-arrow-left me-1"></i>從這裡新增資料者，他還是必須到 <a href="https://eip.chc.edu.tw" target="_blank">eip.chc.edu.tw</a> 申請帳號，才能登入新雲端。</span>

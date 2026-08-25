@@ -45,7 +45,7 @@
                             {{ $report_school->report->name }}
                         </td>
                         <td nowrap>
-                            {{ $sections[$report_school->report->user->section_id] }}<br>{{ $report_school->report->user->name }}
+                            {{ $sections[$report_school->report->user->section_id] ?? '' }}<br>{{ $report_school->report->user->name }}
                         </td>
                         <td nowrap style="text-align: center; vertical-align: middle;">
                             {{ substr($report_school->report->created_at,0,10) }}<br>

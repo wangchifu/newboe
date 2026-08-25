@@ -15,7 +15,7 @@
     <div class="card my-4">
         <div class="card-header text-center">
             <h3 class="py-2">
-                [{{ $sections[$power_section_id] }}] <i class="fas fa-user-cog"></i> 待審公告
+                [{{ $sections[$power_section_id] ?? '' }}] <i class="fas fa-user-cog"></i> 待審公告
             </h3>
         </div>
         <div class="card-body">
@@ -25,7 +25,7 @@
     <div class="card my-4">
         <div class="card-header text-center bg-info-subtle">
             <h3 class="py-2">
-                [{{ $sections[$power_section_id] }}] <i class="fas fa-user-cog"></i> 待審填報
+                [{{ $sections[$power_section_id] ?? '' }}] <i class="fas fa-user-cog"></i> 待審填報
             </h3>
         </div>
         <div class="card-body">
@@ -35,7 +35,7 @@
     <div class="card my-4">
         <div class="card-header text-center bg-success-subtle">
             <h3 class="py-2">
-                [{{ $sections[$power_section_id] }}] <i class="fas fa-user-cog"></i> 待審定期填報
+                [{{ $sections[$power_section_id] ?? '' }}] <i class="fas fa-user-cog"></i> 待審定期填報
             </h3>
         </div>
         <div class="card-body">

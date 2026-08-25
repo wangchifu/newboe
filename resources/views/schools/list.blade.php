@@ -59,7 +59,7 @@
                                     {{ $user_power->user->title }}
                                 </td>
                                 <td>
-                                    {{ $school_powers[$user_power->power_type] }}
+                                    {{ $school_powers[$user_power->power_type] ?? '' }}
                                 </td>
                                 <td>
                                     @if($user_power->user_id != auth()->user()->id)

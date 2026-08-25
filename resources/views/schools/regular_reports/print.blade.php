@@ -45,7 +45,7 @@
                             {{ $regular_report_school->regular_report->semester }} {{ $regular_report_school->regular_report->regular_sample->name }}
                         </td>
                         <td nowrap>
-                            {{ $sections[$regular_report_school->regular_report->user->section_id] }}<br>{{ $regular_report_school->regular_report->user->name }}
+                            {{ $sections[$regular_report_school->regular_report->user->section_id] ?? '' }}<br>{{ $regular_report_school->regular_report->user->name }}
                         </td>
                         <td nowrap style="text-align: center; vertical-align: middle;">
                             {{ $regular_report_school->regular_report->start_date }}<br>

@@ -80,7 +80,7 @@
         尚未被分科室
         @if(auth()->user()->my_section_id)
             <?php $sections = config('boe.sections'); ?>
-            -->{{ $sections[auth()->user()->my_section_id] }}，等候同意
+            -->{{ $sections[auth()->user()->my_section_id] ?? '' }}，等候同意
         @else
             <a href="{{ route('my_section.index') }}" class="btn btn-success btn-sm">選填我的科室</a>
         @endif
@@ -100,6 +100,6 @@
             ->orwhere('situation', '=', '2')
             ->count();
         ?>
-        　　<a href="{{ route('posts.review') }}" class="btn btn-primary btn-sm">[{{ $sections[$user_power->section_id] }}] <i class="fas fa-user-cog"></i> 審核區 ({{ $c_p+$c_r+$c_r2 }})</a>        
+        　　<a href="{{ route('posts.review') }}" class="btn btn-primary btn-sm">[{{ $sections[$user_power->section_id] ?? '' }}] <i class="fas fa-user-cog"></i> 審核區 ({{ $c_p+$c_r+$c_r2 }})</a>        
     @endif
 @endif

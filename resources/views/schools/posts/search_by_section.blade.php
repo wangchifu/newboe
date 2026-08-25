@@ -12,7 +12,7 @@
     <h1>公告簽收 </h1>
     <div class="card mb-4">        
         <div class="card-header">
-            <a href="{{ route('posts.showSigned') }}">公告列表</a> / 科室：「{{ $sections[$section_id] }}」
+            <a href="{{ route('posts.showSigned') }}">公告列表</a> / 科室：「{{ $sections[$section_id] ?? '' }}」
         </div>
         <div class="card-body">  
             @include('schools.posts.search_nav',['section_id'=>'all'])

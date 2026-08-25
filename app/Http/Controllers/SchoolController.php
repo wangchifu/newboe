@@ -69,6 +69,7 @@ class SchoolController extends Controller
                 ->get();
         }        
 
+        $user_not_data = [];
         foreach($user_powers as $user_power){
             if($user_power->user->code != auth()->user()->code){
                 //信義國中小視為同校
@@ -361,6 +362,7 @@ class SchoolController extends Controller
         $file = fopen($path, "r");
 
         $row = 1;
+        $all_school = [];
         // 檢查檔案是否成功開啟
         if ($file !== FALSE) {
             while (!feof($file)) {   

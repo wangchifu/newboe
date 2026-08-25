@@ -22,7 +22,7 @@
         @if($post->post_no)
             [{{ $post->post_no }}]
         @endif
-        {{ $categories[$post->category_id] }}
+        {{ $categories[$post->category_id] ?? '' }}
     </h1>
     <table border="1">
         <tbody>

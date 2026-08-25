@@ -16,7 +16,7 @@
         <div class="card-body">                    
             @if(auth()->user()->my_section_id)
                 <?php $sections = config('boe.sections'); ?>
-                -->你已經選了「{{ $sections[auth()->user()->my_section_id] }}」，等候同意中<br>
+                -->你已經選了「{{ $sections[auth()->user()->my_section_id] ?? '' }}」，等候同意中<br>
                 <a href="#!" class="btn btn-danger btn-sm mt-3" onclick="sw_confirm1('確定取消？','{{ route('apply_section.delete',$user->id) }}')">取消此次申請</a>
             @else
                 <form action="{{ route('apply_section.update', $user->id) }}" method="POST" id="select_form" onsubmit="return false">

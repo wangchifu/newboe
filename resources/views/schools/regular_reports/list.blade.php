@@ -59,7 +59,7 @@
                                 </a>
                             </td>
                             <td nowrap data-th="發佈人">
-                                {{ $sections[$regular_report_school->regular_report->section_id] }}<br>
+                                {{ $sections[$regular_report_school->regular_report->section_id] ?? '' }}<br>
                                 {{ $regular_report_school->regular_report->user->name }}
                             </td>
                             <td nowrap data-th="狀態">

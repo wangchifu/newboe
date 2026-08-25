@@ -10,7 +10,7 @@
         </div>
         <div class="card-body">
             <span class="text-right">
-                {{ $sections[$regular_report_school->regular_report->section_id] }} / 
+                {{ $sections[$regular_report_school->regular_report->section_id] ?? '' }} /
                 {{ $regular_report_school->regular_report->user->name }} / 
                 @if(!empty($regular_report_school->regular_report->user->telephone)) / 
                     <i class="fas fa-phone"></i> {{ $regular_report_school->regular_report->user->telephone }} / 

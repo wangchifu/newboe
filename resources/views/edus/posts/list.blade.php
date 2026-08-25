@@ -39,7 +39,7 @@
                     @endif
                 </td>
                 <td data-th="類別" nowrap>
-                    {{ $categories[$post->category_id] }}
+                    {{ $categories[$post->category_id] ?? '' }}
                 </td>
                 <td data-th="發佈人">
                     {{ $post->user->name }}
@@ -74,7 +74,7 @@
                     {{ substr($post->passed_at,0,16) }}
                 </td>
                 <td data-th="狀態" nowrap>
-                    {{ $situation[$post->situation] }}
+                    {{ $situation[$post->situation] ?? '' }}
                     @if($post->situation==3)
                         @if(isset($post->pass_user))
                         <i class="fas fa-user" data-toggle="tooltip" data-placement="bottom" title="{{ $post->pass_user->name }} 於 {{ substr($post->passed_at,0,16) }}"></i>

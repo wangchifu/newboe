@@ -60,10 +60,10 @@
                                     @endif
                                 </td>
                                 <td data-th="類別" nowrap>
-                                    {{ $categories[$post->category_id] }}
+                                    {{ $categories[$post->category_id] ?? '' }}
                                 </td>
                                 <td data-th="發佈人" nowrap>
-                                    {{ $sections[$post->section_id] }}<br>
+                                    {{ $sections[$post->section_id] ?? '' }}<br>
                                     {{ $post->user->name }}
                                 </td>
                                 <td data-th="主旨" class="td-title">
@@ -98,7 +98,7 @@
                                     {{ substr($post->passed_at,0,16) }}
                                 </td>
                                 <td data-th="狀態" nowrap>
-                                    {{ $situation[$post->situation] }}
+                                    {{ $situation[$post->situation] ?? '' }}
                                     @if($post->situation ==3 and $post->user_id == auth()->user()->id)
                                         <a href="{{ route('posts.copy',$post->id) }}" class="btn btn-outline-primary btn-sm">
                                             複製

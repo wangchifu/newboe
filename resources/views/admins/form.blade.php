@@ -73,7 +73,7 @@
                             ->first();
                     ?>
                     @if($user_power)
-                        <br><small class="text-primary">{{ $sections[$user_power->section_id] }} 審核權</small>
+                        <br><small class="text-primary">{{ $sections[$user_power->section_id] ?? '' }} 審核權</small>
                     @endif
                 </td>
                 <td>

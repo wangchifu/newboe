@@ -62,7 +62,7 @@
                     <a href="{{ route('edu_regular_report.date_late',$regular_report->id) }}" class="venobox badge bg-success" data-vbtype="iframe">延期</a>
                 </td>
                 <td data-th="狀態">
-                    {{ $situation[$regular_report->situation] }}
+                    {{ $situation[$regular_report->situation] ?? '' }}
                     @if(date('Ymd') > str_replace('-','',$regular_report->die_date))
                         <span class="text-danger">(已截止)</span>
                     @endif

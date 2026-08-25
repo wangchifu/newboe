@@ -48,7 +48,7 @@
                             @endif
                             @if($wrench->user->section_id)
                                 <?php $sections = config('boe.sections'); ?>
-                                {{ $sections[$wrench->user->section_id] }}
+                                {{ $sections[$wrench->user->section_id] ?? '' }}
                             @endif
                             {{ $wrench->user->name }} /
                         @else

@@ -71,6 +71,8 @@ class AdminsController extends Controller
         $users = User::where('edu_key','!=','')
             ->where('edu_key','!=',null)            
             ->get();
+        $check_user = [];
+        $userid2name = [];
         foreach($users as $user){
           $check_user[$user->id] = $user->edu_key;
           $userid2name[$user->id]['name'] = $user->name;          
