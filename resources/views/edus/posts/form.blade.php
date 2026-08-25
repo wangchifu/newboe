@@ -1,5 +1,5 @@
 @include('layouts.errors')
-<script src=" https://cdn.jsdelivr.net/npm/tinymce@7.9.1/tinymce.min.js "></script>
+<script src="{{ env('APP_URL') }}/vendor/tinymce/tinymce.min.js"></script>
 <div class="form-group  my-2">
     <label for="category_id"><strong class="text-danger">公告類別*</strong></label>
     <select name="category_id" id="category_id" class="form-control" onchange="show_type(this.value)" required>

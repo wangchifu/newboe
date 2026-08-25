@@ -1,7 +1,7 @@
 <html>
 <head>
     <title>填報列印</title>
-    <link href=" https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css " rel="stylesheet">
+    <link href="{{ env('APP_URL') }}/vendor/bootstrap/bootstrap.min.css" rel="stylesheet">
     <style type="text/css">
         @import url(https://fonts.googleapis.com/earlyaccess/cwtexkai.css);
         body {

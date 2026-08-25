@@ -9,7 +9,7 @@
 @endsection
 
 @section('content')
-<script src=" https://cdn.jsdelivr.net/npm/tinymce@7.9.1/tinymce.min.js "></script>
+<script src="{{ env('APP_URL') }}/vendor/tinymce/tinymce.min.js"></script>
 <div class="col-lg-12 mx-auto">
     <h1>{{ auth()->user()->school }} 學校簡介</h1>
     <div class="card mb-4">

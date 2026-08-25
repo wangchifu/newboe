@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-<script src=" https://cdn.jsdelivr.net/npm/tinymce@7.9.1/tinymce.min.js "></script>
+<script src="{{ env('APP_URL') }}/vendor/tinymce/tinymce.min.js"></script>
 <div class="col-lg-12 mx-auto">
     <h1>[{{ $sections[auth()->user()->section_id] }}]：<span class="badge bg-success"><i class="fas fa-plus"></i> 催促公告</span></h1>
         @include('edus.posts.nav')

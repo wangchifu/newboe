@@ -18,7 +18,7 @@
         </div>
         <div class="card-body">
             @include('layouts.errors')
-            <script src=" https://cdn.jsdelivr.net/npm/tinymce@7.9.1/tinymce.min.js "></script>
+            <script src="{{ env('APP_URL') }}/vendor/tinymce/tinymce.min.js"></script>
             <form action="{{ route('edu_report.store') }}" method="post" enctype="multipart/form-data" id="create_form" onsubmit="return false">
                 @csrf
             <div class="form-group my-2">
