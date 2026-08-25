@@ -342,8 +342,8 @@ class UploadController extends Controller
         $i=1;
         foreach($path_array as $v){
             if($v != null){
-                $check = Upload::where('id',$v)->first();                
-                $folder_path[$v] = $check->name;
+                $check = Upload::where('id',$v)->first();
+                $folder_path[$v] = $check?->name ?? '';
             }
             if($i==1){
                 $now_section = 0;
