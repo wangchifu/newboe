@@ -578,7 +578,7 @@ class PostsController extends Controller
         }              
         $post = Post::findOrFail($post_id);
         if ($post->situation != 3 && $post->situation != 4) {
-            if(!auth()->check() || (auth()->user()->id != $post->user_id && !$user_power)){
+            if(!auth()->check() || (auth()->user()->id != $post->user_id && !$user_power && auth()->user()->section_id != $post->section_id)){
                 abort(404);
             }
         }else{
@@ -598,7 +598,7 @@ class PostsController extends Controller
             }
         }
 
-        $file = storage_path('app/public/post_files/' . $post_id . '/' . $filename);        
+        $file = storage_path('app/public/post_files/' . $post_id . '/' . $filename);
         if (file_exists($file)) {
             return response()->download($file);
         }
@@ -611,13 +611,13 @@ class PostsController extends Controller
             $user_power = UserPower::where('user_id',auth()->user()->id)
             ->where('power_type','A')
             ->whereIn('section_id',$a)
-            ->first();      
+            ->first();
         }else{
             $user_power = null;
-        }              
+        }
         $post = Post::findOrFail($post_id);
         if ($post->situation != 3 && $post->situation != 4) {
-            if(!auth()->check() || (auth()->user()->id != $post->user_id && !$user_power)){
+            if(!auth()->check() || (auth()->user()->id != $post->user_id && !$user_power && auth()->user()->section_id != $post->section_id)){
                 abort(404);
             }
         }else{
@@ -625,7 +625,7 @@ class PostsController extends Controller
                 if(!auth()->check()){
                     abort(404);
                 }
-                if(auth()->user()->id != $post->user_id && !$user_power){
+                if(auth()->user()->id != $post->user_id && !$user_power && auth()->user()->section_id != $post->section_id){
                     $check = DB::table('post_schools_view')
                         ->where('code', 'like', '%' . auth()->user()->code . '%')
                         ->where('id', $post->id)
