@@ -858,7 +858,7 @@ class RegularReportController extends Controller
         foreach($regular_report_school->regular_report->regular_sample->regular_questions as $question) {
             // 收集每一筆資料，改為純陣列操作
             $insertData[] = [
-                'answer'                    => $request->input($question->title),
+                'answer'                    => (string)($request->input($question->title) ?? 0),
                 'regular_report_id'         => $regular_report_school->regular_report_id,
                 'regular_question_id'       => $question->id,
                 'regular_report_school_id'  => $regular_report_school->id,
@@ -958,7 +958,7 @@ class RegularReportController extends Controller
                 'regular_question_id'       => $question->id,
                 'regular_report_school_id'  => $regular_report_school->id,
                 'school_code'               => $regular_report_school->code,
-                'answer'                    => $request->input($question->title),
+                'answer'                    => (string)($request->input($question->title) ?? 0),
                 'created_at'                => $now, // 如果是剛好要新增時會用到
                 'updated_at'                => $now,
             ];

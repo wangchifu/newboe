@@ -58,15 +58,15 @@
                     <tbody>
                         <tr>
                             <th scope="row" class="table-light">人數</th>
-                            <td><input type="number" name="go_walk_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_walk_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="go_bike_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_bike_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="go_ebike_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_ebike_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="go_escooter_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_escooter_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="go_motor_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_motor_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="go_bus_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_bus_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="go_school_bus_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_school_bus_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="go_parent_motor_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_parent_motor_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="go_parent_car_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_parent_car_count'] ?? 0 }}" {{ $isReadonly }}></td>
+                            <td><input type="number" name="go_walk_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_walk_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="go_bike_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_bike_count'] ?? 0 }}" {{ $isReadonly }}required></td>
+                            <td><input type="number" name="go_ebike_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_ebike_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="go_escooter_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_escooter_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="go_motor_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_motor_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="go_bus_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_bus_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="go_school_bus_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_school_bus_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="go_parent_motor_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_parent_motor_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="go_parent_car_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_parent_car_count'] ?? 0 }}" {{ $isReadonly }} required></td>
                             <td class="table-light fw-bold">
                                 <input type="number" name="go_total_count" class="form-control form-control-sm text-center fw-bold bg-light" readonly placeholder="0">
                             </td>
@@ -164,16 +164,16 @@
                     <tbody>
                         <tr>
                             <th scope="row" class="table-light">人數</th>
-                            <td><input type="number" name="back_walk_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_walk_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="back_bike_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_bike_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="back_ebike_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_ebike_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="back_escooter_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_escooter_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="back_motor_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_motor_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="back_bus_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_bus_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="back_school_bus_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_school_bus_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="back_parent_motor_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_parent_motor_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="back_parent_car_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_parent_car_count'] ?? 0 }}" {{ $isReadonly }}></td>
-                            <td><input type="number" name="back_care_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_care_count'] ?? 0 }}" {{ $isReadonly }}></td>                                        
+                            <td><input type="number" name="back_walk_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_walk_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="back_bike_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_bike_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="back_ebike_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_ebike_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="back_escooter_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_escooter_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="back_motor_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_motor_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="back_bus_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_bus_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="back_school_bus_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_school_bus_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="back_parent_motor_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_parent_motor_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="back_parent_car_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_parent_car_count'] ?? 0 }}" {{ $isReadonly }} required></td>
+                            <td><input type="number" name="back_care_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['back_care_count'] ?? 0 }}" {{ $isReadonly }} required></td>                                        
                             <td class="table-light fw-bold">
                                 <input type="number" name="back_total_count" class="form-control form-control-sm text-center fw-bold bg-light" readonly placeholder="0">
                             </td>
@@ -272,10 +272,10 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td><input type="number" name="park_bike" class="form-control text-center {{ $inputBg }}" value="{{ $answer_data['park_bike'] ?? 0 }}" {{ $isReadonly }}></td>
-                                <td><input type="number" name="park_ebike" class="form-control text-center {{ $inputBg }}" value="{{ $answer_data['park_ebike'] ?? 0 }}" {{ $isReadonly }}></td>
-                                <td><input type="number" name="park_escooter" class="form-control text-center {{ $inputBg }}" value="{{ $answer_data['park_escooter'] ?? 0 }}" {{ $isReadonly }}></td>
-                                <td><input type="number" name="park_motor" class="form-control text-center {{ $inputBg }}" value="{{ $answer_data['park_motor'] ?? 0 }}" {{ $isReadonly }}></td>                                            
+                                <td><input type="number" name="park_bike" class="form-control text-center {{ $inputBg }}" value="{{ $answer_data['park_bike'] ?? 0 }}" {{ $isReadonly }} required></td>
+                                <td><input type="number" name="park_ebike" class="form-control text-center {{ $inputBg }}" value="{{ $answer_data['park_ebike'] ?? 0 }}" {{ $isReadonly }} required></td>
+                                <td><input type="number" name="park_escooter" class="form-control text-center {{ $inputBg }}" value="{{ $answer_data['park_escooter'] ?? 0 }}" {{ $isReadonly }} required></td>
+                                <td><input type="number" name="park_motor" class="form-control text-center {{ $inputBg }}" value="{{ $answer_data['park_motor'] ?? 0 }}" {{ $isReadonly }} required></td>                                            
                                 <td class="table-light">
                                     <input type="number" name="park_total" class="form-control text-center fw-bold bg-light" readonly placeholder="0">
                                 </td>
@@ -303,21 +303,21 @@
                         <tbody>
                             <tr>
                                 <td>
-                                    <select name="guide_bike" class="form-select form-select-sm text-center {{ $inputBg }}" {{ $isDisabled }}>
+                                    <select name="guide_bike" class="form-select form-select-sm text-center {{ $inputBg }}" {{ $isDisabled }} required>
                                         <option value="">-- 請選擇 --</option>
                                         <option value="是" {{ (isset($answer_data['guide_bike']) && $answer_data['guide_bike'] === '是') ? 'selected' : '' }}>是</option>
                                         <option value="否" {{ (isset($answer_data['guide_bike']) && $answer_data['guide_bike'] === '否') ? 'selected' : '' }}>否</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="guide_ebike" class="form-select form-select-sm text-center {{ $inputBg }}" {{ $isDisabled }}>
+                                    <select name="guide_ebike" class="form-select form-select-sm text-center {{ $inputBg }}" {{ $isDisabled }} required>
                                         <option value="">-- 請選擇 --</option>
                                         <option value="是" {{ (isset($answer_data['guide_ebike']) && $answer_data['guide_ebike'] === '是') ? 'selected' : '' }}>是</option>
                                         <option value="否" {{ (isset($answer_data['guide_ebike']) && $answer_data['guide_ebike'] === '否') ? 'selected' : '' }}>否</option>
                                     </select>
                                 </td>
                                 <td>
-                                    <select name="guide_escooter" class="form-select form-select-sm text-center {{ $inputBg }}" {{ $isDisabled }}>
+                                    <select name="guide_escooter" class="form-select form-select-sm text-center {{ $inputBg }}" {{ $isDisabled }} required>
                                         <option value="">-- 請選擇 --</option>
                                         <option value="是" {{ (isset($answer_data['guide_escooter']) && $answer_data['guide_escooter'] === '是') ? 'selected' : '' }}>是</option>
                                         <option value="否" {{ (isset($answer_data['guide_escooter']) && $answer_data['guide_escooter'] === '否') ? 'selected' : '' }}>否</option>
