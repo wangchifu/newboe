@@ -1039,7 +1039,7 @@ class RegularReportController extends Controller
         $sections = config('boe.sections');
         $data = [
             'regular_report_schools'=>$regular_report_schools,
-            'sections'=>$sections,
+            'sections'=>$sections,            
         ];
         return view('schools.regular_reports.print',$data);
     }
@@ -1062,6 +1062,7 @@ class RegularReportController extends Controller
             'answer_data'=>$answer_data,
             'regular_report_school'=>$regular_report_school,
             'sample_num'=>$sample_num,
+            'readonly'=>1,
         ];
         return view('schools.regular_reports.print2',$data);        
     }
