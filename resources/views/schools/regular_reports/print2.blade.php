@@ -20,7 +20,7 @@
             <div class="col-12 text-end" style="font-size: 25px;">
                 承辦人：{{ array_get($sections,$regular_report_school->regular_report->section_id) }} / {{ $regular_report_school->regular_report->user->name }}
                 @if(!empty($regular_report_school->regular_report->user->telephone)) 
-                    <small>TEL {{ $regular_report_school->report->user->telephone }}</small> 
+                    <small>TEL {{ $regular_report_school->regular_report->user->telephone }}</small> 
                 @endif
             </div>
         </div>        
