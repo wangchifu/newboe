@@ -80,10 +80,12 @@
                 <h4>題目與填報</h4>
                 <div class="h5 ms-3" style="word-break: break-word;">
                     @include('edus.regular_reports.sample_'.$sample_num)    
-                    填報者：
-                    @if(!empty($report_school->signed_user_id))
-                        {{ userid2name($report_school->signed_user_id) }}
-                    @endif
+                    填報者：                    
+                    @if(!empty($regular_report_school->signed_user_id))
+						{{ userid2name($regular_report_school->signed_user_id) }}
+					@else
+					<span class="text-danger">尚未填寫</span>
+					@endif
                     <br>
                     填報日期：{{ $regular_report_school->signed_at }}
                     <br>

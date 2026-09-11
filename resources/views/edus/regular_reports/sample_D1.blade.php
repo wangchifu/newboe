@@ -59,7 +59,7 @@
                         <tr>
                             <th scope="row" class="table-light">人數</th>
                             <td><input type="number" name="go_walk_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_walk_count'] ?? 0 }}" {{ $isReadonly }} required></td>
-                            <td><input type="number" name="go_bike_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_bike_count'] ?? 0 }}" {{ $isReadonly }}required></td>
+                            <td><input type="number" name="go_bike_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_bike_count'] ?? 0 }}" {{ $isReadonly }} required></td>
                             <td><input type="number" name="go_ebike_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_ebike_count'] ?? 0 }}" {{ $isReadonly }} required></td>
                             <td><input type="number" name="go_escooter_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_escooter_count'] ?? 0 }}" {{ $isReadonly }} required></td>
                             <td><input type="number" name="go_motor_count" class="form-control form-control-sm text-center {{ $inputBg }}" value="{{ $answer_data['go_motor_count'] ?? 0 }}" {{ $isReadonly }} required></td>
@@ -75,61 +75,61 @@
                             <th scope="row" class="table-light">比率</th>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="go_walk_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="go_walk_rate" class="form-control text-center bg-light" value="{{ $answer_data['go_walk_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="go_bike_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="go_bike_rate" class="form-control text-center bg-light" value="{{ $answer_data['go_bike_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="go_ebike_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="go_ebike_rate" class="form-control text-center bg-light" value="{{ $answer_data['go_ebike_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="go_escooter_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="go_escooter_rate" class="form-control text-center bg-light" value="{{ $answer_data['go_escooter_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="go_motor_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="go_motor_rate" class="form-control text-center bg-light" value="{{ $answer_data['go_motor_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="go_bus_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="go_bus_rate" class="form-control text-center bg-light" value="{{ $answer_data['go_bus_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="go_school_bus_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="go_school_bus_rate" class="form-control text-center bg-light" value="{{ $answer_data['go_school_bus_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="go_parent_motor_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="go_parent_motor_rate" class="form-control text-center bg-light" value="{{ $answer_data['go_parent_motor_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="go_parent_car_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="go_parent_car_rate" class="form-control text-center bg-light" value="{{ $answer_data['go_parent_car_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td class="table-light fw-bold">
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="go_total_rate" class="form-control text-center fw-bold bg-light" readonly>
+                                    <input type="text" name="go_total_rate" class="form-control text-center fw-bold bg-light" value="{{ $answer_data['go_total_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1 fw-bold">%</span>
                                 </div>
                             </td>
@@ -182,67 +182,67 @@
                             <th scope="row" class="table-light">比率</th>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="back_walk_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="back_walk_rate" class="form-control text-center bg-light" value="{{ $answer_data['back_walk_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="back_bike_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="back_bike_rate" class="form-control text-center bg-light" value="{{ $answer_data['back_bike_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="back_ebike_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="back_ebike_rate" class="form-control text-center bg-light" value="{{ $answer_data['back_ebike_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="back_escooter_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="back_escooter_rate" class="form-control text-center bg-light" value="{{ $answer_data['back_escooter_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="back_motor_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="back_motor_rate" class="form-control text-center bg-light" value="{{ $answer_data['back_motor_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="back_bus_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="back_bus_rate" class="form-control text-center bg-light" value="{{ $answer_data['back_bus_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="back_school_bus_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="back_school_bus_rate" class="form-control text-center bg-light" value="{{ $answer_data['back_school_bus_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="back_parent_motor_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="back_parent_motor_rate" class="form-control text-center bg-light" value="{{ $answer_data['back_parent_motor_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="back_parent_car_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="back_parent_car_rate" class="form-control text-center bg-light" value="{{ $answer_data['back_parent_car_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="back_care_rate" class="form-control text-center bg-light" readonly>
+                                    <input type="text" name="back_care_rate" class="form-control text-center bg-light" value="{{ $answer_data['back_care_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1">%</span>
                                 </div>
                             </td>
                             <td class="table-light fw-bold">
                                 <div class="input-group input-group-sm">
-                                    <input type="text" name="back_total_rate" class="form-control text-center fw-bold bg-light" readonly>
+                                    <input type="text" name="back_total_rate" class="form-control text-center fw-bold bg-light" value="{{ $answer_data['back_total_rate'] ?? 0 }}" readonly>
                                     <span class="input-group-text px-1 fw-bold">%</span>
                                 </div>
                             </td>
@@ -421,10 +421,6 @@ $(document).ready(function() {
         });
         $('input[name="park_total"]').val(total);
     });
-
-    // ==========================================
-    // 🔥 關鍵改動：已將第 4 區塊的 JS 監聽與初始化完全刪除
-    // ==========================================
 
     // 網頁一載入完成，立刻自動觸發前三個區塊的計算
     $('input[name="go_walk_count"]').trigger('input');
