@@ -110,11 +110,11 @@
     <span class="text-danger">{{ $no_report_name }}</span>
     @if($no_report_name)
         <br>
-        <form action="{{ route('edu_report.post') }}" method="post" id="report_post_form" onsubmit="return false">
+        <form action="{{ route('edu_regular_report.post') }}" method="post" id="edu_regular_report_post_form" onsubmit="return false">
             <input type="hidden" name="schools" value="{{ substr($no_report_name,0,-1) }}">
-            <input type="hidden" name="report_id" value="{{ $regular_report->id }}">
+            <input type="hidden" name="regular_report_id" value="{{ $regular_report->id }}">
             @csrf
-        <button class="btn btn-warning btn-sm" onclick="sw_confirm2('確定發簽收公告？','report_post_form')">發催促公告</button>
+        <button class="btn btn-warning btn-sm" onclick="sw_confirm2('確定發簽收公告？','edu_regular_report_post_form')">發催促公告</button>
         </form>
     @endif     
     <br>

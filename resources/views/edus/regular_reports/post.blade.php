@@ -32,11 +32,11 @@
                 </div>
                 <div class="form-group my-2">
                     <label for="title"><strong>公告主旨*</strong></label>                    
-                    <input type="text" name="title" id="title" class="form-control" placeholder="請輸入標題" required value="催促填報!! 資料填報編號<?= $report->id . "-" . $report->name ?> 未送達!!">
+                    <input type="text" name="title" id="title" class="form-control" placeholder="請輸入標題" required value="催促填報!! 定期資料填報編號<?= $regular_report->id . "-" . $regular_report->regular_sample->name ?> 未送達!!">
                 </div>
                 <div class="form-group my-2">
                     <label for="content"><strong>公告內容*</strong></label>
-                    <textarea name="content" id="content" class="form-control" rows="10" placeholder="請輸入內容" required><?= "請貴校盡速填報編號：" . $report->id . "-" . $report->name ?></textarea>
+                    <textarea name="content" id="content" class="form-control" rows="10" placeholder="請輸入內容" required><?= "請貴校盡速定期填報編號：" . $regular_report->id . "-" . $regular_report->regular_sample->name ?></textarea>
                 </div>
                 <div class="form-group my-2">
                     <label for="schools"><strong>發送對象學校*</strong></label>

@@ -326,7 +326,7 @@ if (!function_exists('get_files')) {
 }
 
 if (!function_exists('array_sort')) {
-    function array_sort(array $array, callable $callback = null)
+    function array_sort(array $array, ?callable $callback = null)
     {
         if ($callback) {
             uasort($array, $callback);

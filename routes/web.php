@@ -249,6 +249,9 @@ Route::group(['middleware' => 'edu'],function(){
     Route::get('edu_regular_report/{regular_report_school}/set_back', [RegularReportController::class,'set_back'])->name('edu_regular_report.set_back');
     Route::get('edu_regular_report/{regular_report_school}/set_null', [RegularReportController::class,'set_null'])->name('edu_regular_report.set_null');
 
+    //催促公告
+    Route::post('edu_regular_report/post', [RegularReportController::class,'post'])->name('edu_regular_report.post');
+
 });
 //系統管理者、科室管理者
 Route::group(['middleware' => 'all_admin'],function(){

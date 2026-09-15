@@ -601,6 +601,25 @@ class RegularReportController extends Controller
         return (new FastExcel($list))->download('RegularReport'.$regular_report->id.'.csv');
     }
 
+    public function post(Request $request)
+    {        
+        $regular_report = RegularReport::where('id',$request->input('regular_report_id'))
+            ->first();            
+        $schools = explode(',',$request->input('schools'));
+        $sel_schools = School::whereIn('school_name',$schools)->get();
+        foreach($sel_schools as $sel_school){
+            $school_array[] = $sel_school->id;
+        }
+        $sections = config('boe.sections');
+        $data = [
+            'schools'=>$request->input('schools'),
+            'regular_report'=>$regular_report,
+            'school_array'=>$school_array,
+            'sections'=>$sections,
+        ];
+        return view('edus.regular_reports.post',$data);
+    }
+
     public function school_index()    
     {
         $posts_all_not = \App\Models\PostSchool::where('code','like', "%".auth()->user()->code."%")
