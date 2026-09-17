@@ -141,26 +141,29 @@
     }
 
     function insert_temp(result) {
-    for (var k in result) {
-        // 💡 透過 name 屬性尋找 input 元素（例如 input[name="go_bike_count"]）
-        var inputElement = document.querySelector('input[name="' + k + '"]');
-        
-        // 防呆：確保頁面上真的有這個 input 元素才塞值，避免報錯
-        if (inputElement) {
-            inputElement.value = result[k]; // result[k] 就等於 27
+        for (var k in result) {
+            // 💡 防呆：如果是 CSRF Token 直接跳過，不寫入表單
+            if (k === '_token') {
+                continue;
+            }
+
+            // 💡 關鍵修復：改用 CSS 選擇器同時匹配 input 與 select
+            var formElement = document.querySelector('[name="' + k + '"]');
+            
+            // 防呆：確保頁面上真的有這個元素才塞值
+            if (formElement) {
+                formElement.value = result[k]; // select 只要 value 與 option 對應就會自動預選
+            }
+        }
+
+        // 當用 JS 批量塞入新數值後，觸發事件讓相關計算與畫面跟著更新
+        if (typeof $ !== 'undefined') {
+            $('input[name="go_walk_count"]').trigger('input');
+            $('input[name="back_walk_count"]').trigger('input');
+            $('input[name="park_bike"]').trigger('input');
+            $('select[name="guide_bike"]').trigger('change');
         }
     }
-
-    // ✨ 還記得我們上一題寫的自動加總機制嗎？
-    // 當你用 JS 批量塞入新數值後，必須手動觸發一次 input 事件，
-    // 這樣後方的「合計」跟「百分比」才會在一載入時立刻跟著算好！
-    if (typeof $ !== 'undefined') {
-        $('input[name="go_walk_count"]').trigger('input');
-        $('input[name="back_walk_count"]').trigger('input');
-        $('input[name="park_bike"]').trigger('input');
-        $('input[name="guide_bike"]').trigger('input');
-    }
-}
     
 </script>
 @endsection
