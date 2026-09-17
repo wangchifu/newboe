@@ -1013,28 +1013,26 @@ class RegularReportController extends Controller
 
     public function school_save_temp(Request $request)
     {        
-        $att = $request->all();        
-        
+        // 💡 關鍵修復：排除 _token，避免覆蓋前端最新的 CSRF Token
+        $att = $request->except('_token');        
 
         $att_temp['content'] = serialize($att);
-        $att_temp['regular_report_id'] = $att['regular_report_id'];
+        $att_temp['regular_report_id'] = $request->input('regular_report_id');
         $att_temp['code'] = auth()->user()->code;
         $att_temp['user_id'] = auth()->user()->id;
 
-        $check = RegularReportTemp::where('code',$att_temp['code'])
-            ->where('regular_report_id',$att_temp['regular_report_id'])
+        $check = RegularReportTemp::where('code', $att_temp['code'])
+            ->where('regular_report_id', $att_temp['regular_report_id'])
             ->first();
 
-        if($check){
+        if ($check) {
             $check->update($att_temp);
-        }else{
+        } else {
             $check = RegularReportTemp::create($att_temp);
         }
-        $data = $check->id;
 
-        $result = json_encode($data,true);        
-        echo $result;
-        return ;
+        // 💡 符合 Laravel 規範的 JSON 回應方式
+        return response()->json($check->id);
     }
 
     public function school_pull_temp($regular_report_id)

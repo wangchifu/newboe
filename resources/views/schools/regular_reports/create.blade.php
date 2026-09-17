@@ -88,6 +88,10 @@
 </form>
 <script>        
     function go_save_temp(){
+        // 取得暫存按鈕並暫時禁用，避免重複連點
+        var $btn = $(event.currentTarget);
+        $btn.prop('disabled', true);
+
         $.ajax({
             url: '{{ route('school_regular_report.save_temp') }}',
             type : 'post',
@@ -97,11 +101,19 @@
                 sw_alert('暫存成功');
                 show_pull();
             },
-            error: function() {
-                sw_alert('暫存失敗！');
+            error: function(xhr) {
+                // 判斷是否為 419 CSRF Token 過期
+                if (xhr.status === 419) {
+                    sw_alert('頁面閒置過久已過期 (419)，請先複製已填寫內容並重新整理頁面！');
+                } else {
+                    sw_alert('暫存失敗！');
+                }
+            },
+            complete: function() {
+                // 請求完成後恢復按鈕可點擊狀態
+                $btn.prop('disabled', false);
             }
-        })
-
+        });
     }
 
     function show_pull(){
