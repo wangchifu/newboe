@@ -1011,9 +1011,9 @@ class RegularReportController extends Controller
         </script>";
     }    
 
-    public function school_save_temp(Request $request)
+   public function school_save_temp(Request $request)
     {        
-        // 💡 關鍵修復：排除 _token，避免覆蓋前端最新的 CSRF Token
+        // 1. 排除 _token，避免將 CSRF Token 存進資料庫
         $att = $request->except('_token');        
 
         $att_temp['content'] = serialize($att);
@@ -1031,20 +1031,32 @@ class RegularReportController extends Controller
             $check = RegularReportTemp::create($att_temp);
         }
 
-        // 💡 符合 Laravel 規範的 JSON 回應方式
-        return response()->json($check->id);
+        // 2. 回傳成功狀態與「最新的 CSRF Token」，讓前端更新
+        return response()->json([
+            'status'     => 'success',
+            'id'         => $check->id,
+            'new_token'  => csrf_token(),
+        ]);
     }
 
     public function school_pull_temp($regular_report_id)
     {
-        $regular_report_temp = RegularReportTemp::where('code','like', "%".auth()->user()->code."%")
-            ->where('regular_report_id',$regular_report_id)
+        $regular_report_temp = RegularReportTemp::where('code', 'like', "%".auth()->user()->code."%")
+            ->where('regular_report_id', $regular_report_id)
             ->first();
-        $data = unserialize($regular_report_temp->content);
 
-        $result = json_encode($data,true);
-        echo $result;
-        return ;
+        if ($regular_report_temp && $regular_report_temp->content) {
+            $data = unserialize($regular_report_temp->content);
+
+            // 💡 關鍵修復：從資料中過濾掉 _token，避免傳回前端覆蓋掉最新的 CSRF Token
+            if (is_array($data) && isset($data['_token'])) {
+                unset($data['_token']);
+            }
+
+            return response()->json($data);
+        }
+
+        return response()->json([]);
     }
 
     public function school_print($id)

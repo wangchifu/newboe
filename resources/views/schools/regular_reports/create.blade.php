@@ -100,17 +100,21 @@
             success : function(result) {
                 sw_alert('暫存成功');
                 show_pull();
+
+                // 💡 關鍵修復：更新表單內的 _token 為最新 Token，避免第二次暫存報 419
+                if (result.new_token) {
+                    $('#create_form input[name="_token"]').val(result.new_token);
+                }
             },
             error: function(xhr) {
-                // 判斷是否為 419 CSRF Token 過期
                 if (xhr.status === 419) {
-                    sw_alert('頁面閒置過久已過期 (419)，請先複製已填寫內容並重新整理頁面！');
+                    sw_alert('頁面閒置過久已過期 (419)，請重新整理 (F5) 頁面後再試！');
                 } else {
                     sw_alert('暫存失敗！');
                 }
             },
             complete: function() {
-                // 請求完成後恢復按鈕可點擊狀態
+                // 請求完成後恢復按鈕
                 $btn.prop('disabled', false);
             }
         });
