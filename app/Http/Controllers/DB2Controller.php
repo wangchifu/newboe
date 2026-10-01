@@ -181,18 +181,22 @@ class DB2Controller extends Controller
     function user_db2_store(Request $request){
         $dbh = connect_DB2();
         $att = $request->all();
-        $att['staff_person_id'] = hash('sha256', strtoupper(trim($att['id_card'])));
+        //明文身分證存 staff_plan_id，雜湊存 staff_person_id
+        $att['staff_plan_id'] = strtoupper(trim($att['id_card']));
+        $att['staff_person_id'] = hash('sha256', $att['staff_plan_id']);
         if($att['staff_sid'] =="079998") $att['staff_curr_class_num'] = "I";
         $att['staff_username'] = generateRandomString(10);
         $att['staff_password'] = generateRandomString(12);
 
-        $check_sql = "SELECT id,staff_sid,staff_status FROM staff WHERE staff_person_id = :staff_person_id LIMIT 1";
+        //一個人可以有多個單位，只檢查同單位是否已有此人
+        $check_sql = "SELECT id,staff_sid,staff_status FROM staff WHERE staff_person_id = :staff_person_id AND staff_sid = :staff_sid LIMIT 1";
 
         $stmt = $dbh->prepare($check_sql);
 
         // 2. 執行並綁定變數
         $stmt->execute([
-            ':staff_person_id' => $att['staff_person_id']
+            ':staff_person_id' => $att['staff_person_id'],
+            ':staff_sid' => $att['staff_sid'],
         ]);
 
         // 3. 取得查詢結果
@@ -222,6 +226,7 @@ class DB2Controller extends Controller
             staff_sid,
             staff_curr_class_num,
             staff_person_id,
+            staff_plan_id,
             staff_name,
             staff_sex,
             staff_title,
@@ -230,19 +235,31 @@ class DB2Controller extends Controller
             staff_password,
             staff_status
         ) VALUES (
-            '{$att['staff_sid']}',
-            '{$att['staff_curr_class_num']}',
-            '{$att['staff_person_id']}',
-            '{$att['staff_name']}',
-            '{$att['staff_sex']}',
-            '{$att['staff_title']}',
+            :staff_sid,
+            :staff_curr_class_num,
+            :staff_person_id,
+            :staff_plan_id,
+            :staff_name,
+            :staff_sex,
+            :staff_title,
             '教職員',
-            '{$att['staff_username']}',
-            '{$att['staff_password']}',
+            :staff_username,
+            :staff_password,
             '1'
-        )";   
-        
-        $result=$dbh->query($sql);
+        )";
+
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute([
+            ':staff_sid' => $att['staff_sid'],
+            ':staff_curr_class_num' => $att['staff_curr_class_num'],
+            ':staff_person_id' => $att['staff_person_id'],
+            ':staff_plan_id' => $att['staff_plan_id'],
+            ':staff_name' => $att['staff_name'],
+            ':staff_sex' => $att['staff_sex'],
+            ':staff_title' => $att['staff_title'] ?? '',
+            ':staff_username' => $att['staff_username'],
+            ':staff_password' => $att['staff_password'],
+        ]);
 
         // DB1 有這個人就更新 section_id，沒有就不管（等他 OpenID 登入後再處理）
         $personIds = [
@@ -370,34 +387,73 @@ class DB2Controller extends Controller
     }
 
     function user_db2_change(Request $request,$id){
-        $person_id = $request->input('person_id');
         $staff_sid = $request->input('staff_sid');
         $staff_name = $request->input('staff_name');
         $staff_sex = $request->input('staff_sex');
         $staff_title = $request->input('staff_title');
         $staff_curr_class_num = $request->input('staff_curr_class_num');
+        $staff_plan_id = strtoupper(trim((string) $request->input('staff_plan_id')));
         $dbh = connect_DB2();
+
+        //目前的身分證雜湊以 DB2 為準
+        $stmt = $dbh->prepare("SELECT staff_person_id FROM staff WHERE id = :id LIMIT 1");
+        $stmt->execute([':id' => $id]);
+        $staff = $stmt->fetch();
+        if (!$staff) return back();
+        $person_id = $staff['staff_person_id'];
+        $new_person_id = $person_id;
+
+        //有填身分證才更新明文與雜湊
+        if ($staff_plan_id != '') {
+            $new_person_id = hash('sha256', $staff_plan_id);
+        }
+
+        //同單位不可有相同身分證(DB2 主鍵是 staff_person_id + staff_sid)
+        $stmt = $dbh->prepare("SELECT id FROM staff WHERE staff_person_id = :staff_person_id AND staff_sid = :staff_sid AND id != :id LIMIT 1");
+        $stmt->execute([
+            ':staff_person_id' => $new_person_id,
+            ':staff_sid' => $staff_sid,
+            ':id' => $id,
+        ]);
+        if ($stmt->fetch()) {
+            return back()->with('error', '此單位已有相同身分證人員，未儲存');
+        }
+
         $sql = "
-        UPDATE staff 
-        SET staff_sid = '{$staff_sid}',
-        staff_name = '{$staff_name}',
-        staff_sex = '{$staff_sex}',
-        staff_title = '{$staff_title}',
-        staff_curr_class_num = '{$staff_curr_class_num}'
-        WHERE 
-            id = '{$id}'                    
-        ";        
-        $result=$dbh->query($sql);    
-        
-        //如果他在新雲端也有帳號，把他科室改為正確的
+        UPDATE staff
+        SET staff_sid = :staff_sid,
+        staff_name = :staff_name,
+        staff_sex = :staff_sex,
+        staff_title = :staff_title,
+        staff_curr_class_num = :staff_curr_class_num,
+        staff_person_id = :staff_person_id,
+        staff_plan_id = IF(:staff_plan_id = '', staff_plan_id, :staff_plan_id2)
+        WHERE
+            id = :id
+        ";
+        $stmt = $dbh->prepare($sql);
+        $stmt->execute([
+            ':staff_sid' => $staff_sid,
+            ':staff_name' => $staff_name ?? '',
+            ':staff_sex' => $staff_sex,
+            ':staff_title' => $staff_title ?? '',
+            ':staff_curr_class_num' => $staff_curr_class_num,
+            ':staff_person_id' => $new_person_id,
+            ':staff_plan_id' => $staff_plan_id,
+            ':staff_plan_id2' => $staff_plan_id,
+            ':id' => $id,
+        ]);
+
+        //如果他在新雲端也有帳號，把他科室改為正確的，身分證改了 edu_key 也要跟著改
         $user = User::where('edu_key',strtoupper($person_id))
             ->whereIn('code',['079999','079998'])
-            ->whereNull('disable')            
+            ->whereNull('disable')
             ->first();
         $att['name'] = $staff_name;
         $att['section_id'] = $staff_curr_class_num;
         $att['code'] = $staff_sid;
         $att['title'] = $staff_title;
+        $att['edu_key'] = strtoupper($new_person_id);
         if($user) $user->update($att);
 
         return back();
@@ -546,24 +602,35 @@ class DB2Controller extends Controller
         }
 
 
-        //用本科室成員的 edu_key 去 DB2 比對 staff_person_id，加上 staff_sid 條件
+        //本科室成員：單位是 079999 或 079998(不含調府教師的學校單位)，且
+        //DB2 科別是本科室，或新雲端帳號屬於本科室(只比對他自己單位那一筆，一人多單位時不會把別單位的也列進來)
         $section_id = auth()->user()->section_id;
-        $code = (auth()->user()->username == 'admin9') ? '079998' : '079999';
-        $members = User::where('section_id', $section_id)
+        $members = ['079999'=>[], '079998'=>[]];
+        $member_users = User::where('section_id', $section_id)
+            ->whereIn('code', ['079999','079998'])
             ->whereNotNull('edu_key')
             ->where('edu_key', '!=', '')
-            ->pluck('edu_key')
-            ->map(fn($key) => strtolower($key))
-            ->toArray();
+            ->get(['edu_key','code']);
+        foreach($member_users as $u){
+            $members[$u->code][] = strtolower($u->edu_key);
+        }
 
         $staff_in = [];
         $staff_out = [];
-        if (!empty($members)) {
-            $placeholders = implode(',', array_fill(0, count($members), '?'));
+        if (!empty($section_id)) {
+            $member_sql = '';
+            $bindings = [$section_id];
+            foreach ($members as $sid => $keys) {
+                if (empty($keys)) continue;
+                $placeholders = implode(',', array_fill(0, count($keys), '?'));
+                $member_sql .= " OR (staff_sid = ? AND LOWER(staff_person_id) IN ({$placeholders}))";
+                $bindings = array_merge($bindings, [$sid], $keys);
+            }
             $sql2 = "
             SELECT
                 id,
                 staff_person_id,
+                staff_plan_id,
                 staff_sid,
                 staff_name,
                 staff_sex,
@@ -573,20 +640,25 @@ class DB2Controller extends Controller
             FROM
                 staff
             WHERE
-                LOWER(staff_person_id) IN ({$placeholders})
-                AND staff_sid = ?
+                staff_sid IN ('079999', '079998')
                 AND staff_kind = '教職員'
+                AND (
+                    staff_curr_class_num = ?
+                    {$member_sql}
+                )
             ORDER BY
+                staff_sid DESC,
                 staff_curr_class_num
             ";
 
             $stmt = $dbh->prepare($sql2);
-            $stmt->execute(array_merge($members, [$code]));
+            $stmt->execute($bindings);
             $result = $stmt->fetchAll();
 
             foreach ($result as $row) {
                 if($row['staff_status']=="1"){
                     $staff_in[$row['id']]['person_id'] = $row['staff_person_id'];
+                    $staff_in[$row['id']]['plan_id'] = $row['staff_plan_id'];
                     $staff_in[$row['id']]['sid'] = $row['staff_sid'];
                     $staff_in[$row['id']]['name'] = $row['staff_name'];
                     $staff_in[$row['id']]['sex'] = $row['staff_sex'];
@@ -594,6 +666,7 @@ class DB2Controller extends Controller
                     $staff_in[$row['id']]['staff_curr_class_num'] = $row['staff_curr_class_num'];
                 }else{
                     $staff_out[$row['id']]['person_id'] = $row['staff_person_id'];
+                    $staff_out[$row['id']]['plan_id'] = $row['staff_plan_id'];
                     $staff_out[$row['id']]['sid'] = $row['staff_sid'];
                     $staff_out[$row['id']]['name'] = $row['staff_name'];
                     $staff_out[$row['id']]['sex'] = $row['staff_sex'];
@@ -648,34 +721,34 @@ class DB2Controller extends Controller
     function admin_db2_store(Request $request){
         $dbh = connect_DB2();
         $att = $request->all();
-        $att['staff_person_id'] = hash('sha256', strtoupper(trim($att['id_card'])));
-        $admin = ['admin1','admin2','admin3','admin4','admin5','admin6','admin7','admin8','admin9','admin10'];
-        if(in_array(auth()->user()->username,$admin)){
-            $code = "079999";
-            if(auth()->user()->username == "admin9") $code = "079998";
-        }else{
-            $code = auth()->user()->code;
-        }
-        $att['staff_sid'] = $code;
+        //明文身分證存 staff_plan_id，雜湊存 staff_person_id
+        $att['staff_plan_id'] = strtoupper(trim($att['id_card']));
+        $att['staff_person_id'] = hash('sha256', $att['staff_plan_id']);
+        //單位是新增的這個人的，只能是教育處 079999 或縣網中心 079998，不可動到學校單位
+        if(!in_array($att['staff_sid'] ?? '', ['079999','079998'])) $att['staff_sid'] = '079999';
+        //科別一律是本科室(079998 的人也可能在其他科室)
         $att['staff_curr_class_num'] = auth()->user()->section_id;
-        if($att['staff_sid'] =="079998") $att['staff_curr_class_num'] = "I";
         $att['staff_username'] = generateRandomString(10);
         $att['staff_password'] = generateRandomString(12);
 
-        $check_sql = "SELECT id,staff_sid,staff_status FROM staff WHERE staff_person_id = :staff_person_id LIMIT 1";
+        //一個人可以有多個單位，只檢查同單位是否已有此人
+        $check_sql = "SELECT id,staff_sid,staff_status,staff_curr_class_num FROM staff WHERE staff_person_id = :staff_person_id AND staff_sid = :staff_sid LIMIT 1";
 
         $stmt = $dbh->prepare($check_sql);
 
         // 2. 執行並綁定變數
         $stmt->execute([
-            ':staff_person_id' => $att['staff_person_id']
+            ':staff_person_id' => $att['staff_person_id'],
+            ':staff_sid' => $att['staff_sid'],
         ]);
 
         // 3. 取得查詢結果
         $exists = $stmt->fetch();
 
         // 4. 判斷並回傳結果
-        if ($exists) {            
+        //同單位已有此人，但沒有科室或就是本科室 -> 直接認領，其他科室的人才擋下來
+        $claim = $exists && (empty($exists['staff_curr_class_num']) || $exists['staff_curr_class_num'] == $att['staff_curr_class_num']);
+        if ($exists && !$claim) {            
             // 有找到資料，代表已經申請過
             $id = $exists['id'];
             $staff_sid = $exists['staff_sid'];
@@ -694,31 +767,67 @@ class DB2Controller extends Controller
         }
 
 
-        $sql = "INSERT INTO staff (
-            staff_sid,
-            staff_curr_class_num,
-            staff_person_id,
-            staff_name,
-            staff_sex,
-            staff_title,
-            staff_kind,
-            staff_username,
-            staff_password,
-            staff_status
-        ) VALUES (
-            '{$att['staff_sid']}',
-            '{$att['staff_curr_class_num']}',
-            '{$att['staff_person_id']}',
-            '{$att['staff_name']}',
-            '{$att['staff_sex']}',
-            '{$att['staff_title']}',
-            '教職員',
-            '{$att['staff_username']}',
-            '{$att['staff_password']}',
-            '1'
-        )";   
-        
-        $result=$dbh->query($sql);
+        if ($claim) {
+            $sql = "
+            UPDATE staff
+            SET staff_curr_class_num = :staff_curr_class_num,
+            staff_plan_id = :staff_plan_id,
+            staff_name = :staff_name,
+            staff_sex = :staff_sex,
+            staff_title = :staff_title,
+            staff_status = '1'
+            WHERE
+                id = :id
+            ";
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute([
+                ':staff_curr_class_num' => $att['staff_curr_class_num'],
+                ':staff_plan_id' => $att['staff_plan_id'],
+                ':staff_name' => $att['staff_name'],
+                ':staff_sex' => $att['staff_sex'],
+                ':staff_title' => $att['staff_title'] ?? '',
+                ':id' => $exists['id'],
+            ]);
+        } else {
+            $sql = "INSERT INTO staff (
+                staff_sid,
+                staff_curr_class_num,
+                staff_person_id,
+                staff_plan_id,
+                staff_name,
+                staff_sex,
+                staff_title,
+                staff_kind,
+                staff_username,
+                staff_password,
+                staff_status
+            ) VALUES (
+                :staff_sid,
+                :staff_curr_class_num,
+                :staff_person_id,
+                :staff_plan_id,
+                :staff_name,
+                :staff_sex,
+                :staff_title,
+                '教職員',
+                :staff_username,
+                :staff_password,
+                '1'
+            )";
+
+            $stmt = $dbh->prepare($sql);
+            $stmt->execute([
+                ':staff_sid' => $att['staff_sid'],
+                ':staff_curr_class_num' => $att['staff_curr_class_num'],
+                ':staff_person_id' => $att['staff_person_id'],
+                ':staff_plan_id' => $att['staff_plan_id'],
+                ':staff_name' => $att['staff_name'],
+                ':staff_sex' => $att['staff_sex'],
+                ':staff_title' => $att['staff_title'] ?? '',
+                ':staff_username' => $att['staff_username'],
+                ':staff_password' => $att['staff_password'],
+            ]);
+        }
 
         // DB1 有這個人就更新 section_id，沒有就不管（等他 OpenID 登入後再處理）
         $personIds = [

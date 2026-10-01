@@ -11,6 +11,9 @@
 @section('content')
 <div class="col-lg-12 mx-auto">
     <h1>帳號管理</h1>
+    @if(session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
     <div class="card mb-4">
         <div class="card-header">
             @include('admins.search_nav')

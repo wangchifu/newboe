@@ -5,6 +5,9 @@
 @section('content')
 <div class="col-lg-12 mx-auto">
     <h1>科室人員資料(不含調府教師)</h1>
+    @if(session('error'))
+        <div class="alert alert-danger">{{ session('error') }}</div>
+    @endif
     <div class="card mb-4">
         <div class="card-header">
             帳號資訊
@@ -49,8 +52,9 @@
                                         <tr>
                                             <th>序號</th>
                                             {{-- <th>ID</th> --}}
-                                            {{-- <th>代碼</th> --}}
+                                            <th>單位</th>
                                             <th>姓名</th>
+                                            <th>身分證字號</th>
                                             <th>性別</th>
                                             <th>職稱</th>
                                             <th>科別</th>
@@ -63,7 +67,7 @@
                                         <tr>
                                             <td class="fw-bold text-secondary">{{ $n }}</td>
                                             {{-- <td>{{ $id }}</td> --}}
-                                            {{-- <td>
+                                            <td>
                                                 @if($info['sid'] == '079998')
                                                     縣網中心 {{ $info['sid'] }}
                                                 @elseif($info['sid'] == '079999')
@@ -71,9 +75,12 @@
                                                 @else
                                                     ---
                                                 @endif
-                                            </td> --}}
+                                            </td>
                                             <td class="fw-bold text-dark">
                                                 <input type="text" name="staff_name" form="change_room{{ $id }}" class="form-control fw-bold text-dark" value="{{ $info['name'] ?? '' }}" placeholder="請輸入姓名" required>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="staff_plan_id" form="change_room{{ $id }}" class="form-control text-center" value="{{ $info['plan_id'] ?? '' }}" maxlength="20" placeholder="未填">
                                             </td>
                                             <td>
                                                 <select name="staff_sex" form="change_room{{ $id }}"
@@ -127,8 +134,9 @@
                                         <tr>
                                             <th>序號</th>
                                             {{-- <th>ID</th> --}}
-                                            {{-- <th>代碼</th> --}}
+                                            <th>單位</th>
                                             <th>姓名</th>
+                                            <th>身分證字號</th>
                                             <th>性別</th>
                                             <th>職稱</th>
                                             <th>科別</th>
@@ -141,7 +149,7 @@
                                         <tr>
                                             <td class="fw-bold text-secondary">{{ $n }}</td>
                                             {{-- <td>{{ $id }}</td> --}}
-                                            {{-- <td>
+                                            <td>
                                                 @if($info['sid'] == '079998')
                                                     縣網中心 {{ $info['sid'] }}
                                                 @elseif($info['sid'] == '079999')
@@ -149,8 +157,9 @@
                                                 @else
                                                     ---
                                                 @endif
-                                            </td> --}}
+                                            </td>
                                             <td class="text-muted text-decoration-line-through">{{ $info['name'] ?? '---' }}</td>
+                                            <td>{{ $info['plan_id'] ?? '---' }}</td>
                                             <td>{{ $info['sex'] ?? '---' }}</td>
                                             <td><span class="badge bg-light text-secondary border">{{ $info['title'] ?? '---' }}</span></td>
                                             <td>

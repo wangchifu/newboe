@@ -24,13 +24,11 @@
                                 <label for="unit" class="form-label fw-bold">
                                     第一欄位：單位 <span class="text-danger">*</span>
                                 </label>
-                                <div class="text-secondary ps-1">
-                                    @if(auth()->user()->username == 'admin9' or auth()->user()->code == '079998')
-                                        縣網中心 079998
-                                    @else
-                                        教育處 079999
-                                    @endif
-                                </div>
+                                <?php $default_sid = (auth()->user()->section_id == 'I') ? '079998' : '079999'; ?>
+                                <select class="form-select" id="unit" name="staff_sid" required>
+                                    <option value="079999" {{ $default_sid == '079999' ? 'selected' : '' }}>教育處 079999</option>
+                                    <option value="079998" {{ $default_sid == '079998' ? 'selected' : '' }}>縣網中心 079998</option>
+                                </select>
                             </div>
 
                             <!-- 第二欄位：科別 (下拉 - 必填) -->
