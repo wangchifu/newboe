@@ -266,8 +266,10 @@ class DB2Controller extends Controller
             strtolower($att['staff_person_id']),
             strtoupper($att['staff_person_id'])
         ];
+        //新雲端帳號只對應同單位那一筆(一人多單位時不可動到別單位的帳號)
         $user = User::whereIn('edu_key', $personIds)
             ->whereIn('code', ['079998','079999'])
+            ->where('code', $att['staff_sid'])
             ->first();
         if ($user) {
             $user->update([
@@ -396,7 +398,7 @@ class DB2Controller extends Controller
         $dbh = connect_DB2();
 
         //目前的身分證雜湊以 DB2 為準
-        $stmt = $dbh->prepare("SELECT staff_person_id FROM staff WHERE id = :id LIMIT 1");
+        $stmt = $dbh->prepare("SELECT staff_person_id, staff_sid FROM staff WHERE id = :id LIMIT 1");
         $stmt->execute([':id' => $id]);
         $staff = $stmt->fetch();
         if (!$staff) return back();
@@ -445,8 +447,10 @@ class DB2Controller extends Controller
         ]);
 
         //如果他在新雲端也有帳號，把他科室改為正確的，身分證改了 edu_key 也要跟著改
+        //帳號只對應同單位那一筆(一人多單位時不可動到別單位的帳號)
         $user = User::where('edu_key',strtoupper($person_id))
             ->whereIn('code',['079999','079998'])
+            ->where('code', $staff['staff_sid'])
             ->whereNull('disable')
             ->first();
         $att['name'] = $staff_name;
@@ -834,8 +838,10 @@ class DB2Controller extends Controller
             strtolower($att['staff_person_id']),
             strtoupper($att['staff_person_id'])
         ];
+        //新雲端帳號只對應同單位那一筆(一人多單位時不可動到別單位的帳號)
         $user = User::whereIn('edu_key', $personIds)
             ->whereIn('code', ['079998','079999'])
+            ->where('code', $att['staff_sid'])
             ->first();
         if ($user) {
             $user->update([
