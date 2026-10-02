@@ -222,7 +222,7 @@ Route::group(['middleware' => 'edu'],function(){
     Route::post('edu_report/post', [EduReportController::class,'post'])->name('edu_report.post');
 
     //退回學校的填報
-    Route::get('edu_report/{report_school}/set_back', [EduReportController::class,'set_back'])->name('edu_report.set_back');
+    Route::patch('edu_report/{report_school}/set_back', [EduReportController::class,'set_back'])->name('edu_report.set_back');
     Route::get('edu_report/{report_school}/set_null', [EduReportController::class,'set_null'])->name('edu_report.set_null');
 
     //定期填報    
@@ -246,7 +246,7 @@ Route::group(['middleware' => 'edu'],function(){
     Route::get('edu_regular_report/{regular_report}/export', [RegularReportController::class,'export'])->name('edu_regular_report.export');
 
     //退回學校的定期填報
-    Route::get('edu_regular_report/{regular_report_school}/set_back', [RegularReportController::class,'set_back'])->name('edu_regular_report.set_back');
+    Route::patch('edu_regular_report/{regular_report_school}/set_back', [RegularReportController::class,'set_back'])->name('edu_regular_report.set_back');
     Route::get('edu_regular_report/{regular_report_school}/set_null', [RegularReportController::class,'set_null'])->name('edu_regular_report.set_null');
 
     //催促公告

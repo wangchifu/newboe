@@ -371,6 +371,7 @@ class SchoolReportController extends Controller
         $att['signed_user_id'] = auth()->user()->id;
         $att['signed_at'] = now();
         $att['situation'] = 1;
+        $att['back_reason'] = null;
 
         $report_school->update($att);
 
@@ -416,7 +417,7 @@ class SchoolReportController extends Controller
         </script>";
     }
 
-    public function back(ReportSchool $report_school)
+    public function back(Request $request,ReportSchool $report_school)
     {
         if (!strstr($report_school->code, auth()->user()->code)) {
             abort(403, '非本校填報');
@@ -424,6 +425,7 @@ class SchoolReportController extends Controller
                 
         $att['situation'] = 0;
         $att['review_user_id'] = auth()->user()->id;
+        $att['back_reason'] = $request->input('back_reason');                
         $report_school->update($att);
         return redirect()->back();
     }

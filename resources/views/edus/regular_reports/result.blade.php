@@ -40,7 +40,37 @@
                     @if($regular_report_school->situation==3)
                         <span data-toggle="tooltip" data-placement="top" title="{{ $regular_report_school->updated_at }} 送出">{{ $school->school_name }}</span>
                             <small class="text-secondary">填：{{ $regular_report_school->signed_user->name }}</small><br>
-                        <a href="#!" class="badge bg-danger" onclick="sw_confirm1('確定退回 {{ $school->school_name }}？','{{ route('edu_regular_report.set_back',$regular_report_school->id) }}')">退回</a>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#regularBackModal{{ $regular_report_school->id }}" data-bs-toggle="modal" data-bs-target="#regularBackModal{{ $regular_report_school->id }}">
+                            退回
+                        </button>
+
+                        <!-- 定期資料填報 退回 Modal -->
+                        <div class="modal fade" id="regularBackModal{{ $regular_report_school->id }}" tabindex="-1" aria-labelledby="regularBackModalLabel{{ $regular_report_school->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <form action="{{ route('edu_regular_report.set_back', $regular_report_school->id) }}" method="post" id="back_form{{ $regular_report_school->id }}">
+                                        @csrf
+                                        @method('patch')
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="regularBackModalLabel{{ $regular_report_school->id }}">退回 {{ $school->school_name }} 定期資料填報</h5>
+                                            <button type="button" class="close btn-close" data-dismiss="modal" data-bs-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body text-left" style="white-space: normal;">
+                                            <div class="form-group mb-3 text-left">
+                                                <label for="back_reason{{ $regular_report_school->id }}" class="form-label">請輸入退回原因</label>
+                                                <input type="text" class="form-control" name="back_reason" id="back_reason{{ $regular_report_school->id }}" required placeholder="請輸入退回原因">
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary btn-sm" data-dismiss="modal" data-bs-dismiss="modal">取消</button>
+                                            <button type="submit" class="btn btn-danger btn-sm">確認退回</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     @elseif($regular_report_school->situation==4)
                         <span data-toggle="tooltip" data-placement="top" title="{{ $regular_report_school->signed_at }} 送出">{{ $school->school_name }}</span><br>
                             <small class="text-secondary">填：{{ $regular_report_school->signed_user->name }}</small><br>

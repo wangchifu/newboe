@@ -13,6 +13,7 @@ class RegularReportSchool extends Model
         'review_user_id',
         'signed_at',
         'situation',
+        'back_reason',
     ];
 
     public function regular_report()

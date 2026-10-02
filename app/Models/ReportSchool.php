@@ -13,6 +13,7 @@ class ReportSchool extends Model
         'review_user_id',
         'signed_at',
         'situation',
+        'back_reason',
     ];
 
     public function report()

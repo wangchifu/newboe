@@ -82,6 +82,9 @@
                                 <a href="{{ route('school_report.show',$report_school->id) }}" class="venobox" data-vbtype="iframe" style="text-decoration: none;color:#000088;">
                                     @if($report_school->report->situation==3)
                                         {{ $report_school->report->name }}
+                                        @if($report_school->situation === 0)
+                                            <span class="text-danger">(已被退回)</span>
+                                        @endif
                                     @endif
                                     @if($report_school->report->situation==4)
                                         <del>
@@ -111,7 +114,9 @@
                                     <br>
                                     <small class="text-secondary">填:{{ $report_school->signed_user->name }}</small>
                                 @elseif($report_school->situation === 0)
-                                    <span class="text-danger">已退回</span>
+                                    <button type="button" class="btn btn-outline-danger btn-sm" onclick="sw_alert('退回原因', '{{ $report_school->back_reason }}')">
+                                        退回原因
+                                    </button>
                                     <br>
                                     <small class="text-secondary">填:{{ $report_school->signed_user->name }}</small>
                                 @endif
@@ -157,12 +162,37 @@
                             @if(check_a_user(auth()->user()->code,auth()->user()->id))
                                     @if($report_school->situation === 1 and date('Ymd') <= str_replace('-','',$report_school->report->die_date) and $report_school->report->situation != 4)
                                         <div style="float:left;margin-right: 5px">
-                                            <form action="{{ route('school_report.back',$report_school->id) }}" method="post" id="back_form{{ $report_school->id }}" onsubmit="return false">
-                                                @csrf
-                                                @method('patch')
-                                                <button class="btn btn-outline-danger btn-sm" onclick="sw_confirm2('確定退回？','back_form{{ $report_school->id }}')">退回</button>
-                                            </form>
-                                        </div>
+                                            <!-- 觸發 Modal 的按鈕 -->
+                                            <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#backModal{{ $report_school->id }}">
+                                                退回
+                                            </button>
+
+                                            <!-- 退回 Modal -->
+                                            <div class="modal fade" id="backModal{{ $report_school->id }}" tabindex="-1" aria-labelledby="backModalLabel{{ $report_school->id }}" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <form action="{{ route('school_report.back', $report_school->id) }}" method="post" id="back_form{{ $report_school->id }}">
+                                                            @csrf
+                                                            @method('patch')
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title" id="backModalLabel{{ $report_school->id }}">退回填報</h5>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body text-left" style="white-space: normal;">
+                                                                <div class="form-group mb-3">
+                                                                    <label for="back_reason{{ $report_school->id }}" class="form-label">請輸入退回原因：</label>
+                                                                    <input type="text" class="form-control" name="back_reason" id="back_reason{{ $report_school->id }}" required placeholder="請輸入退回原因">
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">取消</button>
+                                                                <button type="submit" class="btn btn-danger btn-sm">確認退回</button>
+                                                            </div>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>                                            
+                                        </div>                                        
                                         <div style="float:left;margin-right: 5px">
                                             <form action="{{ route('school_report.passing',$report_school->id) }}" method="post" id="passing_form{{ $report_school->id }}" onsubmit="return false">
                                                 @csrf

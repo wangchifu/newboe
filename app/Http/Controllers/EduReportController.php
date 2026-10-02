@@ -879,10 +879,11 @@ class EduReportController extends Controller
         return view('edus.reports.post',$data);
     }
 
-    public function set_back(ReportSchool $report_school)
+    public function set_back(Request $request,ReportSchool $report_school)
     {
         $att['situation'] = 0;
         $att['review_user_id'] = auth()->user()->id;
+        $att['back_reason'] = $request->input('back_reason');            
         $report_school->update($att);
         return redirect()->route('edu_report.result',$report_school->report_id);
     }

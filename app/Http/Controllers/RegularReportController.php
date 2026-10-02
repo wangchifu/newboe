@@ -396,10 +396,11 @@ class RegularReportController extends Controller
         return redirect()->route('edu_regular_report.index');
     }
 
-    public function set_back(RegularReportSchool $regular_report_school)
+    public function set_back(Request $request,RegularReportSchool $regular_report_school)
     {        
         $att['situation'] = 0;
         $att['review_user_id'] = auth()->user()->id;
+        $att['back_reason'] = $request->input('back_reason');           
         $regular_report_school->update($att);
         return redirect()->route('edu_regular_report.result',$regular_report_school->regular_report_id);
     }
@@ -762,13 +763,14 @@ class RegularReportController extends Controller
         return view('schools.regular_reports.show_person_Signed',$data);
     }
 
-    public function school_back(RegularReportSchool $regular_report_school)
+    public function school_back(Request $request,RegularReportSchool $regular_report_school)
     {
         if (!strstr($regular_report_school->code, auth()->user()->code)) {
             abort(403, '非本校填報');
         }        
         $att['situation'] = 0;
         $att['review_user_id'] = auth()->user()->id;
+        $att['back_reason'] = $request->input('back_reason');                        
         $regular_report_school->update($att);
         return redirect()->back();
     }
@@ -802,6 +804,7 @@ class RegularReportController extends Controller
         }        
         $att['situation'] = 3;
         $att['review_user_id'] = auth()->user()->id;
+        $att['back_reason'] = null;                        
         $regular_report_school->update($att);
 
         //重算        
