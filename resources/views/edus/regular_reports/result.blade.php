@@ -57,8 +57,8 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <div class="modal-body text-left" style="white-space: normal;">
-                                            <div class="form-group mb-3 text-left">
+                                        <div class="modal-body text-start" style="white-space: normal;">
+                                            <div class="form-group mb-3 text-start">
                                                 <label for="back_reason{{ $regular_report_school->id }}" class="form-label">請輸入退回原因</label>
                                                 <input type="text" class="form-control" name="back_reason" id="back_reason{{ $regular_report_school->id }}" required placeholder="請輸入退回原因">
                                             </div>
@@ -70,7 +70,7 @@
                                     </form>
                                 </div>
                             </div>
-                        </div>
+                        </div>                        
                     @elseif($regular_report_school->situation==4)
                         <span data-toggle="tooltip" data-placement="top" title="{{ $regular_report_school->signed_at }} 送出">{{ $school->school_name }}</span><br>
                             <small class="text-secondary">填：{{ $regular_report_school->signed_user->name }}</small><br>
