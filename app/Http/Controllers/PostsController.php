@@ -578,7 +578,7 @@ class PostsController extends Controller
         }              
         $post = Post::findOrFail($post_id);
         if ($post->situation != 3 && $post->situation != 4) {
-            if(!auth()->check() || (auth()->user()->id != $post->user_id && !$user_power && auth()->user()->section_id != $post->section_id)){
+            if(!auth()->check() || (auth()->user()->id != $post->user_id && !$user_power && (empty($post->section_id) || auth()->user()->section_id != $post->section_id))){
                 abort(404);
             }
         }else{
@@ -586,7 +586,10 @@ class PostsController extends Controller
                 if(!auth()->check()){
                     abort(404);
                 }
-                if(auth()->user()->section_id != $post->user?->section_id && !$user_power){
+                //發文者帳號停用後 user->section_id 會被清空，改用公告本身存的科室
+                $post_section_id = $post->section_id ?: $post->user?->section_id;
+                $same_section = !empty($post_section_id) && auth()->user()->section_id == $post_section_id;
+                if(auth()->user()->id != $post->user_id && !$same_section && !$user_power){
                     $check = DB::table('post_schools_view')
                         ->where('code', 'like', '%' . auth()->user()->code . '%')
                         ->where('id', $post->id)
@@ -617,7 +620,7 @@ class PostsController extends Controller
         }
         $post = Post::findOrFail($post_id);
         if ($post->situation != 3 && $post->situation != 4) {
-            if(!auth()->check() || (auth()->user()->id != $post->user_id && !$user_power && auth()->user()->section_id != $post->section_id)){
+            if(!auth()->check() || (auth()->user()->id != $post->user_id && !$user_power && (empty($post->section_id) || auth()->user()->section_id != $post->section_id))){
                 abort(404);
             }
         }else{
@@ -625,7 +628,7 @@ class PostsController extends Controller
                 if(!auth()->check()){
                     abort(404);
                 }
-                if(auth()->user()->id != $post->user_id && !$user_power && auth()->user()->section_id != $post->section_id){
+                if(auth()->user()->id != $post->user_id && !$user_power && (empty($post->section_id) || auth()->user()->section_id != $post->section_id)){
                     $check = DB::table('post_schools_view')
                         ->where('code', 'like', '%' . auth()->user()->code . '%')
                         ->where('id', $post->id)
@@ -1097,9 +1100,12 @@ class PostsController extends Controller
             //if($post->user->section_id != auth()->user()->section_id){
             //$post->user有可能是以前在教育處調府教師,歸鑑回學校後,它以前發的公告就會進入這邊了
             //所以再多檢查section_id=='' 時, 暫時防止不是教育處的人就好
-            if ($post->user?->section_id != '' && $post->user?->section_id != auth()->user()->section_id) {
+            //發文者帳號停用後 user->section_id 會被清空，改用公告本身存的科室
+            $post_section_id = $post->section_id ?: $post->user?->section_id;
+            $same_section = !empty($post_section_id) && $post_section_id == auth()->user()->section_id;
+            if ($post->user_id != auth()->user()->id && !$same_section) {
                 //不同科室 也不是該科室的審核權
-                $user_power = UserPower::where('section_id', $post->user?->section_id)->where('user_id', auth()->user()->id)->first();
+                $user_power = empty($post_section_id) ? null : UserPower::where('section_id', $post_section_id)->where('user_id', auth()->user()->id)->first();
 
                 if (!$user_power) {
                     abort('404','無法觀看別科室公告');
