@@ -119,7 +119,7 @@
                                                         @if($quick_signed)
                                                             <span class="text-danger">*已催促*</span>
                                                         @else
-                                                            <input class="btn btn-danger btn-sm" type="submit" value="催簽收" onclick="sw_confirm2('確定要催促這些學校？','quickly_form')">
+                                                            <input class="btn btn-danger btn-sm" type="submit" value="催簽收" onclick="sw_confirm2('請不要濫用催收，更不要一發公告就馬上催！確定要催促這些學校？','quickly_form')">
                                                         @endif
                                                     @endif
                                                 @endif
