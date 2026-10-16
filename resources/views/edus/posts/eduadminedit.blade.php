@@ -26,7 +26,7 @@
                     現有附件：<br>
                     @if(!empty($files))
                         @foreach($files as $v)
-                            <a href="#!" onclick="sw_confirm1('確定刪除？','{{ route('posts.del_att',['id'=>$post->id,'filename'=>$v]) }}');" class="text-danger"><i class="fas fa-trash"></i></a>
+                            <a href="#!" onclick="sw_confirm1('確定刪除？','{{ route('posts.eduadmin_del_att',['id'=>$post->id,'filename'=>$v]) }}');" class="text-danger"><i class="fas fa-trash"></i></a>
                             <a href="{{ route('posts.download',['filename'=>$v,'id'=>$post->id]) }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-download"></i> {{ $v }}
                             </a>
@@ -41,7 +41,7 @@
                                     $image_path = $images_path.'/'.$v;
                                     $file_path = str_replace('/','&',$image_path);
                             ?>
-                            <a href="#!" onclick="sw_confirm1('確定刪除？','{{ route('posts.del_img',['id'=>$post->id,'filename'=>$v]) }}');" class="text-danger"><i class="fas fa-trash"></i></a>
+                            <a href="#!" onclick="sw_confirm1('確定刪除？','{{ route('posts.eduadmin_del_img',['id'=>$post->id,'filename'=>$v]) }}');" class="text-danger"><i class="fas fa-trash"></i></a>
                             <a href="{{ asset('storage/post_photos/'.$post->id.'/'.$v) }}" target="_blank">
                                 <img src="{{ route('posts.img',$file_path) }}" height="50">
                             </a>                            

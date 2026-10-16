@@ -2191,6 +2191,36 @@ class PostsController extends Controller
         return back();
     }
 
+    //審核者刪除附件
+    public function eduadmin_del_att($id, $filename)
+    {
+        $this->check_eduadmin_del($id);
+        File::delete(storage_path('app/public/post_files/' . $id . '/' . basename($filename)));
+        return back();
+    }
+    //審核者刪除圖片
+    public function eduadmin_del_img($id, $filename)
+    {
+        $this->check_eduadmin_del($id);
+        File::delete(storage_path('app/public/post_photos/' . $id . '/' . basename($filename)));
+        return back();
+    }
+    //審核者須為同科室一級管理A，且公告未通過、未作廢
+    private function check_eduadmin_del($id)
+    {
+        $post = Post::findOrFail($id);
+        $user_power = UserPower::where('user_id', auth()->user()->id)
+            ->where('power_type', 'A')
+            ->where('section_id', $post->section_id)
+            ->first();
+        if (!$user_power) {
+            abort(403, '無權編輯其他科室公告');
+        }
+        if ($post->situation == 3 || $post->situation == 4) {
+            abort(403);
+        }
+    }
+
     //催收公告
     public function signedquickly(Post $post)
     {

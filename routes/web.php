@@ -432,6 +432,10 @@ Route::group(['middleware' => 'edu_admin'],function(){
     Route::get('posts/{id}/eduadminedit', [PostsController::class,'eduadminedit'])->name('posts.eduadminedit');
     //實際儲存修改好的公告資料
     Route::patch('posts/{id}/eduadminupdate', [PostsController::class,'eduadminupdate'])->name('posts.eduadminupdate');
+    //審核者刪除指定公告的附件
+    Route::get('posts/{id}/{filename}/eduadmin_del_att', [PostsController::class,'eduadmin_del_att'])->name('posts.eduadmin_del_att');
+    //審核者刪除指定公告的圖片
+    Route::get('posts/{id}/{filename}/eduadmin_del_img', [PostsController::class,'eduadmin_del_img'])->name('posts.eduadmin_del_img');
 
         //資料填報審查
     Route::get('reports/review', [EduReportController::class,'review'])->name('reports.review');
