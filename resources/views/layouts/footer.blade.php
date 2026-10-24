@@ -52,7 +52,7 @@
 @endauth
 <footer class="py-4 bg-dark text-white">
     <div class="container text-center">
-        <!-- 1. 線上人數統計 -->
+        <!-- 1. 線上人數統計與會員選單 -->
         <div class="mb-2">
             <x-online-stats />
         </div>
