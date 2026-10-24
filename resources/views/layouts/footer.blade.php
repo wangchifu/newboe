@@ -50,9 +50,23 @@
         });        
     </script>
 @endauth
-<footer class="py-5 bg-dark">
-    <div class="container"><p class="m-0 text-center text-white">Copyright &copy; 彰化縣教育處新雲端 {{ date('Y') }}</p></div>
-    @auth
-        <div class="session-timer text-light text-center">剩餘時間: -- 後登出</div>
-    @endauth
+<footer class="py-4 bg-dark text-white">
+    <div class="container text-center">
+        <!-- 1. 線上人數統計 -->
+        <div class="mb-2">
+            <x-online-stats />
+        </div>
+
+        <!-- 2. 登出倒數計時（登入會員顯眼提示） -->
+        @auth
+            <div class="session-timer small text-warning mb-2">
+                ⏱️ 剩餘時間: <span id="timer">--</span> 後登出
+            </div>
+        @endauth
+
+        <!-- 3. 版權宣告 -->
+        <p class="m-0 small text-white">
+            Copyright &copy; 彰化縣教育處新雲端 {{ date('Y') }}
+        </p>
+    </div>
 </footer>
