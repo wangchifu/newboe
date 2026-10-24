@@ -68,4 +68,12 @@ class OnlineTrackerService
             'guest'     => $guestUsers,                 // 訪客數
         ];
     }
+
+    /**
+ * 清除指定時間區間的統計快取
+ */
+    public function clearCache(int $minutes = 5): void
+    {
+        Cache::forget("online_users_stats_{$minutes}min");
+    }
 }

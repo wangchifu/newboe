@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Services\OnlineTrackerService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Response;
@@ -394,18 +395,29 @@ class HomeController extends Controller
     public function login(){
         return redirect()->route('logins');
     }
-    public function logout(Request $request){                
+
+    public function logout(Request $request, OnlineTrackerService $onlineTracker)
+    {
+        // 1. 登出 Auth 使用者
         Auth::logout();
-        
-        if(empty(session('id_token'))){
+
+        // 2. 🔑 關鍵：在清空 Session 與跳轉前，立刻清除線上人數快取
+        $onlineTracker->clearCache(5);
+
+        // 3. 處理 SSO 登出連結邏輯（需要在 Flush 之前取得 session('id_token')）
+        if (empty(session('id_token'))) {
             $link = env('APP_URL');
-        }else{
+        } else {
             $url = "https://chc.sso.edu.tw/oidc/v1/logout-to-go";
             $post_logout_redirect_uri = env('APP_URL');
             $id_token_hint = session('id_token');
-            $link = $url . "?post_logout_redirect_uri=".$post_logout_redirect_uri."&id_token_hint=" . $id_token_hint;
-        }        
-        Session::flush();
+            $link = $url . "?post_logout_redirect_uri=" . $post_logout_redirect_uri . "&id_token_hint=" . $id_token_hint;
+        }
+
+        // 4. 重置 Session 並無效化目前的 Session ID
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
         return redirect($link);
     }
 
