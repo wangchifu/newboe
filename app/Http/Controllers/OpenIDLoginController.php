@@ -76,7 +76,11 @@ class OpenIDLoginController extends Controller
       
       // 2. 取得 Access Token
       $acctoken = $obj->getAccessToken($token_ep, $code, REDIR_URI0);
-      if( !$acctoken || !isset($acctoken->access_token) ) {
+      if( !$acctoken ) {
+        die("彰化縣數位學習師生單一帳號系統(EIP)發生錯誤 無法登入");
+      }
+
+      if( !isset($acctoken->access_token) ) {
         die("【除錯 3 失敗】無法取得 ACCESS TOKEN！<br>SSO 端點回傳內容：<pre>" . print_r($acctoken, true) . "</pre>");
       }
       
@@ -101,11 +105,11 @@ class OpenIDLoginController extends Controller
       // dd(['userinfo' => $userinfo, 'profile' => $profile, 'edufile' => $edufile]);
 
       if( !$userinfo ) {
-        die("【除錯 5 失敗】無法取得 USER INFO 資料。");
+        die("彰化縣數位學習師生單一帳號系統(EIP)發生錯誤 無法登入");
       }
 
       if( !$profile ){
-        die("【除錯 6 失敗】無法取得 PROFILE 資料。");
+        die("彰化縣數位學習師生單一帳號系統(EIP)發生錯誤 無法登入");
       }
 
       if( empty($profile['personid']) ){
@@ -113,7 +117,7 @@ class OpenIDLoginController extends Controller
       }      
 
       if( !$edufile ){
-        die("【除錯 8 失敗】無法取得 EDUFILE 資料。");
+        die("彰化縣數位學習師生單一帳號系統(EIP)發生錯誤 無法登入");
       }
 
       // 4. 安全檢查 edufile 陣列結構 (防止陣列 Key 缺失造成 500)
@@ -361,8 +365,10 @@ class openid {
             'method'  => 'POST',
             'content' => http_build_query($data)
           ));
-      $context = stream_context_create($options);
-      $result = file_get_contents($token_ep, false, $context);
+      $result = $this->request($token_ep, $options);
+      if ($result === null) {
+        return null;
+      }
       $j= json_decode($result, $rtn_array);
       return $j;
     }
@@ -387,10 +393,34 @@ class openid {
             'method'  => 'GET',
             'content' => ''
           ));
-      $context = stream_context_create($options);
-      $result = file_get_contents($token_ep, false, $context);
+      $result = $this->request($token_ep, $options);
+      if ($result === null) {
+        return null;
+      }
       $u= json_decode($result,$rtn_array);
       return $u;
+    }
+
+    // 請求失敗時寫入 log 並回傳 null，由 callback() 顯示「彰化縣數位學習師生單一帳號系統(EIP)發生錯誤 無法登入」，避免被 Laravel 轉成 500
+    private function request($url, $options){
+      $options['http']['ignore_errors'] = true; // 4xx/5xx 不發出 warning
+      $context = stream_context_create($options);
+      $result = @file_get_contents($url, false, $context); // @：連線失敗時回傳 false
+
+      $status_line = $http_response_header[0] ?? '';
+      preg_match('#^HTTP/\S+\s+(\d{3})#', $status_line, $matches);
+      $status = (int) ($matches[1] ?? 0);
+
+      if ($result === false || $status !== 200) {
+        \Illuminate\Support\Facades\Log::warning('OpenID API 請求失敗', [
+          'url' => $url,
+          'status' => $status,
+          'body' => $result === false ? null : mb_substr($result, 0, 500),
+        ]);
+        return null;
+      }
+
+      return $result;
     }
     public function urlsafeB64Encode($input)
     {
