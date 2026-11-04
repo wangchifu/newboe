@@ -77,7 +77,7 @@ class OpenIDLoginController extends Controller
       // 2. 取得 Access Token
       $acctoken = $obj->getAccessToken($token_ep, $code, REDIR_URI0);
       if( !$acctoken ) {
-        die("彰化縣數位學習師生單一帳號系統(EIP)發生錯誤 無法登入");
+        return view('errors.eip_login');
       }
 
       if( !isset($acctoken->access_token) ) {
@@ -105,11 +105,11 @@ class OpenIDLoginController extends Controller
       // dd(['userinfo' => $userinfo, 'profile' => $profile, 'edufile' => $edufile]);
 
       if( !$userinfo ) {
-        die("彰化縣數位學習師生單一帳號系統(EIP)發生錯誤 無法登入");
+        return view('errors.eip_login');
       }
 
       if( !$profile ){
-        die("彰化縣數位學習師生單一帳號系統(EIP)發生錯誤 無法登入");
+        return view('errors.eip_login');
       }
 
       if( empty($profile['personid']) ){
@@ -117,7 +117,7 @@ class OpenIDLoginController extends Controller
       }      
 
       if( !$edufile ){
-        die("彰化縣數位學習師生單一帳號系統(EIP)發生錯誤 無法登入");
+        return view('errors.eip_login');
       }
 
       // 4. 安全檢查 edufile 陣列結構 (防止陣列 Key 缺失造成 500)
@@ -401,7 +401,7 @@ class openid {
       return $u;
     }
 
-    // 請求失敗時寫入 log 並回傳 null，由 callback() 顯示「彰化縣數位學習師生單一帳號系統(EIP)發生錯誤 無法登入」，避免被 Laravel 轉成 500
+    // 請求失敗時寫入 log 並回傳 null，由 callback() 顯示 errors.eip_login 頁面，避免被 Laravel 轉成 500
     private function request($url, $options){
       $options['http']['ignore_errors'] = true; // 4xx/5xx 不發出 warning
       $context = stream_context_create($options);
