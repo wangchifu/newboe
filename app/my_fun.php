@@ -140,6 +140,10 @@ function get_menu($menus,$i)
                 if ($menu2s->count() > 0) {
                     get_menu($menu2s,$i+1);
                 }
+                // 學校之美(999003)底下固定加「學生基本資料」；後台已有指向 school_stats 的選單就不重複
+                if ($menu->id == 999003 && !$menu2s->contains(fn ($m) => str_contains((string) $m->link, 'school_stats'))) {
+                    echo "<li><a class='dropdown-item' href='" . route('school_stats.index') . "' target='_blank'>學生基本資料<br />Student Statistics</a></li>";
+                }
                 echo "</ul></li>";
             }            
             if($menu->type == 2) {
