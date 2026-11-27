@@ -11,7 +11,7 @@ class FetchSchoolStats extends Command
 {
     protected $signature = 'school-stats:fetch';
 
-    protected $description = '下載校務系統開放資料的學生數、班級數、教職員 xlsx（學生基本資料頁使用）';
+    protected $description = '下載校務系統開放資料的學生數、班級數、教職員 xlsx（學校基本資料頁使用）';
 
     public function handle(): int
     {

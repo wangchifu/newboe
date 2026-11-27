@@ -1,4 +1,4 @@
-// 學生基本資料（resources/views/school_stats/index.blade.php）
+// 學校基本資料（resources/views/school_stats/index.blade.php）
 // 五個分頁：學校、教職員、學生數統計、班級數統計、統計。功能照 Go 版 chcschools 的 web/src/pages。
 (function () {
     'use strict';

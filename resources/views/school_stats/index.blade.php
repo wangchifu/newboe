@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','學生基本資料')
+@section('title','學校基本資料')
 
 @section('header')
 <header class="py-5 bg-light border-bottom mb-4">
@@ -39,7 +39,7 @@
 
 @section('content')
 <div class="col-lg-12 mx-auto">
-    <h1 class="text-center">學生基本資料</h1>
+    <h1 class="text-center">學校基本資料</h1>
     <div id="ss-app" class="mb-4"
          data-data-url="{{ route('school_stats.data', '__KEY__') }}"
          data-export-url="{{ route('school_stats.export', '__KEY__') }}">

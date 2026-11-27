@@ -13,7 +13,7 @@ use Throwable;
 use function Illuminate\Support\defer;
 
 /**
- * 學生基本資料：讀校務系統開放資料的 xlsx。
+ * 學校基本資料：讀校務系統開放資料的 xlsx。
  *
  * 每小時由 school-stats:fetch 下載到 storage/app/school_stats/，頁面只讀這些檔案。
  * 下載失敗或檔案不對時保留上一份，不會蓋掉。

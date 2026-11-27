@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Rap2hpoutre\FastExcel\FastExcel;
 
 /**
- * 學生基本資料（公開頁，放在「學校之美」底下）。
+ * 學校基本資料（公開頁，放在「學校之美」底下）。
  * 資料來自校務系統開放資料的 xlsx，見 App\Services\SchoolStats。
  */
 class SchoolStatController extends Controller

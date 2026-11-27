@@ -71,7 +71,7 @@ Route::get('school/school_map', [SchoolController::class,'school_map'])->name('i
 Route::get('school/school_list', [SchoolController::class,'school_list'])->name('introductions.school_list');
 Route::get('school/{code_no}/school_show', [SchoolController::class,'school_show'])->name('introductions.school_show');
 
-//學生基本資料（資料來自校務系統開放資料 xlsx，每小時由 school-stats:fetch 下載）
+//學校基本資料（資料來自校務系統開放資料 xlsx，每小時由 school-stats:fetch 下載）
 Route::get('school_stats', [SchoolStatController::class,'index'])->name('school_stats.index');
 Route::get('school_stats/data/{key}', [SchoolStatController::class,'data'])->whereIn('key', ['schools', 'students', 'classes', 'staff'])->name('school_stats.data');
 Route::get('school_stats/export/{key}', [SchoolStatController::class,'export'])->whereIn('key', ['students', 'classes'])->name('school_stats.export');
