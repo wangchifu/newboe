@@ -194,11 +194,11 @@
     }
 
     // ---------- 分頁：學校 ----------
-    function schoolsTab(data) {
+    function schoolsTab(data, pane) {
         var opts = { district: true, search: true };
         var st = filterBar(opts, update);
         var out = el('<div></div>');
-        body.replaceChildren(st.bar, out);
+        pane.replaceChildren(st.bar, out);
 
         function update() {
             var rows = applyFilter(data.rows, st, opts);
@@ -227,14 +227,18 @@
                 '<tbody>' + trs + '</tbody></table></div></div>';
         }
         update();
+        return {
+            district: function () { return st.districtSelect.value; },
+            refresh: function () { st.districtSelect.value = shared.district; update(); },
+        };
     }
 
     // ---------- 分頁：教職員 ----------
-    function staffTab(data) {
+    function staffTab(data, pane) {
         var opts = { district: true, search: true };
         var st = filterBar(opts, update);
         var out = el('<div></div>');
-        body.replaceChildren(st.bar, el('<div>' + note(data.updated_at) + '</div>'), out);
+        pane.replaceChildren(st.bar, el('<div>' + note(data.updated_at) + '</div>'), out);
 
         function titles(s) {
             var keys = Object.keys(s.details || {});
@@ -267,18 +271,22 @@
                 '<tbody>' + trs + '</tbody></table></div></div>';
         }
         update();
+        return {
+            district: function () { return st.districtSelect.value; },
+            refresh: function () { st.districtSelect.value = shared.district; update(); },
+        };
     }
 
     // ---------- 分頁：學生數統計、班級數統計（共用寬表格） ----------
     // mode 'students'：欄為年級（男、女、計），合計 = 總學生數
     // mode 'classes'：欄為班別（班數、男、女、計），合計 = 班級數
-    function wideTab(data, mode) {
+    function wideTab(data, pane, mode) {
         var isStudents = mode === 'students';
         var opts = { district: true, search: true, county: true, exportKey: mode };
         var st = filterBar(opts, update);
         var sortDir = null;
         var out = el('<div></div>');
-        body.replaceChildren(st.bar, el('<div>' + note(data.updated_at) + '</div>'), out);
+        pane.replaceChildren(st.bar, el('<div>' + note(data.updated_at) + '</div>'), out);
         var head = isStudents ? 'table-primary' : 'table-success';
         var accent = isStudents ? 'text-primary' : 'text-success';
         var unit = isStudents ? '人' : '班';
@@ -371,13 +379,17 @@
             out.querySelector('th.ss-sort').addEventListener('click', toggle);
         }
         update();
-        return function () { var w = out.querySelector('.d-md-block > .position-relative'); if (w) fixSticky(w); };
+        return {
+            district: function () { return st.districtSelect.value; },
+            refresh: function () { st.districtSelect.value = shared.district; update(); },
+            onShow: function () { var w = out.querySelector('.d-md-block > .position-relative'); if (w) fixSticky(w); },
+        };
     }
-    function studentsTab(data) { return wideTab(data, 'students'); }
-    function classesTab(data) { return wideTab(data, 'classes'); }
+    function studentsTab(data, pane) { return wideTab(data, pane, 'students'); }
+    function classesTab(data, pane) { return wideTab(data, pane, 'classes'); }
 
     // ---------- 分頁：統計（班級規模、鄉鎮市統計） ----------
-    function sizeTab(data) {
+    function sizeTab(data, pane) {
         var view = 'size';
         var bucket = 'small';
         var opts = { district: true, county: true };
@@ -386,22 +398,23 @@
             '<button type="button" class="btn btn-primary" data-view="size">班級規模</button>' +
             '<button type="button" class="btn btn-outline-primary" data-view="district">鄉鎮市統計</button></div>');
         st.bar.insertBefore(modes, st.bar.firstChild);
-        modes.querySelectorAll('button').forEach(function (b) {
-            b.addEventListener('click', function () {
-                view = b.dataset.view;
-                if (view === 'district') {
-                    shared.district = 'all';
-                    st.districtSelect.value = 'all';
-                }
-                modes.querySelectorAll('button').forEach(function (x) {
-                    x.className = 'btn ' + (x.dataset.view === view ? 'btn-primary' : 'btn-outline-primary');
-                });
-                st.districtSelect.classList.toggle('d-none', view === 'district');
-                update();
+        function setView(v) {
+            view = v;
+            if (view === 'district') {
+                shared.district = 'all';
+                st.districtSelect.value = 'all';
+            }
+            modes.querySelectorAll('button').forEach(function (x) {
+                x.className = 'btn ' + (x.dataset.view === view ? 'btn-primary' : 'btn-outline-primary');
             });
+            st.districtSelect.classList.toggle('d-none', view === 'district');
+            update();
+        }
+        modes.querySelectorAll('button').forEach(function (b) {
+            b.addEventListener('click', function () { setView(b.dataset.view); });
         });
         var out = el('<div></div>');
-        body.replaceChildren(st.bar, el('<div>' + note(data.updated_at) + '</div>'), out);
+        pane.replaceChildren(st.bar, el('<div>' + note(data.updated_at) + '</div>'), out);
 
         var CARDS = [
             { key: 'small', label: '≤' + SMALL + ' 班', cls: 'warning' },
@@ -480,6 +493,14 @@
             });
         }
         update();
+        return {
+            district: function () { return st.districtSelect.value; },
+            refresh: function () {
+                st.districtSelect.value = shared.district;
+                if (view === 'district' && shared.district !== 'all') setView('size');
+                else update();
+            },
+        };
     }
 
     // ---------- 分頁切換（網址 #hash，同 Go 版） ----------
@@ -495,8 +516,11 @@
                 '<span class="d-md-none fw-bold">' + t.short + '</span><span class="d-none d-md-inline">' + t.full + '</span></a></li>';
         }).join('');
     }
+    // 每個分頁畫一次就留著，之後切換只顯示／隱藏（重畫大表格要重新排版，切換會頓）
+    var panes = {};   // 分頁 index → { el, api }
     var retryTimer = null;
     var preloaded = false;
+    function message(pane, html) { pane.innerHTML = html; }
     function show(force) {
         var i = indexOfHash();
         if (i === current && force !== true) return;
@@ -504,12 +528,28 @@
         onResize = null;
         clearTimeout(retryTimer);
         renderTabs();
-        body.innerHTML = '<p class="text-secondary py-4 text-center">載入中…</p>';
+        Object.keys(panes).forEach(function (k) { panes[k].el.classList.toggle('d-none', Number(k) !== i); });
+
+        var cached = panes[i];
+        if (cached && cached.api) {
+            // 鄉鎮在別的分頁改過，這頁才重畫
+            if (cached.api.district() !== shared.district) cached.api.refresh();
+            if (cached.api.onShow) cached.api.onShow();
+            onResize = cached.api.onShow || null;
+            return;
+        }
+        if (!cached) {
+            if (!Object.keys(panes).length) body.innerHTML = ''; // 拿掉頁面一開始的「載入中」
+            cached = panes[i] = { el: el('<div></div>') };
+            body.appendChild(cached.el);
+        }
+        var pane = cached.el;
+        message(pane, '<p class="text-secondary py-4 text-center">載入中…</p>');
         var tab = TABS[i];
         load(tab.data).then(function (data) {
-            if (current !== i) return; // 已換到別的分頁
+            if (current !== i) return; // 已換到別的分頁，下次再畫
             if (data.pending) {
-                body.innerHTML = '<p class="text-secondary py-4 text-center">資料下載中，稍候自動重新載入…</p>';
+                message(pane, '<p class="text-secondary py-4 text-center">資料下載中，稍候自動重新載入…</p>');
                 retryTimer = setTimeout(function () { if (current === i) show(true); }, 5000);
                 return;
             }
@@ -519,13 +559,14 @@
                 TABS.forEach(function (t) { load(t.data).catch(function () {}); });
             }
             if (!data.rows || !data.rows.length) {
-                body.innerHTML = '<p class="text-secondary py-4 text-center">目前沒有資料。</p>';
+                message(pane, '<p class="text-secondary py-4 text-center">目前沒有資料。</p>');
                 return;
             }
-            onResize = tab.render(data) || null;
+            cached.api = tab.render(data, pane);
+            onResize = cached.api.onShow || null;
         }).catch(function () {
             if (current !== i) return;
-            body.innerHTML = '<p class="text-danger py-4 text-center">資料載入失敗，請重新整理頁面。</p>';
+            message(pane, '<p class="text-danger py-4 text-center">資料載入失敗，請重新整理頁面。</p>');
         });
     }
     window.addEventListener('hashchange', show);
