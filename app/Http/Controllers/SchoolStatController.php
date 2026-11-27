@@ -37,14 +37,15 @@ class SchoolStatController extends Controller
             return response()->json(['updated_at' => null, 'rows' => $rows]);
         }
 
-        return response()->json(SchoolStats::get($key) ?? ['updated_at' => null, 'rows' => []]);
+        // 還沒下載好：pending，頁面稍後自動重試
+        return response()->json(SchoolStats::get($key) ?? ['updated_at' => null, 'rows' => [], 'pending' => true]);
     }
 
     /** 匯出 Excel：篩選條件與頁面相同（鄉鎮市、學制、校名、縣立／非縣立），欄位同 Go 版 */
     public function export(Request $request, string $key)
     {
         $data = SchoolStats::get($key);
-        abort_if($data === null, 404, '尚未下載資料');
+        abort_if($data === null, 404, '資料下載中，請稍後再試');
 
         $district = (string) $request->query('district', 'all');
         $type = (string) $request->query('type', 'all');

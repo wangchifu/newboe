@@ -78,6 +78,9 @@
             loaded[key] = fetch(url, { headers: { Accept: 'application/json' } }).then(function (r) {
                 if (!r.ok) throw new Error('HTTP ' + r.status);
                 return r.json();
+            }).then(function (data) {
+                if (data.pending) delete loaded[key]; // 伺服器還在下載，下次重新要
+                return data;
             }).catch(function (e) {
                 delete loaded[key];
                 throw e;
@@ -492,16 +495,29 @@
                 '<span class="d-md-none fw-bold">' + t.short + '</span><span class="d-none d-md-inline">' + t.full + '</span></a></li>';
         }).join('');
     }
-    function show() {
+    var retryTimer = null;
+    var preloaded = false;
+    function show(force) {
         var i = indexOfHash();
-        if (i === current) return;
+        if (i === current && force !== true) return;
         current = i;
         onResize = null;
+        clearTimeout(retryTimer);
         renderTabs();
         body.innerHTML = '<p class="text-secondary py-4 text-center">載入中…</p>';
         var tab = TABS[i];
         load(tab.data).then(function (data) {
             if (current !== i) return; // 已換到別的分頁
+            if (data.pending) {
+                body.innerHTML = '<p class="text-secondary py-4 text-center">資料下載中，稍候自動重新載入…</p>';
+                retryTimer = setTimeout(function () { if (current === i) show(true); }, 5000);
+                return;
+            }
+            // 第一個分頁好了之後，背景先載入其他分頁的資料，切換時就不用等
+            if (!preloaded) {
+                preloaded = true;
+                TABS.forEach(function (t) { load(t.data).catch(function () {}); });
+            }
             if (!data.rows || !data.rows.length) {
                 body.innerHTML = '<p class="text-secondary py-4 text-center">目前沒有資料。</p>';
                 return;

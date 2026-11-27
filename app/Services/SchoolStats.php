@@ -10,6 +10,8 @@ use OpenSpout\Reader\XLSX\Reader;
 use RuntimeException;
 use Throwable;
 
+use function Illuminate\Support\defer;
+
 /**
  * 學生基本資料：讀校務系統開放資料的 xlsx。
  *
@@ -88,7 +90,9 @@ class SchoolStats
     {
         $path = self::path($key);
         clearstatcache(true, $path);
-        if (! is_file($path) && ! self::fetchMissing($key)) {
+        if (! is_file($path)) {
+            self::fetchMissingLater();
+
             return null;
         }
         $mtime = filemtime($path);
@@ -111,36 +115,33 @@ class SchoolStats
     }
 
     /**
-     * 還沒有檔案（剛部署、排程還沒跑）時，在這個網頁請求裡馬上下載一次。
-     * 同時多人開頁只有一人下載，其他人不等、先顯示沒有資料；
-     * 網頁請求有執行時間上限，所以只給 60 秒；失敗後 10 分鐘內不再試。
+     * 還沒有檔案（剛部署、排程還沒跑）時，回應送出後才下載缺的檔（defer），
+     * 網頁請求不用等下載；頁面會顯示「資料下載中」並自動重試。
+     * 10 分鐘內只試一次：成功就清掉標記，失敗就等標記過期再試。
      */
-    private static function fetchMissing(string $key): bool
+    private static function fetchMissingLater(): void
     {
-        $failKey = "school_stats:{$key}:fetch_failed";
-        if (Cache::has($failKey)) {
-            return false;
+        if (! Cache::add('school_stats:fetching', true, 600)) {
+            return; // 已在下載，或 10 分鐘內剛失敗過
         }
-        $lock = Cache::lock("school_stats:{$key}:fetch", 90);
-        if (! $lock->get()) {
-            return false; // 別人正在下載
-        }
-        try {
-            clearstatcache(true, self::path($key));
-            if (! is_file(self::path($key))) {
-                self::fetch($key, 60);
+        defer(function () {
+            $ok = true;
+            foreach (array_keys(self::SOURCES) as $key) {
+                clearstatcache(true, self::path($key));
+                if (is_file(self::path($key))) {
+                    continue;
+                }
+                try {
+                    self::fetch($key, 120);
+                } catch (Throwable $e) {
+                    $ok = false;
+                    Log::warning("school_stats 首次下載 {$key} 失敗：{$e->getMessage()}");
+                }
             }
-        } catch (Throwable $e) {
-            Cache::put($failKey, true, 600);
-            Log::warning("school_stats 首次下載 {$key} 失敗：{$e->getMessage()}");
-
-            return false;
-        } finally {
-            $lock->release();
-        }
-        clearstatcache(true, self::path($key));
-
-        return is_file(self::path($key));
+            if ($ok) {
+                Cache::forget('school_stats:fetching');
+            }
+        });
     }
 
     /**
